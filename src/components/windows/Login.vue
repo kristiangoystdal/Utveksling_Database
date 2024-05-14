@@ -6,10 +6,24 @@
 </template>
 
 <script>
+import { auth, provider } from "../../js/firebaseConfig";
+import { signInWithPopup } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+
 export default {
 	methods: {
-		loginWithGoogle() {
-			// Implement your Google login logic here
+		async loginWithGoogle() {
+			try {
+				const result = await signInWithPopup(auth, provider);
+				const user = result.user;
+
+				console.log("User ID:", user.uid);
+				console.log("User Name:", user.displayName);
+				console.log("User Email:", user.email);
+				console.log("User Photo URL:", user.photoURL);
+			} catch (error) {
+				console.error("Error during sign-in:", error);
+			}
 		},
 	},
 };

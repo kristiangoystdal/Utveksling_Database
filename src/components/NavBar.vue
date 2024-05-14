@@ -15,8 +15,6 @@
 <script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import { auth } from "../js/firebase";
-import { signOut } from "firebase/auth";
 
 const store = useStore();
 const emit = defineEmits(["navClick"]);
