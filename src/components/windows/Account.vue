@@ -21,7 +21,7 @@
 								</v-col>
 								<v-col cols="12" md="8">
 									<div id="account_info">
-										<strong>Name:</strong> {{ user.displayName }}<br />
+										<strong>Name:</strong> {{ userData.displayName }}<br />
 										<strong>Email:</strong> {{ user.email }}<br />
 										<strong>Study:</strong> {{ userData.study }}<br />
 										{{ userData.additionalInfo }}
