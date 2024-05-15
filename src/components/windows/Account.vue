@@ -21,10 +21,11 @@
 								</v-col>
 								<v-col cols="12" md="8">
 									<div id="account_info">
-										<strong>Name:</strong> {{ user.displayName }}<br />
+										<strong>Name:</strong> {{ userData.displayName }}<br />
 										<strong>Email:</strong> {{ user.email }}<br />
 										<strong>Study:</strong> {{ userData.study }}<br />
-										{{ userData.additionalInfo }}
+										<strong>Specialization:</strong> {{ userData.specialization
+										}}<br />
 									</div>
 								</v-col>
 							</v-row>
@@ -66,9 +67,14 @@
 						></v-text-field>
 						<v-autocomplete
 							v-model="localEditData.study"
-							:items="studies"
+							:items="studyNames"
 							label="Study"
 							required
+						></v-autocomplete>
+						<v-autocomplete
+							v-model="localEditData.specialization"
+							:items="specializations"
+							label="Specialization"
 						></v-autocomplete>
 					</v-form>
 				</v-card-text>
@@ -83,7 +89,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { auth, db } from "../../js/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { ref as dbRef, get, set, update } from "firebase/database";
@@ -92,7 +98,7 @@ import studiesData from "../../data/studies.json";
 export default {
 	data() {
 		return {
-			studies: [],
+			studies: {},
 			user: null,
 			userData: null,
 			loading: true,
@@ -101,14 +107,25 @@ export default {
 				displayName: "",
 				email: "",
 				study: "",
-				additionalInfo: "",
+				specialization: "",
 			},
 			localEditData: {
 				displayName: "",
 				email: "",
 				study: "",
+				specialization: "",
 			},
 		};
+	},
+	computed: {
+		studyNames() {
+			return Object.keys(this.studies);
+		},
+		specializations() {
+			return this.localEditData.study
+				? this.studies[this.localEditData.study]
+				: [];
+		},
 	},
 	methods: {
 		loadData() {
@@ -134,6 +151,7 @@ export default {
 						displayName: this.localEditData.displayName,
 						email: this.localEditData.email,
 						study: this.localEditData.study,
+						specialization: this.localEditData.specialization,
 					});
 					this.userData = { ...this.localEditData };
 					this.closeDialog();
@@ -150,6 +168,11 @@ export default {
 			} catch (error) {
 				console.error("Error signing out: ", error);
 			}
+		},
+	},
+	watch: {
+		"localEditData.study"(newStudy) {
+			this.localEditData.specialization = "";
 		},
 	},
 	mounted() {
@@ -170,6 +193,7 @@ export default {
 						displayName: currentUser.displayName || "",
 						email: currentUser.email || "",
 						study: "",
+						specialization: "",
 					};
 					this.dialog = true;
 
@@ -178,6 +202,7 @@ export default {
 						displayName: currentUser.displayName || "",
 						email: currentUser.email,
 						study: "",
+						specialization: "",
 					});
 				}
 			} else {
