@@ -1,22 +1,19 @@
 {
-    "studies": [
-        "Arkitektur",
-        "Bygg- og miljøteknikk",
-        "Cybersikkerhet og datakommunikasjon",
-        "Datateknologi",
-        "Elektronisk systemdesign og innovasjon",
-        "Energi og miljø",
-        "Fysikk og matematikk",
-        "Georessurser og geoteknologi",
-        "Industriell design",
-        "Industriell kjemi og bioteknologi",
-        "Industriell økonomi og teknologiledelse",
-        "Ingeniørgeologi",
-        "Ingeniørvitenskap og IKT",
-        "Kybernetikk og robotikk",
-        "Marin teknikk",
-        "Maskin- og energiteknologi",
-        "Materialteknologi",
-        "Nanoteknologi"
-    ]
+    "studies": {
+        "Elektronisk systemdesign og innovasjon": [
+            "Design av digitale og innvevde system", 
+            "Analog kretsdesign og radioteknikk", 
+            "Signalbehandling og kommunikasjon", 
+            "Akustikk for kommunikasjon, miljø og fjernmåling", 
+            "Nanoelektronikk og fotonikk", 
+            "Romsystemer"
+        ],
+        "Kybernetikk og robotikk": [
+            "Tilpassede datasystemer",
+            "Energi og prosesstyring",
+            "Roboter og fartøystyring",
+            "Medisinske og biologiske systemer"
+        ]
+    }
 }
+
