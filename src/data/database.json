@@ -1,22 +1,20 @@
 {
   "users": {
     "userID": {
-      "name": "Ola Nordmann",
+      "displayName": "Ola Nordmann",
       "email": "ola.nordmann@gmail.com",
       "study": "Informatikk",
       "specialization": "Programmering"
     }
   },
   "exchanges": {
-    "userID": {
-      "studentID": "userID",
-      "university": "University of California, Berkeley",
-      "country": "USA",
-      "studyYear": 3,
-      "courses": {
+    "university": "University of California, Berkeley",
+    "country": "USA",
+    "studyYear": 3,
+    "courses": {
+      "Høst": {
         "1": {
-          "exchangeID": "userID",
-          "semester": "Høst",
+          "exchangeID": "user.uid",
           "year": 2018,
           "courseCode": "CS101",
           "courseName": "Introduction to Computer Science",
@@ -26,19 +24,42 @@
           "ETCSPoints": 7.5,
           "comments": "Veldig bra fag!"
         },
-        "2":  {
-          "exchangeID": "userID",
-          "semester": "Vår",
-          "year": 2019,
-          "courseCode": "CS101",
-          "courseName": "Introduction to Computer Science",
+        "2": {
+          "exchangeID": "user.uid",
+          "year": 2018,
+          "courseCode": "c2",
+          "courseName": "Course 2",
           "replacedCourseCode": "INF1010",
           "replacedCourseName": "Objektorientert programmering",
           "institute": "Department of Computer Science",
           "ETCSPoints": 7.5,
           "comments": "Veldig bra fag!"
         }
-      }       
+      },
+      "Vår": {
+        "1": {
+          "exchangeID": "user.uid",
+          "year": 2019,
+          "courseCode": "CS101",
+          "courseName": "Spansk",
+          "replacedCourseCode": "384",
+          "replacedCourseName": "Objektorientert programmering",
+          "institute": "Department of Computer Science",
+          "ETCSPoints": 6,
+          "comments": "Vanskelig"
+        },
+        "2": {
+          "exchangeID": "user.uid",
+          "year": 2019,
+          "courseCode": "c15",
+          "courseName": "Course 15",
+          "replacedCourseCode": "INF1010",
+          "replacedCourseName": "Objektorientert programmering",
+          "institute": "Department of Computer Science",
+          "ETCSPoints": 7.5,
+          "comments": "Supert!"
+        }
+      }
     }
   }
 }
