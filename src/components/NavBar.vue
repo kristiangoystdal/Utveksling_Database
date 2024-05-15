@@ -1,10 +1,10 @@
 <template>
 	<nav>
 		<ul>
-			<li><a @click="$emit('navClick', 'Home')">Home</a></li>
-			<li><a @click="$emit('navClick', 'Programs')">Programs</a></li>
-			<li><a @click="$emit('navClick', 'About')">About</a></li>
-			<li><a @click="$emit('navClick', 'Contact')">Contact</a></li>
+			<li><router-link to="/">Home</router-link></li>
+			<li><router-link to="/programs">Programs</router-link></li>
+			<li><router-link to="/about">About</router-link></li>
+			<li><router-link to="/contact">Contact</router-link></li>
 			<li>
 				<a @click="handleAuthClick">{{ authButtonText }}</a>
 			</li>
@@ -15,9 +15,10 @@
 <script setup>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const store = useStore();
-const emit = defineEmits(["navClick"]);
+const router = useRouter();
 
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const authButtonText = computed(() =>
@@ -26,9 +27,9 @@ const authButtonText = computed(() =>
 
 function handleAuthClick() {
 	if (isAuthenticated.value) {
-		emit("navClick", "Account");
+		router.push({ name: "Account" });
 	} else {
-		emit("navClick", "Login");
+		router.push({ name: "Login" });
 	}
 }
 </script>
@@ -65,4 +66,3 @@ nav a {
 	}
 }
 </style>
-../js/firebaseConfig
