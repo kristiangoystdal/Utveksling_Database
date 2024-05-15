@@ -1,42 +1,44 @@
 {
-    "students": {
-      "userID": {
-        "name": "Ola Nordmann",
-        "email": "ola.nordmann@gmail.com",
-        "studyProgram": "Informatikk",
-        "specialization": "Programmering"
-      }
-    },
-    "exchanges": {
-      "1": {
-        "studentID": "userID",
-        "university": "University of California, Berkeley",
-        "country": "USA",
-        "year": 2022,
-        "semester": "Høst",
-        "studyYear": 3
-      }
-    },
-    "courses": {
-      "1": {
-        "exchangeID": 1,
-        "courseCode": "CS101",
-        "courseName": "Introduction to Computer Science",
-        "replacedCourseCode": "INF1010",
-        "replacedCourseName": "Objektorientert programmering",
-        "institute": "Department of Computer Science",
-        "ETCSPoints": 7.5,
-        "comments": "Veldig bra fag!"
-      },
-      "2": {
-        "exchangeID": 1,
-        "courseCode": "CS102",
-        "courseName": "Data Structures",
-        "replacedCourseCode": "INF1020",
-        "replacedCourseName": "ITGK",
-        "institute": "Department of Computer Science",
-        "ETCSPoints": 7.5,
-        "comments": "Krevende, men lærerikt."
-      }
+  "users": {
+    "userID": {
+      "name": "Ola Nordmann",
+      "email": "ola.nordmann@gmail.com",
+      "study": "Informatikk",
+      "specialization": "Programmering"
+    }
+  },
+  "exchanges": {
+    "userID": {
+      "studentID": "userID",
+      "university": "University of California, Berkeley",
+      "country": "USA",
+      "studyYear": 3,
+      "courses": {
+        "1": {
+          "exchangeID": "userID",
+          "semester": "Høst",
+          "year": 2018,
+          "courseCode": "CS101",
+          "courseName": "Introduction to Computer Science",
+          "replacedCourseCode": "INF1010",
+          "replacedCourseName": "Objektorientert programmering",
+          "institute": "Department of Computer Science",
+          "ETCSPoints": 7.5,
+          "comments": "Veldig bra fag!"
+        },
+        "2":  {
+          "exchangeID": "userID",
+          "semester": "Vår",
+          "year": 2019,
+          "courseCode": "CS101",
+          "courseName": "Introduction to Computer Science",
+          "replacedCourseCode": "INF1010",
+          "replacedCourseName": "Objektorientert programmering",
+          "institute": "Department of Computer Science",
+          "ETCSPoints": 7.5,
+          "comments": "Veldig bra fag!"
+        }
+      }       
     }
   }
+}
