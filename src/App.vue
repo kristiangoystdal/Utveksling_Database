@@ -5,7 +5,9 @@
 	<nav>
 		<NavBar></NavBar>
 	</nav>
-	<router-view></router-view>
+	<main class="main-content">
+		<router-view></router-view>
+	</main>
 </template>
 
 <script setup>
@@ -24,6 +26,11 @@ header {
 .logo {
 	display: block;
 	margin: 0 auto 2rem;
+}
+
+.main-content {
+	max-width: 80%;
+	margin: auto;
 }
 
 @media (min-width: 1024px) {
