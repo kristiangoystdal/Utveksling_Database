@@ -11,6 +11,9 @@
     "university": "University of California, Berkeley",
     "country": "USA",
     "studyYear": 3,
+    "study": "user.study",
+    "specialization": "user.specialization",
+    "numSemesters": 2,
     "courses": {
       "Høst": {
         "1": {
