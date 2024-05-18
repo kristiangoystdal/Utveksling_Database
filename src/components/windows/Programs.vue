@@ -1,43 +1,165 @@
 <template>
 	<div>
-		<h2>Programs</h2>
-		<p>Welcome to the Programs page!</p>
-		<v-btn @click="addTestExchange">Add test exchange</v-btn>
+		<h2>Tidligere utvekslinger:</h2>
+		<p>
+			På denne siden kan du utforske utvekslingserfaringene til tidligere
+			studenter. Du kan se hvilke universiteter de har vært på, hvilke land de
+			har besøkt, og hvilke fag de har tatt.
+		</p>
+		<!-- <Testing></Testing> -->
 	</div>
+	<br />
+	<br />
+	<!-- Filters -->
 	<div>
-		<v-autocomplete
-			v-model="countryValues"
-			:items="countryList"
-			label="Land"
-			multiple
-			chips
-			clearable
-			:search-input.sync="countrySearch"
-		>
-			<template v-slot:selection="{ item, index }">
-				<v-chip v-if="index < 2" close @click:close="remove(item)">
-					<span>{{ item }}</span>
-				</v-chip>
-				<span
-					v-if="index === 2"
-					class="text-grey text-caption align-self-center"
-				>
-					(+{{ countryValues.length - 2 }} others)
-				</span>
-			</template>
-		</v-autocomplete>
+		<v-btn @click="toggleFilters">
+			{{ showFilters ? "Skjul filter" : "Vis filter" }}
+		</v-btn>
+		<v-slide-y-transition>
+			<div class="filter-container" v-if="showFilters">
+				<h4>Filter:</h4>
+				<v-container>
+					<v-row>
+						<v-col cols="12" md="4">
+							<!-- Country Filter -->
+							<v-autocomplete
+								v-model="countryValues"
+								:items="countryList"
+								label="Land"
+								multiple
+								chips
+								clearable
+								:search-input.sync="countrySearch"
+							>
+								<template v-slot:selection="{ item, index }">
+									<v-chip v-if="index < 2" close @click:close="remove(item)">
+										<span>{{ item }}</span>
+									</v-chip>
+									<span
+										v-if="index === 2"
+										class="text-grey text-caption align-self-center"
+									>
+										(+{{ countryValues.length - 2 }} others)
+									</span>
+								</template>
+							</v-autocomplete>
+						</v-col>
+						<v-col cols="12" md="4">
+							<!-- University Filter -->
+							<v-autocomplete
+								v-model="universityValues"
+								:items="universityList"
+								label="Universitet"
+								multiple
+								chips
+								clearable
+								:search-input.sync="universitySearch"
+							>
+								<template v-slot:selection="{ item, index }">
+									<v-chip v-if="index < 2" close @click:close="remove(item)">
+										<span>{{ item }}</span>
+									</v-chip>
+									<span
+										v-if="index === 2"
+										class="text-grey text-caption align-self-center"
+									>
+										(+{{ universityValues.length - 2 }} others)
+									</span>
+								</template>
+							</v-autocomplete>
+						</v-col>
+						<v-col cols="12" md="4">
+							<!-- Study Filter -->
+							<v-autocomplete
+								v-model="studyValues"
+								:items="studyList"
+								label="Studie"
+								multiple
+								chips
+								clearable
+								:search-input.sync="studySearch"
+							>
+								<template v-slot:selection="{ item, index }">
+									<v-chip v-if="index < 2" close @click:close="remove(item)">
+										<span>{{ item }}</span>
+									</v-chip>
+									<span
+										v-if="index === 2"
+										class="text-grey text-caption align-self-center"
+									>
+										(+{{ studyValues.length - 2 }} others)
+									</span>
+								</template>
+							</v-autocomplete>
+						</v-col>
+					</v-row>
+					<v-row justify="center">
+						<v-col cols="12" md="4">
+							<!-- Specialization Filter -->
+							<v-autocomplete
+								v-model="specializationValues"
+								:items="specializationList"
+								label="Spesialisering"
+								multiple
+								chips
+								clearable
+								:search-input.sync="specializationSearch"
+							>
+								<template v-slot:selection="{ item, index }">
+									<v-chip v-if="index < 2" close @click:close="remove(item)">
+										<span>{{ item }}</span>
+									</v-chip>
+									<span
+										v-if="index === 2"
+										class="text-grey text-caption align-self-center"
+									>
+										(+{{ specializationValues.length - 2 }} others)
+									</span>
+								</template>
+							</v-autocomplete>
+						</v-col>
+						<v-col cols="12" md="4">
+							<!-- Number of Semesters Filter -->
+							<v-autocomplete
+								v-model="numSemestersValues"
+								:items="numSemestersList"
+								label="Antall Semestere"
+								multiple
+								chips
+								clearable
+								:search-input.sync="numSemestersSearch"
+							>
+								<template v-slot:selection="{ item, index }">
+									<v-chip v-if="index < 2" close @click:close="remove(item)">
+										<span>{{ item }}</span>
+									</v-chip>
+									<span
+										v-if="index === 2"
+										class="text-grey text-caption align-self-center"
+									>
+										(+{{ numSemestersValues.length - 2 }} others)
+									</span>
+								</template>
+							</v-autocomplete>
+						</v-col>
+					</v-row>
+				</v-container>
+				<div>
+					<v-btn @click="fetchExchangeData">Oppdater</v-btn>
+				</div>
+			</div>
+		</v-slide-y-transition>
+	</div>
 
-		{{ countryValues.length >= 2 }}
-	</div>
-	<div>
-		<v-btn @click="fetchExchangeData">Oppdater</v-btn>
-	</div>
+	<br />
+	<br />
+	<!-- Data Table -->
 	<div>
 		<v-data-table
 			v-model:expanded="expanded"
 			:headers="headers"
 			:items="exchangeList"
-			item-value="university"
+			item-value="id"
 			show-expand
 			class="elevation-1"
 			id="main-table-width"
@@ -47,28 +169,42 @@
 					<td :colspan="columns.length">
 						<div>
 							<br />
-							<h3>Fag Høst</h3>
-
+							<h3
+								v-if="
+									item.courses && item.courses.Høst && item.courses.Høst.length
+								"
+							>
+								Fag Høst
+							</h3>
 							<v-data-table-virtual
+								v-if="
+									item.courses && item.courses.Høst && item.courses.Høst.length
+								"
 								:headers="headersCourses"
 								:items="item.courses.Høst"
 								item-value="name"
 								dense
 							></v-data-table-virtual>
 							<br />
-							<h3>Fag Vår</h3>
-
+							<h3
+								v-if="
+									item.courses && item.courses.Vår && item.courses.Vår.length
+								"
+							>
+								Fag Vår
+							</h3>
 							<v-data-table-virtual
+								v-if="
+									item.courses && item.courses.Vår && item.courses.Vår.length
+								"
 								:headers="headersCourses"
 								:items="item.courses.Vår"
 								item-value="name"
 								dense
 							></v-data-table-virtual>
+
 							<br />
 						</div>
-						<!-- {{ item.courses.Høst }}
-						<br /><br />
-						{{ item.courses.Vår }} -->
 					</td>
 				</tr>
 			</template>
@@ -77,7 +213,7 @@
 </template>
 
 <script>
-import { auth, db } from "../../js/firebaseConfig";
+import { auth, db, provider } from "../../js/firebaseConfig.js";
 import {
 	ref as dbRef,
 	set,
@@ -88,9 +224,13 @@ import {
 	equalTo,
 } from "firebase/database";
 
+import Testing from "../Testing.vue";
+
 export default {
 	data() {
 		return {
+			showFilters: false,
+
 			expanded: [],
 			headers: [
 				{ title: "Universitet", align: "start", key: "university" },
@@ -118,204 +258,122 @@ export default {
 				{ title: "Comments", align: "end", key: "comments" },
 			],
 			exchangeList: [],
-			countryList: [
-				"Spain",
-				"Portugal",
-				"France",
-				"Germany",
-				"Italy",
-				"Sweden",
-				"Norway",
-				"Denmark",
-				"Finland",
-				"Iceland",
-				"United Kingdom",
-				"Ireland",
-				"Netherlands",
-				"Belgium",
-				"Luxembourg",
-				"Switzerland",
-				"Austria",
-				"Czech Republic",
-				"Slovakia",
-				"Hungary",
-				"Slovenia",
-				"Croatia",
-				"Bosnia and Herzegovina",
-				"Serbia",
-				"Montenegro",
-				"Albania",
-				"North Macedonia",
-				"Kosovo",
-				"Greece",
-				"Bulgaria",
-				"Romania",
-				"Moldova",
-				"Ukraine",
-				"Belarus",
-				"Russia",
-				"Poland",
-				"Lithuania",
-				"Latvia",
-				"Estonia",
-				"Turkey",
-				"Cyprus",
-				"Malta",
-				"Andorra",
-				"Monaco",
-				"San Marino",
-				"Vatican City",
-				"Liechtenstein",
-			],
-			countryValues: ["Spain"],
+			countryList: [],
+			countryValues: [],
 			countrySearch: "",
+			universityList: [],
+			universityValues: [],
+			universitySearch: "",
+			studyList: [],
+			studyValues: [],
+			studySearch: "",
+			specializationList: [],
+			specializationValues: [],
+			specializationSearch: "",
+			numSemestersList: [1, 2],
+			numSemestersValues: [],
+			numSemestersSearch: "",
 		};
 	},
 	created() {
 		this.fetchExchangeData();
 	},
-	computed: {
-		filteredCountryList() {
-			if (!this.countrySearch) {
-				return this.countryList;
-			}
-			return this.countryList.filter((country) =>
-				country.toLowerCase().includes(this.countrySearch.toLowerCase())
-			);
-		},
+	components: {
+		Testing,
 	},
+	mounted() {
+		this.getValuesFromDatabase();
+	},
+	computed: {},
 	methods: {
+		toggleFilters() {
+			this.showFilters = !this.showFilters;
+		},
+		async getValuesFromDatabase() {
+			try {
+				const exchangesSnapshot = await get(child(dbRef(db), "exchangesTest"));
+				if (exchangesSnapshot.exists()) {
+					const exchanges = exchangesSnapshot.val();
+					const countriesSet = new Set();
+					const universitiesSet = new Set();
+					const studiesSet = new Set();
+					const specializationsSet = new Set();
+
+					for (const exchangeKey in exchanges) {
+						const exchange = exchanges[exchangeKey];
+						if (exchange.country) {
+							countriesSet.add(exchange.country);
+						}
+						if (exchange.university) {
+							universitiesSet.add(exchange.university);
+						}
+						if (exchange.study) {
+							studiesSet.add(exchange.study);
+						}
+						if (exchange.specialization) {
+							specializationsSet.add(exchange.specialization);
+						}
+					}
+
+					this.countryList = Array.from(countriesSet);
+					this.universityList = Array.from(universitiesSet);
+					this.studyList = Array.from(studiesSet);
+					this.specializationList = Array.from(specializationsSet);
+				} else {
+					console.log("No data available");
+				}
+			} catch (error) {
+				console.error("Error fetching countries:", error);
+			}
+		},
 		remove(item) {
 			this.countryValues = this.countryValues.filter((i) => i !== item);
 		},
-		async FetchDifferentValues(path, list) {
-			this.exchangeList = [];
-			for (const country of list) {
-				console.log(country);
-				try {
-					const exchangesRef = dbRef(db, "exchanges"); // Use the provided path
-					const q = query(exchangesRef, orderByChild(path), equalTo(country));
-
-					const snapshot = await get(q);
-
-					if (snapshot.exists()) {
-						const exchanges = snapshot.val();
-						this.exchangeList = this.exchangeList.concat(
-							Object.values(exchanges).map((exchange) => ({
-								...exchange,
-							}))
-						);
-					} else {
-						console.log(`No data available for country: ${country}`);
-					}
-				} catch (error) {
-					console.error("Error fetching exchange data: ", error);
-				}
-			}
-		},
 		async fetchExchangeData() {
-			if (this.countryValues.length > 0) {
-				console.log("Fetching exchange data with country filter...");
-				this.FetchDifferentValues("country", this.countryValues);
-			} else {
-				console.log("Fetching exchange data...");
-				try {
-					const snapshot = await get(child(dbRef(db), `exchanges`));
-					if (snapshot.exists()) {
-						const exchanges = snapshot.val();
-						this.exchangeList = Object.values(exchanges).map((exchange) => ({
-							...exchange,
-						}));
-					} else {
-						console.log("No data available");
+			try {
+				const snapshot = await get(child(dbRef(db), "exchangesTest"));
+				if (snapshot.exists()) {
+					let exchanges = snapshot.val();
+
+					// Convert exchanges object to an array and include the unique keys
+					exchanges = Object.keys(exchanges).map((key) => ({
+						id: key,
+						...exchanges[key],
+					}));
+
+					// Apply filters
+					if (this.countryValues.length > 0) {
+						exchanges = exchanges.filter((exchange) =>
+							this.countryValues.includes(exchange.country)
+						);
 					}
-				} catch (error) {
-					console.error("Error fetching exchange data: ", error);
+					if (this.universityValues.length > 0) {
+						exchanges = exchanges.filter((exchange) =>
+							this.universityValues.includes(exchange.university)
+						);
+					}
+					if (this.studyValues.length > 0) {
+						exchanges = exchanges.filter((exchange) =>
+							this.studyValues.includes(exchange.study)
+						);
+					}
+					if (this.specializationValues.length > 0) {
+						exchanges = exchanges.filter((exchange) =>
+							this.specializationValues.includes(exchange.specialization)
+						);
+					}
+					if (this.numSemestersValues.length > 0) {
+						exchanges = exchanges.filter((exchange) =>
+							this.numSemestersValues.includes(exchange.numSemesters)
+						);
+					}
+
+					this.exchangeList = exchanges;
+				} else {
+					console.log("No data available");
 				}
-			}
-		},
-		async addTestExchange() {
-			const user = auth.currentUser;
-			if (user) {
-				console.log("Adding test exchange...");
-				const exchangeData = {
-					university: "University of Madrid",
-					country: "Spain",
-					studyYear: 4,
-					numSemesters: 2,
-					study: "user.study",
-					specialization: "user.specialization",
-					courses: {
-						Høst: [
-							{
-								exchangeID: user.uid,
-								year: 2018,
-								courseCode: "CS101",
-								courseName: "Introduction to Computer Science",
-								replacedCourseCode: "INF1010",
-								replacedCourseName: "Objektorientert programmering",
-								institute: "Department of Computer Science",
-								ETCSPoints: 7.5,
-								comments: "Veldig bra fag!",
-							},
-							{
-								exchangeID: user.uid,
-								year: 2018,
-								courseCode: "c2",
-								courseName: "Course 2",
-								replacedCourseCode: "INF1010",
-								replacedCourseName: "Objektorientert programmering",
-								institute: "Department of Computer Science",
-								ETCSPoints: 7.5,
-								comments: "Veldig bra fag!",
-							},
-						],
-						Vår: [
-							{
-								exchangeID: user.uid,
-								year: 2018,
-								courseCode: "c2",
-								courseName: "Course 32",
-								replacedCourseCode: "INF1010",
-								replacedCourseName: "Objektorientert programmering",
-								institute: "Department of Computer Science",
-								ETCSPoints: 7.5,
-								comments: "Veldig bra fag!",
-							},
-							{
-								exchangeID: user.uid,
-								year: 2018,
-								courseCode: "c2",
-								courseName: "Course 47",
-								replacedCourseCode: "INF1010",
-								replacedCourseName: "Objektorientert programmering",
-								institute: "Department of Computer Science",
-								ETCSPoints: 75,
-								comments: "Veldig bra fag!",
-							},
-							{
-								exchangeID: user.uid,
-								year: 2018,
-								courseCode: "c2",
-								courseName: "Course 5",
-								replacedCourseCode: "INF1010",
-								replacedCourseName: "Objektorientert programmering",
-								institute: "Department of Computer Science",
-								ETCSPoints: 5,
-								comments: "Veldig!",
-							},
-						],
-					},
-				};
-				try {
-					await set(dbRef(db, `exchanges/${user.uid}`), exchangeData);
-					console.log("Test exchange added!");
-					this.fetchExchangeData(); // Refresh the data
-				} catch (error) {
-					console.error("Error adding exchange: ", error);
-				}
-			} else {
-				console.log("No user is signed in.");
+			} catch (error) {
+				console.error("Error fetching exchange data:", error);
 			}
 		},
 	},
@@ -337,5 +395,17 @@ export default {
 }
 .align-self-center {
 	align-self: center;
+}
+.filter-container {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 16px;
+}
+
+.v-autocomplete {
+	/* margin-bottom: 2px !important; */
+	height: auto !important;
+	width: 100% !important;
+	margin: auto;
 }
 </style>
