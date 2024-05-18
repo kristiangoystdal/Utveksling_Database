@@ -5,19 +5,35 @@
 	<nav>
 		<NavBar></NavBar>
 	</nav>
-	<br />
-	<br />
-	<main class="main-content">
+	<div v-if="isDesktop">
 		<router-view></router-view>
-	</main>
+	</div>
+	<div v-else class="mobile-warning">
+		This website is only optimized for desktop. Please switch to a larger screen
+		for the best experience.
+	</div>
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from "vue";
 import Header from "./components/Header.vue";
 import NavBar from "./components/NavBar.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const isDesktop = ref(window.innerWidth >= 1024);
+
+const handleResize = () => {
+	isDesktop.value = window.innerWidth >= 1024;
+};
+
+onMounted(() => {
+	window.addEventListener("resize", handleResize);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("resize", handleResize);
+});
 </script>
 
 <style scoped>
@@ -51,6 +67,26 @@ header {
 		display: flex;
 		place-items: flex-start;
 		flex-wrap: wrap;
+	}
+}
+
+.mobile-warning {
+	display: none;
+	text-align: center;
+	background-color: #ffcc00;
+	color: #000;
+	padding: 1rem;
+	font-size: 1.2rem;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
+}
+
+@media (max-width: 1024px) {
+	.mobile-warning {
+		display: block;
 	}
 }
 </style>
