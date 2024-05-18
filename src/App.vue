@@ -5,6 +5,8 @@
 	<nav>
 		<NavBar></NavBar>
 	</nav>
+	<br />
+	<br />
 	<main class="main-content">
 		<router-view></router-view>
 	</main>
@@ -30,6 +32,7 @@ header {
 
 .main-content {
 	max-width: 80%;
+	width: 1200px;
 	margin: auto;
 }
 
