@@ -1,16 +1,18 @@
 <template>
-	<header>
-		<Header></Header>
-	</header>
-	<nav>
-		<NavBar></NavBar>
-	</nav>
-	<div v-if="isDesktop">
-		<router-view></router-view>
-	</div>
-	<div v-else class="mobile-warning">
-		This website is only optimized for desktop. Please switch to a larger screen
-		for the best experience.
+	<div id="app">
+		<header>
+			<Header></Header>
+		</header>
+		<nav>
+			<NavBar></NavBar>
+		</nav>
+		<div v-if="isDesktop">
+			<router-view></router-view>
+		</div>
+		<div v-else class="mobile-warning">
+			This website is only optimized for desktop. Please switch to a larger
+			screen for the best experience.
+		</div>
 	</div>
 </template>
 
@@ -37,6 +39,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+#app {
+	margin: auto;
+	padding: 0 1rem;
+	max-width: 1200px;
+	width: 90%;
+}
+
 header {
 	line-height: 1.5;
 }
@@ -44,12 +53,6 @@ header {
 .logo {
 	display: block;
 	margin: 0 auto 2rem;
-}
-
-.main-content {
-	max-width: 1200px;
-	width: 90%;
-	margin: auto;
 }
 
 @media (min-width: 769px) {
