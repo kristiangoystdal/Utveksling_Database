@@ -21,10 +21,10 @@ import NavBar from "./components/NavBar.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const isDesktop = ref(window.innerWidth >= 1024);
+const isDesktop = ref(window.innerWidth >= 769);
 
 const handleResize = () => {
-	isDesktop.value = window.innerWidth >= 1024;
+	isDesktop.value = window.innerWidth >= 769;
 };
 
 onMounted(() => {
@@ -47,12 +47,12 @@ header {
 }
 
 .main-content {
-	max-width: 80%;
-	width: 1200px;
+	max-width: 1200px;
+	width: 90%;
 	margin: auto;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) {
 	header {
 		display: flex;
 		place-items: center;
@@ -84,7 +84,7 @@ header {
 	z-index: 1000;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
 	.mobile-warning {
 		display: block;
 	}

@@ -385,7 +385,7 @@ export default {
 	margin: auto;
 	width: 90% !important;
 	max-width: 1200px !important;
-	min-width: 800px !important;
+	min-width: 600px !important;
 }
 .text-grey {
 	color: grey;
@@ -407,5 +407,33 @@ export default {
 	height: auto !important;
 	width: 100% !important;
 	margin: auto;
+}
+
+/* Custom styles for table headers */
+.v-data-table-header {
+	background-color: #f5f5f5; /* Light grey background */
+	color: #333; /* Dark text color */
+	font-weight: bold; /* Bold text */
+	padding: 10px; /* Padding for headers */
+	border-bottom: 2px solid #ddd; /* Border below headers */
+}
+
+/* Styles for specific header cells if needed */
+.v-data-table-header .v-data-table-header__cell {
+	padding: 12px 8px; /* Adjusted padding */
+	font-size: 1rem; /* Font size */
+}
+
+.v-data-table-header th {
+	background-color: #4caf50; /* Green background */
+	color: white; /* White text color */
+	font-weight: bold; /* Bold text */
+	padding: 12px 10px; /* Padding for headers */
+	border-bottom: 2px solid #ddd; /* Border below headers */
+}
+
+/* Optional: Add hover effect for table rows */
+.v-data-table .v-data-table__tbody tr:hover {
+	background-color: #f1f1f1; /* Light grey background on hover */
 }
 </style>
