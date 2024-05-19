@@ -161,12 +161,11 @@
 			:items="exchangeList"
 			item-value="id"
 			show-expand
-			class="elevation-1"
 			id="main-table-width"
 		>
 			<template v-slot:expanded-row="{ columns, item }">
 				<tr>
-					<td :colspan="columns.length">
+					<td :colspan="columns.length" id="coursesStyle">
 						<div>
 							<br />
 							<h3
@@ -184,6 +183,7 @@
 								:items="item.courses.Høst"
 								item-value="name"
 								dense
+								class="virtual-table"
 							></v-data-table-virtual>
 							<br />
 							<h3
@@ -201,8 +201,8 @@
 								:items="item.courses.Vår"
 								item-value="name"
 								dense
+								class="virtual-table"
 							></v-data-table-virtual>
-
 							<br />
 						</div>
 					</td>
@@ -382,58 +382,42 @@ export default {
 
 <style scoped>
 #main-table-width {
-	margin: auto;
+	margin: auto !important;
 	width: 90% !important;
 	max-width: 1200px !important;
-	min-width: 600px !important;
+	min-width: 800px !important;
 }
 .text-grey {
-	color: grey;
+	color: grey !important;
 }
 .text-caption {
-	font-size: 0.75rem;
+	font-size: 0.75rem !important;
 }
 .align-self-center {
-	align-self: center;
+	align-self: center !important;
 }
 .filter-container {
-	max-width: 1000px;
-	margin: 0 auto;
-	padding: 16px;
+	max-width: 1000px !important;
+	margin: 0 auto !important;
+	padding: 16px !important;
 }
 
 .v-autocomplete {
-	/* margin-bottom: 2px !important; */
 	height: auto !important;
 	width: 100% !important;
-	margin: auto;
+	margin: auto !important;
 }
 
-/* Custom styles for table headers */
-.v-data-table-header {
-	background-color: #f5f5f5; /* Light grey background */
-	color: #333; /* Dark text color */
-	font-weight: bold; /* Bold text */
-	padding: 10px; /* Padding for headers */
-	border-bottom: 2px solid #ddd; /* Border below headers */
+#coursesStyle {
+	background-color: #f1f1f1 !important;
 }
-
-/* Styles for specific header cells if needed */
-.v-data-table-header .v-data-table-header__cell {
-	padding: 12px 8px; /* Adjusted padding */
-	font-size: 1rem; /* Font size */
+#coursesStyle h3 {
+	margin: 0 !important;
 }
-
-.v-data-table-header th {
-	background-color: #4caf50; /* Green background */
-	color: white; /* White text color */
-	font-weight: bold; /* Bold text */
-	padding: 12px 10px; /* Padding for headers */
-	border-bottom: 2px solid #ddd; /* Border below headers */
+v-data-table-virtual header {
+	margin: 0 !important;
 }
-
-/* Optional: Add hover effect for table rows */
-.v-data-table .v-data-table__tbody tr:hover {
-	background-color: #f1f1f1; /* Light grey background on hover */
+.v-data-table td {
+	border-bottom: none !important;
 }
 </style>
