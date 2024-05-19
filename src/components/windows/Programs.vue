@@ -6,7 +6,6 @@
 			studenter. Du kan se hvilke universiteter de har vært på, hvilke land de
 			har besøkt, og hvilke fag de har tatt.
 		</p>
-		<!-- <Testing></Testing> -->
 	</div>
 	<br />
 	<br />
@@ -150,7 +149,6 @@
 			</div>
 		</v-slide-y-transition>
 	</div>
-
 	<br />
 	<br />
 	<!-- Data Table -->
@@ -213,24 +211,13 @@
 </template>
 
 <script>
-import { auth, db, provider } from "../../js/firebaseConfig.js";
-import {
-	ref as dbRef,
-	set,
-	get,
-	child,
-	query,
-	orderByChild,
-	equalTo,
-} from "firebase/database";
-
-import Testing from "../Testing.vue";
+import { db } from "../../js/firebaseConfig.js";
+import { get, child, ref as dbRef } from "firebase/database";
 
 export default {
 	data() {
 		return {
 			showFilters: false,
-
 			expanded: [],
 			headers: [
 				{ title: "Universitet", align: "start", key: "university" },
@@ -238,7 +225,7 @@ export default {
 				{ title: "Studieår", align: "end", key: "studyYear" },
 				{ title: "Studie", align: "end", key: "study" },
 				{ title: "Spesialisering", align: "end", key: "specialization" },
-				{ title: "Antall Semestere ", align: "end", key: "numSemesters" },
+				{ title: "Antall Semestere", align: "end", key: "numSemesters" },
 			],
 			headersCourses: [
 				{ title: "Course Name", align: "start", key: "courseName" },
@@ -284,7 +271,6 @@ export default {
 	mounted() {
 		this.getValuesFromDatabase();
 	},
-	computed: {},
 	methods: {
 		toggleFilters() {
 			this.showFilters = !this.showFilters;
@@ -323,7 +309,7 @@ export default {
 					console.log("No data available");
 				}
 			} catch (error) {
-				console.error("Error fetching countries:", error);
+				console.error("Error fetching values from database:", error);
 			}
 		},
 		remove(item) {
@@ -335,13 +321,11 @@ export default {
 				if (snapshot.exists()) {
 					let exchanges = snapshot.val();
 
-					// Convert exchanges object to an array and include the unique keys
 					exchanges = Object.keys(exchanges).map((key) => ({
 						id: key,
 						...exchanges[key],
 					}));
 
-					// Apply filters
 					if (this.countryValues.length > 0) {
 						exchanges = exchanges.filter((exchange) =>
 							this.countryValues.includes(exchange.country)
@@ -381,6 +365,9 @@ export default {
 </script>
 
 <style scoped>
+.v-data-table-header__content {
+	font-weight: bold;
+}
 #main-table-width {
 	margin: auto !important;
 	width: 90% !important;
@@ -401,23 +388,12 @@ export default {
 	margin: 0 auto !important;
 	padding: 16px !important;
 }
-
 .v-autocomplete {
 	height: auto !important;
 	width: 100% !important;
 	margin: auto !important;
 }
-
 #coursesStyle {
 	background-color: #f1f1f1 !important;
-}
-#coursesStyle h3 {
-	margin: 0 !important;
-}
-v-data-table-virtual header {
-	margin: 0 !important;
-}
-.v-data-table td {
-	border-bottom: none !important;
 }
 </style>
