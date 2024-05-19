@@ -265,9 +265,6 @@ export default {
 	created() {
 		this.fetchExchangeData();
 	},
-	components: {
-		Testing,
-	},
 	mounted() {
 		this.getValuesFromDatabase();
 	},
@@ -368,6 +365,7 @@ export default {
 .v-data-table-header__content {
 	font-weight: bold;
 }
+
 #main-table-width {
 	margin: auto !important;
 	width: 90% !important;
