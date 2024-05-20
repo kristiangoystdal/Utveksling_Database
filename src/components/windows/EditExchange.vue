@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<h2>Edit your exchange experience</h2>
-		<p>Welcome to the About page!</p>
+		<h2>Din utveksling</h2>
+		<p>Opprett eller endre din utvekslingsdatabase</p>
 	</div>
 	<div>
 		<div v-if="!hasExchangeData">
@@ -12,17 +12,44 @@
 				:items="studyNames"
 				label="Study"
 				required
+				clearable
+			></v-autocomplete>
+			<v-autocomplete
+				v-model="userExchange.specialization"
+				:items="specializations"
+				label="Spesialisering"
+				required
+				clearable
 			></v-autocomplete>
 			<v-autocomplete
 				v-model="userExchange.country"
 				:items="countryNames"
 				label="Land"
+				required
+				clearable
 			></v-autocomplete>
 			<v-autocomplete
 				v-model="userExchange.university"
 				:items="universityNames"
 				label="Universitet"
+				required
+				clearable
 			></v-autocomplete>
+			<v-autocomplete
+				v-model="userExchange.studyYear"
+				:items="[1, 2, 3, 4, 5]"
+				label="Studieår"
+				required
+				clearable
+			></v-autocomplete>
+			<v-autocomplete
+				v-model="userExchange.numSemesters"
+				:items="[1, 2]"
+				label="Antall semestre"
+				required
+				clearable
+			></v-autocomplete>
+			{{ userExchange }}
 		</div>
 		<div v-else>
 			<v-btn @click="editExchange">Edit your exchange data</v-btn>
@@ -63,17 +90,47 @@ export default {
 			],
 		};
 	},
+	watch: {
+		"userExchange.university"(newUniversity) {
+			if (newUniversity) {
+				this.userExchange.country =
+					this.universityToCountryMap[newUniversity] || null;
+			}
+		},
+		"userExchange.country"(newCountry) {
+			this.userExchange.university = "";
+		},
+		"userExchange.study"(newStudy) {
+			this.userExchange.specialization = "";
+		},
+	},
 	computed: {
 		studyNames() {
 			return Object.keys(this.studies);
+		},
+		specializations() {
+			return this.userExchange.study
+				? this.studies[this.userExchange.study]
+				: [];
 		},
 		countryNames() {
 			return Object.keys(this.universities);
 		},
 		universityNames() {
-			return this.userExchange.country
-				? this.universities[this.userExchange.country]
-				: [];
+			if (this.userExchange.country) {
+				return this.universities[this.userExchange.country];
+			} else {
+				return Object.values(this.universities).flat();
+			}
+		},
+		universityToCountryMap() {
+			const map = {};
+			Object.keys(this.universities).forEach((country) => {
+				this.universities[country].forEach((university) => {
+					map[university] = country;
+				});
+			});
+			return map;
 		},
 	},
 	methods: {

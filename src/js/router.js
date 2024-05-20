@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../components/windows/Home.vue';
 import Programs from '../components/windows/Programs.vue';
-import About from '../components/windows/About.vue';
+import EditExchange from '../components/windows/EditExchange.vue';
 import Contact from '../components/windows/Contact.vue';
 import Account from '../components/windows/Account.vue';
 import Login from '../components/windows/Login.vue';
@@ -11,7 +11,7 @@ import store from './store.js'; // Assuming your Vuex store is in src/store
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/programs', name: 'Programs', component: Programs },
-  { path: '/about', name: 'About', component: About },
+  { path: '/myexchange', name: 'EditExchange', component: EditExchange },
   { path: '/contact', name: 'Contact', component: Contact },
   { path: '/account', name: 'Account', component: Account, meta: { requiresAuth: true } },
   { path: '/login', name: 'Login', component: Login },
