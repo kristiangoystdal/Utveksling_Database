@@ -5,8 +5,7 @@
 	</div>
 	<div>
 		<div v-if="!hasExchangeData">
-			<v-btn @click="makeExchange">Create your exchange data</v-btn>
-			<h3>Exchange data</h3>
+			<v-btn @click="makeExchange">Lag din utvekslings data</v-btn>
 			<v-autocomplete
 				v-model="userExchange.study"
 				:items="studyNames"
@@ -49,7 +48,29 @@
 				required
 				clearable
 			></v-autocomplete>
+			<v-autocomplete
+				v-if="userExchange.numSemesters == 1"
+				v-model="semesters"
+				:items="['Høst', 'Vår']"
+				label="Semester"
+				required
+				clearable
+			></v-autocomplete>
+			<v-autocomplete
+				v-if="userExchange.numSemesters == 2"
+				v-model="semesters"
+				:items="['Høst', 'Vår']"
+				label="Semestre"
+				required
+				readonly
+				multiple
+			></v-autocomplete>
 			{{ userExchange }}
+
+			<h3>Kurs</h3>
+			<v-btn @click="addCourse">Legg til kurs </v-btn>
+
+			<CourseForm @submit-course="handleCourseSubmit" />
 		</div>
 		<div v-else>
 			<v-btn @click="editExchange">Edit your exchange data</v-btn>
@@ -66,12 +87,18 @@ import { db, auth } from "../../js/firebaseConfig";
 import { ref as dbRef, get, set } from "firebase/database";
 import studiesData from "../../data/studies.json";
 
+import CourseForm from "../CourseForm.vue";
+
 export default {
+	components: {
+		CourseForm,
+	},
 	data() {
 		return {
 			studies: {},
 			universities: {},
 			hasExchangeData: false,
+			semesters: [],
 			userExchange: {
 				university: null,
 				country: null,
@@ -102,6 +129,13 @@ export default {
 		},
 		"userExchange.study"(newStudy) {
 			this.userExchange.specialization = "";
+		},
+		"userExchange.numSemesters"(newNumber) {
+			if (newNumber == 2) {
+				this.semesters = ["Høst", "Vår"];
+			} else if (newNumber == 1) {
+				this.semesters = [];
+			}
 		},
 	},
 	computed: {
