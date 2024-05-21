@@ -3,6 +3,8 @@
 		<h2>Din utveksling</h2>
 		<p>Opprett eller endre din utvekslingsdatabase</p>
 	</div>
+	<br />
+	<br />
 	<div>
 		<div>
 			<v-expansion-panels v-model="panel">
@@ -235,13 +237,6 @@
 				Oppdater utveksling
 			</v-btn>
 		</div>
-	</div>
-	<div v-if="missingCoursesDataTotalBool" class="warning">
-		Noen fag mangler data!
-	</div>
-	<div>
-		<br />
-		{{ userExchange.courses }}
 	</div>
 </template>
 
