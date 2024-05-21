@@ -4,10 +4,9 @@
 		<p>Opprett eller endre din utvekslingsdatabase</p>
 	</div>
 	<div>
-		<div v-if="!hasExchangeData">
-			<v-btn @click="makeExchange">Lag din utvekslings data</v-btn>
-
+		<div>
 			<v-expansion-panels v-model="panel">
+				<!-- Basis informasjon -->
 				<v-expansion-panel>
 					<v-expansion-panel-title>
 						<template v-slot:default="{ expanded }">
@@ -84,6 +83,7 @@
 										label="Universitet"
 										required
 										clearable
+										@update:modelValue="setUniversity"
 									></v-autocomplete>
 								</v-col>
 							</v-row>
@@ -97,6 +97,7 @@
 										label="Antall semestre"
 										required
 										clearable
+										@update:modelValue="handleNumSemestersChange"
 									></v-autocomplete>
 								</v-col>
 								<v-col cols="12" md="6">
@@ -118,6 +119,7 @@
 										label="Semester"
 										required
 										clearable
+										@update:modelValue="handleSemesterChange"
 									></v-autocomplete>
 								</v-col>
 							</v-row>
@@ -125,26 +127,101 @@
 					</v-expansion-panel-text>
 				</v-expansion-panel>
 
+				<!-- Fag Katalog -->
 				<v-expansion-panel v-for="(semester, index) in semesters" :key="index">
 					<v-expansion-panel-title>
-						Fag for {{ semester.name }} semesteret (
-						{{ semester.includes("Høst") ? numFallCourses : numSpringCourses }}
-						courses)
+						<template v-slot:default="{ expanded }">
+							<v-row no-gutters>
+								<v-col class="d-flex justify-start" cols="4">
+									Fag for {{ semester }} semesteret ({{
+										semester.includes("Høst")
+											? numFallCourses
+											: numSpringCourses
+									}}
+									courses)
+								</v-col>
+								<v-col class="text-grey" cols="8">
+									<v-fade-transition leave-absolute>
+										<span v-if="expanded" key="0">
+											Fyll inn informasjon fagene for {{ semester }} semesteret
+										</span>
+										<span v-else-if="missingCoursesDataTotalBool">
+											Noen fag mangler informasjon
+										</span>
+										<span v-else> Alle fag har nok informasjon </span>
+									</v-fade-transition>
+								</v-col>
+							</v-row>
+							<v-icon
+								:color="
+									!expanded
+										? !missingCoursesDataTotalBool
+											? 'teal'
+											: 'red'
+										: ''
+								"
+								:icon="
+									expanded
+										? 'mdi-pencil'
+										: !missingCoursesDataTotalBool
+										? 'mdi-check'
+										: 'mdi-alert-circle'
+								"
+							></v-icon>
+						</template>
 					</v-expansion-panel-title>
 					<v-expansion-panel-text>
 						<v-btn @click="addCourse(semester)">Add Course</v-btn>
-						<v-expansion-panels v-model="panel">
+						<br />
+						<br />
+						<v-expansion-panels>
 							<v-expansion-panel
-								v-for="cIndex in getNumCourses(semester)"
+								v-for="(course, cIndex) in getCourses(semester)"
 								:key="cIndex"
 							>
 								<v-expansion-panel-title>
-									{{ semester.courses[cIndex - 1]?.name || "New Course" }}
+									<template v-slot:default="{ expanded }">
+										<v-row no-gutters>
+											<v-col class="d-flex justify-start" cols="4">
+												{{ course.courseName || "Nytt fag" }}
+											</v-col>
+											<v-col class="text-grey" cols="8">
+												<v-fade-transition leave-absolute>
+													<span v-if="expanded" key="0">
+														Fyll inn informasjon faget ditt
+													</span>
+													<span
+														v-else-if="missingCourseDataBool(semester, cIndex)"
+													>
+														{{ missingCourseDataString(semester, cIndex) }}
+													</span>
+													<span v-else> All data er fylt inn </span>
+												</v-fade-transition>
+											</v-col>
+										</v-row>
+										<v-icon
+											:color="
+												!expanded
+													? !missingCourseDataBool(semester, cIndex)
+														? 'teal'
+														: 'red'
+													: ''
+											"
+											:icon="
+												expanded
+													? 'mdi-pencil'
+													: !missingCourseDataBool(semester, cIndex)
+													? 'mdi-check'
+													: 'mdi-alert-circle'
+											"
+										></v-icon>
+									</template>
 								</v-expansion-panel-title>
 								<v-expansion-panel-text>
 									<course-form
-										:course="semester.courses[cIndex - 1]"
-										:removeCourse="() => removeCourse(index, cIndex - 1)"
+										:course="course"
+										@submit-course="updateCourse(semester, cIndex, $event)"
+										:removeCourse="() => removeCourse(semester, cIndex)"
 									/>
 								</v-expansion-panel-text>
 							</v-expansion-panel>
@@ -152,33 +229,25 @@
 					</v-expansion-panel-text>
 				</v-expansion-panel>
 			</v-expansion-panels>
-		</div>
-		<div v-else>
-			<v-btn @click="editExchange">Edit your exchange data</v-btn>
-			<div>
-				<h3>Exchange data</h3>
-				<p>{{ userExchange }}</p>
-			</div>
-		</div>
-		<br />
-		<br />
-		<br />
-		<div>
-			{{ userExchange }}
 			<br />
-			{{ semesters }}
-
-			<h3>Kurs</h3>
-			<v-btn @click="addCourse">Legg til kurs </v-btn>
-
-			<CourseForm @submit-course="handleCourseSubmit" />
+			<br />
+			<v-btn :disabled="missingCoursesDataTotalBool" @click="updateExchange">
+				Oppdater utveksling
+			</v-btn>
 		</div>
+	</div>
+	<div v-if="missingCoursesDataTotalBool" class="warning">
+		Noen fag mangler data!
+	</div>
+	<div>
+		<br />
+		{{ userExchange.courses }}
 	</div>
 </template>
 
 <script>
 import { db, auth } from "../../js/firebaseConfig";
-import { ref as dbRef, get, set } from "firebase/database";
+import { ref as dbRef, get, set, update } from "firebase/database";
 import studiesData from "../../data/studies.json";
 
 import CourseForm from "../CourseForm.vue";
@@ -192,9 +261,9 @@ export default {
 			panel: null,
 			numSpringCourses: 0,
 			numFallCourses: 0,
+			numCoursesMissing: 0,
 			studies: {},
 			universities: {},
-			hasExchangeData: false,
 			semesters: [],
 			userExchange: {
 				university: null,
@@ -209,28 +278,28 @@ export default {
 				},
 			},
 			rules: [
-				(value) => !!value || "Required.",
-				(value) => (value && value.length >= 3) || "Min 3 characters",
+				(value) => !!value || "Påkrevd.",
+				(value) => (value && value.length >= 3) || "Min 3 karakterer",
 			],
+			warningsFallCourses: [],
+			warningsSpringCourses: [],
 		};
 	},
 	watch: {
-		"userExchange.university"(newUniversity) {
-			if (newUniversity) {
-				this.userExchange.country =
-					this.universityToCountryMap[newUniversity] || null;
+		"userExchange.study"(newStudy) {
+			if (newStudy !== this.userExchange.study) {
+				this.userExchange.specialization = null;
 			}
 		},
 		"userExchange.country"(newCountry) {
-			this.userExchange.university = null;
-		},
-		"userExchange.study"(newStudy) {
-			this.userExchange.specialization = null;
+			if (newCountry == null) {
+				this.userExchange.university = null;
+			}
 		},
 		"userExchange.numSemesters"(newNumber) {
-			if (newNumber == 2) {
+			if (newNumber == 2 && this.semesters.length !== 2) {
 				this.semesters = ["Høst", "Vår"];
-			} else if (newNumber == 1) {
+			} else if (newNumber == 1 && this.semesters.length !== 1) {
 				this.semesters = [];
 			}
 		},
@@ -251,7 +320,7 @@ export default {
 			if (this.userExchange.country) {
 				return this.universities[this.userExchange.country];
 			} else {
-				return Object.values(this.universities).flat();
+				return [];
 			}
 		},
 		universityToCountryMap() {
@@ -306,6 +375,61 @@ export default {
 				(this.userExchange.numSemesters == 1 && this.semesters.length == 0)
 			);
 		},
+		missingCourseDataString() {
+			return (semester, cIndex) => {
+				const string = "Manglende data på ";
+				const missingFields = [];
+				const course = this.userExchange.courses[semester][cIndex] || {};
+
+				if (!course.year) {
+					missingFields.push("år");
+				}
+				if (!course.courseCode) {
+					missingFields.push("fagkode");
+				}
+				if (!course.courseName) {
+					missingFields.push("fagnavn");
+				}
+				if (!course.institute) {
+					missingFields.push("institutt");
+				}
+				if (!course.ETCSPoints) {
+					missingFields.push("ETCS poeng");
+				}
+
+				if (missingFields.length > 0) {
+					return string + missingFields.join(", ");
+				} else {
+					return "All data er fylt inn";
+				}
+			};
+		},
+		missingCourseDataBool() {
+			return (semester, cIndex) => {
+				const course = this.userExchange.courses[semester][cIndex] || {};
+				return (
+					!course.year ||
+					!course.courseCode ||
+					!course.courseName ||
+					!course.institute ||
+					!course.ETCSPoints
+				);
+			};
+		},
+		missingCoursesDataTotalBool() {
+			return this.semesters.some((semester) => {
+				const courses = this.userExchange.courses[semester];
+				return Object.keys(courses).some((cIndex) =>
+					this.missingCourseDataBool(semester, cIndex)
+				);
+			});
+		},
+		numFallCourses() {
+			return Object.keys(this.userExchange.courses["Høst"] || {}).length;
+		},
+		numSpringCourses() {
+			return Object.keys(this.userExchange.courses["Vår"] || {}).length;
+		},
 	},
 	methods: {
 		loadData() {
@@ -320,36 +444,129 @@ export default {
 			console.log("Retrieving user exchange data");
 			if (auth.currentUser) {
 				const currentUser = auth.currentUser;
-				const userDocRef = dbRef(db, `exchangesTest/${currentUser.uid}`);
+				const userDocRef = dbRef(db, `exchanges/${currentUser.uid}`);
 				const userDoc = await get(userDocRef);
 				if (userDoc.exists()) {
 					this.userData = userDoc.val();
-					console.log("User exists in database:", this.userData);
 					this.userExchange = this.userData;
-					this.hasExchangeData = true;
+
+					// Transform the courses arrays into objects with numerical keys
+					if (this.userExchange.courses) {
+						const semesters = ["Høst", "Vår"];
+						semesters.forEach((semester) => {
+							if (Array.isArray(this.userExchange.courses[semester])) {
+								const coursesArray = this.userExchange.courses[semester];
+								const coursesObject = {};
+								coursesArray.forEach((course, index) => {
+									coursesObject[index] = course;
+								});
+								this.userExchange.courses[semester] = coursesObject;
+							}
+						});
+					}
+
+					const hasFall = "Høst" in this.userExchange.courses;
+					const hasSpring = "Vår" in this.userExchange.courses;
+					if (this.userExchange.numSemesters == 1) {
+						if (hasFall) {
+							this.semesters = ["Høst"];
+						} else if (hasSpring) {
+							this.semesters = ["Vår"];
+						}
+					} else if (this.userExchange.numSemesters == 2) {
+						this.semesters = ["Høst", "Vår"];
+					}
 				} else {
 					console.log("User does not exist in database");
-					this.hasExchangeData = false;
 				}
 			} else {
-				this.hasExchangeData = false;
+				console.log("No user is signed in");
 			}
-		},
-		makeExchange() {
-			console.log("Creating exchange data");
-		},
-		editExchange() {
-			console.log("Editing exchange data");
 		},
 		addCourse(semesterString) {
-			if (semesterString == "Høst") {
-				this.numFallCourses++;
-			} else if (semesterString == "Vår") {
-				this.numSpringCourses++;
+			var courses = this.userExchange.courses[semesterString];
+			var newCourseIndex = null;
+			if (!courses) {
+				this.userExchange.courses[semesterString] = {};
+				newCourseIndex = 0;
+			} else {
+				newCourseIndex = this.userExchange.courses[semesterString].length;
+			}
+			this.userExchange.courses[semesterString] = {
+				...courses,
+				[newCourseIndex]: {
+					exchangeID: auth.currentUser.uid, // Set the current user's ID
+					year: "",
+					courseCode: "",
+					courseName: "",
+					replacedCourseCode: "",
+					replacedCourseName: "",
+					institute: "",
+					ETCSPoints: "",
+					comments: "",
+				},
+			};
+		},
+		getCourses(semesterName) {
+			const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
+			const courses = this.userExchange.courses[semesterKey] || {};
+			return Object.values(courses);
+		},
+		removeCourse(semesterName, courseIndex) {
+			const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
+			const courses = this.userExchange.courses[semesterKey];
+
+			// Delete the course at the specified index
+			delete courses[courseIndex];
+
+			// Reindex the courses to ensure they have the lowest possible indices
+			const updatedCourses = {};
+			Object.keys(courses)
+				.sort()
+				.forEach((key, newIndex) => {
+					if (courses[key] !== undefined) {
+						updatedCourses[newIndex] = courses[key];
+					}
+				});
+
+			this.userExchange.courses[semesterKey] = updatedCourses;
+		},
+		updateCourse(semester, courseIndex, updatedCourse) {
+			this.userExchange.courses[semester] = {
+				...this.userExchange.courses[semester],
+				[courseIndex]: { ...updatedCourse },
+			};
+		},
+		async updateExchange() {
+			if (auth.currentUser) {
+				try {
+					await update(
+						dbRef(db, `exchanges/${auth.currentUser.uid}`),
+						this.userExchange
+					);
+				} catch (error) {
+					console.error("Error updating user exchange data: ", error);
+				}
 			}
 		},
-		handleCourseSubmit(course) {
-			console.log("Handling course submit", course);
+		handleSemesterChange(newSemester) {
+			this.semesters = [newSemester];
+		},
+		handleNumSemestersChange(newNumber) {
+			this.userExchange.numSemesters = newNumber;
+			this.semesters = newNumber == 2 ? ["Høst", "Vår"] : [];
+		},
+		setUniversity(university) {
+			this.userExchange.university = university;
+
+			const newCountry = this.universityToCountryMap[university];
+			this.userExchange.country = newCountry;
+		},
+		setCountry(country) {
+			this.userExchange.country = country;
+			if (country != this.universityToCountryMap[country]) {
+				this.userExchange.university = null;
+			}
 		},
 	},
 	mounted() {
