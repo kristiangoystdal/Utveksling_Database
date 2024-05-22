@@ -6,7 +6,7 @@
 	<br />
 	<br />
 	<div>
-		<div>
+		<div v-if="this.user">
 			<v-expansion-panels v-model="panel">
 				<!-- Basis informasjon -->
 				<v-expansion-panel>
@@ -233,9 +233,15 @@
 			</v-expansion-panels>
 			<br />
 			<br />
-			<v-btn :disabled="missingCoursesDataTotalBool" @click="updateExchange">
+			<v-btn
+				:disabled="missingCoursesDataTotalBool || missingBasicDataBool"
+				@click="updateExchange"
+			>
 				Oppdater utveksling
 			</v-btn>
+		</div>
+		<div v-else>
+			<p>Du må være logget inn for å legge til eller endre utvekslingen din</p>
 		</div>
 	</div>
 </template>
@@ -253,6 +259,7 @@ export default {
 	},
 	data() {
 		return {
+			user: null,
 			panel: null,
 			numSpringCourses: 0,
 			numFallCourses: 0,
@@ -414,6 +421,9 @@ export default {
 		missingCoursesDataTotalBool() {
 			return this.semesters.some((semester) => {
 				const courses = this.userExchange.courses[semester];
+				if (!courses) {
+					return false; // No courses for this semester
+				}
 				return Object.keys(courses).some((cIndex) =>
 					this.missingCourseDataBool(semester, cIndex)
 				);
@@ -567,6 +577,9 @@ export default {
 	mounted() {
 		this.retriveUserExchange();
 		this.loadData();
+		if (auth.currentUser) {
+			this.user = auth.currentUser;
+		}
 	},
 };
 </script>
