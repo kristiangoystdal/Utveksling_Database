@@ -242,7 +242,7 @@ export default {
 				},
 				{ title: "Institute", align: "end", key: "institute" },
 				{ title: "ETCS Points", align: "end", key: "ETCSPoints" },
-				{ title: "Comments", align: "end", key: "comments" },
+				// { title: "Comments", align: "end", key: "comments" },
 			],
 			exchangeList: [],
 			countryList: [],
@@ -274,7 +274,7 @@ export default {
 		},
 		async getValuesFromDatabase() {
 			try {
-				const exchangesSnapshot = await get(child(dbRef(db), "exchangesTest"));
+				const exchangesSnapshot = await get(child(dbRef(db), "exchanges"));
 				if (exchangesSnapshot.exists()) {
 					const exchanges = exchangesSnapshot.val();
 					const countriesSet = new Set();
@@ -314,7 +314,7 @@ export default {
 		},
 		async fetchExchangeData() {
 			try {
-				const snapshot = await get(child(dbRef(db), "exchangesTest"));
+				const snapshot = await get(child(dbRef(db), "exchanges"));
 				if (snapshot.exists()) {
 					let exchanges = snapshot.val();
 
