@@ -276,7 +276,7 @@ export default {
 			try {
 				const exchangesSnapshot = await get(child(dbRef(db), "exchanges"));
 				if (exchangesSnapshot.exists()) {
-					const exchanges = exchangesSnapshot.val();
+					let exchanges = exchangesSnapshot.val();
 					const countriesSet = new Set();
 					const universitiesSet = new Set();
 					const studiesSet = new Set();
@@ -284,6 +284,7 @@ export default {
 
 					for (const exchangeKey in exchanges) {
 						const exchange = exchanges[exchangeKey];
+
 						if (exchange.country) {
 							countriesSet.add(exchange.country);
 						}
@@ -318,10 +319,15 @@ export default {
 				if (snapshot.exists()) {
 					let exchanges = snapshot.val();
 
-					exchanges = Object.keys(exchanges).map((key) => ({
-						id: key,
-						...exchanges[key],
-					}));
+					exchanges = Object.keys(exchanges)
+						.map((key) => ({
+							id: key,
+							...exchanges[key],
+						}))
+						.filter(
+							(exchange) =>
+								exchange.courses && Object.keys(exchange.courses).length > 0
+						);
 
 					if (this.countryValues.length > 0) {
 						exchanges = exchanges.filter((exchange) =>
