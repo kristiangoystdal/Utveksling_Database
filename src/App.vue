@@ -1,16 +1,18 @@
 <template>
-	<header>
-		<Header></Header>
-	</header>
-	<nav>
-		<NavBar></NavBar>
-	</nav>
-	<div v-if="isDesktop">
-		<router-view></router-view>
-	</div>
-	<div v-else class="mobile-warning">
-		This website is only optimized for desktop. Please switch to a larger screen
-		for the best experience.
+	<div id="app">
+		<header>
+			<Header></Header>
+		</header>
+		<nav>
+			<NavBar></NavBar>
+		</nav>
+		<div v-if="isDesktop">
+			<router-view></router-view>
+		</div>
+		<div v-else class="mobile-warning">
+			This website is only optimized for desktop. Please switch to a larger
+			screen for the best experience.
+		</div>
 	</div>
 </template>
 
@@ -20,11 +22,14 @@ import Header from "./components/Header.vue";
 import NavBar from "./components/NavBar.vue";
 import { useRouter } from "vue-router";
 
+import { useDisplay } from "vuetify/lib/framework.mjs";
+
 const router = useRouter();
-const isDesktop = ref(window.innerWidth >= 1024);
+const isDesktop = ref(window.innerWidth >= 769);
+
 
 const handleResize = () => {
-	isDesktop.value = window.innerWidth >= 1024;
+	isDesktop.value = window.innerWidth >= 769;
 };
 
 onMounted(() => {
@@ -37,6 +42,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+#app {
+	margin: auto;
+	padding: 0 1rem;
+	max-width: 1200px;
+	width: 90%;
+}
+
 header {
 	line-height: 1.5;
 }
@@ -46,7 +58,7 @@ header {
 	margin: 0 auto 2rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) {
 	header {
 		display: flex;
 		place-items: center;
@@ -78,7 +90,7 @@ header {
 	z-index: 1000;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
 	.mobile-warning {
 		display: block;
 	}
