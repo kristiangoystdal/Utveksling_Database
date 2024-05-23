@@ -21,17 +21,16 @@
 								$t("navbar.myexchangeHeader")
 							}}</router-link>
 						</li>
-						<!-- <li>
-							<router-link to="/contact">{{
-								$t("navbar.contactHeader")
-							}}</router-link>
-						</li> -->
 						<li>
 							<a @click="handleAuthClick">{{ authButtonText }}</a>
 						</li>
 					</ul>
 				</nav>
-				<div @click="toggleLanguage" class="language-switcher">
+				<div
+					ref="languageSwitcher"
+					@click="toggleLanguage"
+					class="language-switcher"
+				>
 					<span :class="currentFlag" class="fi"></span>
 					<v-icon>mdi-earth</v-icon>
 					<div v-if="showLanguageDropdown" class="language-dropdown">
@@ -90,6 +89,20 @@ export default {
 			localStorage.setItem("language", lang);
 			this.showLanguageDropdown = false;
 		},
+		handleClickOutside(event) {
+			if (
+				this.$refs.languageSwitcher &&
+				!this.$refs.languageSwitcher.contains(event.target)
+			) {
+				this.showLanguageDropdown = false;
+			}
+		},
+	},
+	mounted() {
+		document.addEventListener("click", this.handleClickOutside);
+	},
+	beforeDestroy() {
+		document.removeEventListener("click", this.handleClickOutside);
 	},
 };
 </script>

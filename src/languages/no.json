@@ -1,8 +1,9 @@
 {
     "common": {
-        "welcome": "Velkommen",
+        "welcome": "Velkommen til Utvekslingsportalen!",
         "goodbye": "Ha det",
         "siteName": "Utvekslingsportalen"
+        
     },
     "hints": {
         "study": "Velg studie du går på NTNU",

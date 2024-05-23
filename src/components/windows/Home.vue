@@ -1,11 +1,9 @@
 <template>
 	<div>
-		<h2>Home</h2>
+		<h2>{{ $t("common.welcome") }}</h2>
 	</div>
 </template>
 
 <script>
-export default {
-	
-};
+export default {};
 </script>
