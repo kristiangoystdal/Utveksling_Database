@@ -92,7 +92,21 @@
         "yes": "Ja",
         "no": "Nei",
         "confirmDelete": "Bekreft sletting",
-        "confirmCourseDelete": "Er du sikker på at du vil slette dette faget?"
+        "confirmCourseDelete": "Er du sikker på at du vil slette dette faget?",
+        "edit": "Rediger",
+        "signOut": "Logg ut"
+    },
+    "userHandling": {
+        "loginTitle": "Logg inn",
+        "loginWithGoogle": "Logg inn med Google",
+        "accountTitle": "Din profil",
+        "loadingUser": "Henter frem profilen din...",
+        "name": "Navn",
+        "email": "E-post",
+        "editProfile": "Rediger profilen din"
+    },
+    "errors":{
+        "notLoggedIn": "Profil ikke tilgjengelig. Vennligst logg inn"
     }
   }
   
