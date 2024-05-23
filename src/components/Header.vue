@@ -31,9 +31,9 @@
 						</li>
 					</ul>
 				</nav>
-				<div class="language-switcher">
+				<div @click="toggleLanguage" class="language-switcher">
 					<span :class="currentFlag" class="fi"></span>
-					<v-icon @click="toggleLanguage">mdi-earth</v-icon>
+					<v-icon>mdi-earth</v-icon>
 					<div v-if="showLanguageDropdown" class="language-dropdown">
 						<a @click="changeLanguage('en')">
 							<span class="fi fi-gb"></span> English
@@ -159,13 +159,19 @@ nav a {
 		background-color: hsla(160, 100%, 37%, 0.2);
 		cursor: pointer;
 	}
+
+	.language-switcher:hover {
+		background-color: hsla(160, 100%, 37%, 0.2);
+	}
 }
 
 .language-switcher {
 	position: relative;
 	display: flex;
 	align-items: center;
-	margin-left: 1rem;
+	margin-left: 0.5rem;
+	cursor: pointer;
+	padding: 0.5rem;
 }
 
 .language-switcher .v-icon {
