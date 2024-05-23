@@ -21,11 +21,11 @@
 								$t("navbar.myexchangeHeader")
 							}}</router-link>
 						</li>
-						<li>
+						<!-- <li>
 							<router-link to="/contact">{{
 								$t("navbar.contactHeader")
 							}}</router-link>
-						</li>
+						</li> -->
 						<li>
 							<a @click="handleAuthClick">{{ authButtonText }}</a>
 						</li>
