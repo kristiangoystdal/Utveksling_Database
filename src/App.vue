@@ -5,9 +5,6 @@
 	<br />
 	<br />
 	<div id="app">
-		<!-- <nav>
-			<NavBar></NavBar>
-		</nav> -->
 		<div v-if="isDesktop">
 			<router-view></router-view>
 		</div>
@@ -21,7 +18,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import Header from "./components/Header.vue";
-import NavBar from "./components/NavBar.vue";
 import { useRouter } from "vue-router";
 
 import { useDisplay } from "vuetify/lib/framework.mjs";
