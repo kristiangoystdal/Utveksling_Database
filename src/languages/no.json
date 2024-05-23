@@ -4,41 +4,95 @@
         "goodbye": "Ha det",
         "siteName": "Utvekslingsportalen"
     },
-    "navbar": {
-        "homeHeader": "Hjem",
-        "programHeader": "Utvekslinger",
-        "myexchangeHeader": "Min utveksling",
-        "contactHeader": "Kontakt",
-        "profileHeader": "Profil",
-        "loginHeader": "Logg inn"
+    "hints": {
+        "study": "Velg studie du går på NTNU",
+        "specialization": "Velg spesialiseringen du tar",
+        "country": "Velg landet du skal på utveksling til",
+        "university": "Velg universitet du skal gå på",
+        "studyYear": "Velg hvilket studieår du skal på utveksling",
+        "numSemesters": "Velg antall semestere du skal på utveksling",
+        "courseYear": "Skriv inn året du tok faget",
+        "courseCode": "Skriv inn fagkoden til faget du skal ta",
+        "courseName": "Skriv inn navnet på faget du skal ta",
+        "replacedCourseCode": "Skriv inn fagkoden til faget på NTNU du skal erstatte",
+        "replacedCourseName": "Skriv inn navet på faget på NTNU du skal erstatte",
+        "institute": "Skriv inn instituttet faget tilhører på universitetet du skal til",
+        "ETCSPoints": "Skriv inn hvor mange ETCS poeng faget gir"
     },
-    "exchanges":{
+    "database":{
+        "study": "Studie",
+        "specialization": "Spesialisering",
+        "country": "Land",
+        "university": "Universitet",
+        "studyYear": "Studieår",
+        "numSemesters": "Antall semestre",
+        "semester": "Semester",
+        "courseCode": "Fagkode",
+        "courseName": "Fagnavn",
+        "replacedCourseName": "Erstattet fagnavn",
+        "replacedCourseCode": "Erstattet fagkode",
+        "institute": "Institutt",
+        "ETCSPoints": "ETCS poeng",
+        "comments": "Kommentar"
+    },
+    "navbar": {
+      "homeHeader": "Hjem",
+      "programHeader": "Utvekslinger",
+      "myexchangeHeader": "Min utveksling",
+      "contactHeader": "Kontakt",
+      "profileHeader": "Profil",
+      "loginHeader": "Logg inn"
+    },
+    "exchanges": {
         "pageHeader": "Tidligere utvekslinger:",
         "info": "På denne siden kan du utforske utvekslingserfaringene til tidligere studenter. Du kan se hvilke universiteter de har vært på, hvilke land de har besøkt, og hvilke fag de har tatt.",
         "showFilter": "Vis filter",
         "hideFilter": "Skjul filter",
         "updateTable": "Oppdater",
-        "exchangeTable":{
-            "university": "Universitet",
-            "country": "Land",
-            "studyYear": "Studieår",
-            "study": "Studie",
-            "specialization": "Spesialisering",
-            "numSemesters": "Antall semestere",
-            "pageText": "Utvekslinger per side"
-        },
         "coursesFallHeader": "Høst semesteret",
         "coursesSpringHeader": "Vår semesteret",
-        "courseTable":{
-            "courseName": "Fagnavn",
-            "courseID": "Fagkode",
-            "replacedCourseName": "Erstattet fagnavn",
-            "replacedCourseID": "Erstattet fagkode",
-            "institute": "Institutt",
-            "ETCSPoints": "ETSC poeng"
-        }
-        
+        "pageText": "Utvekslinger per side"
+    },
+    "myExchange": {
+        "pageHeader": "Din utveksling:",
+        "info": "Opprett eller endre din utvekslingsdatabase",
+        "missingData": "Manglende data på",
+        "basisInformation": {
+            "basisInformationTitle": "Basis informasjon",
+            "fillExchangeInfo": "Fyll inn informasjon om din utveksling",
+            "allDataFilled": "All data er fylt inn"
+        },
+        "courseInformation": {
+            "courseFallTitle": "Informasjon om fag på høstsemesteret",
+            "courseSpringTitle": "Informasjon om fag på vårsemesteret",
+            "fillSemesterInfo": "Fyll inn informasjon fagene",
+            "someCoursesMissing": "Noen fag mangler nødvendig informasjon",
+            "allCoursesFilled": "Alle fag har nok informasjon",
+            "addCourse": "Legg til fag",
+            "newCourse": "Nytt fag",
+            "fillCoursesInfo": "Fyll inn informasjon faget ditt",
+            "enoughCourseDataFilled": "Nok informasjon om faget er fylt inn",
+            "numCoursesText": "fag",
+            "courseYear":"År"
+        },
+        "updateExchange": "Oppdater utveksling",
+        "loginToEdit": "Du må være logget inn for å legge til eller endre utvekslingen din"
+    },
+    "rules":{
+        "required":"Dette feltet er påkrevd",
+        "yearFormat": "Må være et gyldig årstall",
+        "min3Chars": "Min 3 karakterer",
+        "validNumber": "Må være et tall"
+    },
+    "operations":{
+        "save": "Lagre",
+        "reset": "Nullstill",
+        "deleteCourse": "Slett fag",
+        "cancel": "Avbryt",
+        "yes": "Ja",
+        "no": "Nei",
+        "confirmDelete": "Bekreft sletting",
+        "confirmCourseDelete": "Er du sikker på at du vil slette dette faget?"
     }
   }
-  
   

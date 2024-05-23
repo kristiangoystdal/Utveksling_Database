@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<h2>Din utveksling</h2>
-		<p>Opprett eller endre din utvekslingsdatabase</p>
+		<h2>{{ $t("myExchange.pageHeader") }}</h2>
+		<p>{{ $t("myExchange.info") }}</p>
 	</div>
 	<br />
 	<br />
@@ -14,17 +14,19 @@
 						<template v-slot:default="{ expanded }">
 							<v-row no-gutters>
 								<v-col class="d-flex justify-start" cols="4">
-									Basis informasjon
+									{{ $t("myExchange.basisInformation.basisInformationTitle") }}
 								</v-col>
 								<v-col class="text-grey" cols="8">
 									<v-fade-transition leave-absolute>
 										<span v-if="expanded" key="0">
-											Fyll inn informasjon om din utveksling
+											{{ $t("myExchange.basisInformation.fillExchangeInfo") }}
 										</span>
 										<span v-else-if="missingBasicDataBool">
 											{{ missingBasicDataString }}
 										</span>
-										<span v-else> All data er fylt inn </span>
+										<span v-else>
+											{{ $t("myExchange.basisInformation.allDataFilled") }}
+										</span>
 									</v-fade-transition>
 								</v-col>
 							</v-row>
@@ -51,18 +53,22 @@
 									<v-autocomplete
 										v-model="userExchange.study"
 										:items="studyNames"
-										label="Studie"
+										:label="$t('database.study')"
 										required
 										clearable
+										:hint="$t('hints.study')"
+										persistent-hint
 									></v-autocomplete>
 								</v-col>
 								<v-col cols="12" md="6">
 									<v-autocomplete
 										v-model="userExchange.specialization"
 										:items="specializations"
-										label="Spesialisering"
+										:label="$t('database.specialization')"
 										required
 										clearable
+										:hint="$t('hints.specialization')"
+										persistent-hint
 									></v-autocomplete>
 								</v-col>
 							</v-row>
@@ -73,19 +79,23 @@
 									<v-autocomplete
 										v-model="userExchange.country"
 										:items="countryNames"
-										label="Land"
+										:label="$t('database.country')"
 										required
 										clearable
+										:hint="$t('hints.country')"
+										persistent-hint
 									></v-autocomplete>
 								</v-col>
 								<v-col cols="12" md="6">
 									<v-autocomplete
 										v-model="userExchange.university"
 										:items="universityNames"
-										label="Universitet"
+										:label="$t('database.university')"
 										required
 										clearable
 										@update:modelValue="setUniversity"
+										:hint="$t('hints.university')"
+										persistent-hint
 									></v-autocomplete>
 								</v-col>
 							</v-row>
@@ -96,19 +106,23 @@
 									<v-autocomplete
 										v-model="userExchange.numSemesters"
 										:items="[1, 2]"
-										label="Antall semestre"
+										:label="$t('database.numSemesters')"
 										required
 										clearable
 										@update:modelValue="handleNumSemestersChange"
+										:hint="$t('hints.numSemesters')"
+										persistent-hint
 									></v-autocomplete>
 								</v-col>
 								<v-col cols="12" md="6">
 									<v-autocomplete
 										v-model="userExchange.studyYear"
 										:items="[1, 2, 3, 4, 5]"
-										label="Studieår"
+										:label="$t('database.studyYear')"
 										required
 										clearable
+										:hint="$t('hints.studyYear')"
+										persistent-hint
 									></v-autocomplete>
 								</v-col>
 							</v-row>
@@ -118,7 +132,7 @@
 										v-if="userExchange.numSemesters == 1"
 										v-model="semesters"
 										:items="['Høst', 'Vår']"
-										label="Semester"
+										:label="$t('database.semester')"
 										required
 										clearable
 										@update:modelValue="handleSemesterChange"
@@ -130,27 +144,39 @@
 				</v-expansion-panel>
 
 				<!-- Fag Katalog -->
-				<v-expansion-panel v-for="(semester, index) in semesters" :key="index">
+				<v-expansion-panel
+					v-if="this.semesters.length > 0"
+					v-for="(semester, index) in semesters"
+					:key="index"
+				>
 					<v-expansion-panel-title>
 						<template v-slot:default="{ expanded }">
 							<v-row no-gutters>
 								<v-col class="d-flex justify-start" cols="4">
-									Fag for {{ semester }} semesteret ({{
-										semester.includes("Høst")
-											? numFallCourses
-											: numSpringCourses
-									}}
-									courses)
+									<span v-if="semester.includes('Høst')">
+										{{ $t("myExchange.courseInformation.courseFallTitle") }}
+										({{ numFallCourses }}
+										{{ $t("myExchange.courseInformation.numCoursesText") }})
+									</span>
+									<span v-else>
+										{{ $t("myExchange.courseInformation.courseSpringTitle") }}
+										({{ numSpringCourses }}
+										{{ $t("myExchange.courseInformation.numCoursesText") }})
+									</span>
 								</v-col>
 								<v-col class="text-grey" cols="8">
 									<v-fade-transition leave-absolute>
 										<span v-if="expanded" key="0">
-											Fyll inn informasjon fagene for {{ semester }} semesteret
+											{{ $t("myExchange.courseInformation.fillSemesterInfo") }}
 										</span>
 										<span v-else-if="missingCoursesDataTotalBool">
-											Noen fag mangler informasjon
+											{{
+												$t("myExchange.courseInformation.someCoursesMissing")
+											}}
 										</span>
-										<span v-else> Alle fag har nok informasjon </span>
+										<span v-else>
+											{{ $t("myExchange.courseInformation.allCoursesFilled") }}
+										</span>
 									</v-fade-transition>
 								</v-col>
 							</v-row>
@@ -173,10 +199,12 @@
 						</template>
 					</v-expansion-panel-title>
 					<v-expansion-panel-text>
-						<v-btn @click="addCourse(semester)">Add Course</v-btn>
+						<v-btn @click="addCourse(semester)">
+							{{ $t("myExchange.courseInformation.addCourse") }}
+						</v-btn>
 						<br />
 						<br />
-						<v-expansion-panels>
+						<v-expansion-panels :v-model="coursePanel">
 							<v-expansion-panel
 								v-for="(course, cIndex) in getCourses(semester)"
 								:key="cIndex"
@@ -190,14 +218,22 @@
 											<v-col class="text-grey" cols="8">
 												<v-fade-transition leave-absolute>
 													<span v-if="expanded" key="0">
-														Fyll inn informasjon faget ditt
+														{{
+															$t("myExchange.courseInformation.fillCoursesInfo")
+														}}
 													</span>
 													<span
 														v-else-if="missingCourseDataBool(semester, cIndex)"
 													>
 														{{ missingCourseDataString(semester, cIndex) }}
 													</span>
-													<span v-else> All data er fylt inn </span>
+													<span v-else>
+														{{
+															$t(
+																"myExchange.courseInformation.enoughCourseDataFilled"
+															)
+														}}
+													</span>
 												</v-fade-transition>
 											</v-col>
 										</v-row>
@@ -237,11 +273,11 @@
 				:disabled="missingCoursesDataTotalBool || missingBasicDataBool"
 				@click="updateExchange"
 			>
-				Oppdater utveksling
+				{{ $t("myExchange.updateExchange") }}
 			</v-btn>
 		</div>
 		<div v-else>
-			<p>Du må være logget inn for å legge til eller endre utvekslingen din</p>
+			<p>{{ $t("myExchange.loginToEdit") }}</p>
 		</div>
 	</div>
 </template>
@@ -261,8 +297,7 @@ export default {
 		return {
 			user: null,
 			panel: null,
-			numSpringCourses: 0,
-			numFallCourses: 0,
+			coursePanel: null,
 			numCoursesMissing: 0,
 			studies: {},
 			universities: {},
@@ -279,10 +314,6 @@ export default {
 					Vår: {},
 				},
 			},
-			rules: [
-				(value) => !!value || "Påkrevd.",
-				(value) => (value && value.length >= 3) || "Min 3 karakterer",
-			],
 			warningsFallCourses: [],
 			warningsSpringCourses: [],
 		};
@@ -335,35 +366,33 @@ export default {
 			return map;
 		},
 		missingBasicDataString() {
-			const string = "Manglende data på ";
+			const string = this.$t("myExchange.missingData") + " ";
 			const missingFields = [];
 
 			if (this.userExchange.country == null) {
-				missingFields.push("land");
+				missingFields.push(this.$t("database.country").toLowerCase());
 			}
 			if (this.userExchange.university == null) {
-				missingFields.push("universitet");
+				missingFields.push(this.$t("database.university").toLowerCase());
 			}
 			if (this.userExchange.study == null) {
-				missingFields.push("studie");
+				missingFields.push(this.$t("database.study").toLowerCase());
 			}
 			if (this.userExchange.specialization == null) {
-				missingFields.push("spesialisering");
+				missingFields.push(this.$t("database.specialization").toLowerCase());
 			}
 			if (this.userExchange.studyYear == null) {
-				missingFields.push("studieår");
+				missingFields.push(this.$t("database.studyYear").toLowerCase());
 			}
 			if (this.userExchange.numSemesters == null) {
-				missingFields.push("antall semestre");
+				missingFields.push(this.$t("database.numSemesters").toLowerCase());
 			}
 			if (this.userExchange.numSemesters == 1 && this.semesters.length == 0) {
-				missingFields.push("semester");
+				missingFields.push(this.$t("database.semester").toLowerCase());
 			}
 
 			if (missingFields.length > 0) {
 				return string + missingFields.join(", ");
-			} else {
-				return "All data is present";
 			}
 		},
 		missingBasicDataBool() {
@@ -379,30 +408,30 @@ export default {
 		},
 		missingCourseDataString() {
 			return (semester, cIndex) => {
-				const string = "Manglende data på ";
+				const string = this.$t("myExchange.missingData") + " ";
 				const missingFields = [];
 				const course = this.userExchange.courses[semester][cIndex] || {};
 
 				if (!course.year) {
-					missingFields.push("år");
+					missingFields.push(
+						this.$t("myExchange.courseInformation.courseYear").toLowerCase()
+					);
 				}
 				if (!course.courseCode) {
-					missingFields.push("fagkode");
+					missingFields.push(this.$t("database.courseCode").toLowerCase());
 				}
 				if (!course.courseName) {
-					missingFields.push("fagnavn");
+					missingFields.push(this.$t("database.courseName").toLowerCase());
 				}
 				if (!course.institute) {
-					missingFields.push("institutt");
+					missingFields.push(this.$t("database.institute").toLowerCase());
 				}
 				if (!course.ETCSPoints) {
-					missingFields.push("ETCS poeng");
+					missingFields.push(this.$t("database.ETCSPoints"));
 				}
 
 				if (missingFields.length > 0) {
 					return string + missingFields.join(", ");
-				} else {
-					return "All data er fylt inn";
 				}
 			};
 		},
@@ -495,8 +524,10 @@ export default {
 				this.userExchange.courses[semesterString] = {};
 				newCourseIndex = 0;
 			} else {
-				newCourseIndex = this.userExchange.courses[semesterString].length;
+				console.log("Courses:", courses);
+				newCourseIndex = Object.keys(courses).length;
 			}
+			console.log("Adding course at index", newCourseIndex);
 			this.userExchange.courses[semesterString] = {
 				...courses,
 				[newCourseIndex]: {
@@ -519,22 +550,37 @@ export default {
 		},
 		removeCourse(semesterName, courseIndex) {
 			const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
-			const courses = this.userExchange.courses[semesterKey];
+			const courses = { ...this.userExchange.courses[semesterKey] };
 
-			// Delete the course at the specified index
+			console.log("Removing course at index", courseIndex);
+
+			// Remove the course from the courses object
 			delete courses[courseIndex];
 
 			// Reindex the courses to ensure they have the lowest possible indices
-			const updatedCourses = {};
-			Object.keys(courses)
-				.sort()
-				.forEach((key, newIndex) => {
-					if (courses[key] !== undefined) {
-						updatedCourses[newIndex] = courses[key];
-					}
-				});
+			const reindexedCourses = {};
+			let newIndex = 0;
+			for (const key in courses) {
+				if (courses.hasOwnProperty(key)) {
+					reindexedCourses[newIndex] = courses[key];
+					newIndex++;
+				}
+			}
 
-			this.userExchange.courses[semesterKey] = updatedCourses;
+			// Update the userExchange.courses object directly
+			this.userExchange.courses = {
+				...this.userExchange.courses,
+				[semesterKey]: reindexedCourses,
+			};
+
+			// Close the expanded panel
+			this.coursePanel = null;
+
+			// Log the updated courses
+			console.log(
+				"Courses after deletion:",
+				this.userExchange.courses[semesterKey]
+			);
 		},
 		updateCourse(semester, courseIndex, updatedCourse) {
 			this.userExchange.courses[semester] = {
@@ -555,7 +601,11 @@ export default {
 			}
 		},
 		handleSemesterChange(newSemester) {
-			this.semesters = [newSemester];
+			if (newSemester === null || newSemester === "") {
+				this.semesters = [];
+			} else {
+				this.semesters = [newSemester];
+			}
 		},
 		handleNumSemestersChange(newNumber) {
 			this.userExchange.numSemesters = newNumber;

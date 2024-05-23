@@ -22,7 +22,7 @@
 							<v-autocomplete
 								v-model="countryValues"
 								:items="countryList"
-								:label="$t('exchanges.exchangeTable.country')"
+								:label="$t('database.country')"
 								multiple
 								chips
 								clearable
@@ -46,7 +46,7 @@
 							<v-autocomplete
 								v-model="universityValues"
 								:items="universityList"
-								:label="$t('exchanges.exchangeTable.university')"
+								:label="$t('database.university')"
 								multiple
 								chips
 								clearable
@@ -70,7 +70,7 @@
 							<v-autocomplete
 								v-model="studyValues"
 								:items="studyList"
-								:label="$t('exchanges.exchangeTable.study')"
+								:label="$t('database.study')"
 								multiple
 								chips
 								clearable
@@ -96,7 +96,7 @@
 							<v-autocomplete
 								v-model="specializationValues"
 								:items="specializationList"
-								:label="$t('exchanges.exchangeTable.specialization')"
+								:label="$t('database.specialization')"
 								multiple
 								chips
 								clearable
@@ -120,7 +120,7 @@
 							<v-autocomplete
 								v-model="numSemestersValues"
 								:items="numSemestersList"
-								:label="$t('exchanges.exchangeTable.numSemesters')"
+								:label="$t('database.numSemesters')"
 								multiple
 								chips
 								clearable
@@ -195,7 +195,7 @@
 								v-if="
 									item.courses && item.courses.Vår && item.courses.Vår.length
 								"
-								:headers="headersCourses"
+								:headers="translatedHeadersCourses"
 								:items="item.courses.Vår"
 								item-value="name"
 								dense
@@ -252,32 +252,32 @@ export default {
 		translatedHeaders() {
 			return [
 				{
-					title: this.t("exchanges.exchangeTable.university"),
+					title: this.t("database.university"),
 					align: "start",
 					key: "university",
 				},
 				{
-					title: this.t("exchanges.exchangeTable.country"),
+					title: this.t("database.country"),
 					align: "end",
 					key: "country",
 				},
 				{
-					title: this.t("exchanges.exchangeTable.studyYear"),
+					title: this.t("database.studyYear"),
 					align: "end",
 					key: "studyYear",
 				},
 				{
-					title: this.t("exchanges.exchangeTable.study"),
+					title: this.t("database.study"),
 					align: "end",
 					key: "study",
 				},
 				{
-					title: this.t("exchanges.exchangeTable.specialization"),
+					title: this.t("database.specialization"),
 					align: "end",
 					key: "specialization",
 				},
 				{
-					title: this.t("exchanges.exchangeTable.numSemesters"),
+					title: this.t("database.numSemesters"),
 					align: "end",
 					key: "numSemesters",
 				},
@@ -286,32 +286,32 @@ export default {
 		translatedHeadersCourses() {
 			return [
 				{
-					title: this.t("exchanges.courseTable.courseName"),
+					title: this.t("database.courseName"),
 					align: "start",
 					key: "courseName",
 				},
 				{
-					title: this.t("exchanges.courseTable.courseID"),
+					title: this.t("database.courseCode"), // fixed typo
 					align: "end",
 					key: "courseCode",
 				},
 				{
-					title: this.t("exchanges.courseTable.replacedCourseName"),
+					title: this.t("database.replacedCourseName"),
 					align: "end",
 					key: "replacedCourseName",
 				},
 				{
-					title: this.t("exchanges.courseTable.replacedCourseID"),
+					title: this.t("database.replacedCourseCode"),
 					align: "end",
 					key: "replacedCourseCode",
 				},
 				{
-					title: this.t("exchanges.courseTable.institute"),
+					title: this.t("database.institute"),
 					align: "end",
 					key: "institute",
 				},
 				{
-					title: this.t("exchanges.courseTable.ETCSPoints"),
+					title: this.t("database.ETCSPoints"),
 					align: "end",
 					key: "ETCSPoints",
 				},
