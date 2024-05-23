@@ -1,0 +1,41 @@
+{
+    "common": {
+        "welcome": "Velkommen",
+        "goodbye": "Ha det"
+    },
+    "navbar": {
+        "homeHeader": "Hjem",
+        "programHeader": "Utvekslinger",
+        "myexchangeHeader": "Min utveksling",
+        "contactHeader": "Kontakt",
+        "profileHeader": "Profil",
+        "loginHeader": "Logg inn"
+    },
+    "exchanges":{
+        "pageHeader": "Tidligere utvekslinger:",
+        "info": "På denne siden kan du utforske utvekslingserfaringene til tidligere studenter. Du kan se hvilke universiteter de har vært på, hvilke land de har besøkt, og hvilke fag de har tatt.",
+        "showFilter": "Vis filter",
+        "hideFilter": "Skjul filter",
+        "exchangeTable":{
+            "university": "Universitet",
+            "country": "Land",
+            "studyYear": "Studieår",
+            "study": "Studie",
+            "specialization": "Spesialisering",
+            "numSemesters": "Antall semestere",
+            "pageText": "Utvekslinger per side"
+        },
+        "courseHeader": "Fag for",
+        "courseTable":{
+            "courseName": "Fagnavn",
+            "courseID": "Fagkode",
+            "replacedCourseName": "Erstattet fagnavn",
+            "replacedCourseID": "Erstattet fagkode",
+            "institute": "Institutt",
+            "ETSCPoints": "ETSC poeng"
+        }
+        
+    }
+  }
+  
+  

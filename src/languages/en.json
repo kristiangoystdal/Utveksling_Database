@@ -1,0 +1,38 @@
+{
+    "common": {
+        "welcome": "Welcome",
+        "goodbye": "Goodbye"
+    },
+    "navbar": {
+        "homeHeader": "Home",
+        "programHeader": "Exchanges",
+        "myexchangeHeader": "My Exchange",
+        "contactHeader": "Contact",
+        "profileHeader": "Profile",
+        "loginHeader": "Log In"
+    },
+    "exchanges": {
+        "pageHeader": "Previous exchanges:",
+        "info": "On this page, you can explore the exchange experiences of former students. You can see which universities they have attended, which countries they have visited, and which subjects they have taken.",
+        "showFilter": "Show filter",
+        "hideFilter": "Hide filter",
+        "exchangeTable": {
+            "university": "University",
+            "country": "Country",
+            "studyYear": "Study Year",
+            "study": "Study",
+            "specialization": "Specialization",
+            "numSemesters": "Number of Semesters",
+            "pageText": "Exchanges per page"
+        },
+        "courseHeader": "Courses for",
+        "courseTable": {
+            "courseName": "Course Name",
+            "courseID": "Course ID",
+            "replacedCourseName": "Replaced Course Name",
+            "replacedCourseID": "Replaced Course ID",
+            "institute": "Institute",
+            "ETSCPoints": "ETSC Points"
+        }
+    }
+}
