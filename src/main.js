@@ -3,21 +3,22 @@ import App from './App.vue';
 import store from './js/store';
 import { auth } from './js/firebaseConfig.js';
 import { onAuthStateChanged } from 'firebase/auth';
-import vuetify from './plugins/vuetify'; // Import Vuetify
-import router from './js/router.js'; // Import Vue Router
+import vuetify from './plugins/vuetify';
+import router from './js/router.js';
 import { createI18n } from 'vue-i18n';
 import en from './languages/en.json';
 import no from './languages/no.json';
+import { i18nMixin } from './mixins/i18nMixin'; // Import the mixin
 
 // Set up messages for vue-i18n
 const messages = {
   en,
-  no
+  no,
 };
 
 // Create an i18n instance with the locale configuration
 const i18n = createI18n({
-  legacy: false, 
+  legacy: false,
   locale: localStorage.getItem('language') || 'no', // default locale
   fallbackLocale: 'no', // fallback locale
   messages,
@@ -32,6 +33,7 @@ onAuthStateChanged(auth, () => {
       .use(vuetify) // Use Vuetify
       .use(router) // Use Vue Router
       .use(i18n) // Use vue-i18n
+      .mixin(i18nMixin) // Register the mixin globally
       .mount('#app');
   }
   store.dispatch('fetchUser');
