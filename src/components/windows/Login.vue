@@ -1,7 +1,9 @@
 <template>
 	<div>
-		<h1>Login</h1>
-		<button @click="loginWithGoogle">Login with Google</button>
+		<h1>{{ $t("userHandling.loginTitle") }}</h1>
+		<v-btn @click="loginWithGoogle">{{
+			$t("userHandling.loginWithGoogle")
+		}}</v-btn>
 	</div>
 </template>
 
@@ -21,6 +23,8 @@ export default {
 				console.log("User Name:", user.displayName);
 				console.log("User Email:", user.email);
 				console.log("User Photo URL:", user.photoURL);
+
+				this.$router.push("/account");
 			} catch (error) {
 				console.error("Error during sign-in:", error);
 			}
