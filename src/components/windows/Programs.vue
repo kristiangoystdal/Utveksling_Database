@@ -22,7 +22,7 @@
 							<v-autocomplete
 								v-model="countryValues"
 								:items="countryList"
-								label="Land"
+								:label="$t('exchanges.exchangeTable.country')"
 								multiple
 								chips
 								clearable
@@ -46,7 +46,7 @@
 							<v-autocomplete
 								v-model="universityValues"
 								:items="universityList"
-								label="Universitet"
+								:label="$t('exchanges.exchangeTable.university')"
 								multiple
 								chips
 								clearable
@@ -70,7 +70,7 @@
 							<v-autocomplete
 								v-model="studyValues"
 								:items="studyList"
-								label="Studie"
+								:label="$t('exchanges.exchangeTable.study')"
 								multiple
 								chips
 								clearable
@@ -96,7 +96,7 @@
 							<v-autocomplete
 								v-model="specializationValues"
 								:items="specializationList"
-								label="Spesialisering"
+								:label="$t('exchanges.exchangeTable.specialization')"
 								multiple
 								chips
 								clearable
@@ -120,7 +120,7 @@
 							<v-autocomplete
 								v-model="numSemestersValues"
 								:items="numSemestersList"
-								label="Antall Semestere"
+								:label="$t('exchanges.exchangeTable.numSemesters')"
 								multiple
 								chips
 								clearable
@@ -142,7 +142,9 @@
 					</v-row>
 				</v-container>
 				<div>
-					<v-btn @click="fetchExchangeData">Oppdater</v-btn>
+					<v-btn @click="fetchExchangeData">{{
+						$t("exchanges.updateTable")
+					}}</v-btn>
 				</div>
 			</div>
 		</v-slide-y-transition>
@@ -169,7 +171,7 @@
 									item.courses && item.courses.Høst && item.courses.Høst.length
 								"
 							>
-								Fag Høst
+								{{ $t("exchanges.coursesFallHeader") }}
 							</h3>
 							<v-data-table-virtual
 								v-if="
@@ -187,7 +189,7 @@
 									item.courses && item.courses.Vår && item.courses.Vår.length
 								"
 							>
-								Fag Vår
+								{{ $t("exchanges.coursesSpringHeader") }}
 							</h3>
 							<v-data-table-virtual
 								v-if="
@@ -291,7 +293,7 @@ export default {
 				{
 					title: this.t("exchanges.courseTable.courseID"),
 					align: "end",
-					key: "courseID",
+					key: "courseCode",
 				},
 				{
 					title: this.t("exchanges.courseTable.replacedCourseName"),
@@ -301,7 +303,7 @@ export default {
 				{
 					title: this.t("exchanges.courseTable.replacedCourseID"),
 					align: "end",
-					key: "replacedCourseID",
+					key: "replacedCourseCode",
 				},
 				{
 					title: this.t("exchanges.courseTable.institute"),
@@ -309,9 +311,9 @@ export default {
 					key: "institute",
 				},
 				{
-					title: this.t("exchanges.courseTable.ETSCPoints"),
+					title: this.t("exchanges.courseTable.ETCSPoints"),
 					align: "end",
-					key: "ETSCPoints",
+					key: "ETCSPoints",
 				},
 			];
 		},

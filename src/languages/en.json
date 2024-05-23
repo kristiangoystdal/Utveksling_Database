@@ -16,6 +16,7 @@
         "info": "On this page, you can explore the exchange experiences of former students. You can see which universities they have attended, which countries they have visited, and which subjects they have taken.",
         "showFilter": "Show filter",
         "hideFilter": "Hide filter",
+        "updateTable": "Update",
         "exchangeTable": {
             "university": "University",
             "country": "Country",
@@ -25,14 +26,15 @@
             "numSemesters": "Number of Semesters",
             "pageText": "Exchanges per page"
         },
-        "courseHeader": "Courses for",
+        "coursesFallHeader": "Fall Semester",
+        "coursesSpringHeader": "Spring Semester",
         "courseTable": {
             "courseName": "Course Name",
             "courseID": "Course ID",
             "replacedCourseName": "Replaced Course Name",
             "replacedCourseID": "Replaced Course ID",
             "institute": "Institute",
-            "ETSCPoints": "ETSC Points"
+            "ETCSPoints": "ETSC Points"
         }
     }
 }
