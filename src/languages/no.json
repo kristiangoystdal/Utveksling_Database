@@ -1,7 +1,8 @@
 {
     "common": {
         "welcome": "Velkommen",
-        "goodbye": "Ha det"
+        "goodbye": "Ha det",
+        "siteName": "Utvekslingsportalen"
     },
     "navbar": {
         "homeHeader": "Hjem",

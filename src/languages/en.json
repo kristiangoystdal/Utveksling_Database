@@ -1,7 +1,8 @@
 {
     "common": {
         "welcome": "Welcome",
-        "goodbye": "Goodbye"
+        "goodbye": "Goodbye",
+        "siteName": "Exchange Platform"
     },
     "navbar": {
         "homeHeader": "Home",

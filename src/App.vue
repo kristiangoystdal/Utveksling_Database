@@ -1,11 +1,13 @@
 <template>
+	<header>
+		<Header></Header>
+	</header>
+	<br />
+	<br />
 	<div id="app">
-		<header>
-			<Header></Header>
-		</header>
-		<nav>
+		<!-- <nav>
 			<NavBar></NavBar>
-		</nav>
+		</nav> -->
 		<div v-if="isDesktop">
 			<router-view></router-view>
 		</div>
@@ -26,7 +28,6 @@ import { useDisplay } from "vuetify/lib/framework.mjs";
 
 const router = useRouter();
 const isDesktop = ref(window.innerWidth >= 769);
-
 
 const handleResize = () => {
 	isDesktop.value = window.innerWidth >= 769;
