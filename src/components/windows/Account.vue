@@ -4,10 +4,12 @@
 			<v-col cols="12">
 				<v-card class="pa-5 account-card">
 					<v-card-title class="d-flex justify-space-between align-center">
-						<h2>Your Account</h2>
+						<h2>{{ $t("userHandling.accountTitle") }}</h2>
 					</v-card-title>
 					<v-card-text>
-						<v-alert v-if="loading" type="info">Loading user data...</v-alert>
+						<v-alert v-if="loading" type="info">{{
+							$t("userHandling.loadingUser")
+						}}</v-alert>
 						<template v-else-if="user && userData">
 							<v-row>
 								<v-col cols="12" md="4" class="text-center">
@@ -21,11 +23,14 @@
 								</v-col>
 								<v-col cols="12" md="8">
 									<div id="account_info">
-										<strong>Name:</strong> {{ userData.displayName }}<br />
-										<strong>Email:</strong> {{ user.email }}<br />
-										<strong>Study:</strong> {{ userData.study }}<br />
-										<strong>Specialization:</strong> {{ userData.specialization
-										}}<br />
+										<strong>{{ $t("userHandling.name") }}:</strong>
+										{{ userData.displayName }}<br />
+										<strong>{{ $t("userHandling.email") }}:</strong>
+										{{ user.email }}<br />
+										<strong>{{ $t("database.study") }}:</strong>
+										{{ userData.study }}<br />
+										<strong>{{ $t("database.specialization") }}:</strong>
+										{{ userData.specialization }}<br />
 									</div>
 								</v-col>
 							</v-row>
@@ -35,13 +40,15 @@
 								</v-col>
 							</v-row>
 						</template>
-						<v-alert v-else type="error"
-							>User data not available. Please log in.</v-alert
-						>
+						<v-alert v-else type="error">{{
+							$t("errors.notLoggedIn")
+						}}</v-alert>
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="red" @click="signOut">Sign Out</v-btn>
+						<v-btn color="red" @click="signOut">{{
+							$t("operations.signOut")
+						}}</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-col>
@@ -51,37 +58,42 @@
 		<v-dialog v-model="dialog" persistent max-width="600px">
 			<v-card>
 				<v-card-title>
-					<span class="headline">Edit Profile</span>
+					<span class="headline">{{ $t("userHandling.editProfile") }}</span>
 				</v-card-title>
 				<v-card-text>
 					<v-form ref="editForm">
 						<v-text-field
 							v-model="localEditData.displayName"
-							label="Name"
+							:label="this.$t('userHandling.name')"
 							required
 						></v-text-field>
 						<v-text-field
 							v-model="localEditData.email"
-							label="Email"
+							:label="this.$t('userHandling.email')"
 							required
 						></v-text-field>
 						<v-autocomplete
 							v-model="localEditData.study"
 							:items="studyNames"
-							label="Study"
+							:label="this.$t('database.study')"
 							required
+							@update:modelValue="handleNewStudy"
 						></v-autocomplete>
 						<v-autocomplete
 							v-model="localEditData.specialization"
 							:items="specializations"
-							label="Specialization"
+							:label="this.$t('database.specialization')"
 						></v-autocomplete>
 					</v-form>
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="blue darken-1" text @click="closeDialog">Cancel</v-btn>
-					<v-btn color="blue darken-1" text @click="saveProfile">Save</v-btn>
+					<v-btn color="blue darken-1" text @click="closeDialog">
+						{{ $t("operations.cancel") }}
+					</v-btn>
+					<v-btn color="blue darken-1" text @click="saveProfile">
+						{{ $t("operations.save") }}
+					</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -165,13 +177,16 @@ export default {
 				await signOut(auth);
 				this.user = null;
 				this.userData = null;
+
+				this.$router.push("/login");
 			} catch (error) {
 				console.error("Error signing out: ", error);
 			}
 		},
-	},
-	watch: {
-		"localEditData.study"(newStudy) {
+		loadLocalData() {
+			this.localEditData = this.userData;
+		},
+		handleNewStudy() {
 			this.localEditData.specialization = "";
 		},
 	},
@@ -205,6 +220,8 @@ export default {
 						specialization: "",
 					});
 				}
+
+				this.loadLocalData();
 			} else {
 				this.user = null;
 				this.userData = null;

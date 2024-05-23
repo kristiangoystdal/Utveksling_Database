@@ -1,10 +1,8 @@
 <template>
 	<div>
-		<h2>Tidligere utvekslinger:</h2>
+		<h2>{{ $t("exchanges.pageHeader") }}</h2>
 		<p>
-			På denne siden kan du utforske utvekslingserfaringene til tidligere
-			studenter. Du kan se hvilke universiteter de har vært på, hvilke land de
-			har besøkt, og hvilke fag de har tatt.
+			{{ $t("exchanges.info") }}
 		</p>
 	</div>
 	<br />
@@ -12,7 +10,7 @@
 	<!-- Filters -->
 	<div>
 		<v-btn @click="toggleFilters">
-			{{ showFilters ? "Skjul filter" : "Vis filter" }}
+			{{ showFilters ? t("exchanges.hideFilter") : t("exchanges.showFilter") }}
 		</v-btn>
 		<v-slide-y-transition>
 			<div class="filter-container" v-if="showFilters">
@@ -24,7 +22,7 @@
 							<v-autocomplete
 								v-model="countryValues"
 								:items="countryList"
-								label="Land"
+								:label="$t('database.country')"
 								multiple
 								chips
 								clearable
@@ -48,7 +46,7 @@
 							<v-autocomplete
 								v-model="universityValues"
 								:items="universityList"
-								label="Universitet"
+								:label="$t('database.university')"
 								multiple
 								chips
 								clearable
@@ -72,7 +70,7 @@
 							<v-autocomplete
 								v-model="studyValues"
 								:items="studyList"
-								label="Studie"
+								:label="$t('database.study')"
 								multiple
 								chips
 								clearable
@@ -98,7 +96,7 @@
 							<v-autocomplete
 								v-model="specializationValues"
 								:items="specializationList"
-								label="Spesialisering"
+								:label="$t('database.specialization')"
 								multiple
 								chips
 								clearable
@@ -122,7 +120,7 @@
 							<v-autocomplete
 								v-model="numSemestersValues"
 								:items="numSemestersList"
-								label="Antall Semestere"
+								:label="$t('database.numSemesters')"
 								multiple
 								chips
 								clearable
@@ -144,7 +142,9 @@
 					</v-row>
 				</v-container>
 				<div>
-					<v-btn @click="fetchExchangeData">Oppdater</v-btn>
+					<v-btn @click="fetchExchangeData">{{
+						$t("exchanges.updateTable")
+					}}</v-btn>
 				</div>
 			</div>
 		</v-slide-y-transition>
@@ -155,7 +155,7 @@
 	<div>
 		<v-data-table
 			v-model:expanded="expanded"
-			:headers="headers"
+			:headers="translatedHeaders"
 			:items="exchangeList"
 			item-value="id"
 			show-expand
@@ -171,13 +171,13 @@
 									item.courses && item.courses.Høst && item.courses.Høst.length
 								"
 							>
-								Fag Høst
+								{{ $t("exchanges.coursesFallHeader") }}
 							</h3>
 							<v-data-table-virtual
 								v-if="
 									item.courses && item.courses.Høst && item.courses.Høst.length
 								"
-								:headers="headersCourses"
+								:headers="translatedHeadersCourses"
 								:items="item.courses.Høst"
 								item-value="name"
 								dense
@@ -189,13 +189,13 @@
 									item.courses && item.courses.Vår && item.courses.Vår.length
 								"
 							>
-								Fag Vår
+								{{ $t("exchanges.coursesSpringHeader") }}
 							</h3>
 							<v-data-table-virtual
 								v-if="
 									item.courses && item.courses.Vår && item.courses.Vår.length
 								"
-								:headers="headersCourses"
+								:headers="translatedHeadersCourses"
 								:items="item.courses.Vår"
 								item-value="name"
 								dense
@@ -213,37 +213,17 @@
 <script>
 import { db } from "../../js/firebaseConfig.js";
 import { get, child, ref as dbRef } from "firebase/database";
+import { useI18n } from "vue-i18n";
 
 export default {
+	setup() {
+		const { t } = useI18n();
+		return { t };
+	},
 	data() {
 		return {
 			showFilters: false,
 			expanded: [],
-			headers: [
-				{ title: "Universitet", align: "start", key: "university" },
-				{ title: "Land", align: "end", key: "country" },
-				{ title: "Studieår", align: "end", key: "studyYear" },
-				{ title: "Studie", align: "end", key: "study" },
-				{ title: "Spesialisering", align: "end", key: "specialization" },
-				{ title: "Antall Semestere", align: "end", key: "numSemesters" },
-			],
-			headersCourses: [
-				{ title: "Course Name", align: "start", key: "courseName" },
-				{ title: "Course Code", align: "end", key: "courseCode" },
-				{
-					title: "Replaced Course Name",
-					align: "end",
-					key: "replacedCourseName",
-				},
-				{
-					title: "Replaced Course Code",
-					align: "end",
-					key: "replacedCourseCode",
-				},
-				{ title: "Institute", align: "end", key: "institute" },
-				{ title: "ETCS Points", align: "end", key: "ETCSPoints" },
-				// { title: "Comments", align: "end", key: "comments" },
-			],
 			exchangeList: [],
 			countryList: [],
 			countryValues: [],
@@ -267,6 +247,76 @@ export default {
 	},
 	mounted() {
 		this.getValuesFromDatabase();
+	},
+	computed: {
+		translatedHeaders() {
+			return [
+				{
+					title: this.t("database.university"),
+					align: "start",
+					key: "university",
+				},
+				{
+					title: this.t("database.country"),
+					align: "end",
+					key: "country",
+				},
+				{
+					title: this.t("database.studyYear"),
+					align: "end",
+					key: "studyYear",
+				},
+				{
+					title: this.t("database.study"),
+					align: "end",
+					key: "study",
+				},
+				{
+					title: this.t("database.specialization"),
+					align: "end",
+					key: "specialization",
+				},
+				{
+					title: this.t("database.numSemesters"),
+					align: "end",
+					key: "numSemesters",
+				},
+			];
+		},
+		translatedHeadersCourses() {
+			return [
+				{
+					title: this.t("database.courseName"),
+					align: "start",
+					key: "courseName",
+				},
+				{
+					title: this.t("database.courseCode"), // fixed typo
+					align: "end",
+					key: "courseCode",
+				},
+				{
+					title: this.t("database.replacedCourseName"),
+					align: "end",
+					key: "replacedCourseName",
+				},
+				{
+					title: this.t("database.replacedCourseCode"),
+					align: "end",
+					key: "replacedCourseCode",
+				},
+				{
+					title: this.t("database.institute"),
+					align: "end",
+					key: "institute",
+				},
+				{
+					title: this.t("database.ETCSPoints"),
+					align: "end",
+					key: "ETCSPoints",
+				},
+			];
+		},
 	},
 	methods: {
 		toggleFilters() {

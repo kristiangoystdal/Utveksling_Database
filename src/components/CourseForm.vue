@@ -4,65 +4,86 @@
 		<v-form ref="form" v-model="valid" lazy-validation>
 			<v-text-field
 				v-model="localCourse.year"
-				label="År"
+				:label="$t('myExchange.courseInformation.courseYear')"
 				:rules="[
-					(v) => !!v || 'Påkrevd',
-					(v) => /^\d{4}$/.test(v) || 'Må være et gyldig årstall',
+					(v) => !!v || $t('rules.required'),
+					(v) => /^\d{4}$/.test(v) || $t('rules.yearFormat'),
 				]"
 				required
+				:hint="$t('hints.courseYear')"
+				persistent-hint
 			></v-text-field>
 			<v-text-field
 				v-model="localCourse.courseCode"
-				label="Fagkode"
-				:rules="rules"
+				:label="$t('database.courseCode')"
+				:rules="couresRules"
 				required
+				:hint="$t('hints.courseCode')"
+				persistent-hint
 			></v-text-field>
 			<v-text-field
 				v-model="localCourse.courseName"
-				label="Fagnavn"
-				:rules="rules"
+				:label="$t('database.courseName')"
+				:rules="couresRules"
 				required
+				:hint="$t('hints.courseName')"
+				persistent-hint
 			></v-text-field>
 			<v-text-field
 				v-model="localCourse.replacedCourseCode"
-				label="Erstattet fagkode"
+				:label="$t('database.replacedCourseCode')"
+				:hint="$t('hints.replacedCourseCode')"
+				persistent-hint
 			></v-text-field>
 			<v-text-field
 				v-model="localCourse.replacedCourseName"
-				label="Ersatt fagnavn"
+				:label="$t('database.replacedCourseName')"
+				:hint="$t('hints.replacedCourseName')"
+				persistent-hint
 			></v-text-field>
 			<v-text-field
 				v-model="localCourse.institute"
-				label="Institutt"
-				:rules="rules"
+				:label="$t('database.institute')"
+				:rules="couresRules"
 				required
+				:hint="$t('hints.institute')"
+				persistent-hint
 			></v-text-field>
 			<v-text-field
 				v-model="localCourse.ETCSPoints"
-				label="ETCS Poeng"
+				:label="$t('database.ETCSPoints')"
 				:rules="[
-					(v) => !!v || 'Påkrevd',
-					(v) => !isNaN(v) || 'Må være et tall',
+					(v) => !!v || $t('rules.required'),
+					(v) => !isNaN(v) || $t('rules.validNumber'),
 				]"
 				required
+				:hint="$t('hints.ETCSPoints')"
+				persistent-hint
 			></v-text-field>
-			<v-textarea v-model="localCourse.comments" label="Kommentar"></v-textarea>
-			<v-btn @click="submit">Lagre</v-btn>
-			<v-btn @click="resetForm">Nullstill</v-btn>
-			<v-btn @click="confirmDelete">Slett fag</v-btn>
+			<v-textarea
+				v-model="localCourse.comments"
+				:label="$t('database.comments')"
+			></v-textarea>
+			<v-btn @click="submit">{{ $t("operations.save") }}</v-btn>
+			<v-btn @click="resetForm">{{ $t("operations.reset") }}</v-btn>
+			<v-btn @click="confirmDelete">{{ $t("operations.deleteCourse") }}</v-btn>
 
 			<v-dialog v-model="deleteDialog" max-width="500">
 				<v-card>
-					<v-card-title class="headline">Bekreft sletting</v-card-title>
-					<v-card-text
-						>Er du sikker på at du vil slette dette faget?</v-card-text
-					>
+					<v-card-title class="headline">
+						{{ $t("operations.confirmDelete") }}
+					</v-card-title>
+					<v-card-text>
+						{{ $t("operations.confirmCourseDelete") }}
+					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="green darken-1" text @click="closeDeleteDialog"
-							>Nei</v-btn
-						>
-						<v-btn color="red darken-1" text @click="deleteCourse">Ja</v-btn>
+						<v-btn color="green darken-1" text @click="closeDeleteDialog">
+							{{ $t("operations.no") }}
+						</v-btn>
+						<v-btn color="red darken-1" text @click="deleteCourse">
+							{{ $t("operations.yes") }}
+						</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
@@ -96,9 +117,9 @@ export default {
 		return {
 			valid: false,
 			localCourse: { ...this.course }, // Create a local copy of the course object
-			rules: [
-				(v) => !!v || "Required.",
-				(v) => (v && v.length >= 3) || "Min 3 characters",
+			couresRules: [
+				(v) => !!v || this.$t("rules.required"),
+				(v) => (v && v.length >= 3) || this.$t("rules.min3Chars"),
 			],
 			deleteDialog: false,
 		};
