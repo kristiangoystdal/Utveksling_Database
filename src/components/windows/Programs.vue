@@ -1,10 +1,8 @@
 <template>
 	<div>
-		<h2>Tidligere utvekslinger:</h2>
+		<h2>{{ $t("exchanges.pageHeader") }}</h2>
 		<p>
-			På denne siden kan du utforske utvekslingserfaringene til tidligere
-			studenter. Du kan se hvilke universiteter de har vært på, hvilke land de
-			har besøkt, og hvilke fag de har tatt.
+			{{ $t("exchanges.info") }}
 		</p>
 	</div>
 	<br />
@@ -12,7 +10,7 @@
 	<!-- Filters -->
 	<div>
 		<v-btn @click="toggleFilters">
-			{{ showFilters ? "Skjul filter" : "Vis filter" }}
+			{{ showFilters ? t("exchanges.hideFilter") : t("exchanges.showFilter") }}
 		</v-btn>
 		<v-slide-y-transition>
 			<div class="filter-container" v-if="showFilters">
@@ -155,7 +153,7 @@
 	<div>
 		<v-data-table
 			v-model:expanded="expanded"
-			:headers="headers"
+			:headers="translatedHeaders"
 			:items="exchangeList"
 			item-value="id"
 			show-expand
@@ -177,7 +175,7 @@
 								v-if="
 									item.courses && item.courses.Høst && item.courses.Høst.length
 								"
-								:headers="headersCourses"
+								:headers="translatedHeadersCourses"
 								:items="item.courses.Høst"
 								item-value="name"
 								dense
@@ -213,37 +211,17 @@
 <script>
 import { db } from "../../js/firebaseConfig.js";
 import { get, child, ref as dbRef } from "firebase/database";
+import { useI18n } from "vue-i18n";
 
 export default {
+	setup() {
+		const { t } = useI18n();
+		return { t };
+	},
 	data() {
 		return {
 			showFilters: false,
 			expanded: [],
-			headers: [
-				{ title: "Universitet", align: "start", key: "university" },
-				{ title: "Land", align: "end", key: "country" },
-				{ title: "Studieår", align: "end", key: "studyYear" },
-				{ title: "Studie", align: "end", key: "study" },
-				{ title: "Spesialisering", align: "end", key: "specialization" },
-				{ title: "Antall Semestere", align: "end", key: "numSemesters" },
-			],
-			headersCourses: [
-				{ title: "Course Name", align: "start", key: "courseName" },
-				{ title: "Course Code", align: "end", key: "courseCode" },
-				{
-					title: "Replaced Course Name",
-					align: "end",
-					key: "replacedCourseName",
-				},
-				{
-					title: "Replaced Course Code",
-					align: "end",
-					key: "replacedCourseCode",
-				},
-				{ title: "Institute", align: "end", key: "institute" },
-				{ title: "ETCS Points", align: "end", key: "ETCSPoints" },
-				// { title: "Comments", align: "end", key: "comments" },
-			],
 			exchangeList: [],
 			countryList: [],
 			countryValues: [],
@@ -267,6 +245,76 @@ export default {
 	},
 	mounted() {
 		this.getValuesFromDatabase();
+	},
+	computed: {
+		translatedHeaders() {
+			return [
+				{
+					title: this.t("exchanges.exchangeTable.university"),
+					align: "start",
+					key: "university",
+				},
+				{
+					title: this.t("exchanges.exchangeTable.country"),
+					align: "end",
+					key: "country",
+				},
+				{
+					title: this.t("exchanges.exchangeTable.studyYear"),
+					align: "end",
+					key: "studyYear",
+				},
+				{
+					title: this.t("exchanges.exchangeTable.study"),
+					align: "end",
+					key: "study",
+				},
+				{
+					title: this.t("exchanges.exchangeTable.specialization"),
+					align: "end",
+					key: "specialization",
+				},
+				{
+					title: this.t("exchanges.exchangeTable.numSemesters"),
+					align: "end",
+					key: "numSemesters",
+				},
+			];
+		},
+		translatedHeadersCourses() {
+			return [
+				{
+					title: this.t("exchanges.courseTable.courseName"),
+					align: "start",
+					key: "courseName",
+				},
+				{
+					title: this.t("exchanges.courseTable.courseID"),
+					align: "end",
+					key: "courseID",
+				},
+				{
+					title: this.t("exchanges.courseTable.replacedCourseName"),
+					align: "end",
+					key: "replacedCourseName",
+				},
+				{
+					title: this.t("exchanges.courseTable.replacedCourseID"),
+					align: "end",
+					key: "replacedCourseID",
+				},
+				{
+					title: this.t("exchanges.courseTable.institute"),
+					align: "end",
+					key: "institute",
+				},
+				{
+					title: this.t("exchanges.courseTable.ETSCPoints"),
+					align: "end",
+					key: "ETSCPoints",
+				},
+			];
+		},
 	},
 	methods: {
 		toggleFilters() {

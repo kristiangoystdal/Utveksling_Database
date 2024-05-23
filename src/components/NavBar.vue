@@ -1,10 +1,24 @@
 <template>
 	<nav>
 		<ul>
-			<li><router-link to="/">Home</router-link></li>
-			<li><router-link to="/programs">Programs</router-link></li>
-			<li><router-link to="/myexchange">My Exchange</router-link></li>
-			<li><router-link to="/contact">Contact</router-link></li>
+			<li>
+				<router-link to="/">{{ $t("navbar.homeHeader") }}</router-link>
+			</li>
+			<li>
+				<router-link to="/programs">{{
+					$t("navbar.programHeader")
+				}}</router-link>
+			</li>
+			<li>
+				<router-link to="/myexchange">{{
+					$t("navbar.myexchangeHeader")
+				}}</router-link>
+			</li>
+			<li>
+				<router-link to="/contact">{{
+					$t("navbar.contactHeader")
+				}}</router-link>
+			</li>
 			<li>
 				<a @click="handleAuthClick">{{ authButtonText }}</a>
 			</li>
@@ -16,13 +30,15 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 const store = useStore();
 const router = useRouter();
+const { t } = useI18n();
 
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 const authButtonText = computed(() =>
-	isAuthenticated.value ? "Account" : "Login"
+	isAuthenticated.value ? t("navbar.profileHeader") : t("navbar.loginHeader")
 );
 
 function handleAuthClick() {
