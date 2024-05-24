@@ -58,6 +58,8 @@
         "pageHeader": "Din utveksling:",
         "info": "Opprett eller endre din utvekslingsdatabase",
         "missingData": "Manglende data på",
+        "unsavedChanges": "Du har ulagret data. Husk å oppdatere.", 
+        "noChanges": "All data er lagret og utveksling er oppdatert.",
         "basisInformation": {
             "basisInformationTitle": "Basis informasjon",
             "fillExchangeInfo": "Fyll inn informasjon om din utveksling",

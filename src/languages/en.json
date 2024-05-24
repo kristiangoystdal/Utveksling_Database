@@ -57,6 +57,8 @@
         "pageHeader": "Your Exchange:",
         "info": "Create or modify your exchange database",
         "missingData": "Missing data on",
+        "unsavedChanges": "You have unsaved changes. Remember to save your changes before leaving the page.", 
+        "noChanges": "All data is saved and is uploaded to the database.",
         "basisInformation": {
             "basisInformationTitle": "Basic Information",
             "fillExchangeInfo": "Fill in information about your exchange",
