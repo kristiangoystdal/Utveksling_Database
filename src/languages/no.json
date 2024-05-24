@@ -52,7 +52,9 @@
         "updateTable": "Oppdater",
         "coursesFallHeader": "Høst semesteret",
         "coursesSpringHeader": "Vår semesteret",
-        "pageText": "Utvekslinger per side"
+        "pageText": "Utvekslinger per side",
+        "courseComments":"Kommentarer til ",
+        "noComments": "Studenten har ikke lagt inn noen kommentarer til dette faget."
     },
     "myExchange": {
         "pageHeader": "Din utveksling:",
@@ -97,7 +99,8 @@
         "confirmDelete": "Bekreft sletting",
         "confirmCourseDelete": "Er du sikker på at du vil slette dette faget?",
         "edit": "Rediger",
-        "signOut": "Logg ut"
+        "signOut": "Logg ut",
+        "close":" Lukk"
     },
     "userHandling": {
         "loginTitle": "Logg inn",

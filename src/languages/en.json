@@ -1,39 +1,39 @@
 {
     "common": {
-        "welcome": "Welcome to the Exchange Portal!",
-        "goodbye": "Goodbye",
-        "siteName": "Exchange Portal"
+      "welcome": "Welcome to the Exchange Portal!",
+      "goodbye": "Goodbye",
+      "siteName": "Exchange Portal"
     },
     "hints": {
-        "study": "Select the study program you are attending at NTNU",
-        "specialization": "Select your specialization",
-        "country": "Select the country you will go on exchange to",
-        "university": "Select the university you will attend",
-        "studyYear": "Select the academic year you will go on exchange",
-        "numSemesters": "Select the number of semesters you will be on exchange",
-        "courseYear": "Enter the year you took the course",
-        "courseCode": "Enter the course code of the course you will take",
-        "courseName": "Enter the name of the course you will take",
-        "replacedCourseCode": "Enter the course code of the NTNU course you will replace",
-        "replacedCourseName": "Enter the name of the NTNU course you will replace",
-        "institute": "Enter the institute the course belongs to at the university you will attend",
-        "ETCSPoints": "Enter the number of ETCS points the course gives"
+      "study": "Select the study you are attending at NTNU",
+      "specialization": "Select your specialization",
+      "country": "Select the country you will be exchanging to",
+      "university": "Select the university you will attend",
+      "studyYear": "Select the study year for your exchange",
+      "numSemesters": "Select the number of semesters you will be on exchange",
+      "courseYear": "Enter the year you took the course",
+      "courseCode": "Enter the course code of the course you will take",
+      "courseName": "Enter the name of the course you will take",
+      "replacedCourseCode": "Enter the course code of the NTNU course you will replace",
+      "replacedCourseName": "Enter the name of the NTNU course you will replace",
+      "institute": "Enter the institute of the course at the university you will attend",
+      "ETCSPoints": "Enter the number of ETCS points the course provides"
     },
     "database": {
-        "study": "Study",
-        "specialization": "Specialization",
-        "country": "Country",
-        "university": "University",
-        "studyYear": "Study Year",
-        "numSemesters": "Number of Semesters",
-        "semester": "Semester",
-        "courseCode": "Course Code",
-        "courseName": "Course Name",
-        "replacedCourseName": "Replaced Course Name",
-        "replacedCourseCode": "Replaced Course Code",
-        "institute": "Institute",
-        "ETCSPoints": "ETCS Points",
-        "comments": "Comments"
+      "study": "Study",
+      "specialization": "Specialization",
+      "country": "Country",
+      "university": "University",
+      "studyYear": "Study Year",
+      "numSemesters": "Number of Semesters",
+      "semester": "Semester",
+      "courseCode": "Course Code",
+      "courseName": "Course Name",
+      "replacedCourseName": "Replaced Course Name",
+      "replacedCourseCode": "Replaced Course Code",
+      "institute": "Institute",
+      "ETCSPoints": "ETCS Points",
+      "comments": "Comments"
     },
     "navbar": {
       "homeHeader": "Home",
@@ -44,70 +44,74 @@
       "loginHeader": "Login"
     },
     "exchanges": {
-        "pageHeader": "Previous Exchanges:",
-        "info": "On this page, you can explore the exchange experiences of former students. You can see which universities they have attended, which countries they have visited, and which courses they have taken.",
-        "showFilter": "Show filter",
-        "hideFilter": "Hide filter",
-        "updateTable": "Update",
-        "coursesFallHeader": "Fall Semester",
-        "coursesSpringHeader": "Spring Semester",
-        "pageText": "Exchanges per page"
+      "pageHeader": "Previous Exchanges:",
+      "info": "On this page, you can explore the exchange experiences of previous students. You can see which universities they attended, which countries they visited, and which courses they took.",
+      "showFilter": "Show Filter",
+      "hideFilter": "Hide Filter",
+      "updateTable": "Update",
+      "coursesFallHeader": "Fall Semester",
+      "coursesSpringHeader": "Spring Semester",
+      "pageText": "Exchanges per page",
+      "courseComments": "Comments for",
+      "noComments": "The student has not added any comments for this course."
     },
     "myExchange": {
-        "pageHeader": "Your Exchange:",
-        "info": "Create or modify your exchange database",
-        "missingData": "Missing data on",
-        "unsavedChanges": "You have unsaved changes. Remember to save your changes before leaving the page.", 
-        "noChanges": "All data is saved and is uploaded to the database.",
-        "basisInformation": {
-            "basisInformationTitle": "Basic Information",
-            "fillExchangeInfo": "Fill in information about your exchange",
-            "allDataFilled": "All data is filled in"
-        },
-        "courseInformation": {
-            "courseFallTitle": "Information about courses in the fall semester",
-            "courseSpringTitle": "Information about courses in the spring semester",
-            "fillSemesterInfo": "Fill in information about the courses",
-            "someCoursesMissing": "Some courses are missing required information",
-            "allCoursesFilled": "All courses have enough information",
-            "addCourse": "Add course",
-            "newCourse": "New course",
-            "fillCoursesInfo": "Fill in information about your course",
-            "enoughCourseDataFilled": "Enough information about the course is filled in",
-            "numCoursesText": "courses",
-            "courseYear":"Year"
-        },
-        "updateExchange": "Update exchange",
-        "loginToEdit": "You need to be logged in to add or change your exchange"
+      "pageHeader": "Your Exchange:",
+      "info": "Create or edit your exchange database",
+      "missingData": "Missing data on",
+      "unsavedChanges": "You have unsaved data. Remember to update.",
+      "noChanges": "All data is saved and the exchange is updated.",
+      "basisInformation": {
+        "basisInformationTitle": "Basic Information",
+        "fillExchangeInfo": "Fill in information about your exchange",
+        "allDataFilled": "All data is filled in"
+      },
+      "courseInformation": {
+        "courseFallTitle": "Course Information for the Fall Semester",
+        "courseSpringTitle": "Course Information for the Spring Semester",
+        "fillSemesterInfo": "Fill in the information for the courses",
+        "someCoursesMissing": "Some courses are missing necessary information",
+        "allCoursesFilled": "All courses have sufficient information",
+        "addCourse": "Add Course",
+        "newCourse": "New Course",
+        "fillCoursesInfo": "Fill in the information for your course",
+        "enoughCourseDataFilled": "Sufficient information about the course is filled in",
+        "numCoursesText": "courses",
+        "courseYear": "Year"
+      },
+      "updateExchange": "Update Exchange",
+      "loginToEdit": "You need to be logged in to add or edit your exchange"
     },
     "rules": {
-        "required": "This field is required",
-        "yearFormat": "Must be a valid year",
-        "min3Chars": "Min 3 characters",
-        "validNumber": "Must be a number"
+      "required": "This field is required",
+      "yearFormat": "Must be a valid year",
+      "min3Chars": "Minimum 3 characters",
+      "validNumber": "Must be a number"
     },
     "operations": {
-        "save": "Save",
-        "reset": "Reset",
-        "deleteCourse": "Delete course",
-        "cancel": "Cancel",
-        "yes": "Yes",
-        "no": "No",
-        "confirmDelete": "Confirm deletion",
-        "confirmCourseDelete": "Are you sure you want to delete this course?",
-        "edit": "Edit",
-        "signOut": "Sign out"
+      "save": "Save",
+      "reset": "Reset",
+      "deleteCourse": "Delete Course",
+      "cancel": "Cancel",
+      "yes": "Yes",
+      "no": "No",
+      "confirmDelete": "Confirm Deletion",
+      "confirmCourseDelete": "Are you sure you want to delete this course?",
+      "edit": "Edit",
+      "signOut": "Sign Out",
+      "close": "Close"
     },
     "userHandling": {
-        "loginTitle": "Login",
-        "loginWithGoogle": "Login with Google",
-        "accountTitle": "Your Profile",
-        "loadingUser": "Loading your profile...",
-        "name": "Name",
-        "email": "Email",
-        "editProfile": "Edit your profile"
+      "loginTitle": "Login",
+      "loginWithGoogle": "Login with Google",
+      "accountTitle": "Your Profile",
+      "loadingUser": "Loading your profile...",
+      "name": "Name",
+      "email": "Email",
+      "editProfile": "Edit your profile"
     },
     "errors": {
-        "notLoggedIn": "Profile not available. Please log in"
+      "notLoggedIn": "Profile not available. Please log in"
     }
-}
+  }
+  
