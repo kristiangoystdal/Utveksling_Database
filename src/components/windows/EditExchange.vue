@@ -7,16 +7,34 @@
 	<br />
 	<div>
 		<div v-if="this.user">
+			<div class="exchange-container">
+				<div v-if="unsavedChanges" class="unsaved-changes">
+					<p>{{ $t("myExchange.unsavedChanges") }}</p>
+					<br />
+					<v-btn
+						:disabled="missingCoursesDataTotalBool || missingBasicDataBool"
+						@click="updateExchange"
+						class="update-btn"
+					>
+						{{ $t("myExchange.updateExchange") }}
+					</v-btn>
+				</div>
+				<div v-else>
+					<p>{{ $t("myExchange.noChanges") }}</p>
+				</div>
+			</div>
+			<br />
+			<br />
 			<v-expansion-panels v-model="panel">
 				<!-- Basis informasjon -->
 				<v-expansion-panel>
 					<v-expansion-panel-title>
 						<template v-slot:default="{ expanded }">
 							<v-row no-gutters>
-								<v-col class="d-flex justify-start" cols="4">
+								<v-col class="d-flex justify-start" cols="6">
 									{{ $t("myExchange.basisInformation.basisInformationTitle") }}
 								</v-col>
-								<v-col class="text-grey" cols="8">
+								<v-col class="text-grey" cols="6">
 									<v-fade-transition leave-absolute>
 										<span v-if="expanded" key="0">
 											{{ $t("myExchange.basisInformation.fillExchangeInfo") }}
@@ -152,7 +170,7 @@
 					<v-expansion-panel-title>
 						<template v-slot:default="{ expanded }">
 							<v-row no-gutters>
-								<v-col class="d-flex justify-start" cols="4">
+								<v-col class="d-flex justify-start" cols="6">
 									<span v-if="semester.includes('Høst')">
 										{{ $t("myExchange.courseInformation.courseFallTitle") }}
 										({{ numFallCourses }}
@@ -164,7 +182,7 @@
 										{{ $t("myExchange.courseInformation.numCoursesText") }})
 									</span>
 								</v-col>
-								<v-col class="text-grey" cols="8">
+								<v-col class="text-grey" cols="6">
 									<v-fade-transition leave-absolute>
 										<span v-if="expanded" key="0">
 											{{ $t("myExchange.courseInformation.fillSemesterInfo") }}
@@ -269,12 +287,6 @@
 			</v-expansion-panels>
 			<br />
 			<br />
-			<v-btn
-				:disabled="missingCoursesDataTotalBool || missingBasicDataBool"
-				@click="updateExchange"
-			>
-				{{ $t("myExchange.updateExchange") }}
-			</v-btn>
 		</div>
 		<div v-else>
 			<p>{{ $t("myExchange.loginToEdit") }}</p>
@@ -302,6 +314,18 @@ export default {
 			studies: {},
 			universities: {},
 			semesters: [],
+			remoteExchange: {
+				university: null,
+				country: null,
+				studyYear: null,
+				study: null,
+				specialization: null,
+				numSemesters: null,
+				courses: {
+					Høst: {},
+					Vår: {},
+				},
+			},
 			userExchange: {
 				university: null,
 				country: null,
@@ -464,6 +488,12 @@ export default {
 		numSpringCourses() {
 			return Object.keys(this.userExchange.courses["Vår"] || {}).length;
 		},
+		unsavedChanges() {
+			return (
+				JSON.stringify(this.remoteExchange) !==
+				JSON.stringify(this.userExchange)
+			);
+		},
 	},
 	methods: {
 		loadData() {
@@ -482,22 +512,28 @@ export default {
 				const userDoc = await get(userDocRef);
 				if (userDoc.exists()) {
 					this.userData = userDoc.val();
-					this.userExchange = this.userData;
 
-					// Transform the courses arrays into objects with numerical keys
-					if (this.userExchange.courses) {
-						const semesters = ["Høst", "Vår"];
-						semesters.forEach((semester) => {
-							if (Array.isArray(this.userExchange.courses[semester])) {
-								const coursesArray = this.userExchange.courses[semester];
-								const coursesObject = {};
-								coursesArray.forEach((course, index) => {
-									coursesObject[index] = course;
-								});
-								this.userExchange.courses[semester] = coursesObject;
-							}
-						});
-					}
+					// Function to transform courses arrays to objects with numerical keys
+					const transformCourses = (exchange) => {
+						if (exchange.courses) {
+							const semesters = ["Høst", "Vår"];
+							semesters.forEach((semester) => {
+								if (Array.isArray(exchange.courses[semester])) {
+									const coursesArray = exchange.courses[semester];
+									const coursesObject = {};
+									coursesArray.forEach((course, index) => {
+										coursesObject[index] = course;
+									});
+									exchange.courses[semester] = coursesObject;
+								}
+							});
+						}
+					};
+
+					// Apply transformation to both userExchange and remoteExchange
+					this.remoteExchange = JSON.parse(JSON.stringify(this.userData));
+					transformCourses(this.remoteExchange);
+					this.userExchange = JSON.parse(JSON.stringify(this.remoteExchange));
 
 					const hasFall = "Høst" in this.userExchange.courses;
 					const hasSpring = "Vår" in this.userExchange.courses;
@@ -634,4 +670,36 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.exchange-container {
+	padding: 20px;
+	border: 2px solid #eeeeee;
+	border-radius: 10px;
+	background-color: #f9f9f9;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin: 20px auto;
+	max-width: 600px;
+	text-align: center;
+}
+
+.unsaved-changes {
+	background-color: #ffecb3; /* Light yellow background */
+	border: 1px solid #ffd54f; /* Darker yellow border */
+	padding: 16px;
+	border-radius: 8px;
+	margin-bottom: 16px;
+	font-weight: bold;
+	color: #ff6f00; /* Dark orange text */
+}
+
+.update-btn {
+	background-color: #00796b; /* Teal background */
+	color: white;
+	font-weight: bold;
+}
+
+.update-btn:disabled {
+	background-color: #b2dfdb; /* Light teal background */
+	color: #004d40; /* Dark teal text */
+}
+</style>
