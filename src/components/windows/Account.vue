@@ -36,7 +36,9 @@
 							</v-row>
 							<v-row justify="end">
 								<v-col cols="12" class="text-right">
-									<v-btn color="primary" @click="editProfile">Edit</v-btn>
+									<v-btn color="primary" @click="editProfile">
+										{{ $t("operations.edit") }}
+									</v-btn>
 								</v-col>
 							</v-row>
 						</template>
