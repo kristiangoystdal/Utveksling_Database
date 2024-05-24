@@ -2,7 +2,7 @@
 	<header>
 		<div class="header-container">
 			<router-link to="/" class="logo">
-				<img src="../assets/images/ntnu.png" alt="Site Logo" />
+				<img src="../assets/images/logo.png" alt="Site Logo" />
 				<span class="site-name">{{ $t("common.siteName") }}</span>
 			</router-link>
 			<div class="nav-and-language">
