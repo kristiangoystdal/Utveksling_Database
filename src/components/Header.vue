@@ -12,7 +12,7 @@
 							<router-link to="/">{{ $t("navbar.homeHeader") }}</router-link>
 						</li>
 						<li>
-							<router-link to="/programs">{{
+							<router-link to="/exchanges">{{
 								$t("navbar.programHeader")
 							}}</router-link>
 						</li>
