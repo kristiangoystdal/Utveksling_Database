@@ -1,0 +1,324 @@
+{
+    "USA": {
+        "Harvard University": [
+            {
+                "bachelorCredits": 32,
+                "masterCredits": 32,
+                "comments": "Harvard: Most courses are numbered with the following general scheme:\n\nl-99 Primarily for Undergraduates (lower group)\nl00-199 For Undergraduates and Graduates (middle group)\n200-299 Primarily for Graduates (upper group)\n300-399 Graduate Courses of Reading and Research (upper group)\nNB! Internasjonal seksjon anbefaler ikke uttelling for unit of time, da dette er ungraded independent work som verken gir karakter eller akademisk uttelling ved lærestedet. Dette er arbeid som kun teller mot 'residency requirement'."
+            }
+        ]
+    },
+    "Albania": {
+        "University of Tirana": [
+            {
+                "field": "",
+                "bachelorCredits": 60,
+                "masterCredits": 60
+            }
+        ]
+    },
+    "Argentina": {
+        "Instituto Tecnologico de Buenos Aires": [
+            {
+                "field": "Ingeniero en Petroleo",
+                "bachelorCredits": 48,
+                "masterCredits": null,
+                "comments": "Førsteårskurs kan ikke godkjennes."
+            }
+        ],
+        "Universidad de Buenos Aires": [
+            {
+                "field": "Diseño Industrial",
+                "bachelorCredits": 48,
+                "masterCredits": null,
+                "comments": "Gjelder kun dette studieprogrammet. Kan ikke ta fag fra førsteåret, da dette er vurdert til å være på norsk videregående skole nivå. Normalt beskrevet som Ciclo Basico Comun."
+            },
+            {
+                "field": "Faculdad de Arquitectura, Diseño y Urbanismo",
+                "bachelorCredits": 48,
+                "masterCredits": null,
+                "comments": "OBS! På UBA varierer belastningen fra fakultet til fakultet, og også delvis mellom program. Dersom du velger et annet studium kan det derfor gjelde andre regler. Ingen fag fra Ciclo Basico Comun godkjennes."
+            },
+            {
+                "field": "Ingeniera Civil",
+                "bachelorCredits": 48,
+                "masterCredits": null,
+                "comments": "Gjelder kun dette studieprogrammet. OBS! På UBA varierer belastningen fra fakultet til fakultet, og også delvis mellom program. Dersom du velger et annet studium kan det derfor gjelde andre regler. Ingen fag fra Ciclo Basico Comun godkjennes."
+            },
+            {
+                "field": "Ingeniero en Informática",
+                "bachelorCredits": 50,
+                "masterCredits": null,
+                "comments": "OBS! På UBA varierer belastningen fra fakultet til fakultet, og også delvis mellom program. For et semester godkjennes 24 creditos som tilsvarende 30 studiepoeng. Ingen fag fra Ciclo Basico Comun godkjennes."
+            },
+            {
+                "field": "Statsvitenskap/allmennvitenskapelige fag",
+                "bachelorCredits": 6,
+                "masterCredits": null,
+                "comments": "Kan ikke ta fag fra førsteåret, da dette er vurdert til å være på norsk videregående skole nivå. Normalt beskrevet som Ciclo Basico Comun."
+            }
+        ],
+        "Universidad de Palermo": [
+            {
+                "field": "Diseño Industrial",
+                "bachelorCredits": 10,
+                "masterCredits": null,
+                "comments": "Kurs fra førsteåret godkjennes ikke."
+            }
+        ],
+        "Universidad Nacional de Cordoba": [
+            {
+                "field": "general",
+                "bachelorCredits": 28,
+                "masterCredits": null,
+                "comments": "Kan ikke ta fag fra førsteåret, da dette er vurdert til å være på norsk videregående skole nivå. Kan ikke ta fag fra Nivelacion Comun eller fra de to første semestrene på Ciclo Basico Comun. Vurderingen gjelder kun fagområdet som er oppgitt. Andre fagområder kan ha andre krav."
+            },
+            {
+                "field": "Licenciatura en Economia",
+                "bachelorCredits": 29,
+                "masterCredits": null,
+                "comments": "Kan ikke ta fag fra førsteåret, da dette er vurdert til å være på norsk videregående skole nivå. Kan ikke ta fag fra Nivelacion Comun eller fra de to første semestrene på Ciclo Basico Comun. Vurderingen gjelder kun fagområdet som er oppgitt. Andre fagområder kan ha andre krav."
+            },
+            {
+                "field": "Licenciatura en Psicologia",
+                "bachelorCredits": 81.3,
+                "masterCredits": null,
+                "comments": "Kan ikke ta fag fra førsteåret, da dette er vurdert til å være på norsk videregående skole nivå. Kan ikke ta fag fra Nivelacion Comun eller fra de to første semestrene på Ciclo Basico Comun. Vurderingen gjelder kun fagområdet som er oppgitt. Andre fagområder kan ha andre krav."
+            }
+        ]
+    },
+    "Australia": {
+        "Bond University": [
+            {
+                "field": "international relations/gjelder alle fag",
+                "bachelorCredits": 80,
+                "masterCredits": 80,
+                "comments": "16.01.2015"
+            }
+        ],
+        "Central Queensland University": [
+            {
+                "field": "International Business/gjelder alle fag",
+                "bachelorCredits": 48,
+                "masterCredits": 48,
+                "comments": "units of credit, 16.01.2015"
+            }
+        ],
+        "Curtin University of Technology Perth": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 200,
+                "masterCredits": 200,
+                "comments": "16.01.2015"
+            }
+        ],
+        "Deakin University": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 8,
+                "masterCredits": 8,
+                "comments": "credit points (EFTSL), 16.01.2015"
+            }
+        ],
+        "Edith Cowan University": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 120,
+                "masterCredits": 120,
+                "comments": "credit points, 16.01.2015"
+            }
+        ],
+        "Flinders University of South Australia": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 36,
+                "masterCredits": 36,
+                "comments": "units, 29.04.2005"
+            }
+        ],
+        "Griffith University": [
+            {
+                "field": "alle fag",
+                "bachelorCredits": 80,
+                "masterCredits": 80,
+                "comments": "credit points, 13.05.2009"
+            }
+        ],
+        "James Cook University": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 24,
+                "masterCredits": 24,
+                "comments": "02.08.2010"
+            }
+        ],
+        "La Trobe University": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 120,
+                "masterCredits": 120,
+                "comments": "credit points, 13.05.2009"
+            }
+        ],
+        "Macquarie University": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 24,
+                "masterCredits": 24,
+                "comments": "100-399: Bachelor\n800-899: Master, 20.01.2015"
+            }
+        ],
+        "Monash University": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 48,
+                "masterCredits": 48,
+                "comments": "20.01.2015"
+            }
+        ],
+        "Murdoch University": [
+            {
+                "field": "Psykologi/gjelder alle fag",
+                "bachelorCredits": 24,
+                "masterCredits": 24,
+                "comments": "23.11.2005"
+            }
+        ],
+        "Queensland University of Technology": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 96,
+                "masterCredits": 96,
+                "comments": "100-399: Bachelor nivå\n400-599: Master nivå, 19.07.2010"
+            }
+        ],
+        "Royal Melbourne Institute of Technology (RMIT University)": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 96,
+                "masterCredits": 96,
+                "comments": "27.08.2009"
+            }
+        ],
+        "Swinburne University of Technology": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 100,
+                "masterCredits": 100,
+                "comments": "04.02.2008"
+            }
+        ],
+        "The Australian National University": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 48,
+                "masterCredits": 48,
+                "comments": "units, 20.01.2015"
+            }
+        ],
+        "University of Adelaide": [
+            {
+                "field": "teknologi/gjelder alle undergraduate",
+                "bachelorCredits": 24,
+                "masterCredits": 24,
+                "comments": "units, 03.06.2010"
+            }
+        ],
+        "University of Melbourne": [
+            {
+                "field": "alle fag",
+                "bachelorCredits": 100,
+                "masterCredits": 100,
+                "comments": "31.05.2010"
+            }
+        ],
+        "University of New South Wales": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 48,
+                "masterCredits": 48,
+                "comments": "units of credit, 01.06.2010"
+            }
+        ],
+        "University of Newcastle": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 80,
+                "masterCredits": 80,
+                "comments": "units, 20.01.2015"
+            }
+        ],
+        "University of Queensland": [
+            {
+                "field": "alle fag",
+                "bachelorCredits": 16,
+                "masterCredits": 16,
+                "comments": "units, 20.01.2015"
+            }
+        ],
+        "University of South Australia": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 36,
+                "masterCredits": 36,
+                "comments": "units, 31.10.2007"
+            }
+        ],
+        "University of Southern Queensland": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 8,
+                "masterCredits": 8,
+                "comments": "units, 20.01.2016"
+            }
+        ],
+        "University of Sydney": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 48,
+                "masterCredits": 48,
+                "comments": "credit points, 20.01.2015"
+            }
+        ],
+        "University of Technology Sydney": [
+            {
+                "field": "gjelder alle fag",
+                "bachelorCredits": 48,
+                "masterCredits": 48,
+                "comments": "credit points, 22.02.2010"
+            }
+        ],
+        "University of the Sunshine Coast": [
+            {
+                "field": "alle fag",
+                "bachelorCredits": 96,
+                "masterCredits": 96,
+                "comments": "units, 20.01.2015"
+            }
+        ],
+        "University of Western Australia": [
+            {
+                "field": "alle fag",
+                "bachelorCredits": 48,
+                "masterCredits": 48,
+                "comments": "units of credit, 18.02.2010"
+            }
+        ],
+        "University of Western Sydney": [
+            {
+                "field": "alle fag",
+                "bachelorCredits": 80,
+                "masterCredits": 80,
+                "comments": "credit points, 05.08.2010"
+            }
+        ],
+        "University of Wollongong": [
+            {
+                "field": "alle fag",
+                "bachelorCredits": 48,
+                "masterCredits": 48,
+                "comments": "credit points, 20.01.2015"
+            }
+        ]
+    }
+}

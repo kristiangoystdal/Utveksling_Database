@@ -7,6 +7,7 @@ import Contact from '../components/windows/Contact.vue';
 import Account from '../components/windows/Account.vue';
 import Login from '../components/windows/Login.vue';
 import NotFound from '../components/NotFound.vue';
+import CreditsTable from '../components/CreditsTable.vue';
 import store from './store.js'; // Assuming your Vuex store is in src/store
 
 const routes = [
@@ -16,6 +17,7 @@ const routes = [
   { path: '/contact', name: 'Contact', component: Contact },
   { path: '/account', name: 'Account', component: Account, meta: { requiresAuth: true } },
   { path: '/login', name: 'Login', component: Login },
+  { path: "/credits", name: "Credits", component: CreditsTable}, 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
