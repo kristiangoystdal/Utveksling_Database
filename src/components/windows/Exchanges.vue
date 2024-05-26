@@ -371,18 +371,24 @@ export default {
 
 					for (const exchangeKey in exchanges) {
 						const exchange = exchanges[exchangeKey];
-
-						if (exchange.country) {
-							countriesSet.add(exchange.country);
-						}
-						if (exchange.university) {
-							universitiesSet.add(exchange.university);
-						}
-						if (exchange.study) {
-							studiesSet.add(exchange.study);
-						}
-						if (exchange.specialization) {
-							specializationsSet.add(exchange.specialization);
+						console.log("Test", exchange.courses.Høst, exchange.courses.Vår);
+						if (
+							(exchange.courses.Høst && exchange.courses.Høst.length > 0) ||
+							(exchange.courses.Vår && exchange.courses.Vår.length > 0)
+						) {
+							console.log(exchange.country);
+							if (exchange.country) {
+								countriesSet.add(exchange.country);
+							}
+							if (exchange.university) {
+								universitiesSet.add(exchange.university);
+							}
+							if (exchange.study) {
+								studiesSet.add(exchange.study);
+							}
+							if (exchange.specialization) {
+								specializationsSet.add(exchange.specialization);
+							}
 						}
 					}
 
