@@ -371,12 +371,18 @@ export default {
 
 					for (const exchangeKey in exchanges) {
 						const exchange = exchanges[exchangeKey];
-						console.log("Test", exchange.courses.Høst, exchange.courses.Vår);
-						if (
-							(exchange.courses.Høst && exchange.courses.Høst.length > 0) ||
-							(exchange.courses.Vår && exchange.courses.Vår.length > 0)
-						) {
-							console.log(exchange.country);
+
+						// Check if either 'Høst' or 'Vår' courses exist and have at least one course
+						const hasAutumnCourses =
+							exchange.courses &&
+							exchange.courses.Høst &&
+							exchange.courses.Høst.length > 0;
+						const hasSpringCourses =
+							exchange.courses &&
+							exchange.courses.Vår &&
+							exchange.courses.Vår.length > 0;
+
+						if (hasAutumnCourses || hasSpringCourses) {
 							if (exchange.country) {
 								countriesSet.add(exchange.country);
 							}
@@ -403,6 +409,7 @@ export default {
 				console.error("Error fetching values from database:", error);
 			}
 		},
+
 		remove(item) {
 			this.countryValues = this.countryValues.filter((i) => i !== item);
 		},
