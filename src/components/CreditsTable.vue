@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<h1>JSON Data</h1>
+		<h2>JSON Data</h2>
+		<br />
+		<br />
+
 		<v-data-table
 			v-model:expanded="expanded"
 			:headers="headers"
