@@ -17,7 +17,7 @@
       "replacedCourseCode": "Enter the course code of the NTNU course you will replace",
       "replacedCourseName": "Enter the name of the NTNU course you will replace",
       "institute": "Enter the institute of the course at the university you will attend",
-      "ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's unit if necessary)"
+      "ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's units if necessary)"
     },
     "database": {
       "study": "Study",
