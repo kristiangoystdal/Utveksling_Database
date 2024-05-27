@@ -18,7 +18,7 @@
         "replacedCourseCode": "Skriv inn fagkoden til faget på NTNU du skal erstatte",
         "replacedCourseName": "Skriv inn navet på faget på NTNU du skal erstatte",
         "institute": "Skriv inn instituttet faget tilhører på universitetet du skal til",
-        "ETCSPoints": "Skriv inn hvor mange ETCS poeng faget gir"
+        "ETCSPoints": "Skriv inn hvor mange ETCS poeng faget gir (konverter fra universitetes enhet til ETCS)"
     },
     "database":{
         "study": "Studie",
