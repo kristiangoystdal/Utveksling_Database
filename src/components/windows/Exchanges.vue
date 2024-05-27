@@ -247,8 +247,8 @@ import { useI18n } from "vue-i18n";
 
 export default {
 	setup() {
-		const { t } = useI18n();
-		return { t };
+		const { t, locale } = useI18n();
+		return { t, locale };
 	},
 	data() {
 		return {
@@ -272,6 +272,7 @@ export default {
 			numSemestersSearch: "",
 			commentDialog: false,
 			currentComments: "",
+			currentCourseName: "",
 		};
 	},
 	created() {
@@ -279,6 +280,12 @@ export default {
 	},
 	mounted() {
 		this.getValuesFromDatabase();
+	},
+	watch: {
+		locale(newLocale, oldLocale) {
+			this.fetchExchangeData();
+			this.getValuesFromDatabase();
+		},
 	},
 	computed: {
 		translatedHeaders() {
@@ -384,7 +391,7 @@ export default {
 
 						if (hasAutumnCourses || hasSpringCourses) {
 							if (exchange.country) {
-								countriesSet.add(exchange.country);
+								countriesSet.add(this.$t(`countries.${exchange.country}`));
 							}
 							if (exchange.university) {
 								universitiesSet.add(exchange.university);
@@ -423,6 +430,7 @@ export default {
 						.map((key) => ({
 							id: key,
 							...exchanges[key],
+							country: this.$t(`countries.${exchanges[key].country}`),
 						}))
 						.filter(
 							(exchange) =>
