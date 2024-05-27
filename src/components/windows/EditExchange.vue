@@ -6,7 +6,6 @@
 	<br />
 	<br />
 	<div>
-		{{ userExchange.courses }}
 		<div v-if="this.user">
 			<div class="exchange-container">
 				<div v-if="unsavedChanges" class="unsaved-changes">
