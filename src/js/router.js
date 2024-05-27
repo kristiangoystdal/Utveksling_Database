@@ -17,7 +17,7 @@ const routes = [
   { path: '/contact', name: 'Contact', component: Contact },
   { path: '/account', name: 'Account', component: Account, meta: { requiresAuth: true } },
   { path: '/login', name: 'Login', component: Login },
-  { path: "/credits", name: "Credits", component: CreditsTable}, 
+  // { path: "/credits", name: "Credits", component: CreditsTable}, 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
