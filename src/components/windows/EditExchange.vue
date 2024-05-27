@@ -6,6 +6,7 @@
 	<br />
 	<br />
 	<div>
+		{{ userExchange.courses }}
 		<div v-if="this.user">
 			<div class="exchange-container">
 				<div v-if="unsavedChanges" class="unsaved-changes">
@@ -25,7 +26,7 @@
 			</div>
 			<br />
 			<br />
-			<v-expansion-panels v-model="panel">
+			<v-expansion-panels v-model="panel" @update:modelValue="panelChanged">
 				<!-- Basis informasjon -->
 				<v-expansion-panel>
 					<v-expansion-panel-title>
@@ -222,7 +223,10 @@
 						</v-btn>
 						<br />
 						<br />
-						<v-expansion-panels :v-model="coursePanel">
+						<v-expansion-panels
+							:v-model="coursePanel"
+							@update:modelValue="coursePanelChanged(semester)"
+						>
 							<v-expansion-panel
 								v-for="(course, cIndex) in getCourses(semester)"
 								:key="cIndex"
@@ -624,6 +628,10 @@ export default {
 				[courseIndex]: { ...updatedCourse },
 			};
 		},
+		handleCourseUpdate(updatedCourse) {
+			const { semester, courseIndex, course } = updatedCourse;
+			this.userExchange.courses[semester][courseIndex] = course;
+		},
 		async updateExchange() {
 			if (auth.currentUser) {
 				try {
@@ -658,6 +666,19 @@ export default {
 			if (country != this.universityToCountryMap[country]) {
 				this.userExchange.university = null;
 			}
+		},
+		panelChanged(newVal) {
+			console.log("Panel changed:", newVal);
+		},
+		coursePanelChanged(semester) {
+			return (newVal) => {
+				if (newVal === null) {
+					const courses = this.userExchange.courses[semester];
+					Object.keys(courses).forEach((index) => {
+						this.updateCourse(semester, index, courses[index]);
+					});
+				}
+			};
 		},
 	},
 	mounted() {

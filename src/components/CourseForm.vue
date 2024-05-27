@@ -125,11 +125,12 @@ export default {
 		};
 	},
 	watch: {
-		course: {
+		localCourse: {
 			handler(newVal) {
-				this.localCourse = { ...newVal };
+				this.$emit("submit-course", { ...this.localCourse });
 			},
 			deep: true,
+			immediate: true,
 		},
 	},
 	methods: {
@@ -160,17 +161,6 @@ export default {
 		deleteCourse() {
 			this.closeDeleteDialog();
 			this.removeCourse();
-		},
-	},
-	computed: {
-		dataFilled() {
-			return (
-				!this.localCourse.year ||
-				!this.localCourse.courseCode ||
-				!this.localCourse.courseName ||
-				!this.localCourse.institute ||
-				!this.localCourse.ETCSPoints
-			);
 		},
 	},
 };
