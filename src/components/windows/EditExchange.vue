@@ -538,6 +538,17 @@ export default {
 					transformCourses(this.remoteExchange);
 					this.userExchange = JSON.parse(JSON.stringify(this.remoteExchange));
 
+					if (!this.userExchange.courses) {
+						this.userExchange.courses = {
+							Høst: {},
+							Vår: {},
+						};
+						this.remoteExchange.courses = {
+							Høst: {},
+							Vår: {},
+						};
+					}
+
 					const hasFall = "Høst" in this.userExchange.courses;
 					const hasSpring = "Vår" in this.userExchange.courses;
 					if (this.userExchange.numSemesters == 1) {
@@ -638,6 +649,7 @@ export default {
 						dbRef(db, `exchanges/${auth.currentUser.uid}`),
 						this.userExchange
 					);
+					this.remoteExchange = JSON.parse(JSON.stringify(this.userExchange));
 				} catch (error) {
 					console.error("Error updating user exchange data: ", error);
 				}
