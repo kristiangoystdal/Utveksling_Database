@@ -5,19 +5,19 @@
       "siteName": "Exchange Portal"
     },
     "hints": {
-        "study": "Select the study program you are attending at NTNU",
-        "specialization": "Select your specialization",
-        "country": "Select the country you will go on exchange to",
-        "university": "Select the university you will attend",
-        "studyYear": "Select the academic year you will go on exchange",
-        "numSemesters": "Select the number of semesters you will be on exchange",
-        "courseYear": "Enter the year you took the course",
-        "courseCode": "Enter the course code of the course you will take",
-        "courseName": "Enter the name of the course you will take",
-        "replacedCourseCode": "Enter the course code of the NTNU course you will replace",
-        "replacedCourseName": "Enter the name of the NTNU course you will replace",
-        "institute": "Enter the institute the course belongs to at the university you will attend",
-        "ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's units if necessary)"
+      "study": "Select the study program you are attending at NTNU",
+      "specialization": "Select your specialization",
+      "country": "Select the country you will go on exchange to",
+      "university": "Select the university you will attend",
+      "studyYear": "Select the academic year you will go on exchange",
+      "numSemesters": "Select the number of semesters you will be on exchange",
+      "courseYear": "Enter the year you took the course",
+      "courseCode": "Enter the course code of the course you will take",
+      "courseName": "Enter the name of the course you will take",
+      "replacedCourseCode": "Enter the course code of the NTNU course you will replace",
+      "replacedCourseName": "Enter the name of the NTNU course you will replace",
+      "institute": "Enter the institute the course belongs to at the university you will attend",
+      "ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's units if necessary)"
     },
     "database": {
       "study": "Study",
