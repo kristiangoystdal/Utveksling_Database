@@ -259,6 +259,13 @@
 											</v-col>
 										</v-row>
 										<v-icon
+											:icon="'mdi mdi-trash-can-outline'"
+											class="course-icons"
+											@click.stop="toggleDialog(semester, cIndex)"
+										>
+										</v-icon>
+
+										<v-icon
 											:color="
 												!expanded
 													? !missingCourseDataBool(semester, cIndex)
@@ -273,6 +280,7 @@
 													? 'mdi-check'
 													: 'mdi-alert-circle'
 											"
+											class="course-icons"
 										></v-icon>
 									</template>
 								</v-expansion-panel-title>
@@ -290,10 +298,50 @@
 			</v-expansion-panels>
 			<br />
 			<br />
+			<div class="exchange-container">
+				<div v-if="unsavedChanges" class="unsaved-changes">
+					<p>{{ $t("myExchange.unsavedChanges") }}</p>
+					<br />
+					<v-btn
+						:disabled="missingCoursesDataTotalBool || missingBasicDataBool"
+						@click="updateExchange"
+						class="update-btn"
+					>
+						{{ $t("myExchange.updateExchange") }}
+					</v-btn>
+				</div>
+				<div v-else>
+					<p>{{ $t("myExchange.noChanges") }}</p>
+				</div>
+			</div>
 		</div>
 		<div v-else>
 			<p>{{ $t("myExchange.loginToEdit") }}</p>
 		</div>
+
+		<v-dialog v-model="deleteDialog" max-width="500">
+			<v-card>
+				<v-card-title class="headline">
+					{{ $t("operations.confirmDelete") }}
+				</v-card-title>
+				<v-card-text>
+					{{ $t("operations.confirmCourseDelete") }}
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="green darken-1" text @click="toggleDialog">
+						{{ $t("operations.no") }}
+					</v-btn>
+					<v-btn
+						color="red darken-1"
+						text
+						@click="removeCourse(currentSemester, currentCourse)"
+					>
+						{{ $t("operations.yes") }}
+					</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 
@@ -343,6 +391,9 @@ export default {
 			},
 			warningsFallCourses: [],
 			warningsSpringCourses: [],
+			deleteDialog: false,
+			currentCourse: null,
+			currentSemester: null,
 		};
 	},
 	watch: {
@@ -500,6 +551,7 @@ export default {
 	},
 	methods: {
 		loadData() {
+			// Load the studies data from the JSON file
 			try {
 				this.studies = studiesData.studies;
 				this.universities = studiesData.universities;
@@ -508,11 +560,13 @@ export default {
 			}
 		},
 		async retriveUserExchange() {
-			console.log("Retrieving user exchange data");
 			if (auth.currentUser) {
+				// Get the user's exchange data from the database
 				const currentUser = auth.currentUser;
 				const userDocRef = dbRef(db, `exchanges/${currentUser.uid}`);
 				const userDoc = await get(userDocRef);
+
+				// If the user exists, set the userData object
 				if (userDoc.exists()) {
 					this.userData = userDoc.val();
 
@@ -538,6 +592,7 @@ export default {
 					transformCourses(this.remoteExchange);
 					this.userExchange = JSON.parse(JSON.stringify(this.remoteExchange));
 
+					// If the user has no courses, create empty courses objects
 					if (!this.userExchange.courses) {
 						this.userExchange.courses = {
 							Høst: {},
@@ -549,6 +604,7 @@ export default {
 						};
 					}
 
+					// Set the semesters array based on the number of semesters
 					const hasFall = "Høst" in this.userExchange.courses;
 					const hasSpring = "Vår" in this.userExchange.courses;
 					if (this.userExchange.numSemesters == 1) {
@@ -568,7 +624,10 @@ export default {
 			}
 		},
 		addCourse(semesterString) {
+			// Get the courses for the specified semester
 			var courses = this.userExchange.courses[semesterString];
+
+			// Find the index for the new course
 			var newCourseIndex = null;
 			if (!courses) {
 				this.userExchange.courses[semesterString] = {};
@@ -577,7 +636,8 @@ export default {
 				console.log("Courses:", courses);
 				newCourseIndex = Object.keys(courses).length;
 			}
-			console.log("Adding course at index", newCourseIndex);
+
+			// Add the new course to the courses object
 			this.userExchange.courses[semesterString] = {
 				...courses,
 				[newCourseIndex]: {
@@ -594,17 +654,20 @@ export default {
 			};
 		},
 		getCourses(semesterName) {
+			// Get the courses for the specified semester
 			const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
 			const courses = this.userExchange.courses[semesterKey] || {};
 			return Object.values(courses);
 		},
 		removeCourse(semesterName, courseIndex) {
+			// Close the delete dialog
+			this.deleteDialog = false;
+
+			// Get the courses for the specified semester
 			const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
 			const courses = { ...this.userExchange.courses[semesterKey] };
 
-			console.log("Removing course at index", courseIndex);
-
-			// Remove the course from the courses object
+			// Delete the course at the specified index
 			delete courses[courseIndex];
 
 			// Reindex the courses to ensure they have the lowest possible indices
@@ -625,12 +688,6 @@ export default {
 
 			// Close the expanded panel
 			this.coursePanel = null;
-
-			// Log the updated courses
-			console.log(
-				"Courses after deletion:",
-				this.userExchange.courses[semesterKey]
-			);
 		},
 		updateCourse(semester, courseIndex, updatedCourse) {
 			this.userExchange.courses[semester] = {
@@ -691,6 +748,23 @@ export default {
 				}
 			};
 		},
+		toggleDialog(semester, courseIndex) {
+			this.coursePanel = null;
+			console.log("Toggling dialog", semester, courseIndex);
+			if (!this.deleteDialog) {
+				this.deleteDialog = !this.deleteDialog;
+				this.currentSemester = semester;
+				this.currentCourse = courseIndex;
+			} else {
+				this.deleteDialog = false;
+				this.currentSemester = null;
+				this.currentCourse = null;
+			}
+		},
+		confirmDelete() {
+			this.deleteDialog = true;
+			console.log("Delete dialog opened");
+		},
 	},
 	mounted() {
 		this.retriveUserExchange();
@@ -733,5 +807,9 @@ export default {
 .update-btn:disabled {
 	background-color: #b2dfdb; /* Light teal background */
 	color: #004d40; /* Dark teal text */
+}
+
+.course-icons {
+	margin: 0 8px; /* Adjust the margin value as needed */
 }
 </style>
