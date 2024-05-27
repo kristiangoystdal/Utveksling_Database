@@ -25,7 +25,7 @@
 			</div>
 			<br />
 			<br />
-			<v-expansion-panels v-model="panel" @update:modelValue="panelChanged">
+			<v-expansion-panels v-model="panel">
 				<!-- Basis informasjon -->
 				<v-expansion-panel>
 					<v-expansion-panel-title>
@@ -222,10 +222,7 @@
 						</v-btn>
 						<br />
 						<br />
-						<v-expansion-panels
-							:v-model="coursePanel"
-							@update:modelValue="coursePanelChanged(semester)"
-						>
+						<v-expansion-panels :v-model="coursePanel">
 							<v-expansion-panel
 								v-for="(course, cIndex) in getCourses(semester)"
 								:key="cIndex"
@@ -617,10 +614,10 @@ export default {
 						this.semesters = ["Høst", "Vår"];
 					}
 				} else {
-					console.log("User does not exist in database");
+					console.error("User does not exist in database");
 				}
 			} else {
-				console.log("No user is signed in");
+				console.error("No user is signed in");
 			}
 		},
 		addCourse(semesterString) {
@@ -633,7 +630,6 @@ export default {
 				this.userExchange.courses[semesterString] = {};
 				newCourseIndex = 0;
 			} else {
-				console.log("Courses:", courses);
 				newCourseIndex = Object.keys(courses).length;
 			}
 
@@ -735,22 +731,8 @@ export default {
 				this.userExchange.university = null;
 			}
 		},
-		panelChanged(newVal) {
-			console.log("Panel changed:", newVal);
-		},
-		coursePanelChanged(semester) {
-			return (newVal) => {
-				if (newVal === null) {
-					const courses = this.userExchange.courses[semester];
-					Object.keys(courses).forEach((index) => {
-						this.updateCourse(semester, index, courses[index]);
-					});
-				}
-			};
-		},
 		toggleDialog(semester, courseIndex) {
 			this.coursePanel = null;
-			console.log("Toggling dialog", semester, courseIndex);
 			if (!this.deleteDialog) {
 				this.deleteDialog = !this.deleteDialog;
 				this.currentSemester = semester;
@@ -760,10 +742,6 @@ export default {
 				this.currentSemester = null;
 				this.currentCourse = null;
 			}
-		},
-		confirmDelete() {
-			this.deleteDialog = true;
-			console.log("Delete dialog opened");
 		},
 	},
 	mounted() {

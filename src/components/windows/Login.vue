@@ -19,11 +19,6 @@ export default {
 				const result = await signInWithPopup(auth, provider);
 				const user = result.user;
 
-				console.log("User ID:", user.uid);
-				console.log("User Name:", user.displayName);
-				console.log("User Email:", user.email);
-				console.log("User Photo URL:", user.photoURL);
-
 				this.$router.push("/account");
 			} catch (error) {
 				console.error("Error during sign-in:", error);

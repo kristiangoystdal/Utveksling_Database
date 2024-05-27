@@ -410,7 +410,7 @@ export default {
 					this.studyList = Array.from(studiesSet);
 					this.specializationList = Array.from(specializationsSet);
 				} else {
-					console.log("No data available");
+					console.error("No data available");
 				}
 			} catch (error) {
 				console.error("Error fetching values from database:", error);
@@ -465,7 +465,7 @@ export default {
 
 					this.exchangeList = exchanges;
 				} else {
-					console.log("No data available");
+					console.error("No data available");
 				}
 			} catch (error) {
 				console.error("Error fetching exchange data:", error);
