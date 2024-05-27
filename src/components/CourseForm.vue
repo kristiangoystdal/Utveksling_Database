@@ -64,29 +64,7 @@
 				v-model="localCourse.comments"
 				:label="$t('database.comments')"
 			></v-textarea>
-			<v-btn @click="submit">{{ $t("operations.save") }}</v-btn>
 			<v-btn @click="resetForm">{{ $t("operations.reset") }}</v-btn>
-			<v-btn @click="confirmDelete">{{ $t("operations.deleteCourse") }}</v-btn>
-
-			<v-dialog v-model="deleteDialog" max-width="500">
-				<v-card>
-					<v-card-title class="headline">
-						{{ $t("operations.confirmDelete") }}
-					</v-card-title>
-					<v-card-text>
-						{{ $t("operations.confirmCourseDelete") }}
-					</v-card-text>
-					<v-card-actions>
-						<v-spacer></v-spacer>
-						<v-btn color="green darken-1" text @click="closeDeleteDialog">
-							{{ $t("operations.no") }}
-						</v-btn>
-						<v-btn color="red darken-1" text @click="deleteCourse">
-							{{ $t("operations.yes") }}
-						</v-btn>
-					</v-card-actions>
-				</v-card>
-			</v-dialog>
 		</v-form>
 	</div>
 </template>
@@ -108,10 +86,6 @@ export default {
 				comments: "",
 			}),
 		},
-		removeCourse: {
-			type: Function,
-			required: true,
-		},
 	},
 	data() {
 		return {
@@ -121,7 +95,6 @@ export default {
 				(v) => !!v || this.$t("rules.required"),
 				(v) => (v && v.length >= 3) || this.$t("rules.min3Chars"),
 			],
-			deleteDialog: false,
 		};
 	},
 	watch: {
@@ -151,16 +124,6 @@ export default {
 				ETCSPoints: "",
 				comments: "",
 			};
-		},
-		confirmDelete() {
-			this.deleteDialog = true;
-		},
-		closeDeleteDialog() {
-			this.deleteDialog = false;
-		},
-		deleteCourse() {
-			this.closeDeleteDialog();
-			this.removeCourse();
 		},
 	},
 };
