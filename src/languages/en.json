@@ -111,7 +111,10 @@
     "editProfile": "Edit your profile"
   },
   "errors": {
-    "notLoggedIn": "Profile not available. Please log in"
+    "notLoggedIn": "Profile not available. Please log in",
+    "404title": "404 - Destination doesn't exist",
+    "404text": "Oops! You are trying to travel to a place that does not exist. Maybe it's time to head home?",
+    "404button": "Head home to rethink your choices"
   },
   "countries": {
     "Argentina": "Argentina",

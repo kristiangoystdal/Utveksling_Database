@@ -111,7 +111,10 @@
         "editProfile": "Rediger profilen din"
     },
     "errors":{
-        "notLoggedIn": "Profil ikke tilgjengelig. Vennligst logg inn"
+        "notLoggedIn": "Profil ikke tilgjengelig. Vennligst logg inn",
+        "404title": "404 - Destinasjonen finnes ikke",
+        "404text":"Oops! Du prøver å reise til et sted som ikke finnes. Kanskje på tide å dra hjem?",
+        "404button": "Dra hjem for å revurdere valgene dine"
     },
     "countries":{
         "Argentina": "Argentina",
