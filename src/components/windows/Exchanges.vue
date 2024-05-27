@@ -151,7 +151,9 @@
 	</div>
 	<br />
 	<br />
+
 	<!-- Data Table -->
+
 	<div>
 		<v-data-table
 			v-model:expanded="expanded"
@@ -182,7 +184,13 @@
 								item-value="name"
 								dense
 								class="virtual-table"
-							></v-data-table-virtual>
+							>
+								<template v-slot:item.comment="{ item }">
+									<v-icon small class="mr-2" @click="showComments(item)">
+										mdi-comment
+									</v-icon>
+								</template>
+							</v-data-table-virtual>
 							<br />
 							<h3
 								v-if="
@@ -200,7 +208,13 @@
 								item-value="name"
 								dense
 								class="virtual-table"
-							></v-data-table-virtual>
+							>
+								<template v-slot:item.comment="{ item }">
+									<v-icon small class="mr-2" @click="showComments(item)">
+										mdi-comment
+									</v-icon>
+								</template>
+							</v-data-table-virtual>
 							<br />
 						</div>
 					</td>
@@ -208,6 +222,22 @@
 			</template>
 		</v-data-table>
 	</div>
+
+	<!-- Comment Dialog -->
+	<v-dialog v-model="commentDialog" max-width="500px">
+		<v-card>
+			<v-card-title
+				>{{ $t("exchanges.courseComments") }} {{ currentCourseName }}
+			</v-card-title>
+			<v-card-text>{{ currentComments }}</v-card-text>
+			<v-card-actions>
+				<v-spacer></v-spacer>
+				<v-btn color="blue darken-1" text @click="closeCommentDialog">{{
+					$t("operations.close")
+				}}</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
 </template>
 
 <script>
@@ -240,6 +270,8 @@ export default {
 			numSemestersList: [1, 2],
 			numSemestersValues: [],
 			numSemestersSearch: "",
+			commentDialog: false,
+			currentComments: "",
 		};
 	},
 	created() {
@@ -315,6 +347,11 @@ export default {
 					align: "end",
 					key: "ETCSPoints",
 				},
+				{
+					title: this.t("database.comments"),
+					align: "end",
+					key: "comment",
+				},
 			];
 		},
 	},
@@ -335,17 +372,29 @@ export default {
 					for (const exchangeKey in exchanges) {
 						const exchange = exchanges[exchangeKey];
 
-						if (exchange.country) {
-							countriesSet.add(exchange.country);
-						}
-						if (exchange.university) {
-							universitiesSet.add(exchange.university);
-						}
-						if (exchange.study) {
-							studiesSet.add(exchange.study);
-						}
-						if (exchange.specialization) {
-							specializationsSet.add(exchange.specialization);
+						// Check if either 'Høst' or 'Vår' courses exist and have at least one course
+						const hasAutumnCourses =
+							exchange.courses &&
+							exchange.courses.Høst &&
+							exchange.courses.Høst.length > 0;
+						const hasSpringCourses =
+							exchange.courses &&
+							exchange.courses.Vår &&
+							exchange.courses.Vår.length > 0;
+
+						if (hasAutumnCourses || hasSpringCourses) {
+							if (exchange.country) {
+								countriesSet.add(exchange.country);
+							}
+							if (exchange.university) {
+								universitiesSet.add(exchange.university);
+							}
+							if (exchange.study) {
+								studiesSet.add(exchange.study);
+							}
+							if (exchange.specialization) {
+								specializationsSet.add(exchange.specialization);
+							}
 						}
 					}
 
@@ -360,6 +409,7 @@ export default {
 				console.error("Error fetching values from database:", error);
 			}
 		},
+
 		remove(item) {
 			this.countryValues = this.countryValues.filter((i) => i !== item);
 		},
@@ -412,6 +462,14 @@ export default {
 			} catch (error) {
 				console.error("Error fetching exchange data:", error);
 			}
+		},
+		showComments(course) {
+			this.currentCourseName = course.courseName;
+			this.currentComments = course.comments || this.t("exchanges.noComments");
+			this.commentDialog = true;
+		},
+		closeCommentDialog() {
+			this.commentDialog = false;
 		},
 	},
 };

@@ -165,6 +165,7 @@ nav a {
 	font-weight: normal;
 	transition: 0.4s;
 	padding: 0.5rem;
+	cursor: pointer;
 }
 
 @media (hover: hover) {
