@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h2>{{ $t("myExchange.pageHeader") }}</h2>
-		<p>{{ $t("myExchange.info") }}</p>
+		<p class="box box-first-color">{{ $t("myExchange.info") }}</p>
 	</div>
 	<br />
 	<br />
@@ -31,7 +31,7 @@
 			<br />
 			<v-expansion-panels v-model="panel">
 				<!-- Basis informasjon -->
-				<v-expansion-panel>
+				<v-expansion-panel class="bg-light">
 					<v-expansion-panel-title>
 						<template v-slot:default="{ expanded }">
 							<v-row no-gutters>
@@ -170,6 +170,7 @@
 					v-if="this.semesters.length > 0"
 					v-for="(semester, index) in semesters"
 					:key="index"
+					class="bg-light"
 				>
 					<v-expansion-panel-title>
 						<template v-slot:default="{ expanded }">
@@ -244,7 +245,7 @@
 						</template>
 					</v-expansion-panel-title>
 					<v-expansion-panel-text>
-						<v-btn @click="addCourse(semester)">
+						<v-btn @click="addCourse(semester)" class="btn-secondary">
 							{{ $t("myExchange.courseInformation.addCourse") }}
 						</v-btn>
 						<br />
@@ -832,7 +833,7 @@ export default {
 }
 
 .update-btn {
-	background-color: #00796b; /* Teal background */
+	background-color: #00bd7e; /* Teal background */
 	color: white;
 	font-weight: bold;
 }

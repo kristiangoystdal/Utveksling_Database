@@ -109,10 +109,10 @@ export default {
 
 <style scoped>
 header {
-	background-color: #fff;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	width: 100%;
-	top: 0;
+	background-color: #fff !important;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+	width: 100% !important;
+	top: 0 !important;
 	left: 0;
 }
 

@@ -1,19 +1,30 @@
 <template>
 	<div>
 		<h2>{{ $t("exchanges.pageHeader") }}</h2>
-		<p>
+		<p class="box box-first-color">
 			{{ $t("exchanges.info") }}
 		</p>
+		<!-- <div class="box box-first-color">This is a first color box.</div>
+
+		<div class="box box-second-color">This is a second color box.</div>
+
+		<div class="box box-third-color">This is a third color box.</div>
+
+		<div class="box box-fourth-color">This is a fourth color box.</div>
+
+		<div class="box box-fifth-color">This is a fifth color box.</div> -->
 	</div>
 	<br />
 	<br />
 	<!-- Filters -->
 	<div>
-		<v-btn @click="toggleFilters">
+		<v-btn @click="toggleFilters" class="btn-primary">
 			{{ showFilters ? t("exchanges.hideFilter") : t("exchanges.showFilter") }}
 		</v-btn>
+
 		<v-slide-y-transition>
 			<div class="filter-container" v-if="showFilters">
+				<br />
 				<h4>Filter:</h4>
 				<v-container>
 					<v-row>
@@ -142,9 +153,9 @@
 					</v-row>
 				</v-container>
 				<div>
-					<v-btn @click="fetchExchangeData">{{
-						$t("exchanges.updateTable")
-					}}</v-btn>
+					<v-btn @click="fetchExchangeData" class="btn-secondary">
+						{{ $t("exchanges.updateTable") }}
+					</v-btn>
 				</div>
 			</div>
 		</v-slide-y-transition>
@@ -161,6 +172,7 @@
 			:items="exchangeList"
 			item-value="id"
 			show-expand
+			class="main-table"
 			id="main-table-width"
 		>
 			<template v-slot:expanded-row="{ columns, item }">
@@ -224,17 +236,17 @@
 	</div>
 
 	<!-- Comment Dialog -->
-	<v-dialog v-model="commentDialog" max-width="500px">
+	<v-dialog v-model="commentDialog" max-width="500px" class="dialog">
 		<v-card>
-			<v-card-title
-				>{{ $t("exchanges.courseComments") }} {{ currentCourseName }}
+			<v-card-title>
+				{{ $t("exchanges.courseComments") }} {{ currentCourseName }}
 			</v-card-title>
 			<v-card-text>{{ currentComments }}</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
-				<v-btn color="blue darken-1" text @click="closeCommentDialog">{{
-					$t("operations.close")
-				}}</v-btn>
+				<v-btn class="btn-secondary" text @click="closeCommentDialog">
+					{{ $t("operations.close") }}
+				</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
@@ -502,6 +514,14 @@ export default {
 }
 .align-self-center {
 	align-self: center !important;
+}
+.filter-btn {
+	background-color: #009960;
+	color: #ffffff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
 }
 .filter-container {
 	max-width: 1000px !important;
