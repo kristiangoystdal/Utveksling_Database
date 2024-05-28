@@ -12,7 +12,11 @@
 					<p>{{ $t("myExchange.unsavedChanges") }}</p>
 					<br />
 					<v-btn
-						:disabled="missingCoursesDataTotalBool || missingBasicDataBool"
+						:disabled="
+							missingFallCoursesDataTotalBool ||
+							missingSpringCoursesDataTotalBool ||
+							missingBasicDataBool
+						"
 						@click="updateExchange"
 						class="update-btn"
 					>
@@ -187,7 +191,22 @@
 										<span v-if="expanded" key="0">
 											{{ $t("myExchange.courseInformation.fillSemesterInfo") }}
 										</span>
-										<span v-else-if="missingCoursesDataTotalBool">
+										<span
+											v-else-if="
+												semester.includes('Høst') &&
+												missingFallCoursesDataTotalBool
+											"
+										>
+											{{
+												$t("myExchange.courseInformation.someCoursesMissing")
+											}}
+										</span>
+										<span
+											v-else-if="
+												semester.includes('Vår') &&
+												missingSpringCoursesDataTotalBool
+											"
+										>
 											{{
 												$t("myExchange.courseInformation.someCoursesMissing")
 											}}
@@ -201,7 +220,11 @@
 							<v-icon
 								:color="
 									!expanded
-										? !missingCoursesDataTotalBool
+										? semester.includes('Høst')
+											? !missingFallCoursesDataTotalBool
+												? 'teal'
+												: 'red'
+											: !missingSpringCoursesDataTotalBool
 											? 'teal'
 											: 'red'
 										: ''
@@ -209,7 +232,11 @@
 								:icon="
 									expanded
 										? 'mdi-pencil'
-										: !missingCoursesDataTotalBool
+										: semester.includes('Høst')
+										? !missingFallCoursesDataTotalBool
+											? 'mdi-check'
+											: 'mdi-alert-circle'
+										: !missingSpringCoursesDataTotalBool
 										? 'mdi-check'
 										: 'mdi-alert-circle'
 								"
@@ -241,7 +268,18 @@
 														}}
 													</span>
 													<span
-														v-else-if="missingCourseDataBool(semester, cIndex)"
+														v-else-if="
+															semester.includes('Høst') &&
+															missingFallCourseDataBool(semester, cIndex)
+														"
+													>
+														{{ missingCourseDataString(semester, cIndex) }}
+													</span>
+													<span
+														v-else-if="
+															semester.includes('Vår') &&
+															missingSpringCourseDataBool(semester, cIndex)
+														"
 													>
 														{{ missingCourseDataString(semester, cIndex) }}
 													</span>
@@ -265,7 +303,11 @@
 										<v-icon
 											:color="
 												!expanded
-													? !missingCourseDataBool(semester, cIndex)
+													? semester.includes('Høst')
+														? !missingFallCourseDataBool(semester, cIndex)
+															? 'teal'
+															: 'red'
+														: !missingSpringCourseDataBool(semester, cIndex)
 														? 'teal'
 														: 'red'
 													: ''
@@ -273,7 +315,11 @@
 											:icon="
 												expanded
 													? 'mdi-pencil'
-													: !missingCourseDataBool(semester, cIndex)
+													: semester.includes('Høst')
+													? !missingFallCourseDataBool(semester, cIndex)
+														? 'mdi-check'
+														: 'mdi-alert-circle'
+													: !missingSpringCourseDataBool(semester, cIndex)
 													? 'mdi-check'
 													: 'mdi-alert-circle'
 											"
@@ -300,7 +346,11 @@
 					<p>{{ $t("myExchange.unsavedChanges") }}</p>
 					<br />
 					<v-btn
-						:disabled="missingCoursesDataTotalBool || missingBasicDataBool"
+						:disabled="
+							missingFallCoursesDataTotalBool ||
+							missingSpringCoursesDataTotalBool ||
+							missingBasicDataBool
+						"
 						@click="updateExchange"
 						class="update-btn"
 					>
@@ -316,6 +366,7 @@
 			<p>{{ $t("myExchange.loginToEdit") }}</p>
 		</div>
 
+		// D
 		<v-dialog v-model="deleteDialog" max-width="500">
 			<v-card>
 				<v-card-title class="headline">
@@ -487,51 +538,55 @@ export default {
 				const missingFields = [];
 				const course = this.userExchange.courses[semester][cIndex] || {};
 
-				if (!course.year) {
-					missingFields.push(
-						this.$t("myExchange.courseInformation.courseYear").toLowerCase()
-					);
-				}
-				if (!course.courseCode) {
-					missingFields.push(this.$t("database.courseCode").toLowerCase());
-				}
 				if (!course.courseName) {
 					missingFields.push(this.$t("database.courseName").toLowerCase());
-				}
-				if (!course.institute) {
-					missingFields.push(this.$t("database.institute").toLowerCase());
 				}
 				if (!course.ETCSPoints) {
 					missingFields.push(this.$t("database.ETCSPoints"));
 				}
 
 				if (missingFields.length > 0) {
-					return string + missingFields.join(", ");
+					return string + missingFields.join(" og ");
 				}
 			};
 		},
-		missingCourseDataBool() {
+		missingFallCourseDataBool() {
 			return (semester, cIndex) => {
 				const course = this.userExchange.courses[semester][cIndex] || {};
-				return (
-					!course.year ||
-					!course.courseCode ||
-					!course.courseName ||
-					!course.institute ||
-					!course.ETCSPoints
-				);
+				return !course.courseName || !course.ETCSPoints;
 			};
 		},
-		missingCoursesDataTotalBool() {
-			return this.semesters.some((semester) => {
-				const courses = this.userExchange.courses[semester];
+		missingSpringCourseDataBool() {
+			return (semester, cIndex) => {
+				const course = this.userExchange.courses[semester][cIndex] || {};
+				return !course.courseName || !course.ETCSPoints;
+			};
+		},
+		missingFallCoursesDataTotalBool() {
+			const fallSemester = "Høst";
+			if (this.semesters.includes(fallSemester)) {
+				const courses = this.userExchange.courses[fallSemester];
 				if (!courses) {
 					return false; // No courses for this semester
 				}
 				return Object.keys(courses).some((cIndex) =>
-					this.missingCourseDataBool(semester, cIndex)
+					this.missingFallCourseDataBool(fallSemester, cIndex)
 				);
-			});
+			}
+			return false; // Fall semester not selected
+		},
+		missingSpringCoursesDataTotalBool() {
+			const springSemester = "Vår";
+			if (this.semesters.includes(springSemester)) {
+				const courses = this.userExchange.courses[springSemester];
+				if (!courses) {
+					return false; // No courses for this semester
+				}
+				return Object.keys(courses).some((cIndex) =>
+					this.missingSpringCourseDataBool(springSemester, cIndex)
+				);
+			}
+			return false; // Spring semester not selected
 		},
 		numFallCourses() {
 			return Object.keys(this.userExchange.courses["Høst"] || {}).length;
