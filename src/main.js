@@ -9,6 +9,16 @@ import { createI18n } from 'vue-i18n';
 import en from './languages/en.json';
 import no from './languages/no.json';
 import { i18nMixin } from './mixins/i18nMixin'; // Import the mixin
+import "./assets/css/main.css";
+import "./assets/css/bg.css";
+import "./assets/css/btn.css";
+import "./assets/css/card.css";
+import "./assets/css/dialog.css";
+import "./assets/css/footer.css";
+import "./assets/css/form.css";
+import "./assets/css/navbar.css";
+import "./assets/css/txt.css";
+import "./assets/css/boxes.css";
 
 // Set up messages for vue-i18n
 const messages = {

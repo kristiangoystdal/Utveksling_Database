@@ -1,11 +1,12 @@
-
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+:root {
+  --first-color: #277E93;
+  --second-color: #00BD7E;
+  --third-color: #94CB4F;
+  --fourth-color: #F5F5F5;
+  --fifth-color: #333333;
+  --white: #ffffff;
 }
+
 
 a,
 .green {
@@ -15,15 +16,19 @@ a,
   padding: 3px;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+
+.main-table {
+  background-color: var(--fourth-color);
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.main-table th {
+  background-color: var(--first-color);
+  color: var(--white);
+  padding: 10px 20px;
 }
+
+
