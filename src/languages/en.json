@@ -16,6 +16,7 @@
     "courseName": "Enter the name of the course you will take",
     "replacedCourseCode": "Enter the course code of the NTNU course you will replace",
     "replacedCourseName": "Enter the name of the NTNU course you will replace",
+    "courseType": "Select the type of course you will take (mandatory, elective, etc.)",
     "institute": "Enter the institute the course belongs to at the university you will attend",
     "ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's units if necessary)"
   },

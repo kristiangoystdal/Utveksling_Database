@@ -2,6 +2,75 @@
 	<div>
 		<h3>Legg til/Endre fag</h3>
 		<v-form ref="form" v-model="valid" lazy-validation>
+			<!-- ETCS Points -->
+			<v-text-field
+				v-model="localCourse.ETCSPoints"
+				:label="$t('database.ETCSPoints')"
+				:rules="[
+					(v) => !!v || $t('rules.required'),
+					(v) => !isNaN(v) || $t('rules.validNumber'),
+				]"
+				:hint="$t('hints.ETCSPoints')"
+				required
+				persistent-hint
+			></v-text-field>
+
+			<!-- Course Name -->
+			<v-text-field
+				v-model="localCourse.courseName"
+				:label="$t('database.courseName')"
+				:rules="couresRules"
+				required
+				:hint="$t('hints.courseName')"
+				persistent-hint
+			></v-text-field>
+
+			<!-- Course Code -->
+			<v-text-field
+				v-model="localCourse.courseCode"
+				:label="$t('database.courseCode')"
+				:rules="couresRules"
+				:hint="$t('hints.courseCode')"
+				persistent-hint
+			></v-text-field>
+
+			<!-- Replaced Course Code -->
+			<v-text-field
+				v-model="localCourse.replacedCourseCode"
+				:label="$t('database.replacedCourseCode')"
+				:hint="$t('hints.replacedCourseCode')"
+				persistent-hint
+			></v-text-field>
+
+			<!-- Replaced Course Name -->
+			<v-text-field
+				v-model="localCourse.replacedCourseName"
+				:label="$t('database.replacedCourseName')"
+				:hint="$t('hints.replacedCourseName')"
+				persistent-hint
+			></v-text-field>
+
+			<!-- Course Type -->
+			<v-select
+				v-model="localCourse.courseType"
+				:items="courseTypes"
+				:label="$t('database.courseType')"
+				:hint="$t('hints.courseType')"
+				persistent-hint
+				clearable
+			></v-select>
+
+			<!-- Institute -->
+			<v-text-field
+				v-model="localCourse.institute"
+				:label="$t('database.institute')"
+				:rules="couresRules"
+				required
+				:hint="$t('hints.institute')"
+				persistent-hint
+			></v-text-field>
+
+			<!-- Course Year -->
 			<v-text-field
 				v-model="localCourse.year"
 				:label="$t('myExchange.courseInformation.courseYear')"
@@ -13,53 +82,8 @@
 				:hint="$t('hints.courseYear')"
 				persistent-hint
 			></v-text-field>
-			<v-text-field
-				v-model="localCourse.courseCode"
-				:label="$t('database.courseCode')"
-				:rules="couresRules"
-				required
-				:hint="$t('hints.courseCode')"
-				persistent-hint
-			></v-text-field>
-			<v-text-field
-				v-model="localCourse.courseName"
-				:label="$t('database.courseName')"
-				:rules="couresRules"
-				required
-				:hint="$t('hints.courseName')"
-				persistent-hint
-			></v-text-field>
-			<v-text-field
-				v-model="localCourse.replacedCourseCode"
-				:label="$t('database.replacedCourseCode')"
-				:hint="$t('hints.replacedCourseCode')"
-				persistent-hint
-			></v-text-field>
-			<v-text-field
-				v-model="localCourse.replacedCourseName"
-				:label="$t('database.replacedCourseName')"
-				:hint="$t('hints.replacedCourseName')"
-				persistent-hint
-			></v-text-field>
-			<v-text-field
-				v-model="localCourse.institute"
-				:label="$t('database.institute')"
-				:rules="couresRules"
-				required
-				:hint="$t('hints.institute')"
-				persistent-hint
-			></v-text-field>
-			<v-text-field
-				v-model="localCourse.ETCSPoints"
-				:label="$t('database.ETCSPoints')"
-				:rules="[
-					(v) => !!v || $t('rules.required'),
-					(v) => !isNaN(v) || $t('rules.validNumber'),
-				]"
-				required
-				:hint="$t('hints.ETCSPoints')"
-				persistent-hint
-			></v-text-field>
+
+			<!-- Comments -->
 			<v-textarea
 				v-model="localCourse.comments"
 				:label="$t('database.comments')"
@@ -81,6 +105,7 @@ export default {
 				courseName: "",
 				replacedCourseCode: "",
 				replacedCourseName: "",
+				courseType: "",
 				institute: "",
 				ETCSPoints: "",
 				comments: "",
@@ -95,6 +120,7 @@ export default {
 				(v) => !!v || this.$t("rules.required"),
 				(v) => (v && v.length >= 3) || this.$t("rules.min3Chars"),
 			],
+			courseTypes: ["O-emne", "I-emne", "K-emne", "Annet"],
 		};
 	},
 	watch: {
