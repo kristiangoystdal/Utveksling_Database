@@ -1,11 +1,13 @@
 :root {
-  --first-color: #2A3E58; /* Deep Navy Blue */
-  --second-color: #4CAF50; /* Bright Green */
-  --third-color: #D3E397; /* Soft Pastel Green */
-  --fourth-color: #F0F0F0; /* Light Grey */
-  --fifth-color: #585858; /* Dark Grey */
-  --white: #ffffff;
+  --first-color: #576490; /* Medium Blue */
+  --second-color: #7796CB; /* Light Blue */
+  --third-color: #A3BCF9; /* Very Light Blue */
+  --fourth-color: #D1D2F9; /* Soft Grey */
+  --fifth-color: #C9CAD9; /* White */
 }
+
+
+
 a,
 .green {
   text-decoration: none;

@@ -114,6 +114,7 @@ header {
 	width: 100% !important;
 	top: 0 !important;
 	left: 0;
+	border-radius: 0 0 10px 10px;
 }
 
 .header-container {
@@ -128,7 +129,7 @@ header {
 	display: flex;
 	align-items: center;
 	text-decoration: none;
-	color: var(--second-color);
+	color: var(--first-color);
 }
 
 .logo img {
@@ -210,12 +211,12 @@ nav a {
 	align-items: center;
 	padding: 0.5rem 1rem;
 	text-decoration: none;
-	color: hsla(160, 100%, 37%, 1);
+	color: var(--first-color);
 	transition: background-color 0.3s;
 }
 
 .language-dropdown a:hover {
-	background-color: hsla(160, 100%, 37%, 0.2);
+	background-color: var(--fourth-color);
 }
 
 .fi {
