@@ -51,8 +51,8 @@
         "showFilter": "Vis filter",
         "hideFilter": "Skjul filter",
         "updateTable": "Oppdater",
-        "coursesFallHeader": "Høst semesteret",
-        "coursesSpringHeader": "Vår semesteret",
+        "coursesFallHeader": "Høstsemesteret",
+        "coursesSpringHeader": "Vårsemesteret",
         "pageText": "Utvekslinger per side",
         "courseComments":"Kommentarer til ",
         "noComments": "Studenten har ikke lagt inn noen kommentarer til dette faget."

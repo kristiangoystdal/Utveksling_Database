@@ -109,7 +109,7 @@ export default {
 
 <style scoped>
 header {
-	background-color: #fff !important;
+	background-color: var(--fourth-color) !important;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 	width: 100% !important;
 	top: 0 !important;
@@ -128,7 +128,7 @@ header {
 	display: flex;
 	align-items: center;
 	text-decoration: none;
-	color: hsla(160, 100%, 37%, 1);
+	color: var(--second-color);
 }
 
 .logo img {
@@ -161,7 +161,7 @@ nav li {
 
 nav a {
 	text-decoration: none;
-	color: hsla(160, 100%, 37%, 1);
+	color: var(--first-color);
 	font-weight: normal;
 	transition: 0.4s;
 	padding: 0.5rem;
@@ -170,12 +170,12 @@ nav a {
 
 @media (hover: hover) {
 	nav a:hover {
-		background-color: hsla(160, 100%, 37%, 0.2);
+		background-color: var(--third-color);
 		cursor: pointer;
 	}
 
 	.language-switcher:hover {
-		background-color: hsla(160, 100%, 37%, 0.2);
+		background-color: var(--third-color);
 	}
 }
 
@@ -191,7 +191,7 @@ nav a {
 .language-switcher .v-icon {
 	cursor: pointer;
 	font-size: 1.5rem;
-	color: hsla(160, 100%, 37%, 1);
+	color: var(--second-color);
 	margin-left: 0.5rem;
 }
 

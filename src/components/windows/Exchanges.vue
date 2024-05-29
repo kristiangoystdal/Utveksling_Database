@@ -153,7 +153,7 @@
 					</v-row>
 				</v-container>
 				<div>
-					<v-btn @click="fetchExchangeData" class="btn-secondary">
+					<v-btn @click="fetchExchangeData" class="btn-accent">
 						{{ $t("exchanges.updateTable") }}
 					</v-btn>
 				</div>
@@ -355,6 +355,11 @@ export default {
 					title: this.t("database.replacedCourseCode"),
 					align: "end",
 					key: "replacedCourseCode",
+				},
+				{
+					title: this.t("database.courseType"),
+					align: "end",
+					key: "courseType",
 				},
 				{
 					title: this.t("database.institute"),

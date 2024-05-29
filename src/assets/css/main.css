@@ -1,13 +1,11 @@
 :root {
-  --first-color: #277E93;
-  --second-color: #00BD7E;
-  --third-color: #94CB4F;
-  --fourth-color: #F5F5F5;
-  --fifth-color: #333333;
+  --first-color: #2A3E58; /* Deep Navy Blue */
+  --second-color: #4CAF50; /* Bright Green */
+  --third-color: #D3E397; /* Soft Pastel Green */
+  --fourth-color: #F0F0F0; /* Light Grey */
+  --fifth-color: #585858; /* Dark Grey */
   --white: #ffffff;
 }
-
-
 a,
 .green {
   text-decoration: none;
@@ -29,6 +27,10 @@ a,
   background-color: var(--first-color);
   color: var(--white);
   padding: 10px 20px;
+}
+
+.main-table th:hover {
+  color: var(--fourth-color) !important;
 }
 
 

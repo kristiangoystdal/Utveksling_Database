@@ -1,55 +1,44 @@
-:root {
-    --first-color: #277E93;
-    --second-color: #00BD7E;
-    --third-color: #94CB4F;
-    --fourth-color: #F5F5F5;
-    --fifth-color: #333333;
-    --white: #ffffff;
-  }
-  
-  /* Box Styles */
-  .box {
-    border-radius: 10px;
-    padding: 15px;
-    margin: 15px auto;
-    font-size: 16px;
-    width: fit-content;
-    max-width: 90%;
-    
-  }
-  
-  /* First Color Box */
-  .box-first-color {
-    background-color: var(--first-color);
-    color: var(--white);
-    border: 1px solid #20667a; /* Darker shade of first color */
-  }
-  
-  /* Second Color Box */
-  .box-second-color {
-    background-color: var(--second-color);
-    color: var(--white);
-    border: 1px solid #00a168; /* Darker shade of second color */
-  }
-  
-  /* Third Color Box */
-  .box-third-color {
-    background-color: var(--third-color);
-    color: var(--fifth-color);
-    border: 1px solid #7caf42; /* Darker shade of third color */
-  }
-  
-  /* Fourth Color Box */
-  .box-fourth-color {
-    background-color: var(--fourth-color);
-    color: var(--fifth-color);
-    border: 1px solid #e0e0e0; /* Slightly darker shade of fourth color */
-  }
-  
-  /* Fifth Color Box */
-  .box-fifth-color {
-    background-color: var(--fifth-color);
-    color: var(--white);
-    border: 1px solid #1a1a1a; /* Slightly darker shade of fifth color */
-  }
-  
+/* Box Styles */
+.box {
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px auto;
+  font-size: 16px;
+  width: fit-content;
+  max-width: 90%;
+}
+
+/* First Color Box */
+.box-first-color {
+  background-color: var(--first-color);
+  color: var(--white);
+  border: 1px solid #223348; /* Darker shade of first color */
+}
+
+/* Second Color Box */
+.box-second-color {
+  background-color: var(--second-color);
+  color: var(--white);
+  border: 1px solid #3A9344; /* Darker shade of second color */
+}
+
+/* Third Color Box */
+.box-third-color {
+  background-color: var(--third-color);
+  color: var(--fifth-color);
+  border: 1px solid #B3C17B; /* Darker shade of third color */
+}
+
+/* Fourth Color Box */
+.box-fourth-color {
+  background-color: var(--fourth-color);
+  color: var(--fifth-color);
+  border: 1px solid #D0D0D0; /* Slightly darker shade of fourth color */
+}
+
+/* Fifth Color Box */
+.box-fifth-color {
+  background-color: var(--fifth-color);
+  color: var(--white);
+  border: 1px solid #404040; /* Slightly darker shade of fifth color */
+}

@@ -9,7 +9,7 @@
   }
   
   .dialog .v-card-title {
-    background-color: #00bd7e; /* Primary Green */
+    background-color: var(--second-color); /* Primary Green */
     color: #ffffff;
     font-size: 20px;
     font-weight: bold;
@@ -17,25 +17,25 @@
   }
   
   .dialog .v-card-text {
-    color: #333333; /* Dark Grey */
+    color: var(--fifth-color); 
     font-size: 16px;
     padding: 16px;
-    background-color: #f5f5f5; /* Light Grey */
+    background-color: var(--fourth-color); 
   }
   
   .dialog .v-card-actions {
     padding: 16px;
-    background-color: #f5f5f5; /* Light Grey */
+    background-color: var(--fourth-color); /* Light Grey */
   }
   
   .dialog .v-btn {
-    background-color: #009960; /* Secondary Green */
-    color: #ffffff;
+    background-color: var(--third-color); /* Secondary Green */
+    color: var(--fifth-color);
     font-weight: bold;
   }
   
   .dialog .v-btn:hover {
-    background-color: #007d52; /* Darker Green on hover */
+    background-color: var(--second-color); /* Darker Green on hover */
   }
   
   .dialog .v-spacer {

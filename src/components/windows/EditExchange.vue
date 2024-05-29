@@ -7,7 +7,7 @@
 	<br />
 	<div>
 		<div v-if="this.user">
-			<div class="exchange-container">
+			<div>
 				<div v-if="unsavedChanges" class="unsaved-changes">
 					<p>{{ $t("myExchange.unsavedChanges") }}</p>
 					<br />
@@ -23,7 +23,7 @@
 						{{ $t("myExchange.updateExchange") }}
 					</v-btn>
 				</div>
-				<div v-else>
+				<div v-else class="box box-first-color">
 					<p>{{ $t("myExchange.noChanges") }}</p>
 				</div>
 			</div>
@@ -245,7 +245,7 @@
 						</template>
 					</v-expansion-panel-title>
 					<v-expansion-panel-text>
-						<v-btn @click="addCourse(semester)" class="btn-secondary">
+						<v-btn @click="addCourse(semester)" class="btn-primary">
 							{{ $t("myExchange.courseInformation.addCourse") }}
 						</v-btn>
 						<br />
@@ -342,7 +342,7 @@
 			</v-expansion-panels>
 			<br />
 			<br />
-			<div class="exchange-container">
+			<div>
 				<div v-if="unsavedChanges" class="unsaved-changes">
 					<p>{{ $t("myExchange.unsavedChanges") }}</p>
 					<br />
@@ -358,7 +358,7 @@
 						{{ $t("myExchange.updateExchange") }}
 					</v-btn>
 				</div>
-				<div v-else>
+				<div v-else class="box box-first-color">
 					<p>{{ $t("myExchange.noChanges") }}</p>
 				</div>
 			</div>
@@ -367,7 +367,7 @@
 			<p>{{ $t("myExchange.loginToEdit") }}</p>
 		</div>
 
-		// D
+		<!-- Delete dialog -->
 		<v-dialog v-model="deleteDialog" max-width="500">
 			<v-card>
 				<v-card-title class="headline">
@@ -820,6 +820,7 @@ export default {
 	margin: 20px auto;
 	max-width: 600px;
 	text-align: center;
+	width: fit-content;
 }
 
 .unsaved-changes {
@@ -830,6 +831,9 @@ export default {
 	margin-bottom: 16px;
 	font-weight: bold;
 	color: #ff6f00; /* Dark orange text */
+	width: fit-content;
+	margin: 0 auto;
+	text-align: center;
 }
 
 .update-btn {

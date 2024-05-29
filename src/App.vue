@@ -2,8 +2,6 @@
 	<header>
 		<Header></Header>
 	</header>
-	<br />
-	<br />
 	<div id="app">
 		<div v-if="isDesktop">
 			<router-view></router-view>
@@ -40,7 +38,7 @@ onUnmounted(() => {
 
 <style scoped>
 #app {
-	margin: auto;
+	margin: 5vw auto;
 	padding: 0 1rem;
 	max-width: 1200px;
 	width: 90%;

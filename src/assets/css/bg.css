@@ -1,12 +1,3 @@
-:root {
-  --first-color: #277E93;
-  --second-color: #00BD7E;
-  --third-color: #94CB4F;
-  --fourth-color: #F5F5F5;
-  --fifth-color: #333333;
-  --white: #ffffff;
-}
-
 /* Background Color Styles */
 .bg-primary {
   background-color: var(--second-color); /* #00BD7E */
