@@ -3,7 +3,7 @@
 		<h2>{{ $t("userHandling.loginTitle") }}:</h2>
 		<br />
 		<div class="login-container">
-			<v-card class="login-card">
+			<v-card class="login-card box box-third-color">
 				<v-card-text>
 					<v-btn
 						class="login-btn"
