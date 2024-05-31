@@ -46,7 +46,7 @@
   },
   "exchanges": {
     "pageHeader": "Previous Exchanges:",
-    "info": "On this page, you can explore the exchange experiences of previous students. You can see which universities they attended, which countries they visited, and which courses they took.",
+    "info": "On this page, you can explore the exchange courses taken by previous students. \n\nYou can see which universities they have attended, which countries they have visited, and which courses they have taken. \nCompare with others in your study and create your own plan.",
     "showFilter": "Show Filter",
     "hideFilter": "Hide Filter",
     "updateTable": "Update",
@@ -58,7 +58,7 @@
   },
   "myExchange": {
     "pageHeader": "Your Exchange:",
-    "info": "Create or edit your exchange database",
+    "info": "Create or edit your overview of the courses you have taken during your exchange. \n\nCourse name and number of ECTS credits are required, where the ECTS credits should be converted from the university's local unit.",
     "missingData": "Missing data on",
     "unsavedChanges": "You have unsaved data. Remember to update.",
     "noChanges": "All data is saved and the exchange is updated.",

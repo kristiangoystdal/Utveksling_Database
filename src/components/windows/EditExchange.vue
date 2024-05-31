@@ -1,7 +1,9 @@
 <template>
 	<div>
 		<h2>{{ $t("myExchange.pageHeader") }}</h2>
-		<p class="box box-third-color">{{ $t("myExchange.info") }}</p>
+		<p class="box box-third-color preserve-whitespace text-center">
+			{{ $t("myExchange.info") }}
+		</p>
 	</div>
 	<br />
 	<br />

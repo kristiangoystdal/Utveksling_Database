@@ -47,7 +47,7 @@
     },
     "exchanges": {
         "pageHeader": "Tidligere utvekslinger:",
-        "info": "På denne siden kan du utforske utvekslingserfaringene til tidligere studenter. Du kan se hvilke universiteter de har vært på, hvilke land de har besøkt, og hvilke fag de har tatt.",
+        "info": "På denne siden kan du utforske utvekslingsfagene til tidligere studenter. \n\nDu kan se hvilke universiteter de har vært på, hvilke land de har besøkt, og hvilke fag de har tatt. \nSammenlign med andre på ditt studie og sett sammen din egen plan.",
         "showFilter": "Vis filter",
         "hideFilter": "Skjul filter",
         "updateTable": "Oppdater",
@@ -59,7 +59,7 @@
     },
     "myExchange": {
         "pageHeader": "Din utveksling:",
-        "info": "Opprett eller endre din utvekslingsdatabase",
+        "info": "Opprett eller endre din oversikt over fagene du har tatt på utveksling. \n\nFagnavn og antall ETCS poeng er påkrevd, hvor ETCS poengene skal være konvertert fra universitetes lokale enhet.",
         "missingData": "Manglende data på",
         "unsavedChanges": "Du har ulagret data. Husk å oppdatere.", 
         "noChanges": "All data er lagret og utveksling er oppdatert.",

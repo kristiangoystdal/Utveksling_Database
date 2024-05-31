@@ -1,18 +1,9 @@
 <template>
 	<div>
 		<h2>{{ $t("exchanges.pageHeader") }}</h2>
-		<p class="box box-third-color">
+		<p class="box box-third-color preserve-whitespace text-center">
 			{{ $t("exchanges.info") }}
 		</p>
-		<!-- <div class="box box-first-color">This is a first color box.</div>
-
-		<div class="box box-second-color">This is a second color box.</div>
-
-		<div class="box box-third-color">This is a third color box.</div>
-
-		<div class="box box-fourth-color">This is a fourth color box.</div>
-
-		<div class="box box-fifth-color">This is a fifth color box.</div> -->
 	</div>
 	<br />
 	<br />
@@ -499,6 +490,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
