@@ -18,10 +18,10 @@
 	<br />
 	<!-- Filters -->
 	<div>
-		<v-btn @click="toggleFilters" class="btn-primary">
+		<v-btn @click="toggleFilters" class="btn btn-primary">
 			{{ showFilters ? t("exchanges.hideFilter") : t("exchanges.showFilter") }}
 		</v-btn>
-		<v-btn @click="fetchExchangeData" class="btn-accent">
+		<v-btn @click="fetchExchangeData" class="btn btn-accent">
 			{{ $t("exchanges.updateTable") }}
 		</v-btn>
 
@@ -243,7 +243,7 @@
 			<v-card-text>{{ currentComments }}</v-card-text>
 			<v-card-actions>
 				<v-spacer></v-spacer>
-				<v-btn class="btn-secondary" text @click="closeCommentDialog">
+				<v-btn class="btn btn-secondary" text @click="closeCommentDialog">
 					{{ $t("operations.close") }}
 				</v-btn>
 			</v-card-actions>
