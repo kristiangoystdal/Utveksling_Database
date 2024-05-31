@@ -20,6 +20,7 @@ import "./assets/css/navbar.css";
 import "./assets/css/txt.css";
 import "./assets/css/boxes.css";
 import "./assets/css/datatable.css";
+import "./assets/css/expansion-panel.css";
 
 // Set up messages for vue-i18n
 const messages = {

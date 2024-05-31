@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h2>{{ $t("myExchange.pageHeader") }}</h2>
-		<p class="box box-first-color">{{ $t("myExchange.info") }}</p>
+		<p class="box box-third-color">{{ $t("myExchange.info") }}</p>
 	</div>
 	<br />
 	<br />
@@ -18,7 +18,7 @@
 							missingBasicDataBool
 						"
 						@click="updateExchange"
-						class="update-btn"
+						class="btn btn-primary"
 					>
 						{{ $t("myExchange.updateExchange") }}
 					</v-btn>
@@ -353,7 +353,7 @@
 							missingBasicDataBool
 						"
 						@click="updateExchange"
-						class="update-btn"
+						class="btn btn-primary"
 					>
 						{{ $t("myExchange.updateExchange") }}
 					</v-btn>
@@ -811,18 +811,6 @@ export default {
 </script>
 
 <style scoped>
-.exchange-container {
-	padding: 20px;
-	border: 2px solid #eeeeee;
-	border-radius: 10px;
-	background-color: #f9f9f9;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	margin: 20px auto;
-	max-width: 600px;
-	text-align: center;
-	width: fit-content;
-}
-
 .unsaved-changes {
 	background-color: #ffecb3; /* Light yellow background */
 	border: 1px solid #ffd54f; /* Darker yellow border */
