@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h2>{{ $t("exchanges.pageHeader") }}</h2>
-		<p class="box box-first-color">
+		<p class="box box-third-color">
 			{{ $t("exchanges.info") }}
 		</p>
 		<!-- <div class="box box-first-color">This is a first color box.</div>
@@ -20,6 +20,9 @@
 	<div>
 		<v-btn @click="toggleFilters" class="btn-primary">
 			{{ showFilters ? t("exchanges.hideFilter") : t("exchanges.showFilter") }}
+		</v-btn>
+		<v-btn @click="fetchExchangeData" class="btn-accent">
+			{{ $t("exchanges.updateTable") }}
 		</v-btn>
 
 		<v-slide-y-transition>
@@ -152,11 +155,7 @@
 						</v-col>
 					</v-row>
 				</v-container>
-				<div>
-					<v-btn @click="fetchExchangeData" class="btn-accent">
-						{{ $t("exchanges.updateTable") }}
-					</v-btn>
-				</div>
+				<div></div>
 			</div>
 		</v-slide-y-transition>
 	</div>

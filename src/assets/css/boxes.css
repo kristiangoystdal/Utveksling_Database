@@ -11,7 +11,7 @@
 /* First Color Box */
 .box-first-color {
   background-color: var(--first-color);
-  color: var(--white);
+  color: var(--fifth-color);
   border: 1px solid #223348; /* Darker shade of first color */
 }
 
@@ -25,20 +25,20 @@
 /* Third Color Box */
 .box-third-color {
   background-color: var(--third-color);
-  color: var(--fifth-color);
+  /* color: var(--fifth-color); */
   border: 1px solid #B3C17B; /* Darker shade of third color */
 }
 
 /* Fourth Color Box */
 .box-fourth-color {
   background-color: var(--fourth-color);
-  color: var(--fifth-color);
+  /* color: var(--fifth-color); */
   border: 1px solid #D0D0D0; /* Slightly darker shade of fourth color */
 }
 
 /* Fifth Color Box */
 .box-fifth-color {
   background-color: var(--fifth-color);
-  color: var(--white);
+  /* color: var(--white); */
   border: 1px solid #404040; /* Slightly darker shade of fifth color */
 }

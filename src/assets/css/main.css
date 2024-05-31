@@ -1,12 +1,10 @@
 :root {
-  --first-color: #576490; /* Medium Blue */
-  --second-color: #7796CB; /* Light Blue */
-  --third-color: #A3BCF9; /* Very Light Blue */
-  --fourth-color: #D1D2F9; /* Soft Grey */
-  --fifth-color: #C9CAD9; /* White */
+  --first-color: #112D4E; /* Dark Blue */
+  --second-color: #3F72AF; /* Medium Blue */
+  --third-color: #DBE2EF; /* Light Blue */
+  --fourth-color: #F9F7F7; /* Very Light Grey */
+  --fifth-color: #FFFFFF; /* White for text (added for better contrast) */
 }
-
-
 
 a,
 .green {
@@ -26,8 +24,8 @@ a,
 }
 
 .main-table th {
-  background-color: var(--first-color);
-  color: var(--white);
+  background-color: var(--second-color);
+  color: var(--fifth-color);
   padding: 10px 20px;
 }
 

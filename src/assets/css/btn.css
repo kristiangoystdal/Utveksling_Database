@@ -9,16 +9,16 @@
   
   .btn-primary {
     background-color: var(--second-color);
-    color: var(--white);
+    color: var(--fifth-color);
   }
   
   .btn-secondary {
     background-color: var(--first-color);
-    color: var(--white);
+    color: var(--fifth-color);
   }
   
   .btn-accent {
     background-color: var(--third-color);
-    color: var(--fifth-color);
+    color: var(--first-color);
   }
   

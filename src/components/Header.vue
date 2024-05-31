@@ -129,7 +129,7 @@ header {
 	display: flex;
 	align-items: center;
 	text-decoration: none;
-	color: var(--first-color);
+	color: var(--second-color);
 }
 
 .logo img {
