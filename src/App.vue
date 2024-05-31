@@ -1,14 +1,19 @@
 <template>
-	<header>
-		<Header></Header>
-	</header>
-	<div id="app">
-		<div v-if="isDesktop">
-			<router-view></router-view>
-		</div>
-		<div v-else class="mobile-warning">
-			This website is only optimized for desktop. Please switch to a larger
-			screen for the best experience.
+	<div class="background-container">
+		<div class="background-image"></div>
+		<div class="content-container">
+			<header>
+				<Header></Header>
+			</header>
+			<div id="app">
+				<div v-if="isDesktop">
+					<router-view></router-view>
+				</div>
+				<div v-else class="mobile-warning">
+					This website is only optimized for desktop. Please switch to a larger
+					screen for the best experience.
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -17,8 +22,6 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import Header from "./components/Header.vue";
 import { useRouter } from "vue-router";
-
-import { useDisplay } from "vuetify/lib/framework.mjs";
 
 const router = useRouter();
 const isDesktop = ref(window.innerWidth >= 769);
@@ -37,6 +40,31 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.background-container {
+	position: relative;
+	width: 100%;
+	/* height: 100vh; Ensure it covers the full viewport height */
+	overflow: hidden;
+}
+
+.background-image {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url("@/assets/images/bg.png"); /* Ensure the correct path */
+	background-size: cover; /* Covers the full width */
+	background-repeat: repeat-y; /* Repeats the image vertically */
+	opacity: 0.3; /* Make the image 50% transparent */
+	z-index: -1; /* Ensure the background image is behind other content */
+}
+
+.content-container {
+	position: relative;
+	z-index: 1; /* Ensure content is above the background image */
+}
+
 #app {
 	margin: 5vw auto;
 	padding: 0 1rem;
