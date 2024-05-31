@@ -245,7 +245,7 @@
 						</template>
 					</v-expansion-panel-title>
 					<v-expansion-panel-text>
-						<v-btn @click="addCourse(semester)" class="btn-primary">
+						<v-btn @click="addCourse(semester)" class="btn btn-primary">
 							{{ $t("myExchange.courseInformation.addCourse") }}
 						</v-btn>
 						<br />
@@ -368,7 +368,7 @@
 		</div>
 
 		<!-- Delete dialog -->
-		<v-dialog v-model="deleteDialog" max-width="500">
+		<v-dialog v-model="deleteDialog" class="dialog">
 			<v-card>
 				<v-card-title class="headline">
 					{{ $t("operations.confirmDelete") }}
@@ -378,12 +378,11 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="green darken-1" text @click="toggleDialog">
+					<v-btn id="noBtn" @click="toggleDialog">
 						{{ $t("operations.no") }}
 					</v-btn>
 					<v-btn
-						color="red darken-1"
-						text
+						id="yesBtn"
 						@click="removeCourse(currentSemester, currentCourse)"
 					>
 						{{ $t("operations.yes") }}
@@ -837,5 +836,37 @@ export default {
 
 .course-icons {
 	margin: 0 8px; /* Adjust the margin value as needed */
+}
+
+#yesBtn {
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	border: none;
+	font-size: 14px !important;
+	margin: 10px;
+	background-color: #e53935; /* Soft Red */
+	color: var(--fifth-color);
+}
+
+#yesBtn:hover {
+	background-color: #d32f2f; /* Darker Soft Red */
+	color: var(--fifth-color);
+}
+
+#noBtn {
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	border: none;
+	font-size: 14px !important;
+	margin: 10px;
+	background-color: #4caf50; /* Soft Green */
+	color: var(--fifth-color);
+}
+
+#noBtn:hover {
+	background-color: #388e3c; /* Darker Soft Green */
+	color: var(--fifth-color);
 }
 </style>

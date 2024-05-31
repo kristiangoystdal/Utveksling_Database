@@ -88,7 +88,7 @@
 				v-model="localCourse.comments"
 				:label="$t('database.comments')"
 			></v-textarea>
-			<v-btn @click="resetForm" class="btn-secondary">{{
+			<v-btn @click="resetForm" class="btn-accent">{{
 				$t("operations.reset")
 			}}</v-btn>
 		</v-form>
