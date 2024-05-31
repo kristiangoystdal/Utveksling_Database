@@ -1,0 +1,93 @@
+/* datatable.css */
+
+/* Header content styling */
+.v-data-table-header__content {
+    font-weight: bold;
+}
+
+/* Main table styling */
+#main-table-width {
+    margin: auto !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+}
+
+.main-table {
+    background-color: var(--fourth-color);
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.main-table th {
+    background-color: var(--second-color);
+    color: var(--fifth-color);
+}
+
+.main-table th:hover {
+    color: var(--fourth-color) !important;
+}
+
+/* Courses table header styling */
+.virtual-table th {
+    background-color: var(--first-color);
+    color: var(--fourth-color);
+}
+
+.virtual-table th:hover {
+    color: var(--third-color) !important;
+}
+
+
+
+
+/* Filter button styling */
+.filter-btn {
+    background-color: #009960;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Filter container styling */
+.filter-container {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 16px !important;
+}
+
+/* Autocomplete styling */
+.v-autocomplete {
+    height: auto !important;
+    width: 100% !important;
+    margin: auto !important;
+}
+
+/* Courses style */
+#coursesStyle {
+    background-color: var(--third-color) !important;
+}
+
+/* Responsive font sizes */
+@media (max-width: 1200px) {
+    .main-table {
+        font-size: 1.2vw;
+    }
+    .main-table th {
+        font-size: 1.2vw;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-table {
+        font-size: 1.5vw;
+    }
+    .main-table th {
+        font-size: 1.5vw;
+    }
+}
+
+

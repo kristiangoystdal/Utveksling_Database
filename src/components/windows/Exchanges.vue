@@ -500,44 +500,5 @@ export default {
 </script>
 
 <style scoped>
-.v-data-table-header__content {
-	font-weight: bold;
-}
 
-#main-table-width {
-	margin: auto !important;
-	width: 90% !important;
-	max-width: 1200px !important;
-	min-width: 800px !important;
-}
-.text-grey {
-	color: grey !important;
-}
-.text-caption {
-	font-size: 0.75rem !important;
-}
-.align-self-center {
-	align-self: center !important;
-}
-.filter-btn {
-	background-color: #009960;
-	color: #ffffff;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 5px;
-	cursor: pointer;
-}
-.filter-container {
-	max-width: 1000px !important;
-	margin: 0 auto !important;
-	padding: 16px !important;
-}
-.v-autocomplete {
-	height: auto !important;
-	width: 100% !important;
-	margin: auto !important;
-}
-#coursesStyle {
-	background-color: #f1f1f1 !important;
-}
 </style>

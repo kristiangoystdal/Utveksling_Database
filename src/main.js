@@ -19,6 +19,7 @@ import "./assets/css/form.css";
 import "./assets/css/navbar.css";
 import "./assets/css/txt.css";
 import "./assets/css/boxes.css";
+import "./assets/css/datatable.css";
 
 // Set up messages for vue-i18n
 const messages = {

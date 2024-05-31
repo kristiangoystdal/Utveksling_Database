@@ -15,22 +15,5 @@ a,
 }
 
 
-.main-table {
-  background-color: var(--fourth-color);
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto;
-  margin-top: 20px;
-}
-
-.main-table th {
-  background-color: var(--second-color);
-  color: var(--fifth-color);
-  padding: 10px 20px;
-}
-
-.main-table th:hover {
-  color: var(--fourth-color) !important;
-}
 
 
