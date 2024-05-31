@@ -14,10 +14,11 @@
     margin-top: 16px;
     line-height: 1.6;
     color: var(--first-color);
+    font-size: 1.1rem;
 }
 
 /* Image styling */
-img {
+.profile-img {
     border-radius: 50%;
     width: 100%;
     border: 2px solid var(--third-color);

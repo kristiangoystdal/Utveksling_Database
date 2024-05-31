@@ -40,18 +40,6 @@
 }
 
 
-
-
-/* Filter button styling */
-.filter-btn {
-    background-color: #009960;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
 /* Filter container styling */
 .filter-container {
     max-width: 1000px !important;

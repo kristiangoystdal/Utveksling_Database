@@ -19,7 +19,11 @@
 										size="120"
 										v-if="user.photoURL"
 									>
-										<img :src="user.photoURL" alt="User Photo" />
+										<img
+											:src="user.photoURL"
+											alt="User Photo"
+											class="profile-img"
+										/>
 									</v-avatar>
 								</v-col>
 								<v-col cols="12" md="8">
@@ -75,6 +79,7 @@
 							v-model="localEditData.email"
 							:label="this.$t('userHandling.email')"
 							required
+							readonly
 						></v-text-field>
 						<v-autocomplete
 							v-model="localEditData.study"
@@ -91,13 +96,12 @@
 					</v-form>
 				</v-card-text>
 				<v-card-actions>
-					<v-spacer></v-spacer>
-					<v-btn color="blue darken-1" text @click="closeDialog">{{
-						$t("operations.cancel")
-					}}</v-btn>
-					<v-btn color="blue darken-1" text @click="saveProfile">{{
-						$t("operations.save")
-					}}</v-btn>
+					<v-btn id="closeBtn" @click="closeDialog">
+						{{ $t("operations.cancel") }}
+					</v-btn>
+					<v-btn id="saveBtn" @click="saveProfile">
+						{{ $t("operations.save") }}
+					</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -236,4 +240,31 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#saveBtn {
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	border: none;
+	font-size: 14px !important;
+	margin: 10px;
+	background-color: var(--second-color);
+	color: var(--fifth-color);
+}
+
+#closeBtn {
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	border: none;
+	font-size: 14px !important;
+	margin: 10px;
+	background-color: #e53935; /* Soft Red */
+	color: var(--fifth-color);
+}
+
+#closeBtn:hover {
+	background-color: #d32f2f; /* Darker Soft Red */
+	color: var(--fifth-color);
+}
+</style>
