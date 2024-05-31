@@ -1,0 +1,52 @@
+/* Card styling */
+.account-card {
+    flex-basis: 100% !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    background-color: var(--third-color);
+    border: 1px solid var(--first-color);
+}
+
+/* Account info styling */
+#account_info {
+    width: 100%;
+    margin-top: 16px;
+    line-height: 1.6;
+    color: var(--first-color);
+}
+
+/* Image styling */
+img {
+    border-radius: 50%;
+    width: 100%;
+    border: 2px solid var(--third-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Alert styling */
+.v-alert {
+    margin: 16px 0;
+    background-color: var(--third-color);
+    color: var(--first-color);
+}
+
+/* User avatar styling */
+.user-avatar {
+    border: 2px solid var(--third-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Card title styling */
+.v-card-title {
+    border-bottom: 1px solid var(--third-color);
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    color: var(--first-color);
+}
+
+/* Card subtitle styling */
+.v-card-subtitle {
+    margin-bottom: 16px;
+    color: var(--second-color);
+}

@@ -22,4 +22,16 @@
     background-color: var(--third-color);
     color: var(--first-color);
   }
+
+ /* Better color for the sign-out button */
+.btn-red {
+  background-color: #E53935; /* Soft Red */
+  color: var(--fifth-color);
+}
+
+.btn-red:hover {
+  background-color: #D32F2F; /* Darker Soft Red */
+  color: var(--fifth-color);
+}
+
   

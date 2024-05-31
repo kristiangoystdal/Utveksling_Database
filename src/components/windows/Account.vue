@@ -7,11 +7,10 @@
 		<v-row justify="center">
 			<v-col cols="12" md="8">
 				<v-card class="pa-5 account-card">
-					<v-card-subtitle> </v-card-subtitle>
 					<v-card-text>
-						<v-alert v-if="loading" type="info">{{
-							$t("userHandling.loadingUser")
-						}}</v-alert>
+						<v-alert v-if="loading" type="info" dense>
+							{{ $t("userHandling.loadingUser") }}
+						</v-alert>
 						<template v-else-if="user && userData">
 							<v-row>
 								<v-col cols="12" md="4" class="text-center">
@@ -37,29 +36,30 @@
 								</v-col>
 							</v-row>
 							<v-row justify="end">
-								<v-col cols="12" class="text-right">
-									<v-btn color="primary" class="mr-3" @click="editProfile">{{
-										$t("operations.edit")
-									}}</v-btn>
-								</v-col>
+								<v-col cols="12" class="text-right"> </v-col>
 							</v-row>
 						</template>
-						<v-alert v-else type="error">{{
-							$t("errors.notLoggedIn")
-						}}</v-alert>
+						<v-alert v-else type="error" dense>
+							{{ $t("errors.notLoggedIn") }}
+						</v-alert>
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="red" @click="signOut">{{
-							$t("operations.signOut")
-						}}</v-btn>
+						<v-btn class="mr-3 btn btn-primary" @click="editProfile">
+							<v-icon left>mdi-pencil</v-icon>
+							{{ $t("operations.edit") }}
+						</v-btn>
+						<v-btn class="btn btn-red" @click="signOut">
+							<v-icon left>mdi-logout</v-icon>
+							{{ $t("operations.signOut") }}
+						</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-col>
 		</v-row>
 
 		<!-- Edit Profile Dialog -->
-		<v-dialog v-model="dialog" persistent max-width="600px">
+		<v-dialog v-model="dialog" persistent max-width="600px" class="dialog">
 			<v-card>
 				<v-card-title>
 					<span class="headline">{{ $t("userHandling.editProfile") }}</span>
@@ -236,47 +236,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.account-card {
-	flex-basis: 100% !important;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-}
-
-#account_info {
-	width: 100%;
-	margin-top: 16px;
-	line-height: 1.6;
-}
-
-img {
-	border-radius: 50%;
-	width: 100%;
-	border: 2px solid #f5f5f5;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.v-btn {
-	margin: 0 8px;
-}
-
-.v-alert {
-	margin: 16px 0;
-}
-
-.user-avatar {
-	border: 2px solid #f5f5f5;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.v-card-title {
-	border-bottom: 1px solid #e0e0e0;
-	margin-bottom: 16px;
-	padding-bottom: 16px;
-}
-
-.v-card-subtitle {
-	margin-bottom: 16px;
-	color: #757575;
-}
-</style>
+<style scoped></style>
