@@ -4,7 +4,12 @@
   --third-color: #DBE2EF; /* Light Blue */
   --fourth-color: #F9F7F7; /* Very Light Grey */
   --fifth-color: #FFFFFF; /* White for text (added for better contrast) */
+  --alert-error: #FF4C4C; /* Red for error alerts */
+  --alert-warning: #ffecb3; /* Orange for warning alerts */
+  --alert-success: #28A745; /* Green for success alerts */
+  --alert-info: #17A2B8; /* Bright Blue for info alerts */
 }
+
 
 a,
 .green {

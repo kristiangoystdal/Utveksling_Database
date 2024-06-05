@@ -364,7 +364,9 @@
 			</div>
 		</div>
 		<div v-else>
-			<p>{{ $t("myExchange.loginToEdit") }}</p>
+			<p class="box box-alert text-alert text-center">
+				{{ $t("myExchange.loginToEdit") }}
+			</p>
 		</div>
 
 		<!-- Delete dialog -->

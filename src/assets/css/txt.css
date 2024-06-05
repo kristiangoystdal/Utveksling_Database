@@ -21,3 +21,7 @@
 .text-center{
     text-align: center;
 }
+
+.text-alert{
+  color: #ff6f00
+}
