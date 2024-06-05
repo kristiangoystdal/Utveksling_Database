@@ -1,5 +1,5 @@
 <template>
-	<div class="not-found-container">
+	<div class="box box-fourth-color center">
 		<h1>{{ $t("errors.404title") }}</h1>
 		<p>
 			{{ $t("errors.404text") }}
@@ -9,9 +9,9 @@
 			alt="Page Not Found GIF"
 			class="not-found-gif"
 		/>
-		<router-link to="/" class="home-link">
+		<v-btn to="/" class="btn btn-primary hover">
 			{{ $t("errors.404button") }}
-		</router-link>
+		</v-btn>
 	</div>
 </template>
 
@@ -27,47 +27,44 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	min-height: 50vh;
-	background-color: #f0f0f0;
+	min-height: 20vw;
+	width: fit-content;
+	margin: auto;
+	background-color: var(--fourth-color);
 	text-align: center;
-	padding: 20px;
+	padding: 10px 50px;
 	box-sizing: border-box;
 	font-family: Arial, sans-serif;
 }
 
 h1 {
-	color: #2c3e50;
-	font-size: 3em;
+	color: var(--first-color);
+	font-size: 2rem;
 	margin-bottom: 20px;
 }
 
 p {
-	color: #34495e;
-	font-size: 1.2em;
+	color: var(--first-color);
+	font-size: 1rem;
 	margin-bottom: 20px;
 }
 
 .not-found-gif {
 	width: 100%;
-	max-width: 400px;
+	max-width: 20vw;
 	height: auto;
 	margin-bottom: 20px;
-	border: 2px solid #2980b9;
+	border: 2px solid var(--second-color);
 	border-radius: 10px;
 }
 
-.home-link {
-	display: inline-block;
-	padding: 10px 20px;
-	font-size: 1em;
-	color: #fff;
-	background-color: #3498db;
-	border-radius: 5px;
-	text-decoration: none;
-	transition: background-color 0.3s ease;
+.hover:hover {
+	background-color: var(--third-color);
+	color: var(--first-color);
 }
 
-.home-link:hover {
-	background-color: #2980b9;
+.center {
+	margin: auto;
+	text-align: center;
 }
 </style>
