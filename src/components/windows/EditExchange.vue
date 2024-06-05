@@ -76,23 +76,21 @@
 								<v-col cols="12" md="6">
 									<v-autocomplete
 										v-model="userExchange.study"
-										:items="studyNames"
 										:label="$t('database.study')"
 										required
-										clearable
 										:hint="$t('hints.study')"
 										persistent-hint
+										readonly
 									></v-autocomplete>
 								</v-col>
 								<v-col cols="12" md="6">
 									<v-autocomplete
 										v-model="userExchange.specialization"
-										:items="specializations"
 										:label="$t('database.specialization')"
 										required
-										clearable
 										:hint="$t('hints.specialization')"
 										persistent-hint
+										readonly
 									></v-autocomplete>
 								</v-col>
 							</v-row>
@@ -102,7 +100,7 @@
 								<v-col cols="12" md="6">
 									<v-autocomplete
 										v-model="userExchange.country"
-										:items="countryNames"
+										:items="countryNamesTranslated"
 										:label="$t('database.country')"
 										required
 										clearable
@@ -409,6 +407,7 @@ export default {
 	data() {
 		return {
 			user: null,
+			userInformation: null,
 			panel: null,
 			coursePanel: null,
 			numCoursesMissing: 0,
@@ -466,16 +465,17 @@ export default {
 		},
 	},
 	computed: {
-		studyNames() {
-			return Object.keys(this.studies);
-		},
-		specializations() {
-			return this.userExchange.study
-				? this.studies[this.userExchange.study]
-				: [];
+		userInfo() {
+			this.userExchange.study = this.userInformation.study;
+			this.userExchange.specialization = this.userInformation.specialization;
 		},
 		countryNames() {
 			return Object.keys(this.universities);
+		},
+		countryNamesTranslated() {
+			return Object.keys(this.universities).map((country) =>
+				this.$t(`countries.${country}`)
+			);
 		},
 		universityNames() {
 			if (this.userExchange.country) {
@@ -646,6 +646,19 @@ export default {
 					transformCourses(this.remoteExchange);
 					this.userExchange = JSON.parse(JSON.stringify(this.remoteExchange));
 
+					// Set the country name based on the country key
+					this.userExchange.country = this.getCountryName();
+					this.remoteExchange.country = this.userExchange.country;
+
+					// Set the study and specialization based on the user data
+
+					this.loadData();
+					if (this.userInformation) {
+						this.userExchange.study = this.userInformation.study;
+						this.userExchange.specialization =
+							this.userInformation.specialization;
+					}
+
 					// If the user has no courses, create empty courses objects
 					if (!this.userExchange.courses) {
 						this.userExchange.courses = {
@@ -752,13 +765,28 @@ export default {
 			const { semester, courseIndex, course } = updatedCourse;
 			this.userExchange.courses[semester][courseIndex] = course;
 		},
+		getCountryIndex() {
+			const translatedCountries = this.countryNamesTranslated;
+			return translatedCountries.findIndex(
+				(translatedName) => translatedName === this.userExchange.country
+			);
+		},
+		getCountryName() {
+			const countryKey = this.userExchange.country;
+			const translatedCountryName = this.$t(`countries.${countryKey}`);
+			return translatedCountryName;
+		},
 		async updateExchange() {
 			if (auth.currentUser) {
 				try {
+					this.userExchange.country = this.countryNames[this.getCountryIndex()];
+
 					await update(
 						dbRef(db, `exchanges/${auth.currentUser.uid}`),
 						this.userExchange
 					);
+
+					this.userExchange.country = this.getCountryName();
 					this.remoteExchange = JSON.parse(JSON.stringify(this.userExchange));
 				} catch (error) {
 					console.error("Error updating user exchange data: ", error);
@@ -800,13 +828,23 @@ export default {
 				this.currentCourse = null;
 			}
 		},
+		async loadUser() {
+			if (this.user) {
+				const userDocRef = dbRef(db, `users/${this.user.uid}`);
+				const userDoc = await get(userDocRef);
+				if (userDoc.exists()) {
+					this.userInformation = userDoc.val();
+				}
+			}
+		},
 	},
 	mounted() {
-		this.retriveUserExchange();
-		this.loadData();
 		if (auth.currentUser) {
 			this.user = auth.currentUser;
+			this.loadUser();
 		}
+		this.retriveUserExchange();
+		this.loadData();
 	},
 };
 </script>
