@@ -12,11 +12,11 @@ import store from './store.js'; // Assuming your Vuex store is in src/store
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
-  { path: '/exchanges', name: 'Exchanges', component: Exchanges },
-  { path: '/myexchange', name: 'EditExchange', component: EditExchange },
-  { path: '/contact', name: 'Contact', component: Contact },
-  { path: '/account', name: 'Account', component: Account, meta: { requiresAuth: true } },
-  { path: '/login', name: 'Login', component: Login },
+  { path: '/utvekslinger', name: 'Exchanges', component: Exchanges },
+  { path: '/min_utveksling', name: 'EditExchange', component: EditExchange },
+  { path: '/kontakt', name: 'Contact', component: Contact },
+  { path: '/profil', name: 'Account', component: Account, meta: { requiresAuth: true } },
+  { path: '/logg_inn', name: 'Login', component: Login },
   // { path: "/credits", name: "Credits", component: CreditsTable}, 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];

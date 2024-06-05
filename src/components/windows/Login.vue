@@ -31,7 +31,7 @@ export default {
 				const result = await signInWithPopup(auth, provider);
 				const user = result.user;
 
-				this.$router.push("/account");
+				this.$router.push("/profil");
 			} catch (error) {
 				console.error("Error during sign-in:", error);
 			}

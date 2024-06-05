@@ -186,7 +186,7 @@ export default {
 				this.user = null;
 				this.userData = null;
 
-				this.$router.push("/login");
+				this.$router.push("/logg_inn");
 			} catch (error) {
 				console.error("Error signing out: ", error);
 			}
