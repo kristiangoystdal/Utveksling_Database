@@ -10,8 +10,7 @@
 					<router-view></router-view>
 				</div>
 				<div v-else class="mobile-warning">
-					This website is only optimized for desktop. Please switch to a larger
-					screen for the best experience.
+					{{ $t("common.mobileWarning") }}
 				</div>
 			</div>
 		</div>
@@ -43,7 +42,6 @@ onUnmounted(() => {
 .background-container {
 	position: relative;
 	width: 100%;
-	/* height: 100vh; Ensure it covers the full viewport height */
 	overflow: hidden;
 }
 
