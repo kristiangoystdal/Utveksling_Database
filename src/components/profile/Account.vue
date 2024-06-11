@@ -27,15 +27,15 @@
 									</v-avatar>
 								</v-col>
 								<v-col cols="12" md="8">
-									<div id="account_info">
+									<div class="account_info">
 										<strong>{{ $t("userHandling.name") }}:</strong>
-										{{ userData.displayName }}<br />
+										<span> {{ userData.displayName }} </span> <br />
 										<strong>{{ $t("userHandling.email") }}:</strong>
-										{{ user.email }}<br />
+										<span>{{ user.email }}</span> <br />
 										<strong>{{ $t("database.study") }}:</strong>
-										{{ userData.study }}<br />
+										<span>{{ userData.study }}</span> <br />
 										<strong>{{ $t("database.specialization") }}:</strong>
-										{{ userData.specialization }}<br />
+										<span>{{ userData.specialization }}</span> <br />
 									</div>
 								</v-col>
 							</v-row>
@@ -48,8 +48,7 @@
 						</v-alert>
 					</v-card-text>
 					<v-card-actions>
-						<v-spacer></v-spacer>
-						<v-btn class="mr-3 btn btn-primary" @click="editProfile">
+						<v-btn class="btn btn-primary" @click="editProfile">
 							<v-icon left>mdi-pencil</v-icon>
 							{{ $t("operations.edit") }}
 						</v-btn>
@@ -266,5 +265,52 @@ export default {
 #closeBtn:hover {
 	background-color: #d32f2f; /* Darker Soft Red */
 	color: var(--fifth-color);
+}
+
+.account-card {
+	margin-bottom: 20px;
+}
+
+.user-avatar {
+	margin-bottom: 20px;
+}
+
+.account_info strong {
+	font-size: 16px;
+}
+
+@media (max-width: 768px) {
+	.account-card {
+		padding: 10px;
+	}
+	.user-avatar {
+		margin: 0 auto 20px;
+	}
+	.account_info {
+		font-size: 14px;
+	}
+	.account_info span::after {
+		content: "\A"; /* Adds a double line break */
+		white-space: pre; /* Preserves the line breaks */
+	}
+	.account_info strong {
+		font-size: 14px;
+	}
+	.account_info strong::after {
+		content: "\A"; /* Adds a line break */
+		white-space: pre; /* Preserves the line break */
+	}
+	#closeBtn,
+	#saveBtn {
+		margin: auto;
+		font-size: 14px !important;
+		width: 40% !important;
+	}
+
+	.v-btn {
+		margin: auto;
+		font-size: 14px !important;
+		width: 50% !important;
+	}
 }
 </style>
