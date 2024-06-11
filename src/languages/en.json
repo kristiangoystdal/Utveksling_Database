@@ -116,8 +116,8 @@
   "errors": {
     "notLoggedIn": "Profile not available. Please log in",
     "404title": "404 - Destination doesn't exist",
-    "404text": "Oops! You are trying to travel to a place that does not exist. Maybe it's time to head home?",
-    "404button": "Head home to rethink your choices"
+    "404text": "Oops! You are trying to travel to a place that does not exist. Maybe it's time to  to rethink your choices?",
+    "404button": "Head home"
   },
   "countries": {
     "Argentina": "Argentina",

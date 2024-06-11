@@ -1,11 +1,11 @@
 <template>
-	<div class="box box-fourth-color center">
+	<div class="box box-fourth-color not-found-container center">
 		<h1>{{ $t("errors.404title") }}</h1>
-		<p>
+		<p class="preserve-whitespace">
 			{{ $t("errors.404text") }}
 		</p>
 		<img
-			src="../assets/images/airport.gif"
+			src="../../assets/images/airport.gif"
 			alt="Page Not Found GIF"
 			class="not-found-gif"
 		/>
@@ -51,7 +51,7 @@ p {
 
 .not-found-gif {
 	width: 100%;
-	max-width: 20vw;
+	max-width: 40%;
 	height: auto;
 	margin-bottom: 20px;
 	border: 2px solid var(--second-color);
@@ -66,5 +66,20 @@ p {
 .center {
 	margin: auto;
 	text-align: center;
+}
+
+@media (max-width: 768px) {
+	.not-found-gif {
+		max-width: 60vw;
+	}
+
+	.not-found-container {
+		padding: 10px;
+		margin-top: 50px;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+	}
 }
 </style>
