@@ -6,12 +6,7 @@
 				<Header></Header>
 			</header>
 			<div id="app">
-				<div v-if="isDesktop">
-					<router-view></router-view>
-				</div>
-				<div v-else class="mobile-warning">
-					{{ $t("common.mobileWarning") }}
-				</div>
+				<router-view></router-view>
 			</div>
 		</div>
 	</div>
