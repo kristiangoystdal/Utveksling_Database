@@ -1,9 +1,9 @@
 {
   "common": {
-    "welcome": "Welcome to the Exchange Portal!",
+    "welcome": "Welcome to \nthe Exchange Portal!",
     "goodbye": "Goodbye",
     "siteName": "Exchange Portal",
-    "siteDescription": "The Exchange Portal is a tool for students at NTNU to plan and document their exchange studies. Here you can see which courses other students have taken during their exchange, and you can create your own plan for your exchange.",
+    "siteDescription": "This site is a tool for students at NTNU to plan and document their exchange studies. \n\n Here you can see which courses other students have taken during their exchange, and you can create your own plan for your exchange.",
     "mobileWarning": "This site is not optimized for mobile devices. Please use a computer or tablet for the best experience."
   },
   "hints": {
