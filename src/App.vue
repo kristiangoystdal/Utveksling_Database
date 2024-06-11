@@ -114,5 +114,10 @@ header {
 	.mobile-warning {
 		display: block;
 	}
+
+	#app {
+		margin-bottom: 10vh;
+		padding: 0;
+	}
 }
 </style>
