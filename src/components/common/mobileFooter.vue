@@ -7,7 +7,7 @@
 			<router-link class="footer-icon" to="/utvekslinger">
 				<v-icon size="30px">mdi-airplane-search</v-icon>
 			</router-link>
-			<router-link class="footer-icon" to="/another-page">
+			<router-link class="footer-icon" to="/min_utveksling">
 				<v-icon size="30px">mdi-airplane-edit</v-icon>
 			</router-link>
 			<router-link class="footer-icon" to="/logg_inn">
