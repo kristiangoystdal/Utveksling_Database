@@ -5,7 +5,7 @@
 <script>
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
-import worldData from "../data/countries-110m.json"; // Ensure this path is correct
+import worldData from "../../data/countries-110m.json"; // Ensure this path is correct
 
 export default {
 	name: "WorldMap",

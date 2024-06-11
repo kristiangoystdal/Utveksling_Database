@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import WorldMap from "../WorldMap.vue";
+import WorldMap from "./WorldMap.vue";
 import { getDatabase, ref as dbRef, child, get } from "firebase/database";
 
 export default {

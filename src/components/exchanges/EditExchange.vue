@@ -400,7 +400,7 @@ import { db, auth } from "../../js/firebaseConfig";
 import { ref as dbRef, get, set, update } from "firebase/database";
 import studiesData from "../../data/studies.json";
 
-import CourseForm from "../CourseForm.vue";
+import CourseForm from "./CourseForm.vue";
 
 export default {
 	components: {

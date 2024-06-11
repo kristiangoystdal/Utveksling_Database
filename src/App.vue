@@ -19,7 +19,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import Header from "./components/Header.vue";
+import Header from "./components/common/Header.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
