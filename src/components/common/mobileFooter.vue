@@ -35,6 +35,7 @@ export default {
 	bottom: 0;
 	width: 100%;
 	height: 10vh;
+	z-index: 1000;
 }
 
 .footer-icon {
