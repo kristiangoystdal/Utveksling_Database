@@ -6,9 +6,9 @@
 				<span class="site-name">{{ $t("common.siteName") }}</span>
 			</router-link>
 			<div class="nav-and-language">
-				<div class="hamburger-menu" @click="toggleMobileMenu">
+				<!-- <div class="hamburger-menu" @click="toggleMobileMenu">
 					<v-icon>mdi-menu</v-icon>
-				</div>
+				</div> -->
 				<nav :class="{ open: showMobileMenu }">
 					<ul>
 						<li>

@@ -8,6 +8,9 @@
 			<div id="app">
 				<router-view></router-view>
 			</div>
+			<div v-if="!isDesktop">
+				<MobileFooter></MobileFooter>
+			</div>
 		</div>
 	</div>
 </template>
@@ -15,6 +18,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import Header from "./components/common/Header.vue";
+import MobileFooter from "./components/common/mobileFooter.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
