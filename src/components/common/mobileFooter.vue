@@ -10,17 +10,31 @@
 			<router-link class="footer-icon" to="/min_utveksling">
 				<v-icon size="30px">mdi-airplane-edit</v-icon>
 			</router-link>
-			<router-link class="footer-icon" to="/logg_inn">
+			<a class="footer-icon" @click="handleAuthClick">
 				<v-icon size="30px">mdi-account</v-icon>
-			</router-link>
+			</a>
 		</div>
 	</div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
 	name: "MobileFooter",
 	// Your component's options go here
+	computed: {
+		...mapGetters(["isAuthenticated"]),
+	},
+	methods: {
+		handleAuthClick() {
+			if (this.isAuthenticated) {
+				this.$router.push({ name: "Account" });
+			} else {
+				this.$router.push({ name: "Login" });
+			}
+		},
+	},
 };
 </script>
 
