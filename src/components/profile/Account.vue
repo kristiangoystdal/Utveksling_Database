@@ -279,6 +279,11 @@ export default {
 	font-size: 16px;
 }
 
+.account_info span {
+	margin-left: 5px;
+	font-size: 16px;
+}
+
 @media (max-width: 768px) {
 	.account-card {
 		padding: 10px;
@@ -286,15 +291,16 @@ export default {
 	.user-avatar {
 		margin: 0 auto 20px;
 	}
-	.account_info {
-		font-size: 14px;
+	.account_info span {
+		font-size: 4vw;
+		margin-left: 0;
 	}
 	.account_info span::after {
 		content: "\A"; /* Adds a double line break */
 		white-space: pre; /* Preserves the line breaks */
 	}
 	.account_info strong {
-		font-size: 14px;
+		font-size: 4.2vw;
 	}
 	.account_info strong::after {
 		content: "\A"; /* Adds a line break */
