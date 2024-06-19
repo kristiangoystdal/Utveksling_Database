@@ -1,4 +1,5 @@
 <template>
+	<!-- Title and infobox -->
 	<div>
 		<h2>{{ $t("myExchange.pageHeader") }}</h2>
 		<p class="box box-third-color preserve-whitespace text-center">
@@ -9,6 +10,7 @@
 	<br />
 	<div>
 		<div v-if="this.user">
+			<!-- Unsaved changes box -->
 			<div>
 				<div v-if="unsavedChanges" class="unsaved-changes">
 					<p>{{ $t("myExchange.unsavedChanges") }}</p>
@@ -31,6 +33,7 @@
 			</div>
 			<br />
 			<br />
+			<!-- Expansion panels -->
 			<v-expansion-panels v-model="panel">
 				<!-- Basis informasjon -->
 				<v-expansion-panel class="bg-light">
@@ -69,8 +72,8 @@
 						</template>
 					</v-expansion-panel-title>
 
-					<v-expansion-panel-text>
-						<v-container>
+					<v-expansion-panel-text class="zero-padding">
+						<v-container class="zero-padding">
 							<!-- Studie & Spesialisering -->
 							<v-row>
 								<v-col cols="12" md="6">
@@ -114,7 +117,6 @@
 										:items="universityNames"
 										:label="$t('database.university')"
 										required
-										clearable
 										@update:modelValue="setUniversity"
 										:hint="$t('hints.university')"
 										persistent-hint
@@ -148,6 +150,7 @@
 									></v-autocomplete>
 								</v-col>
 							</v-row>
+							<!-- Velg semester -->
 							<v-row>
 								<v-col cols="12" md="6">
 									<v-autocomplete
@@ -244,13 +247,13 @@
 							></v-icon>
 						</template>
 					</v-expansion-panel-title>
-					<v-expansion-panel-text>
+					<v-expansion-panel-text class="zero-padding">
 						<v-btn @click="addCourse(semester)" class="btn btn-primary">
 							{{ $t("myExchange.courseInformation.addCourse") }}
 						</v-btn>
 						<br />
 						<br />
-						<v-expansion-panels :v-model="coursePanel">
+						<v-expansion-panels :v-model="coursePanel" class="zero-padding">
 							<v-expansion-panel
 								v-for="(course, cIndex) in getCourses(semester)"
 								:key="cIndex"
@@ -258,10 +261,10 @@
 								<v-expansion-panel-title>
 									<template v-slot:default="{ expanded }">
 										<v-row no-gutters>
-											<v-col class="d-flex justify-start" cols="4">
+											<v-col class="d-flex justify-start mb-1" cols="12">
 												{{ course.courseName || "Nytt fag" }}
 											</v-col>
-											<v-col class="text-grey" cols="8">
+											<v-col class="text-grey mt-1" cols="10">
 												<v-fade-transition leave-absolute>
 													<span v-if="expanded" key="0">
 														{{
@@ -328,7 +331,7 @@
 										></v-icon>
 									</template>
 								</v-expansion-panel-title>
-								<v-expansion-panel-text>
+								<v-expansion-panel-text class="zero-padding">
 									<course-form
 										:course="course"
 										@submit-course="updateCourse(semester, cIndex, $event)"
