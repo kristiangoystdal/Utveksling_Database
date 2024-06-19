@@ -23,5 +23,12 @@ a,
   white-space: pre-wrap; /* This ensures that whitespace and newlines are preserved */
 }
 
+@media (max-width: 600px) {
+	.zero-padding {
+		padding-left: 0% !important;
+		padding-right: 0% !important;
+	}
+}
+
 
 
