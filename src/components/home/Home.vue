@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h2>{{ $t("common.welcome") }}</h2>
+		<h2 class="preserve-whitespace">{{ $t("common.welcome") }}</h2>
 
 		<p class="box box-third-color preserve-whitespace text-center">
 			{{ $t("common.siteDescription") }}

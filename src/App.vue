@@ -6,12 +6,10 @@
 				<Header></Header>
 			</header>
 			<div id="app">
-				<div v-if="isDesktop">
-					<router-view></router-view>
-				</div>
-				<div v-else class="mobile-warning">
-					{{ $t("common.mobileWarning") }}
-				</div>
+				<router-view></router-view>
+			</div>
+			<div v-if="!isDesktop">
+				<MobileFooter></MobileFooter>
 			</div>
 		</div>
 	</div>
@@ -20,6 +18,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import Header from "./components/common/Header.vue";
+import MobileFooter from "./components/common/mobileFooter.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -114,6 +113,11 @@ header {
 @media (max-width: 768px) {
 	.mobile-warning {
 		display: block;
+	}
+
+	#app {
+		margin-bottom: 10vh;
+		padding: 0;
 	}
 }
 </style>

@@ -2,22 +2,27 @@
 	<header>
 		<div class="header-container">
 			<router-link to="/" class="logo">
-				<img src="../assets/images/logo.png" alt="Site Logo" />
+				<img src="../../assets/images/logo.png" alt="Site Logo" />
 				<span class="site-name">{{ $t("common.siteName") }}</span>
 			</router-link>
 			<div class="nav-and-language">
-				<nav>
+				<!-- <div class="hamburger-menu" @click="toggleMobileMenu">
+					<v-icon>mdi-menu</v-icon>
+				</div> -->
+				<nav :class="{ open: showMobileMenu }">
 					<ul>
 						<li>
-							<router-link to="/">{{ $t("navbar.homeHeader") }}</router-link>
+							<router-link to="/" @click="closeMobileMenu">{{
+								$t("navbar.homeHeader")
+							}}</router-link>
 						</li>
 						<li>
-							<router-link to="/utvekslinger">{{
+							<router-link to="/utvekslinger" @click="closeMobileMenu">{{
 								$t("navbar.programHeader")
 							}}</router-link>
 						</li>
 						<li>
-							<router-link to="/min_utveksling">{{
+							<router-link to="/min_utveksling" @click="closeMobileMenu">{{
 								$t("navbar.myexchangeHeader")
 							}}</router-link>
 						</li>
@@ -60,6 +65,7 @@ export default {
 	data() {
 		return {
 			showLanguageDropdown: false,
+			showMobileMenu: false,
 		};
 	},
 	computed: {
@@ -80,6 +86,7 @@ export default {
 			} else {
 				this.$router.push({ name: "Login" });
 			}
+			this.closeMobileMenu();
 		},
 		toggleLanguage() {
 			this.showLanguageDropdown = !this.showLanguageDropdown;
@@ -96,6 +103,12 @@ export default {
 			) {
 				this.showLanguageDropdown = false;
 			}
+		},
+		toggleMobileMenu() {
+			this.showMobileMenu = !this.showMobileMenu;
+		},
+		closeMobileMenu() {
+			this.showMobileMenu = false;
 		},
 	},
 	mounted() {
@@ -222,5 +235,73 @@ nav a {
 .fi {
 	font-size: 1rem;
 	margin-right: 0.5rem;
+}
+
+.hamburger-menu {
+	display: none;
+	cursor: pointer;
+}
+
+@media (max-width: 768px) {
+	.logo {
+		margin-left: 0;
+		width: 50vw;
+		left: 0;
+		padding: 0%;
+	}
+	.logo img {
+		height: 40px;
+		width: 40px;
+		margin: 10px 0;
+	}
+	.logo .site-name {
+		font-size: 1.1rem;
+	}
+
+	.hamburger-menu {
+		display: flex;
+		align-items: center;
+	}
+
+	nav {
+		display: none;
+		position: absolute;
+		top: 60px;
+		left: 0;
+		background-color: var(--fourth-color);
+		width: 100%;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		z-index: 1000;
+	}
+
+	nav.open {
+		display: block;
+	}
+
+	nav ul {
+		flex-direction: column;
+		padding: 1rem 0;
+	}
+
+	nav li {
+		display: block;
+		text-align: center;
+	}
+
+	nav a {
+		display: block;
+		width: 100%;
+	}
+
+	.language-dropdown {
+		top: 40px;
+		right: 0;
+		z-index: 10000;
+	}
+
+	.language-dropdown a {
+		padding: 0.5rem 1rem;
+		height: 3rem;
+	}
 }
 </style>

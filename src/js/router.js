@@ -1,5 +1,6 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
+
 import Home from '../components/home/Home.vue';
 import Exchanges from '../components/exchanges/Exchanges.vue';
 import EditExchange from '../components/exchanges/EditExchange.vue';
@@ -17,7 +18,6 @@ const routes = [
   { path: '/kontakt', name: 'Contact', component: Contact },
   { path: '/profil', name: 'Account', component: Account, meta: { requiresAuth: true } },
   { path: '/logg_inn', name: 'Login', component: Login },
-  // { path: "/credits", name: "Credits", component: CreditsTable}, 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 

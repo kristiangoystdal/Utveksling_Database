@@ -78,4 +78,34 @@
     }
 }
 
+@media (max-width: 769px) {
+    .main-table {
+        font-size: 3vw;
+    }
+    .main-table th {
+        font-size: 3vw;
+    }
+}
+
+/* Fixed table styling */
+.fixed-table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .fixed-table th,
+  .fixed-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+  }
+  
+  .expanded-content {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 20px auto;
+  }
+  
+  
 

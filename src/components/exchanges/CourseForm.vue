@@ -1,7 +1,7 @@
 <template>
-	<div>
+	<div class="zero-padding">
 		<h3>Legg til/Endre fag</h3>
-		<v-form ref="form" v-model="valid" lazy-validation>
+		<v-form ref="form" v-model="valid" lazy-validation class="zero-padding">
 			<!-- ETCS Points -->
 			<v-text-field
 				v-model="localCourse.ETCSPoints"

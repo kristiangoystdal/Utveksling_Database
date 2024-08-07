@@ -68,4 +68,23 @@ export default {
 .icon-spacing {
 	margin-right: 8px;
 }
+
+@media (max-width: 768px) {
+	.login-card {
+		width: 90%;
+		align-items: center;
+	}
+	.login-card .login-btn {
+		font-size: 90%;
+		width: fit-content;
+		margin: auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.icon-spacing {
+		margin-right: 4px;
+	}
+}
 </style>
