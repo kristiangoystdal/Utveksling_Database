@@ -32,6 +32,7 @@
     "semester": "Semester",
     "courseCode": "Course Code",
     "courseName": "Course Name",
+    "courseType": "Course type",
     "replacedCourseName": "Replaced Course Name",
     "replacedCourseCode": "Replaced Course Code",
     "institute": "Institute",
@@ -56,7 +57,9 @@
     "coursesSpringHeader": "Spring Semester",
     "pageText": "Exchanges per page",
     "courseComments": "Comments for",
-    "noComments": "The student has not added any comments for this course."
+    "noComments": "The student has not added any comments for this course.",
+    "courseInformation": "More information"
+
   },
   "myExchange": {
     "pageHeader": "Your Exchange:",

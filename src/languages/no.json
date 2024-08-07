@@ -34,7 +34,7 @@
         "courseName": "Fagnavn",
         "replacedCourseName": "Erstattet fagnavn",
         "replacedCourseCode": "Erstattet fagkode",
-        "courseType": "Klassifisering av fag",
+        "courseType": "Fag type",
         "institute": "Institutt",
         "ETCSPoints": "ETCS poeng",
         "comments": "Kommentar"
@@ -57,7 +57,8 @@
         "coursesSpringHeader": "Vårsemesteret",
         "pageText": "Utvekslinger per side",
         "courseComments":"Kommentarer til ",
-        "noComments": "Studenten har ikke lagt inn noen kommentarer til dette faget."
+        "noComments": "Studenten har ikke lagt inn noen kommentarer til dette faget.",
+        "courseInformation": "Mer informasjon"
     },
     "myExchange": {
         "pageHeader": "Din utveksling:",
