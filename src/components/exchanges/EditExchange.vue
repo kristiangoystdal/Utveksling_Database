@@ -78,22 +78,23 @@
 							<v-row>
 								<v-col cols="12" md="6">
 									<v-autocomplete
+										:items="Object.keys(studies)"
 										v-model="userExchange.study"
 										:label="$t('database.study')"
 										required
 										:hint="$t('hints.study')"
 										persistent-hint
-										readonly
+										clearable
 									></v-autocomplete>
 								</v-col>
 								<v-col cols="12" md="6">
 									<v-autocomplete
+										:items="specializations"
 										v-model="userExchange.specialization"
 										:label="$t('database.specialization')"
 										required
 										:hint="$t('hints.specialization')"
 										persistent-hint
-										readonly
 									></v-autocomplete>
 								</v-col>
 							</v-row>
@@ -151,19 +152,52 @@
 								</v-col>
 							</v-row>
 							<!-- Velg semester -->
-							<v-row>
-								<v-col cols="12" md="6">
-									<v-autocomplete
-										v-if="userExchange.numSemesters == 1"
-										v-model="semesters"
-										:items="['Høst', 'Vår']"
-										:label="$t('database.semester')"
-										required
-										clearable
-										@update:modelValue="handleSemesterChange"
-									></v-autocomplete>
-								</v-col>
-							</v-row>
+							<div v-if="userExchange.numSemesters == 1">
+								<v-row>
+									<v-col cols="12" md="6">
+										<v-autocomplete
+											v-model="semesters"
+											:items="['Høst', 'Vår']"
+											:label="$t('database.semester')"
+											required
+											clearable
+											@update:modelValue="handleSemesterChange"
+										></v-autocomplete>
+									</v-col>
+								</v-row>
+							</div>
+							<div v-if="userExchange.numSemesters == 2">
+								<v-checkbox
+									:label="$t('myExchange.semestersLocation')"
+									v-model="semesterLocation"
+								></v-checkbox>
+								<div v-if="!semesterLocation">
+									{{ $t("myExchange.locationQuestion") }}
+									<v-row>
+										<v-col cols="12" md="6">
+											<v-autocomplete
+												v-model="userExchange.secondCountry"
+												:items="countryNamesTranslated"
+												:label="$t('database.country')"
+												required
+												clearable
+												:hint="$t('hints.country')"
+												persistent-hint
+											></v-autocomplete>
+										</v-col>
+										<v-col cols="12" md="6">
+											<v-autocomplete
+												v-model="userExchange.secondUniversity"
+												:items="universityNames"
+												:label="$t('database.university')"
+												required
+												:hint="$t('hints.university')"
+												persistent-hint
+											></v-autocomplete>
+										</v-col>
+									</v-row>
+								</div>
+							</div>
 						</v-container>
 					</v-expansion-panel-text>
 				</v-expansion-panel>
@@ -417,6 +451,7 @@ export default {
 			coursePanel: null,
 			numCoursesMissing: 0,
 			studies: {},
+			specializations: [],
 			universities: {},
 			semesters: [],
 			remoteExchange: {
@@ -442,24 +477,31 @@ export default {
 					Høst: {},
 					Vår: {},
 				},
+				sameUniversity: true,
+				secondUniversity: null,
+				secondCountry: null,
 			},
 			warningsFallCourses: [],
 			warningsSpringCourses: [],
 			deleteDialog: false,
 			currentCourse: null,
 			currentSemester: null,
+			semesterLocation: true,
 		};
 	},
 	watch: {
+		userExchange: {
+			handler() {
+				this.setEditedQuery();
+			},
+			deep: true,
+		},
 		"userExchange.study"(newStudy) {
-			if (newStudy !== this.userExchange.study) {
-				this.userExchange.specialization = null;
-			}
+			this.userExchange.specialization = null;
+			this.specializations = this.studies[newStudy] || [];
 		},
 		"userExchange.country"(newCountry) {
-			if (newCountry == null) {
-				this.userExchange.university = null;
-			}
+			this.userExchange.university = null;
 		},
 		"userExchange.numSemesters"(newNumber) {
 			if (newNumber == 2 && this.semesters.length !== 2) {
@@ -602,10 +644,14 @@ export default {
 			return Object.keys(this.userExchange.courses["Vår"] || {}).length;
 		},
 		unsavedChanges() {
-			return (
+			if (
 				JSON.stringify(this.remoteExchange) !==
 				JSON.stringify(this.userExchange)
-			);
+			) {
+				return true;
+			} else {
+				return false;
+			}
 		},
 	},
 	methods: {
@@ -841,6 +887,19 @@ export default {
 					this.userInformation = userDoc.val();
 				}
 			}
+		},
+		setEditedQuery() {
+			const currentPath = this.$route.path;
+			const currentQuery = this.$route.query;
+
+			const newQuery = {
+				...currentQuery,
+				edited:
+					JSON.stringify(this.remoteExchange) !==
+					JSON.stringify(this.userExchange),
+			};
+
+			this.$router.push({ path: currentPath, query: newQuery });
 		},
 	},
 	mounted() {
