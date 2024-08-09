@@ -84,6 +84,8 @@
             "numCoursesText": "fag",
             "courseYear":"År"
         },
+        "semestersLocation": "Er utvekslingen på samme sted begge semestere?",
+        "locationQuestion": "Hva er universitet og landet for det andre semesteret?",
         "updateExchange": "Oppdater utveksling",
         "loginToEdit": "Du må være logget inn for å legge til eller endre utvekslingen din"
     },
@@ -104,7 +106,8 @@
         "confirmCourseDelete": "Er du sikker på at du vil slette dette faget?",
         "edit": "Rediger",
         "signOut": "Logg ut",
-        "close":" Lukk"
+        "close":" Lukk",
+        "confirmLeavePage": "Du har ulagrete endringer. Sikker på at du vil forlate siden?"
     },
     "userHandling": {
         "loginTitle": "Logg inn",
