@@ -775,6 +775,32 @@ export default {
 						);
 					}
 
+					for (const exchange of exchanges) {
+						if (!exchange.sameLocation && exchange.courses.Vår) {
+							const firstExchange = {
+								...exchange,
+								university: exchange.university,
+								country: exchange.country,
+								courses: {
+									Høst: exchange.courses.Høst,
+									Vår: [],
+								},
+							};
+
+							const newExchange = {
+								...exchange,
+								university: exchange.secondUniversity,
+								country: exchange.secondCountry,
+								courses: {
+									Høst: [],
+									Vår: exchange.courses.Vår,
+								},
+							};
+							exchanges[exchanges.indexOf(exchange)] = firstExchange;
+							exchanges.push(newExchange);
+						}
+					}
+
 					this.exchangeList = exchanges;
 				} else {
 					console.error("No data available");
