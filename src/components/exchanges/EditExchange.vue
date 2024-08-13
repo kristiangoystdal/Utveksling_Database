@@ -78,22 +78,23 @@
 							<v-row>
 								<v-col cols="12" md="6">
 									<v-autocomplete
+										:items="Object.keys(studies)"
 										v-model="userExchange.study"
 										:label="$t('database.study')"
 										required
 										:hint="$t('hints.study')"
 										persistent-hint
-										readonly
+										clearable
 									></v-autocomplete>
 								</v-col>
 								<v-col cols="12" md="6">
 									<v-autocomplete
+										:items="specializations"
 										v-model="userExchange.specialization"
 										:label="$t('database.specialization')"
 										required
 										:hint="$t('hints.specialization')"
 										persistent-hint
-										readonly
 									></v-autocomplete>
 								</v-col>
 							</v-row>
@@ -151,19 +152,52 @@
 								</v-col>
 							</v-row>
 							<!-- Velg semester -->
-							<v-row>
-								<v-col cols="12" md="6">
-									<v-autocomplete
-										v-if="userExchange.numSemesters == 1"
-										v-model="semesters"
-										:items="['Høst', 'Vår']"
-										:label="$t('database.semester')"
-										required
-										clearable
-										@update:modelValue="handleSemesterChange"
-									></v-autocomplete>
-								</v-col>
-							</v-row>
+							<div v-if="userExchange.numSemesters == 1">
+								<v-row>
+									<v-col cols="12" md="6">
+										<v-autocomplete
+											v-model="semesters"
+											:items="['Høst', 'Vår']"
+											:label="$t('database.semester')"
+											required
+											clearable
+											@update:modelValue="handleSemesterChange"
+										></v-autocomplete>
+									</v-col>
+								</v-row>
+							</div>
+							<div v-if="userExchange.numSemesters == 2">
+								<v-checkbox
+									:label="$t('myExchange.semestersLocation')"
+									v-model="userExchange.sameUniversity"
+								></v-checkbox>
+								<div v-if="!userExchange.sameUniversity">
+									{{ $t("myExchange.locationQuestion") }}
+									<v-row>
+										<v-col cols="12" md="6">
+											<v-autocomplete
+												v-model="userExchange.secondCountry"
+												:items="countryNamesTranslated"
+												:label="$t('database.country')"
+												required
+												clearable
+												:hint="$t('hints.country')"
+												persistent-hint
+											></v-autocomplete>
+										</v-col>
+										<v-col cols="12" md="6">
+											<v-autocomplete
+												v-model="userExchange.secondUniversity"
+												:items="secondUniversityNames"
+												:label="$t('database.university')"
+												required
+												:hint="$t('hints.university')"
+												persistent-hint
+											></v-autocomplete>
+										</v-col>
+									</v-row>
+								</div>
+							</div>
 						</v-container>
 					</v-expansion-panel-text>
 				</v-expansion-panel>
@@ -417,6 +451,7 @@ export default {
 			coursePanel: null,
 			numCoursesMissing: 0,
 			studies: {},
+			specializations: [],
 			universities: {},
 			semesters: [],
 			remoteExchange: {
@@ -430,6 +465,9 @@ export default {
 					Høst: {},
 					Vår: {},
 				},
+				sameUniversity: true,
+				secondUniversity: null,
+				secondCountry: null,
 			},
 			userExchange: {
 				university: null,
@@ -442,6 +480,9 @@ export default {
 					Høst: {},
 					Vår: {},
 				},
+				sameUniversity: true,
+				secondUniversity: null,
+				secondCountry: null,
 			},
 			warningsFallCourses: [],
 			warningsSpringCourses: [],
@@ -452,12 +493,13 @@ export default {
 	},
 	watch: {
 		"userExchange.study"(newStudy) {
-			if (newStudy !== this.userExchange.study) {
+			if (newStudy !== this.remoteExchange.study) {
 				this.userExchange.specialization = null;
+				this.specializations = this.studies[newStudy] || [];
 			}
 		},
 		"userExchange.country"(newCountry) {
-			if (newCountry == null) {
+			if (newCountry != this.remoteExchange.country) {
 				this.userExchange.university = null;
 			}
 		},
@@ -484,7 +526,16 @@ export default {
 		},
 		universityNames() {
 			if (this.userExchange.country) {
-				return this.universities[this.userExchange.country];
+				return this.universities[
+					this.countryNames[this.getCountryIndex(this.userExchange.country)]
+				];
+			} else {
+				return [];
+			}
+		},
+		secondUniversityNames() {
+			if (this.userExchange.secondCountry) {
+				return this.universities[this.userExchange.secondCountry];
 			} else {
 				return [];
 			}
@@ -602,10 +653,14 @@ export default {
 			return Object.keys(this.userExchange.courses["Vår"] || {}).length;
 		},
 		unsavedChanges() {
-			return (
+			if (
 				JSON.stringify(this.remoteExchange) !==
 				JSON.stringify(this.userExchange)
-			);
+			) {
+				return true;
+			} else {
+				return false;
+			}
 		},
 	},
 	methods: {
@@ -655,14 +710,10 @@ export default {
 					this.userExchange.country = this.getCountryName();
 					this.remoteExchange.country = this.userExchange.country;
 
-					// Set the study and specialization based on the user data
-
 					this.loadData();
-					if (this.userInformation) {
-						this.userExchange.study = this.userInformation.study;
-						this.userExchange.specialization =
-							this.userInformation.specialization;
-					}
+
+					// Set the university name based on the university key
+					this.userExchange.university = this.remoteExchange.university;
 
 					// If the user has no courses, create empty courses objects
 					if (!this.userExchange.courses) {
@@ -770,10 +821,10 @@ export default {
 			const { semester, courseIndex, course } = updatedCourse;
 			this.userExchange.courses[semester][courseIndex] = course;
 		},
-		getCountryIndex() {
+		getCountryIndex(selectedCountry) {
 			const translatedCountries = this.countryNamesTranslated;
 			return translatedCountries.findIndex(
-				(translatedName) => translatedName === this.userExchange.country
+				(translatedName) => translatedName === selectedCountry
 			);
 		},
 		getCountryName() {
@@ -784,7 +835,12 @@ export default {
 		async updateExchange() {
 			if (auth.currentUser) {
 				try {
-					this.userExchange.country = this.countryNames[this.getCountryIndex()];
+					this.userExchange.country =
+						this.countryNames[this.getCountryIndex(this.userExchange.country)];
+					this.userExchange.secondCountry =
+						this.countryNames[
+							this.getCountryIndex(this.userExchange.secondCountry)
+						];
 
 					await update(
 						dbRef(db, `exchanges/${auth.currentUser.uid}`),
@@ -792,6 +848,7 @@ export default {
 					);
 
 					this.userExchange.country = this.getCountryName();
+					this.userExchange.secondCountry = this.getCountryName();
 					this.remoteExchange = JSON.parse(JSON.stringify(this.userExchange));
 				} catch (error) {
 					console.error("Error updating user exchange data: ", error);

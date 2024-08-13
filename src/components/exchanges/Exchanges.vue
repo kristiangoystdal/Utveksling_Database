@@ -749,39 +749,88 @@ export default {
 								exchange.courses && Object.keys(exchange.courses).length > 0
 						);
 
-					if (this.countryValues.length > 0) {
-						exchanges = exchanges.filter((exchange) =>
-							this.countryValues.includes(exchange.country)
-						);
-					}
-					if (this.universityValues.length > 0) {
-						exchanges = exchanges.filter((exchange) =>
-							this.universityValues.includes(exchange.university)
-						);
-					}
-					if (this.studyValues.length > 0) {
-						exchanges = exchanges.filter((exchange) =>
-							this.studyValues.includes(exchange.study)
-						);
-					}
-					if (this.specializationValues.length > 0) {
-						exchanges = exchanges.filter((exchange) =>
-							this.specializationValues.includes(exchange.specialization)
-						);
-					}
-					if (this.numSemestersValues.length > 0) {
-						exchanges = exchanges.filter((exchange) =>
-							this.numSemestersValues.includes(exchange.numSemesters)
-						);
-					}
+					// Apply filters
+					exchanges = this.applyFilters(exchanges);
 
-					this.exchangeList = exchanges;
+					// Reformat exchanges
+					const reformattedExchanges = this.reformatExchanges(exchanges);
+
+					// Update the exchange list
+					this.exchangeList = reformattedExchanges;
 				} else {
 					console.error("No data available");
 				}
 			} catch (error) {
 				console.error("Error fetching exchange data:", error);
 			}
+		},
+
+		applyFilters(exchanges) {
+			if (this.countryValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.countryValues.includes(exchange.country)
+				);
+			}
+			if (this.universityValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.universityValues.includes(exchange.university)
+				);
+			}
+			if (this.studyValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.studyValues.includes(exchange.study)
+				);
+			}
+			if (this.specializationValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.specializationValues.includes(exchange.specialization)
+				);
+			}
+			if (this.numSemestersValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.numSemestersValues.includes(exchange.numSemesters)
+				);
+			}
+			return exchanges;
+		},
+
+		reformatExchanges(exchanges) {
+			return exchanges.reduce((result, exchange) => {
+				if (!exchange.sameUniversity && exchange.courses.Vår) {
+					const firstExchange = this.createExchange(exchange, {
+						Høst: exchange.courses.Høst,
+						Vår: [],
+					});
+
+					const newExchange = this.createExchange(
+						{
+							...exchange,
+							id: exchange.id + "new",
+							university: exchange.secondUniversity,
+							country: exchange.secondCountry,
+						},
+						{
+							courses: {
+								Høst: [],
+								Vår: exchange.courses.Vår,
+							},
+						}
+					);
+
+					result.push(firstExchange, newExchange);
+				} else {
+					result.push(exchange);
+				}
+				return result;
+			}, []);
+		},
+
+		createExchange(baseExchange, courses) {
+			return {
+				...baseExchange,
+				courses: courses,
+				numSemesters: 1,
+			};
 		},
 		showComments(course) {
 			this.currentCourseName = course.courseName;
