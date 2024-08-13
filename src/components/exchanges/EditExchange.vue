@@ -533,9 +533,6 @@ export default {
 		},
 		universityNames() {
 			if (this.userExchange.country) {
-				console.log(
-					this.countryNames[this.getCountryIndex(this.userExchange.country)]
-				);
 				return this.universities[
 					this.countryNames[this.getCountryIndex(this.userExchange.country)]
 				];
@@ -711,12 +708,8 @@ export default {
 						}
 					};
 
-					console.log(this.remoteExchange.university);
-
 					// Apply transformation to both userExchange and remoteExchange
 					this.remoteExchange = JSON.parse(JSON.stringify(this.userData));
-					console.log(this.remoteExchange.university);
-
 					transformCourses(this.remoteExchange);
 					this.userExchange = JSON.parse(JSON.stringify(this.remoteExchange));
 
@@ -725,6 +718,8 @@ export default {
 					this.remoteExchange.country = this.userExchange.country;
 
 					this.loadData();
+
+					// Set the university name based on the university key
 					this.userExchange.university = this.remoteExchange.university;
 
 					// If the user has no courses, create empty courses objects
