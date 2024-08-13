@@ -492,12 +492,6 @@ export default {
 		};
 	},
 	watch: {
-		userExchange: {
-			handler() {
-				this.setEditedQuery();
-			},
-			deep: true,
-		},
 		"userExchange.study"(newStudy) {
 			if (newStudy !== this.remoteExchange.study) {
 				this.userExchange.specialization = null;
@@ -904,19 +898,6 @@ export default {
 					this.userInformation = userDoc.val();
 				}
 			}
-		},
-		setEditedQuery() {
-			const currentPath = this.$route.path;
-			const currentQuery = this.$route.query;
-
-			const newQuery = {
-				...currentQuery,
-				edited:
-					JSON.stringify(this.remoteExchange) !==
-					JSON.stringify(this.userExchange),
-			};
-
-			this.$router.push({ path: currentPath, query: newQuery });
 		},
 	},
 	mounted() {
