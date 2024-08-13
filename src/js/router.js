@@ -16,7 +16,7 @@ import { translate } from './i18n';
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/utvekslinger', name: 'Exchanges', component: Exchanges },
-  { path: '/min_utveksling', name: 'EditExchange', component: EditExchange, meta: { needComfirmation: true } },
+  { path: '/min_utveksling', name: 'EditExchange', component: EditExchange},
   { path: '/kontakt', name: 'Contact', component: Contact },
   { path: '/profil', name: 'Account', component: Account, meta: { requiresAuth: true } },
   { path: '/logg_inn', name: 'Login', component: Login },
@@ -28,20 +28,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  
-
-  // Check if the route requires confirmation
-  if (from.matched.some(record => record.meta.needComfirmation)) {
-    if (from.query.edited === 'true') {
-
-      if (!confirm(translate('operations.confirmLeavePage'))) {
-        // If user cancels, do not navigate further
-        return next(false);
-      }
-    }
-  }
-  
+router.beforeEach((to, from, next) => {  
   // Navigation guard for authentication
   const isAuthenticated = store.getters.isAuthenticated;
   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
