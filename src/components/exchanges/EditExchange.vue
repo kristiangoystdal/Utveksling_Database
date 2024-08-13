@@ -1,5 +1,4 @@
 <template>
-	{{ userExchange }}
 	<!-- Title and infobox -->
 	<div>
 		<h2>{{ $t("myExchange.pageHeader") }}</h2>
