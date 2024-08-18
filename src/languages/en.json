@@ -45,7 +45,9 @@
     "myexchangeHeader": "My Exchange",
     "contactHeader": "Contact",
     "profileHeader": "Profile",
-    "loginHeader": "Login"
+    "loginHeader": "Login",
+    "adminHeader": "Admin",
+    "faqHeader": "FAQ"
   },
   "exchanges": {
     "pageHeader": "Previous Exchanges:",

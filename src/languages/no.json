@@ -45,7 +45,9 @@
         "myexchangeHeader": "Min utveksling",
         "contactHeader": "Kontakt",
         "profileHeader": "Profil",
-        "loginHeader": "Logg inn"
+        "loginHeader": "Logg inn",
+        "adminHeader": "Admin",
+        "faqHeader": "Ofte stilte spørsmål"
     },
     "exchanges": {
         "pageHeader": "Tidligere utvekslinger:",
