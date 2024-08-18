@@ -188,9 +188,15 @@
 								class="virtual-table"
 							>
 								<template v-slot:item.comment="{ item }">
-									<v-icon small class="mr-2" @click="showComments(item)">
+									<v-icon
+										v-if="item.comments && item.comments.trim() !== ''"
+										small
+										class="mr-2"
+										@click="showComments(item)"
+									>
 										mdi-comment
 									</v-icon>
+									<v-icon v-else small class="mr-2"> mdi-comment-off </v-icon>
 								</template>
 							</v-data-table-virtual>
 							<br />
@@ -212,9 +218,15 @@
 								class="virtual-table"
 							>
 								<template v-slot:item.comment="{ item }">
-									<v-icon small class="mr-2" @click="showComments(item)">
+									<v-icon
+										v-if="item.comments && item.comments.trim() !== ''"
+										small
+										class="mr-2"
+										@click="showComments(item)"
+									>
 										mdi-comment
 									</v-icon>
+									<v-icon v-else small class="mr-2"> mdi-comment-off </v-icon>
 								</template>
 							</v-data-table-virtual>
 							<br />
@@ -810,14 +822,12 @@ export default {
 							country: exchange.secondCountry,
 						},
 						{
-							courses: {
-								Høst: [],
-								Vår: exchange.courses.Vår,
-							},
+							Høst: [],
+							Vår: exchange.courses.Vår,
 						}
 					);
-
-					result.push(firstExchange, newExchange);
+					result.push(firstExchange);
+					result.push(newExchange);
 				} else {
 					result.push(exchange);
 				}
