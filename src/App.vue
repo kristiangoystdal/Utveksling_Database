@@ -12,6 +12,9 @@
 				<MobileFooter></MobileFooter>
 			</div>
 		</div>
+		<div v-if="isDesktop" class="footer-container">
+			<Footer></Footer>
+		</div>
 	</div>
 </template>
 
@@ -19,6 +22,7 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import Header from "./components/common/Header.vue";
 import MobileFooter from "./components/common/mobileFooter.vue";
+import Footer from "./components/common/Footer.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -39,6 +43,9 @@ onUnmounted(() => {
 
 <style scoped>
 .background-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 	position: relative;
 	width: 100%;
 	overflow: hidden;
@@ -58,8 +65,15 @@ onUnmounted(() => {
 }
 
 .content-container {
+	flex: 1; /* Ensures that this container takes up available space */
 	position: relative;
 	z-index: 1; /* Ensure content is above the background image */
+	padding-bottom: 50px; /* Add padding to avoid overlap with footer */
+}
+
+.footer-container {
+	width: 100%;
+	flex-shrink: 0; /* Prevents the footer from shrinking */
 }
 
 #app {
@@ -81,7 +95,7 @@ header {
 @media (min-width: 769px) {
 	header {
 		display: flex;
-		place-items: center;
+		align-items: center;
 		padding-right: calc(var(--section-gap) / 2);
 	}
 
@@ -91,7 +105,7 @@ header {
 
 	header .wrapper {
 		display: flex;
-		place-items: flex-start;
+		align-items: flex-start;
 		flex-wrap: wrap;
 	}
 }
