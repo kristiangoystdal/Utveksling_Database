@@ -29,7 +29,8 @@ export default {
 			{ name: "navbar.myexchangeHeader", link: "/min_utveksling" },
 			{ name: "navbar.profileHeader", link: "/profil" },
 			{ name: "navbar.loginHeader", link: "/logg_inn" },
-			{ name: "navbar.contactHeader", link: "/contact" },
+			{ name: "navbar.contactHeader", link: "/kontakt" },
+			{ name: "navbar.faqHeader", link: "/faq" },
 		],
 	}),
 	computed: {
