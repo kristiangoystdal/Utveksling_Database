@@ -846,7 +846,6 @@
 							];
 
 						if (this.userExchange.sameUniversity) {
-							console.log("Second university is null");
 							this.userExchange.secondUniversity = "null";
 						} else {
 							this.userExchange.secondCountry =
