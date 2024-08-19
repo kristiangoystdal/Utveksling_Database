@@ -22,7 +22,7 @@
         "institute": "Skriv inn instituttet faget tilhører på universitetet du skal til",
         "ETCSPoints": "Skriv inn hvor mange ETCS poeng faget gir (konverter fra universitetes enhet til ETCS)"
     },
-    "database":{
+    "database": {
         "study": "Studie",
         "specialization": "Spesialisering",
         "country": "Land",
@@ -58,7 +58,7 @@
         "coursesFallHeader": "Høstsemesteret",
         "coursesSpringHeader": "Vårsemesteret",
         "pageText": "Utvekslinger per side",
-        "courseComments":"Kommentarer til ",
+        "courseComments": "Kommentarer til ",
         "noComments": "Studenten har ikke lagt inn noen kommentarer til dette faget.",
         "courseInformation": "Mer informasjon"
     },
@@ -66,7 +66,7 @@
         "pageHeader": "Din utveksling:",
         "info": "Opprett eller endre din oversikt over fagene du har tatt på utveksling. \n\nFagnavn og antall ETCS poeng er påkrevd, hvor ETCS poengene skal være konvertert fra universitetes lokale enhet.",
         "missingData": "Manglende data på",
-        "unsavedChanges": "Du har ulagret data. Husk å oppdatere.", 
+        "unsavedChanges": "Du har ulagret data. Husk å oppdatere.",
         "noChanges": "All data er lagret og utveksling er oppdatert.",
         "basisInformation": {
             "basisInformationTitle": "Basis informasjon",
@@ -84,20 +84,20 @@
             "fillCoursesInfo": "Fyll inn informasjon faget ditt",
             "enoughCourseDataFilled": "Nok informasjon om faget er fylt inn",
             "numCoursesText": "fag",
-            "courseYear":"År"
+            "courseYear": "År"
         },
         "semestersLocation": "Er utvekslingen på samme sted begge semestere?",
         "locationQuestion": "Hva er universitet og landet for det andre semesteret?",
         "updateExchange": "Oppdater utveksling",
         "loginToEdit": "Du må være logget inn for å legge til eller endre utvekslingen din"
     },
-    "rules":{
-        "required":"Dette feltet er påkrevd",
+    "rules": {
+        "required": "Dette feltet er påkrevd",
         "yearFormat": "Må være et gyldig årstall",
         "min3Chars": "Min 3 karakterer",
         "validNumber": "Må være et tall"
     },
-    "operations":{
+    "operations": {
         "save": "Lagre",
         "reset": "Nullstill",
         "deleteCourse": "Slett fag",
@@ -108,7 +108,7 @@
         "confirmCourseDelete": "Er du sikker på at du vil slette dette faget?",
         "edit": "Rediger",
         "signOut": "Logg ut",
-        "close":" Lukk",
+        "close": " Lukk",
         "confirmLeavePage": "Du har ulagrete endringer. Sikker på at du vil forlate siden?"
     },
     "userHandling": {
@@ -120,13 +120,32 @@
         "email": "E-post",
         "editProfile": "Rediger profilen din"
     },
-    "errors":{
+    "errors": {
         "notLoggedIn": "Profil ikke tilgjengelig. Vennligst logg inn",
         "404title": "404 - Destinasjonen finnes ikke",
-        "404text":"Oops! Du prøver å reise til et sted som ikke finnes. Kanskje på tide å for å revurdere valgene dine?",
-        "404button": "Dra hjem"
+        "404text": "Oops! Du prøver å reise til et sted som ikke finnes. Kanskje på tide å for å revurdere valgene dine?",
+        "404button": "Dra hjem",
+        "contactName": "Navnet må være minst 2 karakterer.",
+        "contactEmail": "Må være en gyldig e-post addresse",
+        "contactMessage": "Meldingen må være minst 10 karakterer"
     },
-    "countries":{
+    "contactPage": {
+        "pageHeader": "Kontakt oss",
+        "info": "Har du spørsmål eller tilbakemeldinger? Mangler studiet ditt blant valgmulighetene? \n\nSend oss en melding og vi vil svare deg så fort vi kan!",
+        "name": "Navn",
+        "email": "E-post",
+        "message": "Melding",
+        "submit": "Send",
+        "clear": "Nullstill",
+        "sendConfirmation": "Meldingen er sendt"
+    },
+    "faqPage": {
+        "pageHeader": "Ofte stilte spørsmål",
+        "info": "Her finner du svar på de mest stilte spørsmålene. \n\nHar du et spørsmål som ikke er besvart her? Send oss en melding på <kontaktsiden.",
+        "search": "Søk for et spørsmål",
+        "noResults": "Ingen resultater funnet"
+    },
+    "countries": {
         "Argentina": "Argentina",
         "Australia": "Australia",
         "Belgium": "Belgia",
@@ -203,4 +222,3 @@
         "Austria": "Østerrike"
     }
 }
-  
