@@ -20,7 +20,7 @@ const routes = [
   { path: '/min_utveksling', name: 'EditExchange', component: EditExchange},
   { path: '/kontakt', name: 'Contact', component: Contact },
   { path: '/profil', name: 'Account', component: Account, meta: { requiresAuth: true } },
-  { path: '/logg_inn', name: 'Login', component: Login , meta: { requiresAuth: true } },
+  { path: '/logg_inn', name: 'Login', component: Login },
   {path: '/faq', name: 'FAQ', component: FAQ},
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
