@@ -466,8 +466,8 @@
 						Vår: {},
 					},
 					sameUniversity: true,
-					secondUniversity: null,
-					secondCountry: null,
+					secondUniversity: "null",
+					secondCountry: "null",
 				},
 				userExchange: {
 					university: null,
@@ -481,8 +481,8 @@
 						Vår: {},
 					},
 					sameUniversity: true,
-					secondUniversity: null,
-					secondCountry: null,
+					secondUniversity: "null",
+					secondCountry: "null",
 				},
 				warningsFallCourses: [],
 				warningsSpringCourses: [],
@@ -501,6 +501,11 @@
 			"userExchange.country"(newCountry) {
 				if (newCountry != this.remoteExchange.country) {
 					this.userExchange.university = null;
+				}
+			},
+			"userExchange.secondCountry"(newCountry) {
+				if (newCountry != this.remoteExchange.secondCountry) {
+					this.userExchange.secondUniversity = "null";
 				}
 			},
 			"userExchange.numSemesters"(newNumber) {
@@ -839,10 +844,16 @@
 							this.countryNames[
 								this.getCountryIndex(this.userExchange.country)
 							];
-						this.userExchange.secondCountry =
-							this.countryNames[
-								this.getCountryIndex(this.userExchange.secondCountry)
-							];
+
+						if (this.userExchange.sameUniversity) {
+							console.log("Second university is null");
+							this.userExchange.secondUniversity = "null";
+						} else {
+							this.userExchange.secondCountry =
+								this.countryNames[
+									this.getCountryIndex(this.userExchange.secondCountry)
+								];
+						}
 
 						await update(
 							dbRef(db, `exchanges/${auth.currentUser.uid}`),
