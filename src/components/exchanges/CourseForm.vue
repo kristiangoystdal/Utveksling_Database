@@ -65,7 +65,6 @@
 				v-model="localCourse.institute"
 				:label="$t('database.institute')"
 				:rules="couresRules"
-				required
 				:hint="$t('hints.institute')"
 				persistent-hint
 			></v-text-field>
@@ -74,11 +73,7 @@
 			<v-text-field
 				v-model="localCourse.year"
 				:label="$t('myExchange.courseInformation.courseYear')"
-				:rules="[
-					(v) => !!v || $t('rules.required'),
-					(v) => /^\d{4}$/.test(v) || $t('rules.yearFormat'),
-				]"
-				required
+				:rules="[(v) => /^\d{4}$/.test(v) || $t('rules.yearFormat')]"
 				:hint="$t('hints.courseYear')"
 				persistent-hint
 			></v-text-field>
