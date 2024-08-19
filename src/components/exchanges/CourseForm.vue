@@ -96,65 +96,65 @@
 </template>
 
 <script>
-export default {
-	props: {
-		course: {
-			type: Object,
-			default: () => ({
-				exchangeID: "",
-				year: "",
-				courseCode: "",
-				courseName: "",
-				replacedCourseCode: "",
-				replacedCourseName: "",
-				courseType: "",
-				institute: "",
-				ETCSPoints: "",
-				comments: "",
-			}),
-		},
-	},
-	data() {
-		return {
-			valid: false,
-			localCourse: { ...this.course }, // Create a local copy of the course object
-			couresRules: [
-				(v) => !!v || this.$t("rules.required"),
-				(v) => (v && v.length >= 3) || this.$t("rules.min3Chars"),
-			],
-			courseTypes: ["O-emne", "I-emne", "K-emne", "Annet"],
-		};
-	},
-	watch: {
-		localCourse: {
-			handler(newVal) {
-				this.$emit("submit-course", { ...this.localCourse });
+	export default {
+		props: {
+			course: {
+				type: Object,
+				default: () => ({
+					exchangeID: "",
+					year: "",
+					courseCode: "",
+					courseName: "",
+					replacedCourseCode: "",
+					replacedCourseName: "",
+					courseType: "",
+					institute: "",
+					ETCSPoints: "",
+					comments: "",
+				}),
 			},
-			deep: true,
-			immediate: true,
 		},
-	},
-	methods: {
-		submit() {
-			if (this.$refs.form.validate()) {
-				this.$emit("submit-course", { ...this.localCourse });
-			}
-		},
-		resetForm() {
-			this.localCourse = {
-				exchangeID: "",
-				year: "",
-				courseCode: "",
-				courseName: "",
-				replacedCourseCode: "",
-				replacedCourseName: "",
-				institute: "",
-				ETCSPoints: "",
-				comments: "",
+		data() {
+			return {
+				valid: false,
+				localCourse: { ...this.course }, // Create a local copy of the course object
+				couresRules: [
+					(v) => !!v || this.$t("rules.required"),
+					(v) => (v && v.length >= 3) || this.$t("rules.min3Chars"),
+				],
+				courseTypes: ["O-emne", "I-emne", "K-emne", "Annet"],
 			};
 		},
-	},
-};
+		watch: {
+			localCourse: {
+				handler(newVal) {
+					this.$emit("submit-course", { ...this.localCourse });
+				},
+				deep: true,
+				immediate: true,
+			},
+		},
+		methods: {
+			submit() {
+				if (this.$refs.form.validate()) {
+					this.$emit("submit-course", { ...this.localCourse });
+				}
+			},
+			resetForm() {
+				this.localCourse = {
+					exchangeID: "",
+					year: "",
+					courseCode: "",
+					courseName: "",
+					replacedCourseCode: "",
+					replacedCourseName: "",
+					institute: "",
+					ETCSPoints: "",
+					comments: "",
+				};
+			},
+		},
+	};
 </script>
 
 <style scoped></style>

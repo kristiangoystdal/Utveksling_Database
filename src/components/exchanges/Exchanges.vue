@@ -483,384 +483,385 @@
 </template>
 
 <script>
-import { db } from "../../js/firebaseConfig.js";
-import { get, child, ref as dbRef } from "firebase/database";
-import { useI18n } from "vue-i18n";
+	import { db } from "../../js/firebaseConfig.js";
+	import { get, child, ref as dbRef } from "firebase/database";
+	import { useI18n } from "vue-i18n";
 
-export default {
-	setup() {
-		const { t, locale } = useI18n();
-		return { t, locale };
-	},
-	data() {
-		return {
-			showFilters: false,
-			expanded: [],
-			exchangeList: [],
-			countryList: [],
-			countryValues: [],
-			countrySearch: "",
-			universityList: [],
-			universityValues: [],
-			universitySearch: "",
-			studyList: [],
-			studyValues: [],
-			studySearch: "",
-			specializationList: [],
-			specializationValues: [],
-			specializationSearch: "",
-			numSemestersList: [1, 2],
-			numSemestersValues: [],
-			numSemestersSearch: "",
-			commentDialog: false,
-			currentComments: "",
-			currentCourseName: "",
-			screenWidth: window.innerWidth,
-			informationDialog: false,
-			currentCourse: null,
-		};
-	},
-	created() {
-		this.fetchExchangeData();
-	},
-	mounted() {
-		this.getValuesFromDatabase();
-		window.addEventListener("resize", this.updateScreenWidth);
-		this.updateScreenWidth();
-	},
-	beforeUnmount() {
-		window.removeEventListener("resize", this.updateScreenWidth);
-	},
-	watch: {
-		locale(newLocale, oldLocale) {
-			this.fetchExchangeData();
-			this.getValuesFromDatabase();
+	export default {
+		setup() {
+			const { t, locale } = useI18n();
+			return { t, locale };
 		},
-	},
-	computed: {
-		isMobile() {
-			return this.screenWidth <= 768;
-		},
-		translatedHeaders() {
-			return [
-				{
-					title: this.t("database.university"),
-					align: "start",
-					key: "university",
-				},
-				{
-					title: this.t("database.country"),
-					align: "end",
-					key: "country",
-				},
-				{
-					title: this.t("database.studyYear"),
-					align: "end",
-					key: "studyYear",
-				},
-				{
-					title: this.t("database.study"),
-					align: "end",
-					key: "study",
-				},
-				{
-					title: this.t("database.specialization"),
-					align: "end",
-					key: "specialization",
-				},
-				{
-					title: this.t("database.numSemesters"),
-					align: "end",
-					key: "numSemesters",
-				},
-			];
-		},
-		translatedHeadersCourses() {
-			return [
-				{
-					title: this.t("database.courseName"),
-					align: "start",
-					key: "courseName",
-				},
-				{
-					title: this.t("database.courseCode"), // fixed typo
-					align: "end",
-					key: "courseCode",
-				},
-				{
-					title: this.t("database.replacedCourseName"),
-					align: "end",
-					key: "replacedCourseName",
-				},
-				{
-					title: this.t("database.replacedCourseCode"),
-					align: "end",
-					key: "replacedCourseCode",
-				},
-				{
-					title: this.t("database.courseType"),
-					align: "end",
-					key: "courseType",
-				},
-				{
-					title: this.t("database.institute"),
-					align: "end",
-					key: "institute",
-				},
-				{
-					title: this.t("database.ETCSPoints"),
-					align: "end",
-					key: "ETCSPoints",
-				},
-				{
-					title: this.t("database.comments"),
-					align: "end",
-					key: "comment",
-				},
-			];
-		},
-		translatedMobileHeaders() {
-			return [
-				{
-					title: this.t("database.university"),
-					align: "start",
-					key: "university",
-				},
-				{
-					title: this.t("database.country"),
-					align: "end",
-					key: "country",
-				},
-				{
-					title: this.t("database.study"),
-					align: "end",
-					key: "study",
-				},
-			];
-		},
-		translatedMobileHeadersCourses() {
-			return [
-				{
-					title: this.t("database.courseName"),
-					align: "start",
-					key: "courseName",
-				},
-				{
-					title: this.t("database.courseCode"), // fixed typo
-					align: "end",
-					key: "courseCode",
-				},
-				{
-					title: this.t("database.replacedCourseName"),
-					align: "end",
-					key: "replacedCourseName",
-				},
-				{
-					title: this.t("database.replacedCourseCode"),
-					align: "end",
-					key: "replacedCourseCode",
-				},
-				{
-					title: this.t("database.courseType"),
-					align: "end",
-					key: "courseType",
-				},
-				{
-					title: this.t("database.institute"),
-					align: "end",
-					key: "institute",
-				},
-				{
-					title: this.t("database.ETCSPoints"),
-					align: "end",
-					key: "ETCSPoints",
-				},
-				{
-					title: this.t("database.comments"),
-					align: "end",
-					key: "comment",
-				},
-			];
-		},
-	},
-	methods: {
-		updateScreenWidth() {
-			this.screenWidth = window.innerWidth;
-		},
-		toggleFilters() {
-			this.showFilters = !this.showFilters;
-		},
-		async getValuesFromDatabase() {
-			try {
-				const exchangesSnapshot = await get(child(dbRef(db), "exchanges"));
-				if (exchangesSnapshot.exists()) {
-					let exchanges = exchangesSnapshot.val();
-					const countriesSet = new Set();
-					const universitiesSet = new Set();
-					const studiesSet = new Set();
-					const specializationsSet = new Set();
-
-					for (const exchangeKey in exchanges) {
-						const exchange = exchanges[exchangeKey];
-
-						// Check if either 'Høst' or 'Vår' courses exist and have at least one course
-						const hasAutumnCourses =
-							exchange.courses &&
-							exchange.courses.Høst &&
-							exchange.courses.Høst.length > 0;
-						const hasSpringCourses =
-							exchange.courses &&
-							exchange.courses.Vår &&
-							exchange.courses.Vår.length > 0;
-
-						if (hasAutumnCourses || hasSpringCourses) {
-							if (exchange.country) {
-								countriesSet.add(this.$t(`countries.${exchange.country}`));
-							}
-							if (exchange.university) {
-								universitiesSet.add(exchange.university);
-							}
-							if (exchange.study) {
-								studiesSet.add(exchange.study);
-							}
-							if (exchange.specialization) {
-								specializationsSet.add(exchange.specialization);
-							}
-						}
-					}
-
-					this.countryList = Array.from(countriesSet);
-					this.universityList = Array.from(universitiesSet);
-					this.studyList = Array.from(studiesSet);
-					this.specializationList = Array.from(specializationsSet);
-				} else {
-					console.error("No data available");
-				}
-			} catch (error) {
-				console.error("Error fetching values from database:", error);
-			}
-		},
-
-		remove(item) {
-			this.countryValues = this.countryValues.filter((i) => i !== item);
-		},
-		async fetchExchangeData() {
-			try {
-				const snapshot = await get(child(dbRef(db), "exchanges"));
-				if (snapshot.exists()) {
-					let exchanges = snapshot.val();
-
-					exchanges = Object.keys(exchanges)
-						.map((key) => ({
-							id: key,
-							...exchanges[key],
-							country: this.$t(`countries.${exchanges[key].country}`),
-						}))
-						.filter(
-							(exchange) =>
-								exchange.courses && Object.keys(exchange.courses).length > 0
-						);
-
-					// Apply filters
-					exchanges = this.applyFilters(exchanges);
-
-					// Reformat exchanges
-					const reformattedExchanges = this.reformatExchanges(exchanges);
-
-					// Update the exchange list
-					this.exchangeList = reformattedExchanges;
-				} else {
-					console.error("No data available");
-				}
-			} catch (error) {
-				console.error("Error fetching exchange data:", error);
-			}
-		},
-
-		applyFilters(exchanges) {
-			if (this.countryValues.length > 0) {
-				exchanges = exchanges.filter((exchange) =>
-					this.countryValues.includes(exchange.country)
-				);
-			}
-			if (this.universityValues.length > 0) {
-				exchanges = exchanges.filter((exchange) =>
-					this.universityValues.includes(exchange.university)
-				);
-			}
-			if (this.studyValues.length > 0) {
-				exchanges = exchanges.filter((exchange) =>
-					this.studyValues.includes(exchange.study)
-				);
-			}
-			if (this.specializationValues.length > 0) {
-				exchanges = exchanges.filter((exchange) =>
-					this.specializationValues.includes(exchange.specialization)
-				);
-			}
-			if (this.numSemestersValues.length > 0) {
-				exchanges = exchanges.filter((exchange) =>
-					this.numSemestersValues.includes(exchange.numSemesters)
-				);
-			}
-			return exchanges;
-		},
-
-		reformatExchanges(exchanges) {
-			return exchanges.reduce((result, exchange) => {
-				if (!exchange.sameUniversity && exchange.courses.Vår) {
-					const firstExchange = this.createExchange(exchange, {
-						Høst: exchange.courses.Høst,
-						Vår: [],
-					});
-
-					const newExchange = this.createExchange(
-						{
-							...exchange,
-							id: exchange.id + "new",
-							university: exchange.secondUniversity,
-							country: exchange.secondCountry,
-						},
-						{
-							Høst: [],
-							Vår: exchange.courses.Vår,
-						}
-					);
-					result.push(firstExchange);
-					result.push(newExchange);
-				} else {
-					result.push(exchange);
-				}
-				return result;
-			}, []);
-		},
-
-		createExchange(baseExchange, courses) {
+		data() {
 			return {
-				...baseExchange,
-				courses: courses,
-				numSemesters: 1,
+				showFilters: false,
+				expanded: [],
+				exchangeList: [],
+				countryList: [],
+				countryValues: [],
+				countrySearch: "",
+				universityList: [],
+				universityValues: [],
+				universitySearch: "",
+				studyList: [],
+				studyValues: [],
+				studySearch: "",
+				specializationList: [],
+				specializationValues: [],
+				specializationSearch: "",
+				numSemestersList: [1, 2],
+				numSemestersValues: [],
+				numSemestersSearch: "",
+				commentDialog: false,
+				currentComments: "",
+				currentCourseName: "",
+				screenWidth: window.innerWidth,
+				informationDialog: false,
+				currentCourse: null,
 			};
 		},
-		showComments(course) {
-			this.currentCourseName = course.courseName;
-			this.currentComments = course.comments || this.t("exchanges.noComments");
-			this.commentDialog = true;
+		created() {
+			this.fetchExchangeData();
 		},
-		closeCommentDialog() {
-			this.commentDialog = false;
+		mounted() {
+			this.getValuesFromDatabase();
+			window.addEventListener("resize", this.updateScreenWidth);
+			this.updateScreenWidth();
 		},
-		toggleInformationDialog(course) {
-			this.informationDialog = !this.informationDialog;
-			if (this.informationDialog) {
-				this.currentCourse = course;
-			}
+		beforeUnmount() {
+			window.removeEventListener("resize", this.updateScreenWidth);
 		},
-		closeInformationDialog() {
-			this.informationDialog = false;
+		watch: {
+			locale(newLocale, oldLocale) {
+				this.fetchExchangeData();
+				this.getValuesFromDatabase();
+			},
 		},
-	},
-};
+		computed: {
+			isMobile() {
+				return this.screenWidth <= 768;
+			},
+			translatedHeaders() {
+				return [
+					{
+						title: this.t("database.university"),
+						align: "start",
+						key: "university",
+					},
+					{
+						title: this.t("database.country"),
+						align: "end",
+						key: "country",
+					},
+					{
+						title: this.t("database.studyYear"),
+						align: "end",
+						key: "studyYear",
+					},
+					{
+						title: this.t("database.study"),
+						align: "end",
+						key: "study",
+					},
+					{
+						title: this.t("database.specialization"),
+						align: "end",
+						key: "specialization",
+					},
+					{
+						title: this.t("database.numSemesters"),
+						align: "end",
+						key: "numSemesters",
+					},
+				];
+			},
+			translatedHeadersCourses() {
+				return [
+					{
+						title: this.t("database.courseName"),
+						align: "start",
+						key: "courseName",
+					},
+					{
+						title: this.t("database.courseCode"), // fixed typo
+						align: "end",
+						key: "courseCode",
+					},
+					{
+						title: this.t("database.replacedCourseName"),
+						align: "end",
+						key: "replacedCourseName",
+					},
+					{
+						title: this.t("database.replacedCourseCode"),
+						align: "end",
+						key: "replacedCourseCode",
+					},
+					{
+						title: this.t("database.courseType"),
+						align: "end",
+						key: "courseType",
+					},
+					{
+						title: this.t("database.institute"),
+						align: "end",
+						key: "institute",
+					},
+					{
+						title: this.t("database.ETCSPoints"),
+						align: "end",
+						key: "ETCSPoints",
+					},
+					{
+						title: this.t("database.comments"),
+						align: "end",
+						key: "comment",
+					},
+				];
+			},
+			translatedMobileHeaders() {
+				return [
+					{
+						title: this.t("database.university"),
+						align: "start",
+						key: "university",
+					},
+					{
+						title: this.t("database.country"),
+						align: "end",
+						key: "country",
+					},
+					{
+						title: this.t("database.study"),
+						align: "end",
+						key: "study",
+					},
+				];
+			},
+			translatedMobileHeadersCourses() {
+				return [
+					{
+						title: this.t("database.courseName"),
+						align: "start",
+						key: "courseName",
+					},
+					{
+						title: this.t("database.courseCode"), // fixed typo
+						align: "end",
+						key: "courseCode",
+					},
+					{
+						title: this.t("database.replacedCourseName"),
+						align: "end",
+						key: "replacedCourseName",
+					},
+					{
+						title: this.t("database.replacedCourseCode"),
+						align: "end",
+						key: "replacedCourseCode",
+					},
+					{
+						title: this.t("database.courseType"),
+						align: "end",
+						key: "courseType",
+					},
+					{
+						title: this.t("database.institute"),
+						align: "end",
+						key: "institute",
+					},
+					{
+						title: this.t("database.ETCSPoints"),
+						align: "end",
+						key: "ETCSPoints",
+					},
+					{
+						title: this.t("database.comments"),
+						align: "end",
+						key: "comment",
+					},
+				];
+			},
+		},
+		methods: {
+			updateScreenWidth() {
+				this.screenWidth = window.innerWidth;
+			},
+			toggleFilters() {
+				this.showFilters = !this.showFilters;
+			},
+			async getValuesFromDatabase() {
+				try {
+					const exchangesSnapshot = await get(child(dbRef(db), "exchanges"));
+					if (exchangesSnapshot.exists()) {
+						let exchanges = exchangesSnapshot.val();
+						const countriesSet = new Set();
+						const universitiesSet = new Set();
+						const studiesSet = new Set();
+						const specializationsSet = new Set();
+
+						for (const exchangeKey in exchanges) {
+							const exchange = exchanges[exchangeKey];
+
+							// Check if either 'Høst' or 'Vår' courses exist and have at least one course
+							const hasAutumnCourses =
+								exchange.courses &&
+								exchange.courses.Høst &&
+								exchange.courses.Høst.length > 0;
+							const hasSpringCourses =
+								exchange.courses &&
+								exchange.courses.Vår &&
+								exchange.courses.Vår.length > 0;
+
+							if (hasAutumnCourses || hasSpringCourses) {
+								if (exchange.country) {
+									countriesSet.add(this.$t(`countries.${exchange.country}`));
+								}
+								if (exchange.university) {
+									universitiesSet.add(exchange.university);
+								}
+								if (exchange.study) {
+									studiesSet.add(exchange.study);
+								}
+								if (exchange.specialization) {
+									specializationsSet.add(exchange.specialization);
+								}
+							}
+						}
+
+						this.countryList = Array.from(countriesSet);
+						this.universityList = Array.from(universitiesSet);
+						this.studyList = Array.from(studiesSet);
+						this.specializationList = Array.from(specializationsSet);
+					} else {
+						console.error("No data available");
+					}
+				} catch (error) {
+					console.error("Error fetching values from database:", error);
+				}
+			},
+
+			remove(item) {
+				this.countryValues = this.countryValues.filter((i) => i !== item);
+			},
+			async fetchExchangeData() {
+				try {
+					const snapshot = await get(child(dbRef(db), "exchanges"));
+					if (snapshot.exists()) {
+						let exchanges = snapshot.val();
+
+						exchanges = Object.keys(exchanges)
+							.map((key) => ({
+								id: key,
+								...exchanges[key],
+								country: this.$t(`countries.${exchanges[key].country}`),
+							}))
+							.filter(
+								(exchange) =>
+									exchange.courses && Object.keys(exchange.courses).length > 0
+							);
+
+						// Apply filters
+						exchanges = this.applyFilters(exchanges);
+
+						// Reformat exchanges
+						const reformattedExchanges = this.reformatExchanges(exchanges);
+
+						// Update the exchange list
+						this.exchangeList = reformattedExchanges;
+					} else {
+						console.error("No data available");
+					}
+				} catch (error) {
+					console.error("Error fetching exchange data:", error);
+				}
+			},
+
+			applyFilters(exchanges) {
+				if (this.countryValues.length > 0) {
+					exchanges = exchanges.filter((exchange) =>
+						this.countryValues.includes(exchange.country)
+					);
+				}
+				if (this.universityValues.length > 0) {
+					exchanges = exchanges.filter((exchange) =>
+						this.universityValues.includes(exchange.university)
+					);
+				}
+				if (this.studyValues.length > 0) {
+					exchanges = exchanges.filter((exchange) =>
+						this.studyValues.includes(exchange.study)
+					);
+				}
+				if (this.specializationValues.length > 0) {
+					exchanges = exchanges.filter((exchange) =>
+						this.specializationValues.includes(exchange.specialization)
+					);
+				}
+				if (this.numSemestersValues.length > 0) {
+					exchanges = exchanges.filter((exchange) =>
+						this.numSemestersValues.includes(exchange.numSemesters)
+					);
+				}
+				return exchanges;
+			},
+
+			reformatExchanges(exchanges) {
+				return exchanges.reduce((result, exchange) => {
+					if (!exchange.sameUniversity && exchange.courses.Vår) {
+						const firstExchange = this.createExchange(exchange, {
+							Høst: exchange.courses.Høst,
+							Vår: [],
+						});
+
+						const newExchange = this.createExchange(
+							{
+								...exchange,
+								id: exchange.id + "new",
+								university: exchange.secondUniversity,
+								country: exchange.secondCountry,
+							},
+							{
+								Høst: [],
+								Vår: exchange.courses.Vår,
+							}
+						);
+						result.push(firstExchange);
+						result.push(newExchange);
+					} else {
+						result.push(exchange);
+					}
+					return result;
+				}, []);
+			},
+
+			createExchange(baseExchange, courses) {
+				return {
+					...baseExchange,
+					courses: courses,
+					numSemesters: 1,
+				};
+			},
+			showComments(course) {
+				this.currentCourseName = course.courseName;
+				this.currentComments =
+					course.comments || this.t("exchanges.noComments");
+				this.commentDialog = true;
+			},
+			closeCommentDialog() {
+				this.commentDialog = false;
+			},
+			toggleInformationDialog(course) {
+				this.informationDialog = !this.informationDialog;
+				if (this.informationDialog) {
+					this.currentCourse = course;
+				}
+			},
+			closeInformationDialog() {
+				this.informationDialog = false;
+			},
+		},
+	};
 </script>
 
 <style scoped></style>

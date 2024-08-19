@@ -433,542 +433,544 @@
 </template>
 
 <script>
-import { db, auth } from "../../js/firebaseConfig";
-import { ref as dbRef, get, set, update } from "firebase/database";
-import studiesData from "../../data/studies.json";
+	import { db, auth } from "../../js/firebaseConfig";
+	import { ref as dbRef, get, set, update } from "firebase/database";
+	import studiesData from "../../data/studies.json";
 
-import CourseForm from "./CourseForm.vue";
+	import CourseForm from "./CourseForm.vue";
 
-export default {
-	components: {
-		CourseForm,
-	},
-	data() {
-		return {
-			user: null,
-			userInformation: null,
-			panel: null,
-			coursePanel: null,
-			numCoursesMissing: 0,
-			studies: {},
-			specializations: [],
-			universities: {},
-			semesters: [],
-			remoteExchange: {
-				university: null,
-				country: null,
-				studyYear: null,
-				study: null,
-				specialization: null,
-				numSemesters: null,
-				courses: {
-					Høst: {},
-					Vår: {},
+	export default {
+		components: {
+			CourseForm,
+		},
+		data() {
+			return {
+				user: null,
+				userInformation: null,
+				panel: null,
+				coursePanel: null,
+				numCoursesMissing: 0,
+				studies: {},
+				specializations: [],
+				universities: {},
+				semesters: [],
+				remoteExchange: {
+					university: null,
+					country: null,
+					studyYear: null,
+					study: null,
+					specialization: null,
+					numSemesters: null,
+					courses: {
+						Høst: {},
+						Vår: {},
+					},
+					sameUniversity: true,
+					secondUniversity: null,
+					secondCountry: null,
 				},
-				sameUniversity: true,
-				secondUniversity: null,
-				secondCountry: null,
-			},
-			userExchange: {
-				university: null,
-				country: null,
-				studyYear: null,
-				study: null,
-				specialization: null,
-				numSemesters: null,
-				courses: {
-					Høst: {},
-					Vår: {},
+				userExchange: {
+					university: null,
+					country: null,
+					studyYear: null,
+					study: null,
+					specialization: null,
+					numSemesters: null,
+					courses: {
+						Høst: {},
+						Vår: {},
+					},
+					sameUniversity: true,
+					secondUniversity: null,
+					secondCountry: null,
 				},
-				sameUniversity: true,
-				secondUniversity: null,
-				secondCountry: null,
+				warningsFallCourses: [],
+				warningsSpringCourses: [],
+				deleteDialog: false,
+				currentCourse: null,
+				currentSemester: null,
+			};
+		},
+		watch: {
+			"userExchange.study"(newStudy) {
+				if (newStudy !== this.remoteExchange.study) {
+					this.userExchange.specialization = null;
+					this.specializations = this.studies[newStudy] || [];
+				}
 			},
-			warningsFallCourses: [],
-			warningsSpringCourses: [],
-			deleteDialog: false,
-			currentCourse: null,
-			currentSemester: null,
-		};
-	},
-	watch: {
-		"userExchange.study"(newStudy) {
-			if (newStudy !== this.remoteExchange.study) {
-				this.userExchange.specialization = null;
-				this.specializations = this.studies[newStudy] || [];
-			}
+			"userExchange.country"(newCountry) {
+				if (newCountry != this.remoteExchange.country) {
+					this.userExchange.university = null;
+				}
+			},
+			"userExchange.numSemesters"(newNumber) {
+				if (newNumber == 2 && this.semesters.length !== 2) {
+					this.semesters = ["Høst", "Vår"];
+				} else if (newNumber == 1 && this.semesters.length !== 1) {
+					this.semesters = [];
+				}
+			},
 		},
-		"userExchange.country"(newCountry) {
-			if (newCountry != this.remoteExchange.country) {
-				this.userExchange.university = null;
-			}
-		},
-		"userExchange.numSemesters"(newNumber) {
-			if (newNumber == 2 && this.semesters.length !== 2) {
-				this.semesters = ["Høst", "Vår"];
-			} else if (newNumber == 1 && this.semesters.length !== 1) {
-				this.semesters = [];
-			}
-		},
-	},
-	computed: {
-		userInfo() {
-			this.userExchange.study = this.userInformation.study;
-			this.userExchange.specialization = this.userInformation.specialization;
-		},
-		countryNames() {
-			return Object.keys(this.universities);
-		},
-		countryNamesTranslated() {
-			return Object.keys(this.universities).map((country) =>
-				this.$t(`countries.${country}`)
-			);
-		},
-		universityNames() {
-			if (this.userExchange.country) {
-				return this.universities[
-					this.countryNames[this.getCountryIndex(this.userExchange.country)]
-				];
-			} else {
-				return [];
-			}
-		},
-		secondUniversityNames() {
-			if (this.userExchange.secondCountry) {
-				return this.universities[this.userExchange.secondCountry];
-			} else {
-				return [];
-			}
-		},
-		universityToCountryMap() {
-			const map = {};
-			Object.keys(this.universities).forEach((country) => {
-				this.universities[country].forEach((university) => {
-					map[university] = country;
+		computed: {
+			userInfo() {
+				this.userExchange.study = this.userInformation.study;
+				this.userExchange.specialization = this.userInformation.specialization;
+			},
+			countryNames() {
+				return Object.keys(this.universities);
+			},
+			countryNamesTranslated() {
+				return Object.keys(this.universities).map((country) =>
+					this.$t(`countries.${country}`)
+				);
+			},
+			universityNames() {
+				if (this.userExchange.country) {
+					return this.universities[
+						this.countryNames[this.getCountryIndex(this.userExchange.country)]
+					];
+				} else {
+					return [];
+				}
+			},
+			secondUniversityNames() {
+				if (this.userExchange.secondCountry) {
+					return this.universities[this.userExchange.secondCountry];
+				} else {
+					return [];
+				}
+			},
+			universityToCountryMap() {
+				const map = {};
+				Object.keys(this.universities).forEach((country) => {
+					this.universities[country].forEach((university) => {
+						map[university] = country;
+					});
 				});
-			});
-			return map;
-		},
-		missingBasicDataString() {
-			const string = this.$t("myExchange.missingData") + " ";
-			const missingFields = [];
-
-			if (this.userExchange.country == null) {
-				missingFields.push(this.$t("database.country").toLowerCase());
-			}
-			if (this.userExchange.university == null) {
-				missingFields.push(this.$t("database.university").toLowerCase());
-			}
-			if (this.userExchange.study == null) {
-				missingFields.push(this.$t("database.study").toLowerCase());
-			}
-			if (this.userExchange.specialization == null) {
-				missingFields.push(this.$t("database.specialization").toLowerCase());
-			}
-			if (this.userExchange.studyYear == null) {
-				missingFields.push(this.$t("database.studyYear").toLowerCase());
-			}
-			if (this.userExchange.numSemesters == null) {
-				missingFields.push(this.$t("database.numSemesters").toLowerCase());
-			}
-			if (this.userExchange.numSemesters == 1 && this.semesters.length == 0) {
-				missingFields.push(this.$t("database.semester").toLowerCase());
-			}
-
-			if (missingFields.length > 0) {
-				return string + missingFields.join(", ");
-			}
-		},
-		missingBasicDataBool() {
-			return (
-				this.userExchange.country == null ||
-				this.userExchange.university == null ||
-				this.userExchange.study == null ||
-				this.userExchange.specialization == null ||
-				this.userExchange.studyYear == null ||
-				this.userExchange.numSemesters == null ||
-				(this.userExchange.numSemesters == 1 && this.semesters.length == 0)
-			);
-		},
-		missingCourseDataString() {
-			return (semester, cIndex) => {
+				return map;
+			},
+			missingBasicDataString() {
 				const string = this.$t("myExchange.missingData") + " ";
 				const missingFields = [];
-				const course = this.userExchange.courses[semester][cIndex] || {};
 
-				if (!course.courseName) {
-					missingFields.push(this.$t("database.courseName").toLowerCase());
+				if (this.userExchange.country == null) {
+					missingFields.push(this.$t("database.country").toLowerCase());
 				}
-				if (!course.ETCSPoints) {
-					missingFields.push(this.$t("database.ETCSPoints"));
+				if (this.userExchange.university == null) {
+					missingFields.push(this.$t("database.university").toLowerCase());
+				}
+				if (this.userExchange.study == null) {
+					missingFields.push(this.$t("database.study").toLowerCase());
+				}
+				if (this.userExchange.specialization == null) {
+					missingFields.push(this.$t("database.specialization").toLowerCase());
+				}
+				if (this.userExchange.studyYear == null) {
+					missingFields.push(this.$t("database.studyYear").toLowerCase());
+				}
+				if (this.userExchange.numSemesters == null) {
+					missingFields.push(this.$t("database.numSemesters").toLowerCase());
+				}
+				if (this.userExchange.numSemesters == 1 && this.semesters.length == 0) {
+					missingFields.push(this.$t("database.semester").toLowerCase());
 				}
 
 				if (missingFields.length > 0) {
-					return string + missingFields.join(" og ");
+					return string + missingFields.join(", ");
 				}
-			};
-		},
-		missingFallCourseDataBool() {
-			return (semester, cIndex) => {
-				const course = this.userExchange.courses[semester][cIndex] || {};
-				return !course.courseName || !course.ETCSPoints;
-			};
-		},
-		missingSpringCourseDataBool() {
-			return (semester, cIndex) => {
-				const course = this.userExchange.courses[semester][cIndex] || {};
-				return !course.courseName || !course.ETCSPoints;
-			};
-		},
-		missingFallCoursesDataTotalBool() {
-			const fallSemester = "Høst";
-			if (this.semesters.includes(fallSemester)) {
-				const courses = this.userExchange.courses[fallSemester];
-				if (!courses) {
-					return false; // No courses for this semester
-				}
-				return Object.keys(courses).some((cIndex) =>
-					this.missingFallCourseDataBool(fallSemester, cIndex)
+			},
+			missingBasicDataBool() {
+				return (
+					this.userExchange.country == null ||
+					this.userExchange.university == null ||
+					this.userExchange.study == null ||
+					this.userExchange.specialization == null ||
+					this.userExchange.studyYear == null ||
+					this.userExchange.numSemesters == null ||
+					(this.userExchange.numSemesters == 1 && this.semesters.length == 0)
 				);
-			}
-			return false; // Fall semester not selected
-		},
-		missingSpringCoursesDataTotalBool() {
-			const springSemester = "Vår";
-			if (this.semesters.includes(springSemester)) {
-				const courses = this.userExchange.courses[springSemester];
-				if (!courses) {
-					return false; // No courses for this semester
-				}
-				return Object.keys(courses).some((cIndex) =>
-					this.missingSpringCourseDataBool(springSemester, cIndex)
-				);
-			}
-			return false; // Spring semester not selected
-		},
-		numFallCourses() {
-			return Object.keys(this.userExchange.courses["Høst"] || {}).length;
-		},
-		numSpringCourses() {
-			return Object.keys(this.userExchange.courses["Vår"] || {}).length;
-		},
-		unsavedChanges() {
-			if (
-				JSON.stringify(this.remoteExchange) !==
-				JSON.stringify(this.userExchange)
-			) {
-				return true;
-			} else {
-				return false;
-			}
-		},
-	},
-	methods: {
-		loadData() {
-			// Load the studies data from the JSON file
-			try {
-				this.studies = studiesData.studies;
-				this.universities = studiesData.universities;
-			} catch (error) {
-				console.error("There was an error loading the studies data:", error);
-			}
-		},
-		async retriveUserExchange() {
-			if (auth.currentUser) {
-				// Get the user's exchange data from the database
-				const currentUser = auth.currentUser;
-				const userDocRef = dbRef(db, `exchanges/${currentUser.uid}`);
-				const userDoc = await get(userDocRef);
+			},
+			missingCourseDataString() {
+				return (semester, cIndex) => {
+					const string = this.$t("myExchange.missingData") + " ";
+					const missingFields = [];
+					const course = this.userExchange.courses[semester][cIndex] || {};
 
-				// If the user exists, set the userData object
-				if (userDoc.exists()) {
-					this.userData = userDoc.val();
-
-					// Function to transform courses arrays to objects with numerical keys
-					const transformCourses = (exchange) => {
-						if (exchange.courses) {
-							const semesters = ["Høst", "Vår"];
-							semesters.forEach((semester) => {
-								if (Array.isArray(exchange.courses[semester])) {
-									const coursesArray = exchange.courses[semester];
-									const coursesObject = {};
-									coursesArray.forEach((course, index) => {
-										coursesObject[index] = course;
-									});
-									exchange.courses[semester] = coursesObject;
-								}
-							});
-						}
-					};
-
-					// Apply transformation to both userExchange and remoteExchange
-					this.remoteExchange = JSON.parse(JSON.stringify(this.userData));
-					transformCourses(this.remoteExchange);
-					this.userExchange = JSON.parse(JSON.stringify(this.remoteExchange));
-
-					// Set the country name based on the country key
-					this.userExchange.country = this.getCountryName();
-					this.remoteExchange.country = this.userExchange.country;
-
-					this.loadData();
-
-					// Set the university name based on the university key
-					this.userExchange.university = this.remoteExchange.university;
-
-					// If the user has no courses, create empty courses objects
-					if (!this.userExchange.courses) {
-						this.userExchange.courses = {
-							Høst: {},
-							Vår: {},
-						};
-						this.remoteExchange.courses = {
-							Høst: {},
-							Vår: {},
-						};
+					if (!course.courseName) {
+						missingFields.push(this.$t("database.courseName").toLowerCase());
+					}
+					if (!course.ETCSPoints) {
+						missingFields.push(this.$t("database.ETCSPoints"));
 					}
 
-					// Set the semesters array based on the number of semesters
-					const hasFall = "Høst" in this.userExchange.courses;
-					const hasSpring = "Vår" in this.userExchange.courses;
-					if (this.userExchange.numSemesters == 1) {
-						if (hasFall) {
-							this.semesters = ["Høst"];
-						} else if (hasSpring) {
-							this.semesters = ["Vår"];
+					if (missingFields.length > 0) {
+						return string + missingFields.join(" og ");
+					}
+				};
+			},
+			missingFallCourseDataBool() {
+				return (semester, cIndex) => {
+					const course = this.userExchange.courses[semester][cIndex] || {};
+					return !course.courseName || !course.ETCSPoints;
+				};
+			},
+			missingSpringCourseDataBool() {
+				return (semester, cIndex) => {
+					const course = this.userExchange.courses[semester][cIndex] || {};
+					return !course.courseName || !course.ETCSPoints;
+				};
+			},
+			missingFallCoursesDataTotalBool() {
+				const fallSemester = "Høst";
+				if (this.semesters.includes(fallSemester)) {
+					const courses = this.userExchange.courses[fallSemester];
+					if (!courses) {
+						return false; // No courses for this semester
+					}
+					return Object.keys(courses).some((cIndex) =>
+						this.missingFallCourseDataBool(fallSemester, cIndex)
+					);
+				}
+				return false; // Fall semester not selected
+			},
+			missingSpringCoursesDataTotalBool() {
+				const springSemester = "Vår";
+				if (this.semesters.includes(springSemester)) {
+					const courses = this.userExchange.courses[springSemester];
+					if (!courses) {
+						return false; // No courses for this semester
+					}
+					return Object.keys(courses).some((cIndex) =>
+						this.missingSpringCourseDataBool(springSemester, cIndex)
+					);
+				}
+				return false; // Spring semester not selected
+			},
+			numFallCourses() {
+				return Object.keys(this.userExchange.courses["Høst"] || {}).length;
+			},
+			numSpringCourses() {
+				return Object.keys(this.userExchange.courses["Vår"] || {}).length;
+			},
+			unsavedChanges() {
+				if (
+					JSON.stringify(this.remoteExchange) !==
+					JSON.stringify(this.userExchange)
+				) {
+					return true;
+				} else {
+					return false;
+				}
+			},
+		},
+		methods: {
+			loadData() {
+				// Load the studies data from the JSON file
+				try {
+					this.studies = studiesData.studies;
+					this.universities = studiesData.universities;
+				} catch (error) {
+					console.error("There was an error loading the studies data:", error);
+				}
+			},
+			async retriveUserExchange() {
+				if (auth.currentUser) {
+					// Get the user's exchange data from the database
+					const currentUser = auth.currentUser;
+					const userDocRef = dbRef(db, `exchanges/${currentUser.uid}`);
+					const userDoc = await get(userDocRef);
+
+					// If the user exists, set the userData object
+					if (userDoc.exists()) {
+						this.userData = userDoc.val();
+
+						// Function to transform courses arrays to objects with numerical keys
+						const transformCourses = (exchange) => {
+							if (exchange.courses) {
+								const semesters = ["Høst", "Vår"];
+								semesters.forEach((semester) => {
+									if (Array.isArray(exchange.courses[semester])) {
+										const coursesArray = exchange.courses[semester];
+										const coursesObject = {};
+										coursesArray.forEach((course, index) => {
+											coursesObject[index] = course;
+										});
+										exchange.courses[semester] = coursesObject;
+									}
+								});
+							}
+						};
+
+						// Apply transformation to both userExchange and remoteExchange
+						this.remoteExchange = JSON.parse(JSON.stringify(this.userData));
+						transformCourses(this.remoteExchange);
+						this.userExchange = JSON.parse(JSON.stringify(this.remoteExchange));
+
+						// Set the country name based on the country key
+						this.userExchange.country = this.getCountryName();
+						this.remoteExchange.country = this.userExchange.country;
+
+						this.loadData();
+
+						// Set the university name based on the university key
+						this.userExchange.university = this.remoteExchange.university;
+
+						// If the user has no courses, create empty courses objects
+						if (!this.userExchange.courses) {
+							this.userExchange.courses = {
+								Høst: {},
+								Vår: {},
+							};
+							this.remoteExchange.courses = {
+								Høst: {},
+								Vår: {},
+							};
 						}
-					} else if (this.userExchange.numSemesters == 2) {
-						this.semesters = ["Høst", "Vår"];
+
+						// Set the semesters array based on the number of semesters
+						const hasFall = "Høst" in this.userExchange.courses;
+						const hasSpring = "Vår" in this.userExchange.courses;
+						if (this.userExchange.numSemesters == 1) {
+							if (hasFall) {
+								this.semesters = ["Høst"];
+							} else if (hasSpring) {
+								this.semesters = ["Vår"];
+							}
+						} else if (this.userExchange.numSemesters == 2) {
+							this.semesters = ["Høst", "Vår"];
+						}
+					} else {
+						console.error("User does not exist in database");
 					}
 				} else {
-					console.error("User does not exist in database");
+					console.error("No user is signed in");
 				}
-			} else {
-				console.error("No user is signed in");
-			}
-		},
-		addCourse(semesterString) {
-			// Get the courses for the specified semester
-			var courses = this.userExchange.courses[semesterString];
+			},
+			addCourse(semesterString) {
+				// Get the courses for the specified semester
+				var courses = this.userExchange.courses[semesterString];
 
-			// Find the index for the new course
-			var newCourseIndex = null;
-			if (!courses) {
-				this.userExchange.courses[semesterString] = {};
-				newCourseIndex = 0;
-			} else {
-				newCourseIndex = Object.keys(courses).length;
-			}
-
-			// Add the new course to the courses object
-			this.userExchange.courses[semesterString] = {
-				...courses,
-				[newCourseIndex]: {
-					exchangeID: auth.currentUser.uid, // Set the current user's ID
-					year: "",
-					courseCode: "",
-					courseName: "",
-					replacedCourseCode: "",
-					replacedCourseName: "",
-					institute: "",
-					ETCSPoints: "",
-					comments: "",
-				},
-			};
-		},
-		getCourses(semesterName) {
-			// Get the courses for the specified semester
-			const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
-			const courses = this.userExchange.courses[semesterKey] || {};
-			return Object.values(courses);
-		},
-		removeCourse(semesterName, courseIndex) {
-			// Close the delete dialog
-			this.deleteDialog = false;
-
-			// Get the courses for the specified semester
-			const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
-			const courses = { ...this.userExchange.courses[semesterKey] };
-
-			// Delete the course at the specified index
-			delete courses[courseIndex];
-
-			// Reindex the courses to ensure they have the lowest possible indices
-			const reindexedCourses = {};
-			let newIndex = 0;
-			for (const key in courses) {
-				if (courses.hasOwnProperty(key)) {
-					reindexedCourses[newIndex] = courses[key];
-					newIndex++;
+				// Find the index for the new course
+				var newCourseIndex = null;
+				if (!courses) {
+					this.userExchange.courses[semesterString] = {};
+					newCourseIndex = 0;
+				} else {
+					newCourseIndex = Object.keys(courses).length;
 				}
-			}
 
-			// Update the userExchange.courses object directly
-			this.userExchange.courses = {
-				...this.userExchange.courses,
-				[semesterKey]: reindexedCourses,
-			};
-
-			// Close the expanded panel
-			this.coursePanel = null;
-		},
-		updateCourse(semester, courseIndex, updatedCourse) {
-			this.userExchange.courses[semester] = {
-				...this.userExchange.courses[semester],
-				[courseIndex]: { ...updatedCourse },
-			};
-		},
-		handleCourseUpdate(updatedCourse) {
-			const { semester, courseIndex, course } = updatedCourse;
-			this.userExchange.courses[semester][courseIndex] = course;
-		},
-		getCountryIndex(selectedCountry) {
-			const translatedCountries = this.countryNamesTranslated;
-			return translatedCountries.findIndex(
-				(translatedName) => translatedName === selectedCountry
-			);
-		},
-		getCountryName() {
-			const countryKey = this.userExchange.country;
-			const translatedCountryName = this.$t(`countries.${countryKey}`);
-			return translatedCountryName;
-		},
-		async updateExchange() {
-			if (auth.currentUser) {
-				try {
-					this.userExchange.country =
-						this.countryNames[this.getCountryIndex(this.userExchange.country)];
-					this.userExchange.secondCountry =
-						this.countryNames[
-							this.getCountryIndex(this.userExchange.secondCountry)
-						];
-
-					await update(
-						dbRef(db, `exchanges/${auth.currentUser.uid}`),
-						this.userExchange
-					);
-
-					this.userExchange.country = this.getCountryName();
-					this.userExchange.secondCountry = this.getCountryName();
-					this.remoteExchange = JSON.parse(JSON.stringify(this.userExchange));
-				} catch (error) {
-					console.error("Error updating user exchange data: ", error);
-				}
-			}
-		},
-		handleSemesterChange(newSemester) {
-			if (newSemester === null || newSemester === "") {
-				this.semesters = [];
-			} else {
-				this.semesters = [newSemester];
-			}
-		},
-		handleNumSemestersChange(newNumber) {
-			this.userExchange.numSemesters = newNumber;
-			this.semesters = newNumber == 2 ? ["Høst", "Vår"] : [];
-		},
-		setUniversity(university) {
-			this.userExchange.university = university;
-
-			const newCountry = this.universityToCountryMap[university];
-			this.userExchange.country = newCountry;
-		},
-		setCountry(country) {
-			this.userExchange.country = country;
-			if (country != this.universityToCountryMap[country]) {
-				this.userExchange.university = null;
-			}
-		},
-		toggleDialog(semester, courseIndex) {
-			this.coursePanel = null;
-			if (!this.deleteDialog) {
-				this.deleteDialog = !this.deleteDialog;
-				this.currentSemester = semester;
-				this.currentCourse = courseIndex;
-			} else {
+				// Add the new course to the courses object
+				this.userExchange.courses[semesterString] = {
+					...courses,
+					[newCourseIndex]: {
+						exchangeID: auth.currentUser.uid, // Set the current user's ID
+						year: "",
+						courseCode: "",
+						courseName: "",
+						replacedCourseCode: "",
+						replacedCourseName: "",
+						institute: "",
+						ETCSPoints: "",
+						comments: "",
+					},
+				};
+			},
+			getCourses(semesterName) {
+				// Get the courses for the specified semester
+				const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
+				const courses = this.userExchange.courses[semesterKey] || {};
+				return Object.values(courses);
+			},
+			removeCourse(semesterName, courseIndex) {
+				// Close the delete dialog
 				this.deleteDialog = false;
-				this.currentSemester = null;
-				this.currentCourse = null;
-			}
-		},
-		async loadUser() {
-			if (this.user) {
-				const userDocRef = dbRef(db, `users/${this.user.uid}`);
-				const userDoc = await get(userDocRef);
-				if (userDoc.exists()) {
-					this.userInformation = userDoc.val();
+
+				// Get the courses for the specified semester
+				const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
+				const courses = { ...this.userExchange.courses[semesterKey] };
+
+				// Delete the course at the specified index
+				delete courses[courseIndex];
+
+				// Reindex the courses to ensure they have the lowest possible indices
+				const reindexedCourses = {};
+				let newIndex = 0;
+				for (const key in courses) {
+					if (courses.hasOwnProperty(key)) {
+						reindexedCourses[newIndex] = courses[key];
+						newIndex++;
+					}
 				}
-			}
+
+				// Update the userExchange.courses object directly
+				this.userExchange.courses = {
+					...this.userExchange.courses,
+					[semesterKey]: reindexedCourses,
+				};
+
+				// Close the expanded panel
+				this.coursePanel = null;
+			},
+			updateCourse(semester, courseIndex, updatedCourse) {
+				this.userExchange.courses[semester] = {
+					...this.userExchange.courses[semester],
+					[courseIndex]: { ...updatedCourse },
+				};
+			},
+			handleCourseUpdate(updatedCourse) {
+				const { semester, courseIndex, course } = updatedCourse;
+				this.userExchange.courses[semester][courseIndex] = course;
+			},
+			getCountryIndex(selectedCountry) {
+				const translatedCountries = this.countryNamesTranslated;
+				return translatedCountries.findIndex(
+					(translatedName) => translatedName === selectedCountry
+				);
+			},
+			getCountryName() {
+				const countryKey = this.userExchange.country;
+				const translatedCountryName = this.$t(`countries.${countryKey}`);
+				return translatedCountryName;
+			},
+			async updateExchange() {
+				if (auth.currentUser) {
+					try {
+						this.userExchange.country =
+							this.countryNames[
+								this.getCountryIndex(this.userExchange.country)
+							];
+						this.userExchange.secondCountry =
+							this.countryNames[
+								this.getCountryIndex(this.userExchange.secondCountry)
+							];
+
+						await update(
+							dbRef(db, `exchanges/${auth.currentUser.uid}`),
+							this.userExchange
+						);
+
+						this.userExchange.country = this.getCountryName();
+						this.userExchange.secondCountry = this.getCountryName();
+						this.remoteExchange = JSON.parse(JSON.stringify(this.userExchange));
+					} catch (error) {
+						console.error("Error updating user exchange data: ", error);
+					}
+				}
+			},
+			handleSemesterChange(newSemester) {
+				if (newSemester === null || newSemester === "") {
+					this.semesters = [];
+				} else {
+					this.semesters = [newSemester];
+				}
+			},
+			handleNumSemestersChange(newNumber) {
+				this.userExchange.numSemesters = newNumber;
+				this.semesters = newNumber == 2 ? ["Høst", "Vår"] : [];
+			},
+			setUniversity(university) {
+				this.userExchange.university = university;
+
+				const newCountry = this.universityToCountryMap[university];
+				this.userExchange.country = newCountry;
+			},
+			setCountry(country) {
+				this.userExchange.country = country;
+				if (country != this.universityToCountryMap[country]) {
+					this.userExchange.university = null;
+				}
+			},
+			toggleDialog(semester, courseIndex) {
+				this.coursePanel = null;
+				if (!this.deleteDialog) {
+					this.deleteDialog = !this.deleteDialog;
+					this.currentSemester = semester;
+					this.currentCourse = courseIndex;
+				} else {
+					this.deleteDialog = false;
+					this.currentSemester = null;
+					this.currentCourse = null;
+				}
+			},
+			async loadUser() {
+				if (this.user) {
+					const userDocRef = dbRef(db, `users/${this.user.uid}`);
+					const userDoc = await get(userDocRef);
+					if (userDoc.exists()) {
+						this.userInformation = userDoc.val();
+					}
+				}
+			},
 		},
-	},
-	mounted() {
-		if (auth.currentUser) {
-			this.user = auth.currentUser;
-			this.loadUser();
-		}
-		this.retriveUserExchange();
-		this.loadData();
-	},
-};
+		mounted() {
+			if (auth.currentUser) {
+				this.user = auth.currentUser;
+				this.loadUser();
+			}
+			this.retriveUserExchange();
+			this.loadData();
+		},
+	};
 </script>
 
 <style scoped>
-.unsaved-changes {
-	background-color: #ffecb3; /* Light yellow background */
-	border: 1px solid #ffd54f; /* Darker yellow border */
-	padding: 16px;
-	border-radius: 8px;
-	margin-bottom: 16px;
-	font-weight: bold;
-	color: #ff6f00; /* Dark orange text */
-	width: fit-content;
-	margin: 0 auto;
-	text-align: center;
-}
+	.unsaved-changes {
+		background-color: #ffecb3; /* Light yellow background */
+		border: 1px solid #ffd54f; /* Darker yellow border */
+		padding: 16px;
+		border-radius: 8px;
+		margin-bottom: 16px;
+		font-weight: bold;
+		color: #ff6f00; /* Dark orange text */
+		width: fit-content;
+		margin: 0 auto;
+		text-align: center;
+	}
 
-.update-btn {
-	background-color: #00bd7e; /* Teal background */
-	color: white;
-	font-weight: bold;
-}
+	.update-btn {
+		background-color: #00bd7e; /* Teal background */
+		color: white;
+		font-weight: bold;
+	}
 
-.update-btn:disabled {
-	background-color: #b2dfdb; /* Light teal background */
-	color: #004d40; /* Dark teal text */
-}
+	.update-btn:disabled {
+		background-color: #b2dfdb; /* Light teal background */
+		color: #004d40; /* Dark teal text */
+	}
 
-.course-icons {
-	margin: 0 8px; /* Adjust the margin value as needed */
-}
+	.course-icons {
+		margin: 0 8px; /* Adjust the margin value as needed */
+	}
 
-#yesBtn {
-	padding: 10px 20px;
-	border-radius: 5px;
-	cursor: pointer;
-	border: none;
-	font-size: 14px !important;
-	margin: 10px;
-	background-color: #e53935; /* Soft Red */
-	color: var(--fifth-color);
-}
+	#yesBtn {
+		padding: 10px 20px;
+		border-radius: 5px;
+		cursor: pointer;
+		border: none;
+		font-size: 14px !important;
+		margin: 10px;
+		background-color: #e53935; /* Soft Red */
+		color: var(--fifth-color);
+	}
 
-#yesBtn:hover {
-	background-color: #d32f2f; /* Darker Soft Red */
-	color: var(--fifth-color);
-}
+	#yesBtn:hover {
+		background-color: #d32f2f; /* Darker Soft Red */
+		color: var(--fifth-color);
+	}
 
-#noBtn {
-	padding: 10px 20px;
-	border-radius: 5px;
-	cursor: pointer;
-	border: none;
-	font-size: 14px !important;
-	margin: 10px;
-	background-color: #4caf50; /* Soft Green */
-	color: var(--fifth-color);
-}
+	#noBtn {
+		padding: 10px 20px;
+		border-radius: 5px;
+		cursor: pointer;
+		border: none;
+		font-size: 14px !important;
+		margin: 10px;
+		background-color: #4caf50; /* Soft Green */
+		color: var(--fifth-color);
+	}
 
-#noBtn:hover {
-	background-color: #388e3c; /* Darker Soft Green */
-	color: var(--fifth-color);
-}
+	#noBtn:hover {
+		background-color: #388e3c; /* Darker Soft Green */
+		color: var(--fifth-color);
+	}
 </style>
