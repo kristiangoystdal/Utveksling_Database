@@ -1,7 +1,10 @@
 <template>
 	<div>
 		<h2>{{ $t("contactPage.pageHeader") }}</h2>
-		<v-card style="padding: 20px; max-width: 80%; margin: 10px auto">
+		<p class="box box-third-color preserve-whitespace text-center">
+			{{ $t("contactPage.info") }}
+		</p>
+		<v-container style="padding: 20px; max-width: 80%; margin: 10px auto">
 			<form @submit.prevent="submit">
 				<v-text-field
 					v-model="form.name"
@@ -31,6 +34,7 @@
 					class="me-4"
 					style="background-color: var(--second-color); color: white"
 					:loading="isSubmitting"
+					:disabled="isSubmitting"
 					type="submit"
 				>
 					{{ $t("contactPage.submit") }}
@@ -38,87 +42,99 @@
 
 				<v-btn @click="handleReset">{{ $t("contactPage.clear") }}</v-btn>
 			</form>
-		</v-card>
+		</v-container>
 	</div>
 </template>
 
 <script>
-import emailjs from "emailjs-com";
+	import emailjs from "emailjs-com";
 
-export default {
-	data() {
-		return {
-			form: {
-				name: "",
-				email: "",
-				message: "",
-			},
-			errors: {},
-			isSubmitting: false,
-		};
-	},
-	methods: {
-		validateForm() {
-			let valid = true;
-			this.errors = {};
-
-			// Name validation
-			if (this.form.name.length < 2) {
-				this.errors.name = $t("errors.contactName");
-				valid = false;
-			}
-
-			// Email validation
-			const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-			if (!emailPattern.test(this.form.email)) {
-				this.errors.email = $t("errors.contactEmail");
-				valid = false;
-			}
-
-			// Message validation
-			if (this.form.message.length < 10) {
-				this.errors.message = $t("errors.contactMessage");
-				valid = false;
-			}
-
-			return valid;
-		},
-		async submit() {
-			this.isSubmitting = true;
-			const isValid = this.validateForm();
-			if (isValid) {
-				try {
-					const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-					const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-					const userID = import.meta.env.VITE_EMAILJS_USER_ID;
-
-					const templateParams = {
-						name: this.form.name,
-						email: this.form.email,
-						message: this.form.message,
-					};
-
-					await emailjs.send(serviceID, templateID, templateParams, userID);
-					this.handleReset();
-				} catch (error) {
-					alert("Failed to send email");
-					console.error("Error:", error);
-				}
-			}
-			this.isSubmitting = false;
-		},
-		handleReset() {
-			this.form = {
-				name: "",
-				email: "",
-				message: "",
+	export default {
+		data() {
+			return {
+				form: {
+					name: "",
+					email: "",
+					message: "",
+				},
+				errors: {},
+				isSubmitting: false,
 			};
-			this.errors = {};
 		},
-	},
-};
+		computed: {
+			validName() {
+				return this.form.name.length > 2;
+			},
+			validEmail() {
+				const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				return emailPattern.test(this.form.email);
+			},
+			validMessage() {
+				return this.form.message.length > 10;
+			},
+		},
+		methods: {
+			validateForm() {
+				let valid = true;
+				this.errors = {};
+
+				// Name validation
+				if (this.form.name.length < 2) {
+					this.errors.name = this.$t("errors.contactName");
+					valid = false;
+				}
+
+				// Email validation
+				const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				if (!emailPattern.test(this.form.email)) {
+					this.errors.email = this.$t("errors.contactEmail");
+					valid = false;
+				}
+
+				// Message validation
+				if (this.form.message.length < 10) {
+					this.errors.message = this.$t("errors.contactMessage");
+					valid = false;
+				}
+
+				return valid;
+			},
+			async submit() {
+				this.isSubmitting = true;
+				const isValid = this.validateForm();
+				if (isValid) {
+					try {
+						const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+						const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+						const userID = import.meta.env.VITE_EMAILJS_USER_ID;
+
+						const templateParams = {
+							name: this.form.name,
+							email: this.form.email,
+							message: this.form.message,
+						};
+
+						await emailjs.send(serviceID, templateID, templateParams, userID);
+						this.handleReset();
+					} catch (error) {
+						alert("Failed to send email");
+						console.error("Error:", error);
+					}
+				}
+				this.isSubmitting = false;
+			},
+			handleReset() {
+				this.form = {
+					name: "",
+					email: "",
+					message: "",
+				};
+				this.errors = {};
+			},
+		},
+	};
 </script>
 
 <style scoped>
-/* Add any specific styles for the form */
+	/* Add any specific styles for the form */
 </style>
