@@ -505,7 +505,7 @@
 			},
 			"userExchange.secondCountry"(newCountry) {
 				if (newCountry != this.remoteExchange.secondCountry) {
-					this.userExchange.secondUniversity = "null";
+					this.userExchange.secondUniversity = null;
 				}
 			},
 			"userExchange.numSemesters"(newNumber) {
@@ -715,6 +715,19 @@
 						this.userExchange.country = this.getCountryName();
 						this.remoteExchange.country = this.userExchange.country;
 
+						if (this.userExchange.sameUniversity) {
+							this.userExchange.secondUniversity = null;
+							this.userExchange.secondCountry = null;
+							this.remoteExchange.secondUniversity =
+								this.userExchange.secondUniversity;
+							this.remoteExchange.secondCountry =
+								this.userExchange.secondCountry;
+						} else {
+							this.userExchange.secondCountry = this.getCountryName();
+							this.remoteExchange.secondCountry =
+								this.userExchange.secondCountry;
+						}
+
 						this.loadData();
 
 						// Set the university name based on the university key
@@ -847,6 +860,7 @@
 
 						if (this.userExchange.sameUniversity) {
 							this.userExchange.secondUniversity = "null";
+							this.userExchange.secondCountry = "null";
 						} else {
 							this.userExchange.secondCountry =
 								this.countryNames[
