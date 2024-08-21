@@ -1,19 +1,164 @@
 {
   "studies": {
+    "Arkitektur": [
+      "Ingen spesialisering"
+    ],
+    "Bioteknologi": [
+      "Biokjemi og biopolymerkjemi",
+      "Molekylærbiologi",
+      "Systembiologi",
+      "Ingen spesialisering"
+    ],
+    "Bygg- og miljøteknikk": [
+      "Bygg og anlegg",
+      "Konstruksjon",
+      "Kyst og arktisk",
+      "Vann og miljø",
+      "Veg, transport og geomatikk",
+      "Ingen spesialisering"
+    ],
+    "Cybersikkerhet og datakommunikasjon": [
+      "Digital økonomi",  
+      "Informasjonssikkerhet",
+      "Nettsystemer",
+      "Ingen spesialisering"
+    ],
+    "Datateknologi": [
+      "Algoritmer og datamaskiner",
+      "Databaser og søk",
+      "Effektive datasystemer",
+      "Kunstig intelligens",
+      "Programvaresystemer",
+      "Visuell databehandling",
+      "Ingen spesialisering"
+    ],
     "Elektronisk systemdesign og innovasjon": [
-      "Design av digitale og innvevde system", 
-      "Analog kretsdesign og radioteknikk", 
-      "Signalbehandling og kommunikasjon", 
       "Akustikk for kommunikasjon, miljø og fjernmåling", 
+      "Analog kretsdesign og radioteknikk", 
+      "Design av digitale og innvevde system", 
       "Nanoelektronikk og fotonikk", 
-      "Romsystemer"
+      "Romsystemer",
+      "Signalbehandling og kommunikasjon", 
+      "Ingen spesialisering"
+    ],
+    "Energi og miljø": [
+      "Elektrisk energiteknikk og smarte nett",
+      "Energi- og prosessteknikk",
+      "Energiplanlegging og miljøanalyse",
+      "Ingen spesialisering"
+    ],
+    "Fysikk og matematikk": [
+      "Biofysikk og medisinsk teknologi",
+      "Industriell matematikk",
+      "Teknisk fysikk",
+      "Ingen spesialisering"
+    ],
+    "Georessurser og geoteknologi": [
+      "Anvendt geofysikk",
+      "Mineralproduksjon",
+      "Petroleums- og reservoarteknologi",
+      "Ressursgeologi",
+      "Ingen spesialisering"
+    ],
+    "Industriell design": [
+      "Interaksjonsdesign",
+      "Produktdesign",
+      "Ingen spesialisering"
+    ],
+    "Industriell kjemi og bioteknologi": [
+      "Bioteknologi",
+      "Kjemi",
+      "Kjemisk prosessteknologi",
+      "Materialkjemi og energiteknologi",
+      "Ingen spesialisering"
+    ],
+    "Industriell økonomi og teknologiledelse - Datateknologi": [
+      "Kunstig intelligens",
+      "Programvaresystemer",
+      "Ingen spesialisering"
+    ],
+    "Industriell økonomi og teknologiledelse - Energi og miljø": [
+      "Elektrisk energiteknikk",
+      "Energi- og prosessteknikk",
+      "Ingen spesialisering"
+    ],
+    "Industriell økonomi og teknologiledelse - Marin": [
+      "Ingen spesialisering"
+    ],
+    "Industriell økonomi og teknologiledelse - Produktutvikling og produksjon": [
+      "Ledelse og systemfag",
+      "Energi- og prosessteknikk",
+      "Ingen spesialisering"
+    ],
+    "Ingeniørgeologi": [
+      "Ingeniørgeologi og bergmekanikk",
+      "Miljø- og hydrogeologi",
+      "Ingen spesialisering"
+    ],
+    "Ingeniørvitenskap og IKT": [
+      "Geomatikk",
+      "IKT og konstruksjonsteknikk",
+      "IKT og marin teknikk",
+      "IKT og petroleumsfag",
+      "IKT og produksjonsledelse",
+      "IKT og maskinteknikk",
+      "Ingen spesialisering"
     ],
     "Kybernetikk og robotikk": [
       "Tilpassede datasystemer",
       "Energi og prosesstyring",
       "Roboter og fartøystyring",
-      "Medisinske og biologiske systemer"
+      "Medisinske og biologiske systemer",
+      "Ingen spesialisering"
+    ],
+    "Marin teknikk": [
+      "Marin konstruksjonsteknikk",
+      "Marin kybernetikk",
+      "Marin hydrodynamikk",
+      "Marint maskineri",
+      "Marin prosjektering og logistikk",
+      "Ingen spesialisering"
+    ],
+    "Maskin- og energiteknologi": [
+      "Energi i vind og vann",
+      "Industriell mekanikk",
+      "Inneklima og energi for bygninger",
+      "Ledelse og systemfag",
+      "Materialer og produktintegritet",
+      "Miljøanalyse for maskinteknologi",
+      "Produktutvikling og produksjon​",
+      "Prosess- og energiteknikk",
+      "Robotteknikk og automatisering",
+      "Ingen spesialisering"
+    ],
+    "Materialteknologi": [
+      "Materialutvikling og -bruk",
+      "Materialer for energiteknologi",
+      "Ressurser, energi og miljø",
+      "Ingen spesialisering"
+    ],
+    "Medisin": [
+      "Ingen spesialisering"
+    ],
+    "Nanoteknologi": [
+      "Bionanoteknologi",
+      "Nanoelektronikk",
+      "Nanoteknologi for materialer, energi og miljø",
+      "Ingen spesialisering"
+    ],
+    "Psykologutdanning": [
+      "Ingen spesialisering"
+    ],
+    "Samfunnsøkonomi – integrert master": [
+      "Ingen spesialisering"
+    ],
+    "Økonomi og administrasjon": [
+      "Business Analytics",
+      "Finansiering og investering",
+      "Markedsføring",
+      "Strategi, organisasjon og ledelse",
+      "Økonomistyring",
+      "Ingen spesialisering"
     ]
   }
 }
-
