@@ -452,7 +452,6 @@
 				coursePanel: null,
 				numCoursesMissing: 0,
 				studies: {},
-				specializations: [],
 				universities: {},
 				semesters: [],
 				remoteExchange: {
@@ -863,6 +862,10 @@
 			async updateExchange() {
 				if (auth.currentUser) {
 					try {
+						const tempUserExchange = JSON.parse(
+							JSON.stringify(this.userExchange)
+						);
+
 						this.userExchange.country =
 							this.countryNames[
 								this.getCountryIndex(this.userExchange.country)
@@ -883,9 +886,8 @@
 							this.userExchange
 						);
 
-						this.userExchange.country = this.getCountryName();
-						this.userExchange.secondCountry = this.getCountryName();
-						this.remoteExchange = JSON.parse(JSON.stringify(this.userExchange));
+						this.remoteExchange = JSON.parse(JSON.stringify(tempUserExchange));
+						this.userExchange = tempUserExchange;
 					} catch (error) {
 						console.error("Error updating user exchange data: ", error);
 					}
@@ -904,9 +906,6 @@
 			},
 			setUniversity(university) {
 				this.userExchange.university = university;
-
-				const newCountry = this.universityToCountryMap[university];
-				this.userExchange.country = newCountry;
 			},
 			setCountry(country) {
 				this.userExchange.country = country;
