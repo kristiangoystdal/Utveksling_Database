@@ -436,6 +436,7 @@
 	import { db, auth } from "../../js/firebaseConfig";
 	import { ref as dbRef, get, set, update } from "firebase/database";
 	import studiesData from "../../data/studies.json";
+	import universitiesData from "../../data/universities.json";
 
 	import CourseForm from "./CourseForm.vue";
 
@@ -673,7 +674,7 @@
 				// Load the studies data from the JSON file
 				try {
 					this.studies = studiesData.studies;
-					this.universities = studiesData.universities;
+					this.universities = universitiesData.universities;
 				} catch (error) {
 					console.error("There was an error loading the studies data:", error);
 				}
