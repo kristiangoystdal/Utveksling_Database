@@ -217,8 +217,7 @@
 							study: "",
 							specialization: "",
 						};
-						this.dialog = true;
-
+						
 						// Create a new user record with initial values
 						await set(userDocRef, {
 							displayName: currentUser.displayName || "",
