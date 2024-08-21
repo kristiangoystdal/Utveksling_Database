@@ -436,6 +436,7 @@
 	import { db, auth } from "../../js/firebaseConfig";
 	import { ref as dbRef, get, set, update } from "firebase/database";
 	import studiesData from "../../data/studies.json";
+	import universitiesData from "../../data/universities.json";
 
 	import CourseForm from "./CourseForm.vue";
 
@@ -493,19 +494,25 @@
 		},
 		watch: {
 			"userExchange.study"(newStudy) {
-				if (newStudy !== this.remoteExchange.study) {
+				if (newStudy != this.remoteExchange.study) {
 					this.userExchange.specialization = null;
-					this.specializations = this.studies[newStudy] || [];
+				} else {
+					this.userExchange.specialization = this.remoteExchange.specialization;
 				}
 			},
 			"userExchange.country"(newCountry) {
 				if (newCountry != this.remoteExchange.country) {
 					this.userExchange.university = null;
+				} else {
+					this.userExchange.university = this.remoteExchange.university;
 				}
 			},
 			"userExchange.secondCountry"(newCountry) {
 				if (newCountry != this.remoteExchange.secondCountry) {
 					this.userExchange.secondUniversity = null;
+				} else {
+					this.userExchange.secondUniversity =
+						this.remoteExchange.secondUniversity;
 				}
 			},
 			"userExchange.numSemesters"(newNumber) {
@@ -517,9 +524,12 @@
 			},
 		},
 		computed: {
-			userInfo() {
-				this.userExchange.study = this.userInformation.study;
-				this.userExchange.specialization = this.userInformation.specialization;
+			specializations() {
+				if (this.userExchange.study) {
+					return this.studies[this.userExchange.study];
+				} else {
+					return [];
+				}
 			},
 			countryNames() {
 				return Object.keys(this.universities);
@@ -673,7 +683,7 @@
 				// Load the studies data from the JSON file
 				try {
 					this.studies = studiesData.studies;
-					this.universities = studiesData.universities;
+					this.universities = universitiesData.universities;
 				} catch (error) {
 					console.error("There was an error loading the studies data:", error);
 				}
