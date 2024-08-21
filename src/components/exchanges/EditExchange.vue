@@ -524,10 +524,6 @@
 			},
 		},
 		computed: {
-			// userInfo() {
-			// 	this.userExchange.study = this.userInformation.study;
-			// 	this.userExchange.specialization = this.userInformation.specialization;
-			// },
 			specializations() {
 				if (this.userExchange.study) {
 					return this.studies[this.userExchange.study];
@@ -687,7 +683,6 @@
 				// Load the studies data from the JSON file
 				try {
 					this.studies = studiesData.studies;
-					console.log(this.studies);
 					this.universities = universitiesData.universities;
 				} catch (error) {
 					console.error("There was an error loading the studies data:", error);
