@@ -494,19 +494,25 @@
 		},
 		watch: {
 			"userExchange.study"(newStudy) {
-				if (newStudy !== this.remoteExchange.study) {
+				if (newStudy != this.remoteExchange.study) {
 					this.userExchange.specialization = null;
-					this.specializations = this.studies[newStudy] || [];
+				} else {
+					this.userExchange.specialization = this.remoteExchange.specialization;
 				}
 			},
 			"userExchange.country"(newCountry) {
 				if (newCountry != this.remoteExchange.country) {
 					this.userExchange.university = null;
+				} else {
+					this.userExchange.university = this.remoteExchange.university;
 				}
 			},
 			"userExchange.secondCountry"(newCountry) {
 				if (newCountry != this.remoteExchange.secondCountry) {
 					this.userExchange.secondUniversity = null;
+				} else {
+					this.userExchange.secondUniversity =
+						this.remoteExchange.secondUniversity;
 				}
 			},
 			"userExchange.numSemesters"(newNumber) {
@@ -518,9 +524,16 @@
 			},
 		},
 		computed: {
-			userInfo() {
-				this.userExchange.study = this.userInformation.study;
-				this.userExchange.specialization = this.userInformation.specialization;
+			// userInfo() {
+			// 	this.userExchange.study = this.userInformation.study;
+			// 	this.userExchange.specialization = this.userInformation.specialization;
+			// },
+			specializations() {
+				if (this.userExchange.study) {
+					return this.studies[this.userExchange.study];
+				} else {
+					return [];
+				}
 			},
 			countryNames() {
 				return Object.keys(this.universities);
@@ -674,6 +687,7 @@
 				// Load the studies data from the JSON file
 				try {
 					this.studies = studiesData.studies;
+					console.log(this.studies);
 					this.universities = universitiesData.universities;
 				} catch (error) {
 					console.error("There was an error loading the studies data:", error);
