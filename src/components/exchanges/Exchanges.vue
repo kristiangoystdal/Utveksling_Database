@@ -761,11 +761,11 @@
 									exchange.courses && Object.keys(exchange.courses).length > 0
 							);
 
-						// Apply filters
-						exchanges = this.applyFilters(exchanges);
-
 						// Reformat exchanges
-						const reformattedExchanges = this.reformatExchanges(exchanges);
+						let reformattedExchanges = this.reformatExchanges(exchanges);
+
+						// Apply filters
+						reformattedExchanges = this.applyFilters(reformattedExchanges);
 
 						// Update the exchange list
 						this.exchangeList = reformattedExchanges;
