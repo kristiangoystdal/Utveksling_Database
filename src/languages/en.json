@@ -113,7 +113,7 @@
 	},
 	"userHandling": {
 		"loginTitle": "Login",
-		"loginWithGoogle": "Login with Google",
+		"loginWithGoogle": "Google",
 		"accountTitle": "Your Profile",
 		"loadingUser": "Loading your profile...",
 		"name": "Name",
