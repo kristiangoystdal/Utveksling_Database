@@ -175,6 +175,18 @@
 									</v-row>
 								</div>
 							</div>
+
+							<!-- Save Button -->
+							<v-row>
+								<v-col xs="12" md="6">
+									<v-btn
+										@click="updateExchange"
+										class="btn-primary"
+										:disabled="!unsavedChanges"
+										>{{ $t("operations.save") }}</v-btn
+									>
+								</v-col>
+							</v-row>
 						</v-container>
 					</v-expansion-panel-text>
 				</v-expansion-panel>
@@ -345,6 +357,15 @@
 								<v-expansion-panel-text class="zero-padding">
 									<course-form
 										:course="course"
+										:update-exchange="updateExchange"
+										:unsavedChanges="
+											unsavedChanges &&
+											!(
+												missingFallCoursesDataTotalBool ||
+												missingSpringCoursesDataTotalBool ||
+												missingBasicDataBool
+											)
+										"
 										@submit-course="updateCourse(semester, cIndex, $event)"
 										:removeCourse="() => removeCourse(semester, cIndex)"
 									/>
@@ -501,6 +522,21 @@
 					this.semesters = ["Høst", "Vår"];
 				} else if (newNumber == 1 && this.semesters.length !== 1) {
 					this.semesters = [];
+				}
+			},
+			semesters(newSemesters) {
+				if (this.userExchange.numSemesters == 1) {
+					if (newSemesters.includes("Høst")) {
+						this.userExchange.courses = JSON.parse(
+							JSON.stringify(this.remoteExchange.courses)
+						); // Deep copy
+						delete this.userExchange.courses["Vår"];
+					} else if (newSemesters.includes("Vår")) {
+						this.userExchange.courses = JSON.parse(
+							JSON.stringify(this.remoteExchange.courses)
+						); // Deep copy
+						delete this.userExchange.courses["Høst"];
+					}
 				}
 			},
 		},
