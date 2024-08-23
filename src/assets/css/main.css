@@ -1,34 +1,33 @@
 :root {
-  --first-color: #112D4E; /* Dark Blue */
-  --second-color: #3F72AF; /* Medium Blue */
-  --third-color: #DBE2EF; /* Light Blue */
-  --fourth-color: #F9F7F7; /* Very Light Grey */
-  --fifth-color: #FFFFFF; /* White for text (added for better contrast) */
+	--first-color: #112d4e; /* Dark Blue */
+	--second-color: #3f72af; /* Medium Blue */
+	--third-color: #dbe2ef; /* Light Blue */
+	--fourth-color: #f9f7f7; /* Very Light Grey */
+	--fifth-color: #ffffff; /* White for text (added for better contrast) */
 
-  /* RGB versions */
-  --first-color-rgb: 17, 45, 78;  /* Dark Blue */
-  --second-color-rgb: 63, 114, 175;  /* Medium Blue */
-  --third-color-rgb: 219, 226, 239;  /* Light Blue */
-  --fourth-color-rgb: 249, 247, 247;  /* Very Light Grey */
-  --fifth-color-rgb: 255, 255, 255;  /* White */
+	/* RGB versions */
+	--first-color-rgb: 17, 45, 78; /* Dark Blue */
+	--second-color-rgb: 63, 114, 175; /* Medium Blue */
+	--third-color-rgb: 219, 226, 239; /* Light Blue */
+	--fourth-color-rgb: 249, 247, 247; /* Very Light Grey */
+	--fifth-color-rgb: 255, 255, 255; /* White */
 
-  --alert-error: #FF4C4C; /* Red for error alerts */
-  --alert-warning: #ffecb3; /* Orange for warning alerts */
-  --alert-success: #28A745; /* Green for success alerts */
-  --alert-info: #17A2B8; /* Bright Blue for info alerts */
+	--alert-error: #ff4c4c; /* Red for error alerts */
+	--alert-warning: #ffecb3; /* Orange for warning alerts */
+	--alert-success: #28a745; /* Green for success alerts */
+	--alert-info: #17a2b8; /* Bright Blue for info alerts */
 }
-
 
 a,
 .green {
-  text-decoration: none;
-  color: rgb(255, 191, 0);
-  transition: 0.4s;
-  padding: 3px;
+	text-decoration: none;
+	color: rgb(255, 191, 0);
+	transition: 0.4s;
+	padding: 3px;
 }
 
 .preserve-whitespace {
-  white-space: pre-wrap; /* This ensures that whitespace and newlines are preserved */
+	white-space: pre-wrap; /* This ensures that whitespace and newlines are preserved */
 }
 
 @media (max-width: 600px) {
@@ -37,6 +36,3 @@ a,
 		padding-right: 0% !important;
 	}
 }
-
-
-
