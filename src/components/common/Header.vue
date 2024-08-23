@@ -6,34 +6,72 @@
 				<span class="site-name">{{ $t("common.siteName") }}</span>
 			</router-link>
 			<div class="nav-and-language">
-				<!-- <div class="hamburger-menu" @click="toggleMobileMenu">
-					<v-icon>mdi-menu</v-icon>
-				</div> -->
 				<nav :class="{ open: showMobileMenu }">
 					<ul>
 						<li>
-							<router-link to="/" @click="closeMobileMenu">{{
-								$t("navbar.homeHeader")
-							}}</router-link>
+							<router-link to="/">{{ $t("navbar.homeHeader") }}</router-link>
 						</li>
 						<li>
-							<router-link to="/utvekslinger" @click="closeMobileMenu">{{
+							<router-link to="/utvekslinger">{{
 								$t("navbar.programHeader")
 							}}</router-link>
 						</li>
 						<li>
-							<router-link to="/min_utveksling" @click="closeMobileMenu">{{
+							<router-link to="/min_utveksling">{{
 								$t("navbar.myexchangeHeader")
 							}}</router-link>
 						</li>
-						<li>
-							<a @click="handleAuthClick">{{ authButtonText }}</a>
+						<li ref="profileSwitcher">
+							<a @click="toggleProfileDropdown">{{ authButtonText }}</a>
+							<div v-if="showProfileDropDown" class="profile-dropdown">
+								<div class="profile-content">
+									<div v-if="user != null">
+										<div class="username">{{ userData.displayName }}</div>
+										<v-btn @click="signOut">
+											{{ $t("operations.signOut") }}
+										</v-btn>
+									</div>
+									<div v-else>
+										<v-btn
+											class="login-btn"
+											@click="loginWithGoogle"
+											color="primary"
+											dark
+											style="
+												display: flex;
+												align-items: center;
+												justify-content: center;
+											"
+										>
+											<v-icon
+												left
+												class="icon-spacing"
+												style="
+													display: inline-flex;
+													vertical-align: middle;
+													margin-right: 8px;
+												"
+												>mdi-google</v-icon
+											>
+											<span
+												style="
+													display: inline-flex;
+													align-items: center;
+													vertical-align: middle;
+													padding-top: 1px;
+												"
+												>{{ $t("userHandling.loginWithGoogle") }}</span
+											>
+										</v-btn>
+									</div>
+								</div>
+							</div>
 						</li>
 					</ul>
 				</nav>
 				<div
 					ref="languageSwitcher"
-					@click="toggleLanguage"
+					@click="toggleLanguageDropdown"
 					class="language-switcher"
 				>
 					<span :class="currentFlag" class="fi"></span>
@@ -56,6 +94,9 @@
 	import { mapGetters } from "vuex";
 	import { VIcon } from "vuetify/components";
 	import "flag-icons/css/flag-icons.min.css";
+	import { auth, db, provider } from "../../js/firebaseConfig";
+	import { onAuthStateChanged, signOut, signInWithPopup } from "firebase/auth";
+	import { ref as dbRef, get, set, update } from "firebase/database";
 
 	export default {
 		name: "Header",
@@ -66,6 +107,9 @@
 			return {
 				showLanguageDropdown: false,
 				showMobileMenu: false,
+				showProfileDropDown: false,
+				userData: null,
+				user: null,
 			};
 		},
 		computed: {
@@ -80,16 +124,17 @@
 			},
 		},
 		methods: {
-			handleAuthClick() {
-				if (this.isAuthenticated) {
-					this.$router.push({ name: "Account" });
-				} else {
-					this.$router.push({ name: "Login" });
+			toggleProfileDropdown() {
+				this.showProfileDropDown = !this.showProfileDropDown;
+				if (this.showProfileDropDown) {
+					this.showLanguageDropdown = false;
 				}
-				this.closeMobileMenu();
 			},
-			toggleLanguage() {
+			toggleLanguageDropdown() {
 				this.showLanguageDropdown = !this.showLanguageDropdown;
+				if (this.showLanguageDropdown) {
+					this.showProfileDropDown = false;
+				}
 			},
 			changeLanguage(lang) {
 				this.$i18n.locale = lang;
@@ -99,20 +144,63 @@
 			handleClickOutside(event) {
 				if (
 					this.$refs.languageSwitcher &&
-					!this.$refs.languageSwitcher.contains(event.target)
+					!this.$refs.languageSwitcher.contains(event.target) &&
+					this.$refs.profileSwitcher &&
+					!this.$refs.profileSwitcher.contains(event.target)
 				) {
 					this.showLanguageDropdown = false;
+					this.showProfileDropDown = false;
 				}
 			},
-			toggleMobileMenu() {
-				this.showMobileMenu = !this.showMobileMenu;
+			async signOut() {
+				try {
+					await signOut(auth);
+					this.user = null;
+					this.userData = null;
+				} catch (error) {
+					console.error("Error signing out: ", error);
+				}
 			},
-			closeMobileMenu() {
-				this.showMobileMenu = false;
+			async loginWithGoogle() {
+				try {
+					const result = await signInWithPopup(auth, provider);
+					this.user = result.user;
+					this.showProfileDropDown = false;
+				} catch (error) {
+					console.error("Error during sign-in:", error);
+				}
 			},
 		},
 		mounted() {
 			document.addEventListener("click", this.handleClickOutside);
+
+			// Handle user authentication state
+			onAuthStateChanged(auth, async (currentUser) => {
+				if (currentUser) {
+					this.user = currentUser;
+					const userDocRef = dbRef(db, `users/${currentUser.uid}`);
+					const userDoc = await get(userDocRef);
+					if (userDoc.exists()) {
+						this.userData = userDoc.val();
+					} else {
+						// If user does not exist, show edit dialog
+						this.localEditData = {
+							displayName: currentUser.displayName || "",
+							email: currentUser.email || "",
+						};
+
+						// Create a new user record with initial values
+						await set(userDocRef, {
+							displayName: currentUser.displayName || "",
+							email: currentUser.email,
+						});
+					}
+				} else {
+					this.user = null;
+					this.userData = null;
+				}
+				this.loading = false;
+			});
 		},
 		beforeDestroy() {
 			document.removeEventListener("click", this.handleClickOutside);
@@ -265,13 +353,6 @@
 
 		nav {
 			display: none;
-			position: absolute;
-			top: 60px;
-			left: 0;
-			background-color: var(--fourth-color);
-			width: 100%;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-			z-index: 1000;
 		}
 
 		nav.open {
@@ -303,5 +384,52 @@
 			padding: 0.5rem 1rem;
 			height: 3rem;
 		}
+	}
+
+	.profile-dropdown {
+		position: absolute;
+		top: 48px;
+		right: 50px;
+		background-color: #fff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		border-radius: 4px;
+		padding: 1rem;
+		width: 200px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		z-index: 1000;
+	}
+
+	.profile-content {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	.profile-content .username {
+		margin-bottom: 1rem;
+		font-weight: bold;
+		color: var(--first-color);
+		font-size: 1rem;
+		text-align: left;
+		white-space: pre-wrap;
+		word-wrap: break-word;
+	}
+
+	.profile-content button {
+		width: 100%;
+		background-color: var(--third-color);
+		border: none;
+		color: white;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: background-color 0.3s;
+		text-align: center;
+	}
+
+	.profile-content button:hover {
+		background-color: var(--second-color);
 	}
 </style>
