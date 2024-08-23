@@ -22,7 +22,6 @@
 
 	export default {
 		name: "MobileFooter",
-		// Your component's options go here
 		computed: {
 			...mapGetters(["isAuthenticated"]),
 		},
