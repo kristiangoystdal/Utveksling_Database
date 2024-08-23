@@ -10,29 +10,6 @@
 	<br />
 	<div>
 		<div v-if="this.user">
-			<!-- Unsaved changes box -->
-			<div>
-				<div v-if="unsavedChanges" class="unsaved-changes">
-					<p>{{ $t("myExchange.unsavedChanges") }}</p>
-					<br />
-					<v-btn
-						:disabled="
-							missingFallCoursesDataTotalBool ||
-							missingSpringCoursesDataTotalBool ||
-							missingBasicDataBool
-						"
-						@click="updateExchange"
-						class="btn btn-primary"
-					>
-						{{ $t("myExchange.updateExchange") }}
-					</v-btn>
-				</div>
-				<div v-else class="box box-first-color">
-					<p>{{ $t("myExchange.noChanges") }}</p>
-				</div>
-			</div>
-			<br />
-			<br />
 			<!-- Expansion panels -->
 			<v-expansion-panels v-model="panel">
 				<!-- Basis informasjon -->
@@ -198,6 +175,18 @@
 									</v-row>
 								</div>
 							</div>
+
+							<!-- Save Button -->
+							<v-row>
+								<v-col xs="12" md="6">
+									<v-btn
+										@click="updateExchange"
+										class="btn-primary"
+										:disabled="!unsavedChanges"
+										>{{ $t("operations.save") }}</v-btn
+									>
+								</v-col>
+							</v-row>
 						</v-container>
 					</v-expansion-panel-text>
 				</v-expansion-panel>
@@ -368,6 +357,15 @@
 								<v-expansion-panel-text class="zero-padding">
 									<course-form
 										:course="course"
+										:update-exchange="updateExchange"
+										:unsavedChanges="
+											unsavedChanges &&
+											!(
+												missingFallCoursesDataTotalBool ||
+												missingSpringCoursesDataTotalBool ||
+												missingBasicDataBool
+											)
+										"
 										@submit-course="updateCourse(semester, cIndex, $event)"
 										:removeCourse="() => removeCourse(semester, cIndex)"
 									/>
@@ -377,12 +375,10 @@
 					</v-expansion-panel-text>
 				</v-expansion-panel>
 			</v-expansion-panels>
-			<br />
-			<br />
+
+			<!-- Unsaved changes -->
 			<div>
-				<div v-if="unsavedChanges" class="unsaved-changes">
-					<p>{{ $t("myExchange.unsavedChanges") }}</p>
-					<br />
+				<div v-if="unsavedChanges" class="box">
 					<v-btn
 						:disabled="
 							missingFallCoursesDataTotalBool ||
@@ -394,9 +390,6 @@
 					>
 						{{ $t("myExchange.updateExchange") }}
 					</v-btn>
-				</div>
-				<div v-else class="box box-first-color">
-					<p>{{ $t("myExchange.noChanges") }}</p>
 				</div>
 			</div>
 		</div>
@@ -437,6 +430,7 @@
 	import { ref as dbRef, get, set, update } from "firebase/database";
 	import studiesData from "../../data/studies.json";
 	import universitiesData from "../../data/universities.json";
+	import { toast } from "vue3-toastify";
 
 	import CourseForm from "./CourseForm.vue";
 
@@ -489,9 +483,18 @@
 				deleteDialog: false,
 				currentCourse: null,
 				currentSemester: null,
+				isToastVisible: false,
+				toastId: null,
 			};
 		},
 		watch: {
+			unsavedChanges(newValue) {
+				if (newValue) {
+					this.showUnsavedChangesToast(); // Show the toast when unsavedChanges becomes true
+				} else {
+					this.dismissUnsavedChangesToast(); // Dismiss the toast when unsavedChanges becomes false
+				}
+			},
 			"userExchange.study"(newStudy) {
 				if (newStudy != this.remoteExchange.study) {
 					this.userExchange.specialization = null;
@@ -519,6 +522,21 @@
 					this.semesters = ["Høst", "Vår"];
 				} else if (newNumber == 1 && this.semesters.length !== 1) {
 					this.semesters = [];
+				}
+			},
+			semesters(newSemesters) {
+				if (this.userExchange.numSemesters == 1) {
+					if (newSemesters.includes("Høst")) {
+						this.userExchange.courses = JSON.parse(
+							JSON.stringify(this.remoteExchange.courses)
+						); // Deep copy
+						delete this.userExchange.courses["Vår"];
+					} else if (newSemesters.includes("Vår")) {
+						this.userExchange.courses = JSON.parse(
+							JSON.stringify(this.remoteExchange.courses)
+						); // Deep copy
+						delete this.userExchange.courses["Høst"];
+					}
 				}
 			},
 		},
@@ -667,14 +685,10 @@
 				return Object.keys(this.userExchange.courses["Vår"] || {}).length;
 			},
 			unsavedChanges() {
-				if (
+				const hasUnsavedChanges =
 					JSON.stringify(this.remoteExchange) !==
-					JSON.stringify(this.userExchange)
-				) {
-					return true;
-				} else {
-					return false;
-				}
+					JSON.stringify(this.userExchange);
+				return hasUnsavedChanges;
 			},
 		},
 		methods: {
@@ -888,8 +902,11 @@
 
 						this.remoteExchange = JSON.parse(JSON.stringify(tempUserExchange));
 						this.userExchange = tempUserExchange;
+
+						toast.success(this.$t("notifications.exchangeUpdated"));
 					} catch (error) {
 						console.error("Error updating user exchange data: ", error);
+						toast.error(this.$t("notifications.exchangeUpdateFailure"));
 					}
 				}
 			},
@@ -932,6 +949,28 @@
 					if (userDoc.exists()) {
 						this.userInformation = userDoc.val();
 					}
+				}
+			},
+			showUnsavedChangesToast() {
+				if (!this.isToastVisible) {
+					this.toastId = toast.warning(this.$t("myExchange.unsavedChanges"), {
+						autoClose: false, // Make sure the toast stays visible
+						closeOnClick: true,
+						pauseOnHover: true,
+						position: "bottom-right",
+						hideProgressBar: false,
+						onClose: () => {
+							this.isToastVisible = false;
+						},
+					});
+					this.isToastVisible = true;
+				}
+			},
+			dismissUnsavedChangesToast() {
+				if (this.toastId !== null) {
+					toast.remove(this.toastId); // Dismiss the specific toast using its ID
+					this.isToastVisible = false;
+					this.toastId = null;
 				}
 			},
 		},
