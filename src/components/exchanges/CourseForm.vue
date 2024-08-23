@@ -19,7 +19,7 @@
 			<v-text-field
 				v-model="localCourse.courseName"
 				:label="$t('database.courseName')"
-				:rules="couresRules"
+				:rules="courseRules"
 				required
 				:hint="$t('hints.courseName')"
 				persistent-hint
@@ -29,7 +29,6 @@
 			<v-text-field
 				v-model="localCourse.courseCode"
 				:label="$t('database.courseCode')"
-				:rules="couresRules"
 				:hint="$t('hints.courseCode')"
 				persistent-hint
 			></v-text-field>
@@ -64,7 +63,6 @@
 			<v-text-field
 				v-model="localCourse.institute"
 				:label="$t('database.institute')"
-				:rules="couresRules"
 				:hint="$t('hints.institute')"
 				persistent-hint
 			></v-text-field>
@@ -83,9 +81,17 @@
 				v-model="localCourse.comments"
 				:label="$t('database.comments')"
 			></v-textarea>
-			<v-btn @click="resetForm" class="btn-accent">{{
-				$t("operations.reset")
-			}}</v-btn>
+
+			<div style="display: flex; justify-content: space-between">
+				<!-- Save Button -->
+				<v-btn @click="submit" class="btn-primary" :disabled="!unsavedChanges">
+					{{ $t("operations.save") }}
+				</v-btn>
+				<!-- Reset Button -->
+				<v-btn @click="resetForm" class="btn-accent">
+					{{ $t("operations.reset") }}
+				</v-btn>
+			</div>
 		</v-form>
 	</div>
 </template>
@@ -108,13 +114,16 @@
 					comments: "",
 				}),
 			},
+			updateExchange: Function,
+			unsavedChanges: Boolean,
+			removeCourse: Function, // Adding removeCourse prop
 		},
+		emits: ["submit-course"], // Declare the custom event
 		data() {
 			return {
 				valid: false,
-				localCourse: { ...this.course }, // Create a local copy of the course object
-				couresRules: [
-					(v) => !!v || this.$t("rules.required"),
+				localCourse: { ...this.course },
+				courseRules: [
 					(v) => (v && v.length >= 3) || this.$t("rules.min3Chars"),
 				],
 				courseTypes: ["O-emne", "I-emne", "K-emne", "Annet"],
@@ -122,7 +131,7 @@
 		},
 		watch: {
 			localCourse: {
-				handler(newVal) {
+				handler() {
 					this.$emit("submit-course", { ...this.localCourse });
 				},
 				deep: true,
@@ -132,21 +141,11 @@
 		methods: {
 			submit() {
 				if (this.$refs.form.validate()) {
-					this.$emit("submit-course", { ...this.localCourse });
+					this.updateExchange({ ...this.localCourse });
 				}
 			},
 			resetForm() {
-				this.localCourse = {
-					exchangeID: "",
-					year: "",
-					courseCode: "",
-					courseName: "",
-					replacedCourseCode: "",
-					replacedCourseName: "",
-					institute: "",
-					ETCSPoints: "",
-					comments: "",
-				};
+				this.localCourse = { ...this.course };
 			},
 		},
 	};
