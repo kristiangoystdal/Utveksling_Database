@@ -807,6 +807,16 @@
 
 						// Update the exchange list
 						this.exchangeList = reformattedExchanges;
+
+						this.exchangeList.sort((a, b) => {
+							if (a.country < b.country) {
+								return -1;
+							}
+							if (a.country > b.country) {
+								return 1;
+							}
+							return 0;
+						});
 					} else {
 						console.error("No data available");
 					}
