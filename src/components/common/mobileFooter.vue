@@ -85,6 +85,7 @@
 					await signOut(auth);
 					this.user = null;
 					this.userData = null;
+					this.$router.go();
 				} catch (error) {
 					console.error("Error signing out: ", error);
 				}
@@ -94,6 +95,7 @@
 					const result = await signInWithPopup(auth, provider);
 					this.user = result.user;
 					this.showProfileDropDown = false;
+					this.$router.go();
 				} catch (error) {
 					console.error("Error during sign-in:", error);
 				}
