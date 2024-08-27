@@ -107,6 +107,7 @@
 		"confirmDelete": "Confirm Deletion",
 		"confirmCourseDelete": "Are you sure you want to delete this course?",
 		"edit": "Edit",
+		"signIn": "Sign in with:",
 		"signOut": "Sign Out",
 		"close": "Close",
 		"confirmLeavePage": "You have unsaved changes. Are you sure you want to leave the page?"
