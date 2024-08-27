@@ -32,6 +32,7 @@
 										</v-btn>
 									</div>
 									<div v-else>
+										<div class="username">{{ $t("operations.signIn") }}</div>
 										<v-btn
 											class="login-btn"
 											@click="loginWithGoogle"
