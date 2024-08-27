@@ -74,8 +74,8 @@
 			"allDataFilled": "All data er fylt inn"
 		},
 		"courseInformation": {
-			"courseFallTitle": "Informasjon om fag på høstsemesteret",
-			"courseSpringTitle": "Informasjon om fag på vårsemesteret",
+			"courseFallTitle": "Fag på høstsemesteret",
+			"courseSpringTitle": "Fag på vårsemesteret",
 			"fillSemesterInfo": "Fyll inn informasjon fagene",
 			"someCoursesMissing": "Noen fag mangler nødvendig informasjon",
 			"allCoursesFilled": "Alle fag har nok informasjon",
@@ -107,13 +107,14 @@
 		"confirmDelete": "Bekreft sletting",
 		"confirmCourseDelete": "Er du sikker på at du vil slette dette faget?",
 		"edit": "Rediger",
+		"signIn": "Logg inn med:",
 		"signOut": "Logg ut",
 		"close": " Lukk",
 		"confirmLeavePage": "Du har ulagrete endringer. Sikker på at du vil forlate siden?"
 	},
 	"userHandling": {
 		"loginTitle": "Logg inn",
-		"loginWithGoogle": "Logg inn med Google",
+		"loginWithGoogle": "Google",
 		"accountTitle": "Din profil",
 		"loadingUser": "Henter frem profilen din...",
 		"name": "Navn",

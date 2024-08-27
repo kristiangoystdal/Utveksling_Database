@@ -165,6 +165,22 @@
 			class="main-table"
 			id="main-table-width"
 		>
+			<template v-slot:item.country="{ item }">
+				<div style="display: flex; align-items: center">
+					<!-- <v-tooltip text="Tooltip">
+						<template v-slot:activator="{ props }"> -->
+					<img
+						:src="getFlagUrl(item.country)"
+						alt="Flag"
+						width="20"
+						height="15"
+						style="margin-left: 4px"
+					/>
+					<!-- </template>
+					</v-tooltip> -->
+				</div>
+			</template>
+
 			<template v-slot:expanded-row="{ columns, item }">
 				<tr>
 					<td :colspan="columns.length" id="coursesStyle">
@@ -246,7 +262,23 @@
 			show-expand
 			class="main-table fixed-table"
 			id="main-table-width"
+			:fixed-header="false"
+			:style="{ width: '100%' }"
+			item-class="custom-item-class"
+			header-class="custom-header-class"
 		>
+			<template v-slot:item.country="{ item }">
+				<div style="display: flex; align-items: center">
+					<img
+						:src="getFlagUrl(item.country)"
+						alt="Flag"
+						width="20"
+						height="15"
+						style="margin-left: 8px"
+					/>
+				</div>
+			</template>
+
 			<template v-slot:expanded-row="{ columns, item }">
 				<tr>
 					<td :colspan="translatedMobileHeaders.length + 1">
@@ -254,6 +286,14 @@
 							<div>
 								<div class="text-underline text-medium">More Info</div>
 								<v-container>
+									<v-row no-gutters>
+										<v-col cols="6" class="text-bold">
+											{{ $t("database.country") }}:
+										</v-col>
+										<v-col cols="6">
+											{{ item.country }}
+										</v-col>
+									</v-row>
 									<v-row no-gutters>
 										<v-col cols="6" class="text-bold">
 											{{ $t("database.specialization") }}:
@@ -336,7 +376,7 @@
 											</v-col>
 										</v-row>
 									</div>
-									<div v-if="item.courses.Vår">
+									<div v-if="item.courses.Vår && item.courses.Vår.length > 0">
 										<v-row
 											no-gutters
 											class="text-bold"
@@ -395,9 +435,6 @@
 									</div>
 								</v-container>
 							</div>
-
-							<!-- Expanded content goes here -->
-							<!-- {{ item.courses.Høst }} -->
 						</div>
 					</td>
 				</tr>
@@ -486,6 +523,8 @@
 	import { db } from "../../js/firebaseConfig.js";
 	import { get, child, ref as dbRef } from "firebase/database";
 	import { useI18n } from "vue-i18n";
+	import { getCode } from "country-list";
+	import countriesInformation from "../../data/countriesInformation.json";
 
 	export default {
 		setup() {
@@ -494,6 +533,7 @@
 		},
 		data() {
 			return {
+				countriesInfo: countriesInformation,
 				showFilters: false,
 				expanded: [],
 				exchangeList: [],
@@ -544,19 +584,14 @@
 			translatedHeaders() {
 				return [
 					{
-						title: this.t("database.university"),
-						align: "start",
-						key: "university",
-					},
-					{
-						title: this.t("database.country"),
-						align: "end",
+						align: "center",
 						key: "country",
 					},
 					{
-						title: this.t("database.studyYear"),
-						align: "end",
-						key: "studyYear",
+						title: this.t("database.university"),
+						align: "start",
+						key: "university",
+						length: 2,
 					},
 					{
 						title: this.t("database.study"),
@@ -569,8 +604,13 @@
 						key: "specialization",
 					},
 					{
+						title: this.t("database.studyYear"),
+						align: "center",
+						key: "studyYear",
+					},
+					{
 						title: this.t("database.numSemesters"),
-						align: "end",
+						align: "center",
 						key: "numSemesters",
 					},
 				];
@@ -622,14 +662,13 @@
 			translatedMobileHeaders() {
 				return [
 					{
+						align: "start",
+						key: "country",
+					},
+					{
 						title: this.t("database.university"),
 						align: "start",
 						key: "university",
-					},
-					{
-						title: this.t("database.country"),
-						align: "end",
-						key: "country",
 					},
 					{
 						title: this.t("database.study"),
@@ -740,7 +779,6 @@
 					console.error("Error fetching values from database:", error);
 				}
 			},
-
 			remove(item) {
 				this.countryValues = this.countryValues.filter((i) => i !== item);
 			},
@@ -769,6 +807,16 @@
 
 						// Update the exchange list
 						this.exchangeList = reformattedExchanges;
+
+						this.exchangeList.sort((a, b) => {
+							if (a.country < b.country) {
+								return -1;
+							}
+							if (a.country > b.country) {
+								return 1;
+							}
+							return 0;
+						});
 					} else {
 						console.error("No data available");
 					}
@@ -776,7 +824,6 @@
 					console.error("Error fetching exchange data:", error);
 				}
 			},
-
 			applyFilters(exchanges) {
 				if (this.countryValues.length > 0) {
 					exchanges = exchanges.filter((exchange) =>
@@ -805,7 +852,6 @@
 				}
 				return exchanges;
 			},
-
 			reformatExchanges(exchanges) {
 				return exchanges.reduce((result, exchange) => {
 					if (!exchange.sameUniversity && exchange.courses.Vår) {
@@ -829,12 +875,14 @@
 						result.push(firstExchange);
 						result.push(newExchange);
 					} else {
+						if (!!exchange.courses.Høst !== !!exchange.courses.Vår) {
+							exchange.numSemesters = 1;
+						}
 						result.push(exchange);
 					}
 					return result;
 				}, []);
 			},
-
 			createExchange(baseExchange, courses) {
 				return {
 					...baseExchange,
@@ -860,8 +908,25 @@
 			closeInformationDialog() {
 				this.informationDialog = false;
 			},
+			getFlagUrl(country) {
+				const flagBaseUrl = "https://flagcdn.com/128x96/";
+				const countryCode = this.getCountryCode(country).toLowerCase();
+				return `${flagBaseUrl}${countryCode}.png`;
+			},
+			getCountryCode(country) {
+				if (this.locale === "en") {
+					return this.countriesInfo.countryCodes.en[country] || "unknown";
+				} else {
+					return this.countriesInfo.countryCodes.no[country] || "unknown";
+				}
+			},
 		},
 	};
 </script>
 
-<style scoped></style>
+<style>
+	.v-data-table table tr th,
+	.v-data-table table tr td {
+		padding: 0 8px !important;
+	}
+</style>
