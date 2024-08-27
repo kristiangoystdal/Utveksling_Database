@@ -74,8 +74,8 @@
 			"allDataFilled": "All data er fylt inn"
 		},
 		"courseInformation": {
-			"courseFallTitle": "Informasjon om fag på høstsemesteret",
-			"courseSpringTitle": "Informasjon om fag på vårsemesteret",
+			"courseFallTitle": "Fag på høstsemesteret",
+			"courseSpringTitle": "Fag på vårsemesteret",
 			"fillSemesterInfo": "Fyll inn informasjon fagene",
 			"someCoursesMissing": "Noen fag mangler nødvendig informasjon",
 			"allCoursesFilled": "Alle fag har nok informasjon",

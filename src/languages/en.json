@@ -74,8 +74,8 @@
 			"allDataFilled": "All data is filled in"
 		},
 		"courseInformation": {
-			"courseFallTitle": "Course Information for the Fall Semester",
-			"courseSpringTitle": "Course Information for the Spring Semester",
+			"courseFallTitle": "Courses for Fall Semester",
+			"courseSpringTitle": "Courses for Spring Semester",
 			"fillSemesterInfo": "Fill in the information for the courses",
 			"someCoursesMissing": "Some courses are missing necessary information",
 			"allCoursesFilled": "All courses have sufficient information",
