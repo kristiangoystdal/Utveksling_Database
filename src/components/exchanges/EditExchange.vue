@@ -42,8 +42,8 @@
 									expanded
 										? 'mdi-pencil'
 										: !missingBasicDataBool
-										? 'mdi-check'
-										: 'mdi-alert-circle'
+										? 'mdi-thumb-up'
+										: 'mdi-thumb-down'
 								"
 							></v-icon>
 						</template>
@@ -261,11 +261,11 @@
 										? 'mdi-pencil'
 										: semester.includes('Høst')
 										? !missingFallCoursesDataTotalBool
-											? 'mdi-check'
-											: 'mdi-alert-circle'
+											? 'mdi-thumb-up'
+											: 'mdi-thumb-down'
 										: !missingSpringCoursesDataTotalBool
-										? 'mdi-check'
-										: 'mdi-alert-circle'
+										? 'mdi-thumb-up'
+										: 'mdi-thumb-down'
 								"
 							></v-icon>
 						</template>
@@ -344,11 +344,11 @@
 													? 'mdi-pencil'
 													: semester.includes('Høst')
 													? !missingFallCourseDataBool(semester, cIndex)
-														? 'mdi-check'
-														: 'mdi-alert-circle'
+														? 'mdi-thumb-up'
+														: 'mdi-thumb-down'
 													: !missingSpringCourseDataBool(semester, cIndex)
-													? 'mdi-check'
-													: 'mdi-alert-circle'
+													? 'mdi-thumb-up'
+													: 'mdi-thumb-down'
 											"
 											class="course-icons"
 										></v-icon>
