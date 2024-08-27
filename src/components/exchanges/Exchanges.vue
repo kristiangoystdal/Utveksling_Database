@@ -167,6 +167,8 @@
 		>
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
+					<!-- <v-tooltip text="Tooltip">
+						<template v-slot:activator="{ props }"> -->
 					<img
 						:src="getFlagUrl(item.country)"
 						alt="Flag"
@@ -174,6 +176,8 @@
 						height="15"
 						style="margin-left: 4px"
 					/>
+					<!-- </template>
+					</v-tooltip> -->
 				</div>
 			</template>
 
@@ -529,7 +533,7 @@
 		},
 		data() {
 			return {
-				countriesInformation: countriesInformation,
+				countriesInfo: countriesInformation,
 				showFilters: false,
 				expanded: [],
 				exchangeList: [],
@@ -901,9 +905,9 @@
 			},
 			getCountryCode(country) {
 				if (this.locale === "en") {
-					return countriesInformation.countries.en[country] || "unknown";
+					return this.countriesInfo.countryCodes.en[country] || "unknown";
 				} else {
-					return countriesInformation.countries.no[country] || "unknown";
+					return this.countriesInfo.countryCodes.no[country] || "unknown";
 				}
 			},
 		},
