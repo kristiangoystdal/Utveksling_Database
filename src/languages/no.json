@@ -146,6 +146,10 @@
 		"search": "Søk for et spørsmål",
 		"noResults": "Ingen resultater funnet"
 	},
+	"adminPage": {
+		"pageHeader": "Admin Panel",
+		"userListTitle": "Brukerliste"
+	},
 	"notifications": {
 		"loginSuccess": "Innlogging vellykket",
 		"loginFailure": "Innlogging mislykket",
