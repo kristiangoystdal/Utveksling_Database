@@ -32,7 +32,7 @@
 								<div class="profile-content">
 									<div v-if="user != null">
 										<div class="username">{{ userData.displayName }}</div>
-										<v-btn @click="signOut">
+										<v-btn @click="signOutAndRedirect">
 											{{ $t("operations.signOut") }}
 										</v-btn>
 									</div>
@@ -140,12 +140,12 @@ export default {
 				this.showProfileDropDown = false;
 			}
 		},
-		async signOut() {
+		async signOutAndRedirect() {
 			try {
 				await signOut(auth);
 				this.user = null;
 				this.userData = null;
-				this.$router.go();
+				this.showProfileDropDown = false;
 			} catch (error) {
 				console.error("Error signing out: ", error);
 			}
@@ -155,7 +155,6 @@ export default {
 				const result = await signInWithPopup(auth, provider);
 				this.user = result.user;
 				this.showProfileDropDown = false;
-				this.$router.go();
 			} catch (error) {
 				console.error("Error during sign-in:", error);
 			}

@@ -31,26 +31,29 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // Navigation guard for authentication
-  const isAuthenticated = store.getters.isAuthenticated;
-  const adminUserId = import.meta.env.VITE_ADMIN_USER_ID; // Load the admin user ID from .env file
-  const currentUserId = store.getters.user.uid; // Assuming you have a getter for the current user ID
+  // Navigation guard for authentication and admin access
+  const isAuthenticated = store.getters.isAuthenticated; // Check if user is authenticated
+  const adminUserId = import.meta.env.VITE_ADMIN_USER_ID; // Admin user ID from .env
+  const currentUserId = store.getters.user?.uid; // Get the current user's ID
 
+  // Admin gate: Only allow access to Admin route if user is authenticated and is the admin
+  if (to.name === 'Admin' && (!isAuthenticated || currentUserId !== adminUserId)) {
+    return next({ name: 'Home' }); // Redirect unauthorized users to the home page
+  }
+
+  // Redirect authenticated users away from the login page
   if (to.name === 'Login' && isAuthenticated) {
-    return next({ name: 'Account' }); // Redirect to Home or another page (e.g., Account)
+    return next({ name: 'Account' }); // Redirect to the Account page or Home page
   }
 
+  // Check if route requires authentication
   if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-    // Redirect to the login page if not authenticated
-    return next({ name: 'Login' });
+    return next({ name: 'Login' }); // Redirect unauthenticated users to the login page
   }
 
-  if (to.name === 'Admin' && currentUserId !== adminUserId) {
-    // Redirect to the home page if the user is not the admin
-    return next({ name: 'Home' });
-  }
 
-  next();
+
+  next(); // Proceed to the route if all checks pass
 });
 
 export default router;

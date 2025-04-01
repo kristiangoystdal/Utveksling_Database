@@ -148,7 +148,8 @@
 	},
 	"adminPage": {
 		"pageHeader": "Admin Panel",
-		"userListTitle": "Brukerliste"
+		"userListTitle": "Brukerliste",
+		"faqListTitle": "FAQ"
 	},
 	"notifications": {
 		"loginSuccess": "Innlogging vellykket",
