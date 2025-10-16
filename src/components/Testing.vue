@@ -72,7 +72,7 @@ export default {
 				const country = countries[Math.floor(Math.random() * countries.length)];
 				const study =
 					Object.keys(studyData)[
-						Math.floor(Math.random() * Object.keys(studyData).length)
+					Math.floor(Math.random() * Object.keys(studyData).length)
 					];
 				const specialization =
 					studyData[study][Math.floor(Math.random() * studyData[study].length)];
@@ -105,8 +105,8 @@ export default {
 				const selectedSemester =
 					numSemesters === 1
 						? semesterOptions[
-								Math.floor(Math.random() * semesterOptions.length)
-						  ]
+						Math.floor(Math.random() * semesterOptions.length)
+						]
 						: "Høst";
 
 				const exchangeData = {

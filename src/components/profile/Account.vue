@@ -14,16 +14,8 @@
 						<template v-else-if="user && userData">
 							<v-row>
 								<v-col cols="12" md="4" class="text-center">
-									<v-avatar
-										class="mb-4 mx-auto user-avatar"
-										size="120"
-										v-if="user.photoURL"
-									>
-										<img
-											:src="user.photoURL"
-											alt="User Photo"
-											class="profile-img"
-										/>
+									<v-avatar class="mb-4 mx-auto user-avatar" size="120" v-if="user.photoURL">
+										<img :src="user.photoURL" alt="User Photo" class="profile-img" />
 									</v-avatar>
 								</v-col>
 								<v-col cols="12" md="8">
@@ -69,29 +61,14 @@
 				</v-card-title>
 				<v-card-text>
 					<v-form ref="editForm">
-						<v-text-field
-							v-model="localEditData.displayName"
-							:label="this.$t('userHandling.name')"
-							required
-						></v-text-field>
-						<v-text-field
-							v-model="localEditData.email"
-							:label="this.$t('userHandling.email')"
-							required
-							readonly
-						></v-text-field>
-						<v-autocomplete
-							v-model="localEditData.study"
-							:items="studyNames"
-							:label="this.$t('database.study')"
-							required
-							@update:modelValue="handleNewStudy"
-						></v-autocomplete>
-						<v-autocomplete
-							v-model="localEditData.specialization"
-							:items="specializations"
-							:label="this.$t('database.specialization')"
-						></v-autocomplete>
+						<v-text-field v-model="localEditData.displayName" :label="this.$t('userHandling.name')"
+							required></v-text-field>
+						<v-text-field v-model="localEditData.email" :label="this.$t('userHandling.email')" required
+							readonly></v-text-field>
+						<v-autocomplete v-model="localEditData.study" :items="studyNames" :label="this.$t('database.study')"
+							required @update:modelValue="handleNewStudy"></v-autocomplete>
+						<v-autocomplete v-model="localEditData.specialization" :items="specializations"
+							:label="this.$t('database.specialization')"></v-autocomplete>
 					</v-form>
 				</v-card-text>
 				<v-card-actions>
@@ -108,214 +85,226 @@
 </template>
 
 <script>
-	import { ref, onMounted, watch } from "vue";
-	import { auth, db } from "../../js/firebaseConfig";
-	import { onAuthStateChanged, signOut } from "firebase/auth";
-	import { ref as dbRef, get, set, update } from "firebase/database";
-	import studiesData from "../../data/studies.json";
+import { ref, onMounted, watch } from "vue";
+import { auth, db } from "../../js/firebaseConfig";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { ref as dbRef, get, set, update } from "firebase/database";
+import studiesData from "../../data/studies.json";
 
-	export default {
-		data() {
-			return {
-				studies: {},
-				user: null,
-				userData: null,
-				loading: true,
-				dialog: false,
-				editData: {
-					displayName: "",
-					email: "",
-					study: "",
-					specialization: "",
-				},
-				localEditData: {
-					displayName: "",
-					email: "",
-					study: "",
-					specialization: "",
-				},
-			};
-		},
-		computed: {
-			studyNames() {
-				return Object.keys(this.studies);
+export default {
+	data() {
+		return {
+			studies: {},
+			user: null,
+			userData: null,
+			loading: true,
+			dialog: false,
+			editData: {
+				displayName: "",
+				email: "",
+				study: "",
+				specialization: "",
 			},
-			specializations() {
-				return this.localEditData.study
-					? this.studies[this.localEditData.study]
-					: [];
+			localEditData: {
+				displayName: "",
+				email: "",
+				study: "",
+				specialization: "",
 			},
+		};
+	},
+	computed: {
+		studyNames() {
+			return Object.keys(this.studies);
 		},
-		methods: {
-			loadData() {
+		specializations() {
+			return this.localEditData.study
+				? this.studies[this.localEditData.study]
+				: [];
+		},
+	},
+	methods: {
+		loadData() {
+			try {
+				this.studies = studiesData.studies;
+			} catch (error) {
+				console.error("There was an error loading the studies data:", error);
+			}
+		},
+		editProfile() {
+			if (this.user && this.userData) {
+				this.localEditData = { ...this.userData };
+				this.dialog = true;
+			}
+		},
+		closeDialog() {
+			this.dialog = false;
+		},
+		async saveProfile() {
+			if (this.user) {
 				try {
-					this.studies = studiesData.studies;
+					await update(dbRef(db, `users/${this.user.uid}`), {
+						displayName: this.localEditData.displayName,
+						email: this.localEditData.email,
+						study: this.localEditData.study,
+						specialization: this.localEditData.specialization,
+					});
+					this.userData = { ...this.localEditData };
+					this.closeDialog();
 				} catch (error) {
-					console.error("There was an error loading the studies data:", error);
+					console.error("Error updating profile: ", error);
 				}
-			},
-			editProfile() {
-				if (this.user && this.userData) {
-					this.localEditData = { ...this.userData };
-					this.dialog = true;
-				}
-			},
-			closeDialog() {
-				this.dialog = false;
-			},
-			async saveProfile() {
-				if (this.user) {
-					try {
-						await update(dbRef(db, `users/${this.user.uid}`), {
-							displayName: this.localEditData.displayName,
-							email: this.localEditData.email,
-							study: this.localEditData.study,
-							specialization: this.localEditData.specialization,
-						});
-						this.userData = { ...this.localEditData };
-						this.closeDialog();
-					} catch (error) {
-						console.error("Error updating profile: ", error);
-					}
-				}
-			},
-			async signOut() {
-				try {
-					await signOut(auth);
-					this.user = null;
-					this.userData = null;
-
-					this.$router.push("/logg_inn");
-				} catch (error) {
-					console.error("Error signing out: ", error);
-				}
-			},
-			loadLocalData() {
-				this.localEditData = this.userData;
-			},
-			handleNewStudy() {
-				this.localEditData.specialization = "";
-			},
+			}
 		},
-		mounted() {
-			// Fetch studies file
-			this.loadData();
+		async signOut() {
+			try {
+				await signOut(auth);
+				this.user = null;
+				this.userData = null;
 
-			// Handle user authentication state
-			onAuthStateChanged(auth, async (currentUser) => {
-				if (currentUser) {
-					this.user = currentUser;
-					const userDocRef = dbRef(db, `users/${currentUser.uid}`);
-					const userDoc = await get(userDocRef);
-					if (userDoc.exists()) {
-						this.userData = userDoc.val();
-					} else {
-						// If user does not exist, show edit dialog
-						this.localEditData = {
-							displayName: currentUser.displayName || "",
-							email: currentUser.email || "",
-							study: "",
-							specialization: "",
-						};
-						
-						// Create a new user record with initial values
-						await set(userDocRef, {
-							displayName: currentUser.displayName || "",
-							email: currentUser.email,
-							study: "",
-							specialization: "",
-						});
-					}
+				this.$router.push("/logg_inn");
+			} catch (error) {
+				console.error("Error signing out: ", error);
+			}
+		},
+		loadLocalData() {
+			this.localEditData = this.userData;
+		},
+		handleNewStudy() {
+			this.localEditData.specialization = "";
+		},
+	},
+	mounted() {
+		// Fetch studies file
+		this.loadData();
 
-					this.loadLocalData();
+		// Handle user authentication state
+		onAuthStateChanged(auth, async (currentUser) => {
+			if (currentUser) {
+				this.user = currentUser;
+				const userDocRef = dbRef(db, `users/${currentUser.uid}`);
+				const userDoc = await get(userDocRef);
+				if (userDoc.exists()) {
+					this.userData = userDoc.val();
 				} else {
-					this.user = null;
-					this.userData = null;
+					// If user does not exist, show edit dialog
+					this.localEditData = {
+						displayName: currentUser.displayName || "",
+						email: currentUser.email || "",
+						study: "",
+						specialization: "",
+					};
+
+					// Create a new user record with initial values
+					await set(userDocRef, {
+						displayName: currentUser.displayName || "",
+						email: currentUser.email,
+						study: "",
+						specialization: "",
+					});
 				}
-				this.loading = false;
-			});
-		},
-	};
+
+				this.loadLocalData();
+			} else {
+				this.user = null;
+				this.userData = null;
+			}
+			this.loading = false;
+		});
+	},
+};
 </script>
 
 <style scoped>
-	#saveBtn {
-		padding: 10px 20px;
-		border-radius: 5px;
-		cursor: pointer;
-		border: none;
-		font-size: 14px !important;
-		margin: 10px;
-		background-color: var(--second-color);
-		color: var(--fifth-color);
-	}
+#saveBtn {
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	border: none;
+	font-size: 14px !important;
+	margin: 10px;
+	background-color: var(--second-color);
+	color: var(--fifth-color);
+}
 
-	#closeBtn {
-		padding: 10px 20px;
-		border-radius: 5px;
-		cursor: pointer;
-		border: none;
-		font-size: 14px !important;
-		margin: 10px;
-		background-color: #e53935; /* Soft Red */
-		color: var(--fifth-color);
-	}
+#closeBtn {
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	border: none;
+	font-size: 14px !important;
+	margin: 10px;
+	background-color: #e53935;
+	/* Soft Red */
+	color: var(--fifth-color);
+}
 
-	#closeBtn:hover {
-		background-color: #d32f2f; /* Darker Soft Red */
-		color: var(--fifth-color);
-	}
+#closeBtn:hover {
+	background-color: #d32f2f;
+	/* Darker Soft Red */
+	color: var(--fifth-color);
+}
 
+.account-card {
+	margin-bottom: 20px;
+}
+
+.user-avatar {
+	margin-bottom: 20px;
+}
+
+.account_info strong {
+	font-size: 16px;
+}
+
+.account_info span {
+	margin-left: 5px;
+	font-size: 16px;
+}
+
+@media (max-width: 768px) {
 	.account-card {
-		margin-bottom: 20px;
+		padding: 10px;
 	}
 
 	.user-avatar {
-		margin-bottom: 20px;
-	}
-
-	.account_info strong {
-		font-size: 16px;
+		margin: 0 auto 20px;
 	}
 
 	.account_info span {
-		margin-left: 5px;
-		font-size: 16px;
+		font-size: 4vw;
+		margin-left: 0;
 	}
 
-	@media (max-width: 768px) {
-		.account-card {
-			padding: 10px;
-		}
-		.user-avatar {
-			margin: 0 auto 20px;
-		}
-		.account_info span {
-			font-size: 4vw;
-			margin-left: 0;
-		}
-		.account_info span::after {
-			content: "\A"; /* Adds a double line break */
-			white-space: pre; /* Preserves the line breaks */
-		}
-		.account_info strong {
-			font-size: 4.2vw;
-		}
-		.account_info strong::after {
-			content: "\A"; /* Adds a line break */
-			white-space: pre; /* Preserves the line break */
-		}
-		#closeBtn,
-		#saveBtn {
-			margin: auto;
-			font-size: 14px !important;
-			width: 40% !important;
-		}
-
-		.v-btn {
-			margin: auto;
-			font-size: 14px !important;
-			width: 50% !important;
-		}
+	.account_info span::after {
+		content: "\A";
+		/* Adds a double line break */
+		white-space: pre;
+		/* Preserves the line breaks */
 	}
+
+	.account_info strong {
+		font-size: 4.2vw;
+	}
+
+	.account_info strong::after {
+		content: "\A";
+		/* Adds a line break */
+		white-space: pre;
+		/* Preserves the line break */
+	}
+
+	#closeBtn,
+	#saveBtn {
+		margin: auto;
+		font-size: 14px !important;
+		width: 40% !important;
+	}
+
+	.v-btn {
+		margin: auto;
+		font-size: 14px !important;
+		width: 50% !important;
+	}
+}
 </style>

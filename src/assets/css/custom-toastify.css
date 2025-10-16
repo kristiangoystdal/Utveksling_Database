@@ -1,15 +1,22 @@
 /* Custom styles for Vue 3 Toastify on mobile devices */
 @media (max-width: 768px) {
 	.Toastify__toast-container.Toastify__toast-container--bottom-right {
-		width: 90% !important; /* Set the container width to 90% */
-		left: 5% !important; /* Center the container by leaving 5% space on the left */
-		right: 5% !important; /* Leave 5% space on the right */
-		bottom: 10vh !important; /* Adjust the bottom space */
+		width: 90% !important;
+		/* Set the container width to 90% */
+		left: 5% !important;
+		/* Center the container by leaving 5% space on the left */
+		right: 5% !important;
+		/* Leave 5% space on the right */
+		bottom: 10vh !important;
+		/* Adjust the bottom space */
 	}
 
 	.Toastify__toast {
-		border-radius: 8px !important; /* Optional: Add rounded corners */
-		width: 100% !important; /* Ensure the toast fits within the container */
-		margin-bottom: 10px !important; /* Space between toasts */
+		border-radius: 8px !important;
+		/* Optional: Add rounded corners */
+		width: 100% !important;
+		/* Ensure the toast fits within the container */
+		margin-bottom: 10px !important;
+		/* Space between toasts */
 	}
 }

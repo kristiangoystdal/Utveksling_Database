@@ -26,32 +26,19 @@
 				</div>
 				<div v-else>
 					<div class="username">{{ $t("operations.signIn") }}</div>
-					<v-btn
-						class="login-btn"
-						@click="loginWithGoogle"
-						color="primary"
-						dark
-						style="display: flex; align-items: center; justify-content: center"
-					>
-						<v-icon
-							left
-							class="icon-spacing"
-							style="
+					<v-btn class="login-btn" @click="loginWithGoogle" color="primary" dark
+						style="display: flex; align-items: center; justify-content: center">
+						<v-icon left class="icon-spacing" style="
 								display: inline-flex;
 								vertical-align: middle;
 								margin-right: 8px;
-							"
-							>mdi-google</v-icon
-						>
-						<span
-							style="
+							">mdi-google</v-icon>
+						<span style="
 								display: inline-flex;
 								align-items: center;
 								vertical-align: middle;
 								padding-top: 1px;
-							"
-							>{{ $t("userHandling.loginWithGoogle") }}</span
-						>
+							">{{ $t("userHandling.loginWithGoogle") }}</span>
 					</v-btn>
 				</div>
 			</div>
@@ -60,132 +47,132 @@
 </template>
 
 <script>
-	import { mapGetters } from "vuex";
-	import { auth, db, provider } from "../../js/firebaseConfig";
-	import { onAuthStateChanged, signOut, signInWithPopup } from "firebase/auth";
-	import { ref as dbRef, get, set } from "firebase/database";
+import { mapGetters } from "vuex";
+import { auth, db, provider } from "../../js/firebaseConfig";
+import { onAuthStateChanged, signOut, signInWithPopup } from "firebase/auth";
+import { ref as dbRef, get, set } from "firebase/database";
 
-	export default {
-		name: "MobileFooter",
-		data() {
-			return {
-				showProfileDropDown: false,
-				userData: null, // Assume this is populated with user data from your Vuex store or API
-			};
+export default {
+	name: "MobileFooter",
+	data() {
+		return {
+			showProfileDropDown: false,
+			userData: null, // Assume this is populated with user data from your Vuex store or API
+		};
+	},
+	computed: {
+		...mapGetters(["isAuthenticated"]),
+	},
+	methods: {
+		toggleProfileDropdown() {
+			this.showProfileDropDown = !this.showProfileDropDown;
 		},
-		computed: {
-			...mapGetters(["isAuthenticated"]),
+		async signOut() {
+			try {
+				await signOut(auth);
+				this.user = null;
+				this.userData = null;
+				this.$router.go();
+			} catch (error) {
+				console.error("Error signing out: ", error);
+			}
 		},
-		methods: {
-			toggleProfileDropdown() {
-				this.showProfileDropDown = !this.showProfileDropDown;
-			},
-			async signOut() {
-				try {
-					await signOut(auth);
-					this.user = null;
-					this.userData = null;
-					this.$router.go();
-				} catch (error) {
-					console.error("Error signing out: ", error);
-				}
-			},
-			async loginWithGoogle() {
-				try {
-					const result = await signInWithPopup(auth, provider);
-					this.user = result.user;
-					this.showProfileDropDown = false;
-					this.$router.go();
-				} catch (error) {
-					console.error("Error during sign-in:", error);
-				}
-			},
+		async loginWithGoogle() {
+			try {
+				const result = await signInWithPopup(auth, provider);
+				this.user = result.user;
+				this.showProfileDropDown = false;
+				this.$router.go();
+			} catch (error) {
+				console.error("Error during sign-in:", error);
+			}
 		},
-		mounted() {
-			onAuthStateChanged(auth, async (currentUser) => {
-				if (currentUser) {
-					this.user = currentUser;
-					const userDocRef = dbRef(db, `users/${currentUser.uid}`);
-					const userDoc = await get(userDocRef);
-					if (userDoc.exists()) {
-						this.userData = userDoc.val();
-					} else {
-						// If user does not exist, show edit dialog
-						this.localEditData = {
-							displayName: currentUser.displayName || "",
-							email: currentUser.email || "",
-						};
-
-						// Create a new user record with initial values
-						await set(userDocRef, {
-							displayName: currentUser.displayName || "",
-							email: currentUser.email,
-						});
-					}
+	},
+	mounted() {
+		onAuthStateChanged(auth, async (currentUser) => {
+			if (currentUser) {
+				this.user = currentUser;
+				const userDocRef = dbRef(db, `users/${currentUser.uid}`);
+				const userDoc = await get(userDocRef);
+				if (userDoc.exists()) {
+					this.userData = userDoc.val();
 				} else {
-					this.user = null;
-					this.userData = null;
+					// If user does not exist, show edit dialog
+					this.localEditData = {
+						displayName: currentUser.displayName || "",
+						email: currentUser.email || "",
+					};
+
+					// Create a new user record with initial values
+					await set(userDocRef, {
+						displayName: currentUser.displayName || "",
+						email: currentUser.email,
+					});
 				}
-				this.loading = false;
-			});
-		},
-	};
+			} else {
+				this.user = null;
+				this.userData = null;
+			}
+			this.loading = false;
+		});
+	},
+};
 </script>
 
 <style scoped>
-	.footer-icons {
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		background-color: var(--third-color);
-		padding: 10px;
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-		height: 10vh;
-		z-index: 1000;
-	}
+.footer-icons {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	background-color: var(--third-color);
+	padding: 10px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 10vh;
+	z-index: 1000;
+}
 
-	.footer-icon {
-		display: flex;
-		align-items: center;
-		color: var(--second-color);
-		height: 7vh;
-		text-decoration: none;
-	}
+.footer-icon {
+	display: flex;
+	align-items: center;
+	color: var(--second-color);
+	height: 7vh;
+	text-decoration: none;
+}
 
-	.footer-icon v-icon {
-		margin-bottom: 5px;
-	}
+.footer-icon v-icon {
+	margin-bottom: 5px;
+}
 
-	.footer-icon span {
-		font-size: 20px;
-	}
+.footer-icon span {
+	font-size: 20px;
+}
 
-	.profile-dropdown {
-		position: fixed;
-		bottom: 11vh;
-		right: 10px;
-		background-color: white;
-		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-		border-radius: 8px;
-		z-index: 1001;
-		padding: 10px;
-		width: 200px;
-	}
+.profile-dropdown {
+	position: fixed;
+	bottom: 11vh;
+	right: 10px;
+	background-color: white;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	z-index: 1001;
+	padding: 10px;
+	width: 200px;
+}
 
-	.profile-content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+.profile-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 
-	.username {
-		font-weight: bold;
-		margin-bottom: 10px;
-	}
+.username {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
 
-	.login-btn {
-		width: 100%;
-	}
+.login-btn {
+	width: 100%;
+}
 </style>

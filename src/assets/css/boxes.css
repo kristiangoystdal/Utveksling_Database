@@ -12,38 +12,44 @@
 .box-first-color {
   background-color: var(--first-color);
   color: var(--fifth-color);
-  border: 1px solid var(--second-color); /* Darker shade of first color */
+  border: 1px solid var(--second-color);
+  /* Darker shade of first color */
 }
 
 /* Second Color Box */
 .box-second-color {
   background-color: var(--second-color);
   color: var(--white);
-  border: 1px solid var(--first-color); /* Darker shade of second color */
+  border: 1px solid var(--first-color);
+  /* Darker shade of second color */
 }
 
 /* Third Color Box */
 .box-third-color {
   background-color: var(--third-color);
   /* color: var(--fifth-color); */
-  border: 1px solid var(--first-color); /* Darker shade of third color */
+  border: 1px solid var(--first-color);
+  /* Darker shade of third color */
 }
 
 /* Fourth Color Box */
 .box-fourth-color {
   background-color: var(--fourth-color);
   /* color: var(--fifth-color); */
-  border: 1px solid var(--first-color); /* Slightly darker shade of fourth color */
+  border: 1px solid var(--first-color);
+  /* Slightly darker shade of fourth color */
 }
 
 /* Fifth Color Box */
 .box-fifth-color {
   background-color: var(--fifth-color);
   /* color: var(--white); */
-  border: 1px solid #404040; /* Slightly darker shade of fifth color */
+  border: 1px solid #404040;
+  /* Slightly darker shade of fifth color */
 }
 
 .box-alert {
   background-color: var(--alert-warning);
-  border: 1px solid #FF0000; /* Darker shade of alert color */
+  border: 1px solid #FF0000;
+  /* Darker shade of alert color */
 }

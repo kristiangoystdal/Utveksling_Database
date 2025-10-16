@@ -1,37 +1,37 @@
 /* Button Styles */
-  .btn {
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    font-size: 14px !important;
-    margin: 10px;
-  }
-  
-  .btn-primary {
-    background-color: var(--second-color);
-    color: var(--fifth-color);
-  }
-  
-  .btn-secondary {
-    background-color: var(--first-color);
-    color: var(--fifth-color);
-  }
-  
-  .btn-accent {
-    background-color: var(--third-color);
-    color: var(--first-color);
-  }
+.btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-size: 14px !important;
+  margin: 10px;
+}
 
- /* Better color for the sign-out button */
+.btn-primary {
+  background-color: var(--second-color);
+  color: var(--fifth-color);
+}
+
+.btn-secondary {
+  background-color: var(--first-color);
+  color: var(--fifth-color);
+}
+
+.btn-accent {
+  background-color: var(--third-color);
+  color: var(--first-color);
+}
+
+/* Better color for the sign-out button */
 .btn-red {
-  background-color: #E53935; /* Soft Red */
+  background-color: #E53935;
+  /* Soft Red */
   color: var(--fifth-color);
 }
 
 .btn-red:hover {
-  background-color: #D32F2F; /* Darker Soft Red */
+  background-color: #D32F2F;
+  /* Darker Soft Red */
   color: var(--fifth-color);
 }
-
-  

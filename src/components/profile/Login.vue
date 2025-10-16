@@ -5,12 +5,7 @@
 		<div class="login-container">
 			<v-card class="login-card box box-third-color">
 				<v-card-text>
-					<v-btn
-						class="login-btn"
-						@click="loginWithGoogle"
-						color="primary"
-						dark
-					>
+					<v-btn class="login-btn" @click="loginWithGoogle" color="primary" dark>
 						<v-icon left class="icon-spacing">mdi-google</v-icon>
 						{{ $t("userHandling.loginWithGoogle") }}
 					</v-btn>
@@ -21,70 +16,71 @@
 </template>
 
 <script>
-	import { auth, provider } from "../../js/firebaseConfig";
-	import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../../js/firebaseConfig";
+import { signInWithPopup } from "firebase/auth";
 
-	export default {
-		methods: {
-			async loginWithGoogle() {
-				try {
-					const result = await signInWithPopup(auth, provider);
-					const user = result.user;
+export default {
+	methods: {
+		async loginWithGoogle() {
+			try {
+				const result = await signInWithPopup(auth, provider);
+				const user = result.user;
 
-					this.$router.push("/profil");
-				} catch (error) {
-					console.error("Error during sign-in:", error);
-				}
-			},
+				this.$router.push("/profil");
+			} catch (error) {
+				console.error("Error during sign-in:", error);
+			}
 		},
-	};
+	},
+};
 </script>
 
 <style scoped>
-	.login-container {
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-card {
+	width: 400px;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+}
+
+.title {
+	font-size: 24px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.login-btn {
+	width: 100%;
+	font-size: 16px;
+}
+
+.icon-spacing {
+	margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+	.login-card {
+		width: 90%;
+		align-items: center;
+	}
+
+	.login-card .login-btn {
+		font-size: 90%;
+		width: fit-content;
+		margin: auto;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 
-	.login-card {
-		width: 400px;
-		padding: 20px;
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		border-radius: 8px;
-	}
-
-	.title {
-		font-size: 24px;
-		text-align: center;
-		margin-bottom: 20px;
-	}
-
-	.login-btn {
-		width: 100%;
-		font-size: 16px;
-	}
-
 	.icon-spacing {
-		margin-right: 8px;
+		margin-right: 4px;
 	}
-
-	@media (max-width: 768px) {
-		.login-card {
-			width: 90%;
-			align-items: center;
-		}
-		.login-card .login-btn {
-			font-size: 90%;
-			width: fit-content;
-			margin: auto;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-
-		.icon-spacing {
-			margin-right: 4px;
-		}
-	}
+}
 </style>
