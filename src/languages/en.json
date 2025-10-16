@@ -157,7 +157,9 @@
 		"exchangeSaveFailure": "Failed to save exchange",
 		"exchangeUpdated": "Exchange updated",
 		"exchangeUpdateFailure": "Failed to update exchange",
-		"courseDeleted": "Course deleted"
+		"courseDeleted": "Course deleted",
+		"exchangeDeleted": "Exchange deleted",
+		"exchangeDeleteFailure": "Failed to delete exchange"
 	},
 	"countries": {
 		"Argentina": "Argentina",

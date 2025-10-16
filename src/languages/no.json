@@ -157,7 +157,9 @@
 		"exchangeSaveFailure": "Lagring av utveksling mislykket",
 		"exchangeUpdated": "Utveksling oppdatert",
 		"exchangeUpdateFailure": "Oppdatering av utveksling mislykket",
-		"courseDeleted": "Faget ble slettet"
+		"courseDeleted": "Faget ble slettet",
+		"exchangeDeleted": "Utveksling slettet",
+		"exchangeDeleteFailure": "Feil ved sletting av utveksling"
 	},
 	"countries": {
 		"Argentina": "Argentina",
