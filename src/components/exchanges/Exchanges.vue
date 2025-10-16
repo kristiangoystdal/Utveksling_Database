@@ -284,7 +284,9 @@
 					<td :colspan="translatedMobileHeaders.length + 1">
 						<div class="expanded-content">
 							<div>
-								<div class="text-underline text-medium">More Info</div>
+								<div class="text-underline text-medium">
+									{{ $t("exchanges.courseInformation") }}
+								</div>
 								<v-container>
 									<v-row no-gutters>
 										<v-col cols="6" class="text-bold">

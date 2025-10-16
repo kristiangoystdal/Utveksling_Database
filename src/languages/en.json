@@ -1,6 +1,6 @@
 {
 	"common": {
-		"welcome": "Welcome to \nthe Exchange Portal!",
+		"welcome": "Welcome to the Exchange Portal!",
 		"goodbye": "Goodbye",
 		"siteName": "Exchange Portal",
 		"siteDescription": "This site is a tool for students at NTNU to plan and document their exchange studies. \n\n Here you can see which courses other students have taken during their exchange, and you can create your own plan for your exchange.",
@@ -110,7 +110,9 @@
 		"signIn": "Sign in with:",
 		"signOut": "Sign Out",
 		"close": "Close",
-		"confirmLeavePage": "You have unsaved changes. Are you sure you want to leave the page?"
+		"confirmLeavePage": "You have unsaved changes. Are you sure you want to leave the page?",
+		"deleteExchange": "Delete Exchange",
+		"confirmExchangeDelete": "Are you sure you want to delete this exchange?"
 	},
 	"userHandling": {
 		"loginTitle": "Login",
@@ -155,7 +157,9 @@
 		"exchangeSaveFailure": "Failed to save exchange",
 		"exchangeUpdated": "Exchange updated",
 		"exchangeUpdateFailure": "Failed to update exchange",
-		"courseDeleted": "Course deleted"
+		"courseDeleted": "Course deleted",
+		"exchangeDeleted": "Exchange deleted",
+		"exchangeDeleteFailure": "Failed to delete exchange"
 	},
 	"countries": {
 		"Argentina": "Argentina",

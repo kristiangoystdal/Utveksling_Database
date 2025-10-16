@@ -302,7 +302,7 @@
 
 	.language-dropdown {
 		position: absolute;
-		top: 100%;
+		top: 60px;
 		right: 0;
 		background-color: #fff;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -378,7 +378,7 @@
 		}
 
 		.language-dropdown {
-			top: 40px;
+			top: 60px;
 			right: 0;
 			z-index: 10000;
 		}
@@ -391,7 +391,7 @@
 
 	.profile-dropdown {
 		position: absolute;
-		top: 48px;
+		top: 60px;
 		right: 50px;
 		background-color: #fff;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
