@@ -24,23 +24,13 @@
 					<v-row>
 						<v-col cols="12" md="4">
 							<!-- Country Filter -->
-							<v-autocomplete
-								v-model="countryValues"
-								:items="countryList"
-								:label="$t('database.country')"
-								multiple
-								chips
-								clearable
-								:search-input.sync="countrySearch"
-							>
+							<v-autocomplete v-model="countryValues" :items="countryList" :label="$t('database.country')" multiple
+								chips clearable :search-input.sync="countrySearch">
 								<template v-slot:selection="{ item, index }">
 									<v-chip v-if="index < 2" close @click:close="remove(item)">
 										<span>{{ item }}</span>
 									</v-chip>
-									<span
-										v-if="index === 2"
-										class="text-grey text-caption align-self-center"
-									>
+									<span v-if="index === 2" class="text-grey text-caption align-self-center">
 										(+{{ countryValues.length - 2 }} others)
 									</span>
 								</template>
@@ -48,23 +38,13 @@
 						</v-col>
 						<v-col cols="12" md="4">
 							<!-- University Filter -->
-							<v-autocomplete
-								v-model="universityValues"
-								:items="universityList"
-								:label="$t('database.university')"
-								multiple
-								chips
-								clearable
-								:search-input.sync="universitySearch"
-							>
+							<v-autocomplete v-model="universityValues" :items="universityList" :label="$t('database.university')"
+								multiple chips clearable :search-input.sync="universitySearch">
 								<template v-slot:selection="{ item, index }">
 									<v-chip v-if="index < 2" close @click:close="remove(item)">
 										<span>{{ item }}</span>
 									</v-chip>
-									<span
-										v-if="index === 2"
-										class="text-grey text-caption align-self-center"
-									>
+									<span v-if="index === 2" class="text-grey text-caption align-self-center">
 										(+{{ universityValues.length - 2 }} others)
 									</span>
 								</template>
@@ -72,23 +52,13 @@
 						</v-col>
 						<v-col cols="12" md="4">
 							<!-- Study Filter -->
-							<v-autocomplete
-								v-model="studyValues"
-								:items="studyList"
-								:label="$t('database.study')"
-								multiple
-								chips
-								clearable
-								:search-input.sync="studySearch"
-							>
+							<v-autocomplete v-model="studyValues" :items="studyList" :label="$t('database.study')" multiple chips
+								clearable :search-input.sync="studySearch">
 								<template v-slot:selection="{ item, index }">
 									<v-chip v-if="index < 2" close @click:close="remove(item)">
 										<span>{{ item }}</span>
 									</v-chip>
-									<span
-										v-if="index === 2"
-										class="text-grey text-caption align-self-center"
-									>
+									<span v-if="index === 2" class="text-grey text-caption align-self-center">
 										(+{{ studyValues.length - 2 }} others)
 									</span>
 								</template>
@@ -98,23 +68,14 @@
 					<v-row justify="center">
 						<v-col cols="12" md="4">
 							<!-- Specialization Filter -->
-							<v-autocomplete
-								v-model="specializationValues"
-								:items="specializationList"
-								:label="$t('database.specialization')"
-								multiple
-								chips
-								clearable
-								:search-input.sync="specializationSearch"
-							>
+							<v-autocomplete v-model="specializationValues" :items="specializationList"
+								:label="$t('database.specialization')" multiple chips clearable
+								:search-input.sync="specializationSearch">
 								<template v-slot:selection="{ item, index }">
 									<v-chip v-if="index < 2" close @click:close="remove(item)">
 										<span>{{ item }}</span>
 									</v-chip>
-									<span
-										v-if="index === 2"
-										class="text-grey text-caption align-self-center"
-									>
+									<span v-if="index === 2" class="text-grey text-caption align-self-center">
 										(+{{ specializationValues.length - 2 }} others)
 									</span>
 								</template>
@@ -122,23 +83,13 @@
 						</v-col>
 						<v-col cols="12" md="4">
 							<!-- Number of Semesters Filter -->
-							<v-autocomplete
-								v-model="numSemestersValues"
-								:items="numSemestersList"
-								:label="$t('database.numSemesters')"
-								multiple
-								chips
-								clearable
-								:search-input.sync="numSemestersSearch"
-							>
+							<v-autocomplete v-model="numSemestersValues" :items="numSemestersList"
+								:label="$t('database.numSemesters')" multiple chips clearable :search-input.sync="numSemestersSearch">
 								<template v-slot:selection="{ item, index }">
 									<v-chip v-if="index < 2" close @click:close="remove(item)">
 										<span>{{ item }}</span>
 									</v-chip>
-									<span
-										v-if="index === 2"
-										class="text-grey text-caption align-self-center"
-									>
+									<span v-if="index === 2" class="text-grey text-caption align-self-center">
 										(+{{ numSemestersValues.length - 2 }} others)
 									</span>
 								</template>
@@ -156,28 +107,15 @@
 	<!-- Data Table -->
 
 	<div v-if="!isMobile">
-		<v-data-table
-			v-model:expanded="expanded"
-			:headers="translatedHeaders"
-			:items="exchangeList"
-			item-value="id"
-			show-expand
-			class="main-table"
-			id="main-table-width"
-		>
+		<v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="exchangeList" item-value="id"
+			show-expand class="main-table" id="main-table-width">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
 					<!-- <v-tooltip text="Tooltip">
 						<template v-slot:activator="{ props }"> -->
-					<img
-						:src="getFlagUrl(item.country)"
-						alt="Flag"
-						width="20"
-						height="15"
-						style="margin-left: 4px"
-					/>
+					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 4px" />
 					<!-- </template>
-					</v-tooltip> -->
+		</v-tooltip> -->
 				</div>
 			</template>
 
@@ -186,60 +124,34 @@
 					<td :colspan="columns.length" id="coursesStyle">
 						<div>
 							<br />
-							<h3
-								v-if="
-									item.courses && item.courses.Høst && item.courses.Høst.length
-								"
-							>
+							<h3 v-if="
+								item.courses && item.courses.Høst && item.courses.Høst.length
+							">
 								{{ $t("exchanges.coursesFallHeader") }}
 							</h3>
-							<v-data-table-virtual
-								v-if="
-									item.courses && item.courses.Høst && item.courses.Høst.length
-								"
-								:headers="translatedHeadersCourses"
-								:items="item.courses.Høst"
-								item-value="name"
-								dense
-								class="virtual-table"
-							>
+							<v-data-table-virtual v-if="
+								item.courses && item.courses.Høst && item.courses.Høst.length
+							" :headers="translatedHeadersCourses" :items="item.courses.Høst" item-value="name" dense class="virtual-table">
 								<template v-slot:item.comment="{ item }">
-									<v-icon
-										v-if="item.comments && item.comments.trim() !== ''"
-										small
-										class="mr-2"
-										@click="showComments(item)"
-									>
+									<v-icon v-if="item.comments && item.comments.trim() !== ''" small class="mr-2"
+										@click="showComments(item)">
 										mdi-comment
 									</v-icon>
 									<v-icon v-else small class="mr-2"> mdi-comment-off </v-icon>
 								</template>
 							</v-data-table-virtual>
 							<br />
-							<h3
-								v-if="
-									item.courses && item.courses.Vår && item.courses.Vår.length
-								"
-							>
+							<h3 v-if="
+								item.courses && item.courses.Vår && item.courses.Vår.length
+							">
 								{{ $t("exchanges.coursesSpringHeader") }}
 							</h3>
-							<v-data-table-virtual
-								v-if="
-									item.courses && item.courses.Vår && item.courses.Vår.length
-								"
-								:headers="translatedHeadersCourses"
-								:items="item.courses.Vår"
-								item-value="name"
-								dense
-								class="virtual-table"
-							>
+							<v-data-table-virtual v-if="
+								item.courses && item.courses.Vår && item.courses.Vår.length
+							" :headers="translatedHeadersCourses" :items="item.courses.Vår" item-value="name" dense class="virtual-table">
 								<template v-slot:item.comment="{ item }">
-									<v-icon
-										v-if="item.comments && item.comments.trim() !== ''"
-										small
-										class="mr-2"
-										@click="showComments(item)"
-									>
+									<v-icon v-if="item.comments && item.comments.trim() !== ''" small class="mr-2"
+										@click="showComments(item)">
 										mdi-comment
 									</v-icon>
 									<v-icon v-else small class="mr-2"> mdi-comment-off </v-icon>
@@ -254,28 +166,12 @@
 	</div>
 
 	<div v-else>
-		<v-data-table
-			:headers="translatedMobileHeaders"
-			v-model:expanded="expanded"
-			:items="exchangeList"
-			item-value="id"
-			show-expand
-			class="main-table fixed-table"
-			id="main-table-width"
-			:fixed-header="false"
-			:style="{ width: '100%' }"
-			item-class="custom-item-class"
-			header-class="custom-header-class"
-		>
+		<v-data-table :headers="translatedMobileHeaders" v-model:expanded="expanded" :items="exchangeList" item-value="id"
+			show-expand class="main-table fixed-table" id="main-table-width" :fixed-header="false" :style="{ width: '100%' }"
+			item-class="custom-item-class" header-class="custom-header-class">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
-					<img
-						:src="getFlagUrl(item.country)"
-						alt="Flag"
-						width="20"
-						height="15"
-						style="margin-left: 8px"
-					/>
+					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 8px" />
 				</div>
 			</template>
 
@@ -322,42 +218,21 @@
 									</v-row>
 									<br />
 									<div v-if="item.courses.Høst">
-										<v-row
-											no-gutters
-											class="text-bold"
-											style="font-size: 15px; text-decoration: underline"
-										>
+										<v-row no-gutters class="text-bold" style="font-size: 15px; text-decoration: underline">
 											{{ $t("exchanges.coursesFallHeader") }}
 										</v-row>
 										<v-row no-gutters style="margin-bottom: 5px">
-											<v-col
-												cols="5"
-												class="text-bold"
-												style="padding-right: 5px"
-											>
+											<v-col cols="5" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.courseName") }}
 											</v-col>
-											<v-col
-												cols="3"
-												class="text-bold"
-												style="padding-right: 5px"
-											>
+											<v-col cols="3" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.courseCode") }}
 											</v-col>
-											<v-col
-												cols="4"
-												class="text-bold"
-												style="padding-right: 5px"
-											>
+											<v-col cols="4" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.ETCSPoints") }}
 											</v-col>
 										</v-row>
-										<v-row
-											v-for="(course, index) in item.courses.Høst"
-											:key="index"
-											class="mb-3"
-											no-gutters
-										>
+										<v-row v-for="(course, index) in item.courses.Høst" :key="index" class="mb-3" no-gutters>
 											<v-col cols="5">
 												{{ course.courseName }}
 											</v-col>
@@ -368,53 +243,28 @@
 												{{ course.ETCSPoints }}
 											</v-col>
 											<v-col cols="1">
-												<v-icon
-													small
-													class="mr-2"
-													@click="toggleInformationDialog(course)"
-												>
+												<v-icon small class="mr-2" @click="toggleInformationDialog(course)">
 													mdi-dots-horizontal
 												</v-icon>
 											</v-col>
 										</v-row>
 									</div>
 									<div v-if="item.courses.Vår && item.courses.Vår.length > 0">
-										<v-row
-											no-gutters
-											class="text-bold"
-											style="font-size: 15px; text-decoration: underline"
-										>
+										<v-row no-gutters class="text-bold" style="font-size: 15px; text-decoration: underline">
 											{{ $t("exchanges.coursesSpringHeader") }}
 										</v-row>
 										<v-row no-gutters style="margin-bottom: 5px">
-											<v-col
-												cols="5"
-												class="text-bold"
-												style="padding-right: 5px"
-											>
+											<v-col cols="5" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.courseName") }}
 											</v-col>
-											<v-col
-												cols="3"
-												class="text-bold"
-												style="padding-right: 5px"
-											>
+											<v-col cols="3" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.courseCode") }}
 											</v-col>
-											<v-col
-												cols="4"
-												class="text-bold"
-												style="padding-right: 5px"
-											>
+											<v-col cols="4" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.ETCSPoints") }}
 											</v-col>
 										</v-row>
-										<v-row
-											v-for="(course, index) in item.courses.Vår"
-											:key="index"
-											class="mb-3"
-											no-gutters
-										>
+										<v-row v-for="(course, index) in item.courses.Vår" :key="index" class="mb-3" no-gutters>
 											<v-col cols="5">
 												{{ course.courseName }}
 											</v-col>
@@ -425,11 +275,7 @@
 												{{ course.ETCSPoints }}
 											</v-col>
 											<v-col cols="1">
-												<v-icon
-													small
-													class="mr-2"
-													@click="toggleInformationDialog(course)"
-												>
+												<v-icon small class="mr-2" @click="toggleInformationDialog(course)">
 													mdi-dots-horizontal
 												</v-icon>
 											</v-col>
@@ -522,413 +368,417 @@
 </template>
 
 <script>
-	import { db } from "../../js/firebaseConfig.js";
-	import { get, child, ref as dbRef } from "firebase/database";
-	import { useI18n } from "vue-i18n";
-	import { getCode } from "country-list";
-	import countriesInformation from "../../data/countriesInformation.json";
+import { db } from "../../js/firebaseConfig.js";
+import { get, child, ref as dbRef } from "firebase/database";
+import { useI18n } from "vue-i18n";
+import { getCode } from "country-list";
+import countriesInformation from "../../data/countriesInformation.json";
 
-	export default {
-		setup() {
-			const { t, locale } = useI18n();
-			return { t, locale };
+export default {
+	setup() {
+		const { t, locale } = useI18n();
+		return { t, locale };
+	},
+	data() {
+		return {
+			countriesInfo: countriesInformation,
+			showFilters: false,
+			expanded: [],
+			exchangeList: [],
+			countryList: [],
+			countryValues: [],
+			countrySearch: "",
+			universityList: [],
+			universityValues: [],
+			universitySearch: "",
+			studyList: [],
+			studyValues: [],
+			studySearch: "",
+			specializationList: [],
+			specializationValues: [],
+			specializationSearch: "",
+			numSemestersList: [1, 2],
+			numSemestersValues: [],
+			numSemestersSearch: "",
+			commentDialog: false,
+			currentComments: "",
+			currentCourseName: "",
+			screenWidth: window.innerWidth,
+			informationDialog: false,
+			currentCourse: null,
+		};
+	},
+	created() {
+		this.fetchExchangeData();
+	},
+	mounted() {
+		this.getValuesFromDatabase();
+		window.addEventListener("resize", this.updateScreenWidth);
+		this.updateScreenWidth();
+	},
+	beforeUnmount() {
+		window.removeEventListener("resize", this.updateScreenWidth);
+	},
+	watch: {
+		locale(newLocale, oldLocale) {
+			this.fetchExchangeData();
+			this.getValuesFromDatabase();
 		},
-		data() {
+	},
+	computed: {
+		isMobile() {
+			return this.screenWidth <= 768;
+		},
+		translatedHeaders() {
+			return [
+				{
+					align: "center",
+					key: "country",
+				},
+				{
+					title: this.t("database.university"),
+					align: "start",
+					key: "university",
+					length: 2,
+				},
+				{
+					title: this.t("database.study"),
+					align: "end",
+					key: "study",
+				},
+				{
+					title: this.t("database.specialization"),
+					align: "end",
+					key: "specialization",
+				},
+				{
+					title: this.t("database.studyYear"),
+					align: "center",
+					key: "studyYear",
+				},
+				{
+					title: this.t("database.numSemesters"),
+					align: "center",
+					key: "numSemesters",
+				},
+			];
+		},
+		translatedHeadersCourses() {
+			return [
+				{
+					title: this.t("database.courseName"),
+					align: "start",
+					key: "courseName",
+				},
+				{
+					title: this.t("database.courseCode"), // fixed typo
+					align: "end",
+					key: "courseCode",
+				},
+				{
+					title: this.t("database.replacedCourseName"),
+					align: "end",
+					key: "replacedCourseName",
+				},
+				{
+					title: this.t("database.replacedCourseCode"),
+					align: "end",
+					key: "replacedCourseCode",
+				},
+				{
+					title: this.t("database.courseType"),
+					align: "end",
+					key: "courseType",
+				},
+				{
+					title: this.t("database.institute"),
+					align: "end",
+					key: "institute",
+				},
+				{
+					title: this.t("database.ETCSPoints"),
+					align: "end",
+					key: "ETCSPoints",
+				},
+				{
+					title: this.t("database.comments"),
+					align: "end",
+					key: "comment",
+				},
+			];
+		},
+		translatedMobileHeaders() {
+			return [
+				{
+					align: "start",
+					key: "country",
+				},
+				{
+					title: this.t("database.university"),
+					align: "start",
+					key: "university",
+				},
+				{
+					title: this.t("database.study"),
+					align: "end",
+					key: "study",
+				},
+			];
+		},
+		translatedMobileHeadersCourses() {
+			return [
+				{
+					title: this.t("database.courseName"),
+					align: "start",
+					key: "courseName",
+				},
+				{
+					title: this.t("database.courseCode"), // fixed typo
+					align: "end",
+					key: "courseCode",
+				},
+				{
+					title: this.t("database.replacedCourseName"),
+					align: "end",
+					key: "replacedCourseName",
+				},
+				{
+					title: this.t("database.replacedCourseCode"),
+					align: "end",
+					key: "replacedCourseCode",
+				},
+				{
+					title: this.t("database.courseType"),
+					align: "end",
+					key: "courseType",
+				},
+				{
+					title: this.t("database.institute"),
+					align: "end",
+					key: "institute",
+				},
+				{
+					title: this.t("database.ETCSPoints"),
+					align: "end",
+					key: "ETCSPoints",
+				},
+				{
+					title: this.t("database.comments"),
+					align: "end",
+					key: "comment",
+				},
+			];
+		},
+	},
+	methods: {
+		updateScreenWidth() {
+			this.screenWidth = window.innerWidth;
+		},
+		toggleFilters() {
+			this.showFilters = !this.showFilters;
+		},
+		async getValuesFromDatabase() {
+			try {
+				const exchangesSnapshot = await get(child(dbRef(db), "exchanges"));
+				if (exchangesSnapshot.exists()) {
+					let exchanges = exchangesSnapshot.val();
+					const countriesSet = new Set();
+					const universitiesSet = new Set();
+					const studiesSet = new Set();
+					const specializationsSet = new Set();
+
+					for (const exchangeKey in exchanges) {
+						const exchange = exchanges[exchangeKey];
+
+						// Check if either 'Høst' or 'Vår' courses exist and have at least one course
+						const hasAutumnCourses =
+							exchange.courses &&
+							exchange.courses.Høst &&
+							exchange.courses.Høst.length > 0;
+						const hasSpringCourses =
+							exchange.courses &&
+							exchange.courses.Vår &&
+							exchange.courses.Vår.length > 0;
+
+						if (hasAutumnCourses || hasSpringCourses) {
+							if (exchange.country) {
+								countriesSet.add(this.$t(`countries.${exchange.country}`));
+							}
+							if (exchange.university) {
+								universitiesSet.add(exchange.university);
+							}
+							if (exchange.study) {
+								studiesSet.add(exchange.study);
+							}
+							if (exchange.specialization) {
+								specializationsSet.add(exchange.specialization);
+							}
+						}
+					}
+
+					this.countryList = Array.from(countriesSet);
+					this.universityList = Array.from(universitiesSet);
+					this.studyList = Array.from(studiesSet);
+					this.specializationList = Array.from(specializationsSet);
+				} else {
+					console.error("No data available");
+				}
+			} catch (error) {
+				console.error("Error fetching values from database:", error);
+			}
+		},
+		remove(item) {
+			this.countryValues = this.countryValues.filter((i) => i !== item);
+		},
+		async fetchExchangeData() {
+			try {
+				const snapshot = await get(child(dbRef(db), "exchanges"));
+				if (snapshot.exists()) {
+					let exchanges = snapshot.val();
+
+					exchanges = Object.keys(exchanges)
+						.map((key) => ({
+							id: key,
+							...exchanges[key],
+							country: this.$t(`countries.${exchanges[key].country}`),
+							secondCountry: exchanges[key].secondCountry
+								? this.$t(`countries.${exchanges[key].secondCountry}`)
+								: null,
+						}))
+						.filter(
+							(exchange) =>
+								exchange.courses && Object.keys(exchange.courses).length > 0
+						);
+
+					// Reformat exchanges
+					let reformattedExchanges = this.reformatExchanges(exchanges);
+
+					// Apply filters
+					reformattedExchanges = this.applyFilters(reformattedExchanges);
+
+					// Update the exchange list
+					this.exchangeList = reformattedExchanges;
+
+					this.exchangeList.sort((a, b) => {
+						if (a.country < b.country) {
+							return -1;
+						}
+						if (a.country > b.country) {
+							return 1;
+						}
+						return 0;
+					});
+				} else {
+					console.error("No data available");
+				}
+			} catch (error) {
+				console.error("Error fetching exchange data:", error);
+			}
+		},
+		applyFilters(exchanges) {
+			if (this.countryValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.countryValues.includes(exchange.country)
+				);
+			}
+			if (this.universityValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.universityValues.includes(exchange.university)
+				);
+			}
+			if (this.studyValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.studyValues.includes(exchange.study)
+				);
+			}
+			if (this.specializationValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.specializationValues.includes(exchange.specialization)
+				);
+			}
+			if (this.numSemestersValues.length > 0) {
+				exchanges = exchanges.filter((exchange) =>
+					this.numSemestersValues.includes(exchange.numSemesters)
+				);
+			}
+			return exchanges;
+		},
+		reformatExchanges(exchanges) {
+			return exchanges.reduce((result, exchange) => {
+				if (!exchange.sameUniversity && exchange.courses.Vår) {
+					const firstExchange = this.createExchange(exchange, {
+						Høst: exchange.courses.Høst,
+						Vår: [],
+					});
+
+					const newExchange = this.createExchange(
+						{
+							...exchange,
+							id: exchange.id + "new",
+							university: exchange.secondUniversity,
+							country: exchange.secondCountry,
+						},
+						{
+							Høst: [],
+							Vår: exchange.courses.Vår,
+						}
+					);
+					result.push(firstExchange);
+					result.push(newExchange);
+				} else {
+					if (!!exchange.courses.Høst !== !!exchange.courses.Vår) {
+						exchange.numSemesters = 1;
+					}
+					result.push(exchange);
+				}
+				return result;
+			}, []);
+		},
+		createExchange(baseExchange, courses) {
 			return {
-				countriesInfo: countriesInformation,
-				showFilters: false,
-				expanded: [],
-				exchangeList: [],
-				countryList: [],
-				countryValues: [],
-				countrySearch: "",
-				universityList: [],
-				universityValues: [],
-				universitySearch: "",
-				studyList: [],
-				studyValues: [],
-				studySearch: "",
-				specializationList: [],
-				specializationValues: [],
-				specializationSearch: "",
-				numSemestersList: [1, 2],
-				numSemestersValues: [],
-				numSemestersSearch: "",
-				commentDialog: false,
-				currentComments: "",
-				currentCourseName: "",
-				screenWidth: window.innerWidth,
-				informationDialog: false,
-				currentCourse: null,
+				...baseExchange,
+				courses: courses,
+				numSemesters: 1,
 			};
 		},
-		created() {
-			this.fetchExchangeData();
+		showComments(course) {
+			this.currentCourseName = course.courseName;
+			this.currentComments =
+				course.comments || this.t("exchanges.noComments");
+			this.commentDialog = true;
 		},
-		mounted() {
-			this.getValuesFromDatabase();
-			window.addEventListener("resize", this.updateScreenWidth);
-			this.updateScreenWidth();
+		closeCommentDialog() {
+			this.commentDialog = false;
 		},
-		beforeUnmount() {
-			window.removeEventListener("resize", this.updateScreenWidth);
+		toggleInformationDialog(course) {
+			this.informationDialog = !this.informationDialog;
+			if (this.informationDialog) {
+				this.currentCourse = course;
+			}
 		},
-		watch: {
-			locale(newLocale, oldLocale) {
-				this.fetchExchangeData();
-				this.getValuesFromDatabase();
-			},
+		closeInformationDialog() {
+			this.informationDialog = false;
 		},
-		computed: {
-			isMobile() {
-				return this.screenWidth <= 768;
-			},
-			translatedHeaders() {
-				return [
-					{
-						align: "center",
-						key: "country",
-					},
-					{
-						title: this.t("database.university"),
-						align: "start",
-						key: "university",
-						length: 2,
-					},
-					{
-						title: this.t("database.study"),
-						align: "end",
-						key: "study",
-					},
-					{
-						title: this.t("database.specialization"),
-						align: "end",
-						key: "specialization",
-					},
-					{
-						title: this.t("database.studyYear"),
-						align: "center",
-						key: "studyYear",
-					},
-					{
-						title: this.t("database.numSemesters"),
-						align: "center",
-						key: "numSemesters",
-					},
-				];
-			},
-			translatedHeadersCourses() {
-				return [
-					{
-						title: this.t("database.courseName"),
-						align: "start",
-						key: "courseName",
-					},
-					{
-						title: this.t("database.courseCode"), // fixed typo
-						align: "end",
-						key: "courseCode",
-					},
-					{
-						title: this.t("database.replacedCourseName"),
-						align: "end",
-						key: "replacedCourseName",
-					},
-					{
-						title: this.t("database.replacedCourseCode"),
-						align: "end",
-						key: "replacedCourseCode",
-					},
-					{
-						title: this.t("database.courseType"),
-						align: "end",
-						key: "courseType",
-					},
-					{
-						title: this.t("database.institute"),
-						align: "end",
-						key: "institute",
-					},
-					{
-						title: this.t("database.ETCSPoints"),
-						align: "end",
-						key: "ETCSPoints",
-					},
-					{
-						title: this.t("database.comments"),
-						align: "end",
-						key: "comment",
-					},
-				];
-			},
-			translatedMobileHeaders() {
-				return [
-					{
-						align: "start",
-						key: "country",
-					},
-					{
-						title: this.t("database.university"),
-						align: "start",
-						key: "university",
-					},
-					{
-						title: this.t("database.study"),
-						align: "end",
-						key: "study",
-					},
-				];
-			},
-			translatedMobileHeadersCourses() {
-				return [
-					{
-						title: this.t("database.courseName"),
-						align: "start",
-						key: "courseName",
-					},
-					{
-						title: this.t("database.courseCode"), // fixed typo
-						align: "end",
-						key: "courseCode",
-					},
-					{
-						title: this.t("database.replacedCourseName"),
-						align: "end",
-						key: "replacedCourseName",
-					},
-					{
-						title: this.t("database.replacedCourseCode"),
-						align: "end",
-						key: "replacedCourseCode",
-					},
-					{
-						title: this.t("database.courseType"),
-						align: "end",
-						key: "courseType",
-					},
-					{
-						title: this.t("database.institute"),
-						align: "end",
-						key: "institute",
-					},
-					{
-						title: this.t("database.ETCSPoints"),
-						align: "end",
-						key: "ETCSPoints",
-					},
-					{
-						title: this.t("database.comments"),
-						align: "end",
-						key: "comment",
-					},
-				];
-			},
+		getFlagUrl(country) {
+			console.log("Getting flag for:", country);
+			const flagBaseUrl = "https://flagcdn.com/128x96/";
+			const countryCode = this.getCountryCode(country).toLowerCase();
+			return `${flagBaseUrl}${countryCode}.png`;
 		},
-		methods: {
-			updateScreenWidth() {
-				this.screenWidth = window.innerWidth;
-			},
-			toggleFilters() {
-				this.showFilters = !this.showFilters;
-			},
-			async getValuesFromDatabase() {
-				try {
-					const exchangesSnapshot = await get(child(dbRef(db), "exchanges"));
-					if (exchangesSnapshot.exists()) {
-						let exchanges = exchangesSnapshot.val();
-						const countriesSet = new Set();
-						const universitiesSet = new Set();
-						const studiesSet = new Set();
-						const specializationsSet = new Set();
-
-						for (const exchangeKey in exchanges) {
-							const exchange = exchanges[exchangeKey];
-
-							// Check if either 'Høst' or 'Vår' courses exist and have at least one course
-							const hasAutumnCourses =
-								exchange.courses &&
-								exchange.courses.Høst &&
-								exchange.courses.Høst.length > 0;
-							const hasSpringCourses =
-								exchange.courses &&
-								exchange.courses.Vår &&
-								exchange.courses.Vår.length > 0;
-
-							if (hasAutumnCourses || hasSpringCourses) {
-								if (exchange.country) {
-									countriesSet.add(this.$t(`countries.${exchange.country}`));
-								}
-								if (exchange.university) {
-									universitiesSet.add(exchange.university);
-								}
-								if (exchange.study) {
-									studiesSet.add(exchange.study);
-								}
-								if (exchange.specialization) {
-									specializationsSet.add(exchange.specialization);
-								}
-							}
-						}
-
-						this.countryList = Array.from(countriesSet);
-						this.universityList = Array.from(universitiesSet);
-						this.studyList = Array.from(studiesSet);
-						this.specializationList = Array.from(specializationsSet);
-					} else {
-						console.error("No data available");
-					}
-				} catch (error) {
-					console.error("Error fetching values from database:", error);
-				}
-			},
-			remove(item) {
-				this.countryValues = this.countryValues.filter((i) => i !== item);
-			},
-			async fetchExchangeData() {
-				try {
-					const snapshot = await get(child(dbRef(db), "exchanges"));
-					if (snapshot.exists()) {
-						let exchanges = snapshot.val();
-
-						exchanges = Object.keys(exchanges)
-							.map((key) => ({
-								id: key,
-								...exchanges[key],
-								country: this.$t(`countries.${exchanges[key].country}`),
-							}))
-							.filter(
-								(exchange) =>
-									exchange.courses && Object.keys(exchange.courses).length > 0
-							);
-
-						// Reformat exchanges
-						let reformattedExchanges = this.reformatExchanges(exchanges);
-
-						// Apply filters
-						reformattedExchanges = this.applyFilters(reformattedExchanges);
-
-						// Update the exchange list
-						this.exchangeList = reformattedExchanges;
-
-						this.exchangeList.sort((a, b) => {
-							if (a.country < b.country) {
-								return -1;
-							}
-							if (a.country > b.country) {
-								return 1;
-							}
-							return 0;
-						});
-					} else {
-						console.error("No data available");
-					}
-				} catch (error) {
-					console.error("Error fetching exchange data:", error);
-				}
-			},
-			applyFilters(exchanges) {
-				if (this.countryValues.length > 0) {
-					exchanges = exchanges.filter((exchange) =>
-						this.countryValues.includes(exchange.country)
-					);
-				}
-				if (this.universityValues.length > 0) {
-					exchanges = exchanges.filter((exchange) =>
-						this.universityValues.includes(exchange.university)
-					);
-				}
-				if (this.studyValues.length > 0) {
-					exchanges = exchanges.filter((exchange) =>
-						this.studyValues.includes(exchange.study)
-					);
-				}
-				if (this.specializationValues.length > 0) {
-					exchanges = exchanges.filter((exchange) =>
-						this.specializationValues.includes(exchange.specialization)
-					);
-				}
-				if (this.numSemestersValues.length > 0) {
-					exchanges = exchanges.filter((exchange) =>
-						this.numSemestersValues.includes(exchange.numSemesters)
-					);
-				}
-				return exchanges;
-			},
-			reformatExchanges(exchanges) {
-				return exchanges.reduce((result, exchange) => {
-					if (!exchange.sameUniversity && exchange.courses.Vår) {
-						const firstExchange = this.createExchange(exchange, {
-							Høst: exchange.courses.Høst,
-							Vår: [],
-						});
-
-						const newExchange = this.createExchange(
-							{
-								...exchange,
-								id: exchange.id + "new",
-								university: exchange.secondUniversity,
-								country: exchange.secondCountry,
-							},
-							{
-								Høst: [],
-								Vår: exchange.courses.Vår,
-							}
-						);
-						result.push(firstExchange);
-						result.push(newExchange);
-					} else {
-						if (!!exchange.courses.Høst !== !!exchange.courses.Vår) {
-							exchange.numSemesters = 1;
-						}
-						result.push(exchange);
-					}
-					return result;
-				}, []);
-			},
-			createExchange(baseExchange, courses) {
-				return {
-					...baseExchange,
-					courses: courses,
-					numSemesters: 1,
-				};
-			},
-			showComments(course) {
-				this.currentCourseName = course.courseName;
-				this.currentComments =
-					course.comments || this.t("exchanges.noComments");
-				this.commentDialog = true;
-			},
-			closeCommentDialog() {
-				this.commentDialog = false;
-			},
-			toggleInformationDialog(course) {
-				this.informationDialog = !this.informationDialog;
-				if (this.informationDialog) {
-					this.currentCourse = course;
-				}
-			},
-			closeInformationDialog() {
-				this.informationDialog = false;
-			},
-			getFlagUrl(country) {
-				const flagBaseUrl = "https://flagcdn.com/128x96/";
-				const countryCode = this.getCountryCode(country).toLowerCase();
-				return `${flagBaseUrl}${countryCode}.png`;
-			},
-			getCountryCode(country) {
-				if (this.locale === "en") {
-					return this.countriesInfo.countryCodes.en[country] || "unknown";
-				} else {
-					return this.countriesInfo.countryCodes.no[country] || "unknown";
-				}
-			},
+		getCountryCode(country) {
+			if (this.locale === "en") {
+				return this.countriesInfo.countryCodes.en[country] || "unknown";
+			} else {
+				return this.countriesInfo.countryCodes.no[country] || "unknown";
+			}
 		},
-	};
+	},
+};
 </script>
 
 <style>
-	.v-data-table table tr th,
-	.v-data-table table tr td {
-		padding: 0 8px !important;
-	}
+.v-data-table table tr th,
+.v-data-table table tr td {
+	padding: 0 8px !important;
+}
 </style>
