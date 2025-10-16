@@ -1,31 +1,30 @@
 .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333333;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #33d19c;
-    border-radius: 5px;
-  }
-  
-  .form-control:focus {
-    border-color: #00bd7e;
-    outline: none;
-  }
-  
-  .form-control.error {
-    border-color: #ff6f61;
-  }
-  
-  .form-error {
-    color: #ff6f61;
-    font-size: 12px;
-  }
-  
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #33d19c;
+  border-radius: 5px;
+}
+
+.form-control:focus {
+  border-color: #00bd7e;
+  outline: none;
+}
+
+.form-control.error {
+  border-color: #ff6f61;
+}
+
+.form-error {
+  color: #ff6f61;
+  font-size: 12px;
+}

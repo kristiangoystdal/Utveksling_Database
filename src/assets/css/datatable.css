@@ -64,6 +64,7 @@
     .main-table {
         font-size: 1.2vw;
     }
+
     .main-table th {
         font-size: 1.2vw;
     }
@@ -73,6 +74,7 @@
     .main-table {
         font-size: 1.5vw;
     }
+
     .main-table th {
         font-size: 1.5vw;
     }
@@ -82,6 +84,7 @@
     .main-table {
         font-size: 3vw;
     }
+
     .main-table th {
         font-size: 3vw;
     }
@@ -91,21 +94,18 @@
 .fixed-table {
     width: 100%;
     table-layout: fixed;
-  }
-  
-  .fixed-table th,
-  .fixed-table td {
+}
+
+.fixed-table th,
+.fixed-table td {
     overflow: hidden;
     text-overflow: ellipsis;
     /* white-space: nowrap; */
-  }
-  
-  .expanded-content {
+}
+
+.expanded-content {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 20px auto;
-  }
-  
-  
-
+}
