@@ -110,7 +110,9 @@
 		"signIn": "Sign in with:",
 		"signOut": "Sign Out",
 		"close": "Close",
-		"confirmLeavePage": "You have unsaved changes. Are you sure you want to leave the page?"
+		"confirmLeavePage": "You have unsaved changes. Are you sure you want to leave the page?",
+		"deleteExchange": "Delete Exchange",
+		"confirmExchangeDelete": "Are you sure you want to delete this exchange?"
 	},
 	"userHandling": {
 		"loginTitle": "Login",

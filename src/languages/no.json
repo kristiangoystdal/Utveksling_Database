@@ -110,7 +110,9 @@
 		"signIn": "Logg inn med:",
 		"signOut": "Logg ut",
 		"close": " Lukk",
-		"confirmLeavePage": "Du har ulagrete endringer. Sikker på at du vil forlate siden?"
+		"confirmLeavePage": "Du har ulagrete endringer. Sikker på at du vil forlate siden?",
+		"deleteExchange": "Slett utveksling",
+		"confirmExchangeDelete": "Er du sikker på at du vil slette denne utvekslingen?"
 	},
 	"userHandling": {
 		"loginTitle": "Logg inn",
