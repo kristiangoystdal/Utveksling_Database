@@ -4,14 +4,8 @@
 		<br />
 		<br />
 
-		<v-data-table
-			v-model:expanded="expanded"
-			:headers="headers"
-			:items="tableData"
-			item-value="country"
-			show-expand
-			class="elevation-1"
-		>
+		<v-data-table v-model:expanded="expanded" :headers="headers" :items="tableData" item-value="country" show-expand
+			class="elevation-1">
 			<template v-slot:expanded-row="{ columns, item }">
 				<tr>
 					<td :colspan="columns.length" id="coursesStyle">
@@ -20,15 +14,8 @@
 							<h3 v-if="item.universities && item.universities.length">
 								Universities
 							</h3>
-							<v-data-table-virtual
-								v-if="item.universities && item.universities.length"
-								:headers="nestedHeaders"
-								:items="item.universities"
-								item-value="name"
-								dense
-								class="virtual-table"
-								hide-default-footer
-							>
+							<v-data-table-virtual v-if="item.universities && item.universities.length" :headers="nestedHeaders"
+								:items="item.universities" item-value="name" dense class="virtual-table" hide-default-footer>
 								<template v-slot:[`item.name`]="{ item }">
 									{{ item.name }}
 								</template>
