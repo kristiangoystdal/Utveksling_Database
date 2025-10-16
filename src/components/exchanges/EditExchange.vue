@@ -658,9 +658,14 @@ export default {
 					this.userExchange = JSON.parse(JSON.stringify(this.remoteExchange));
 
 					// Set the country name based on the country key
-					this.userExchange.country = this.getCountryName();
+					this.userExchange.country = this.getCountryName(true);
 					this.remoteExchange.country = this.userExchange.country;
 
+					// Set second country based on the country key
+					this.userExchange.secondCountry = this.getCountryName(false);
+					this.remoteExchange.secondCountry = this.userExchange.secondCountry;
+
+					// If the user has the same university for both semesters, clear second university and country
 					if (this.userExchange.sameUniversity) {
 						this.userExchange.secondUniversity = null;
 						this.userExchange.secondCountry = null;
@@ -791,10 +796,17 @@ export default {
 				(translatedName) => translatedName === selectedCountry
 			);
 		},
-		getCountryName() {
-			const countryKey = this.userExchange.country;
-			const translatedCountryName = this.$t(`countries.${countryKey}`);
-			return translatedCountryName;
+		getCountryName(main) {
+			if (main) {
+				const countryKey = this.userExchange.country;
+				const translatedCountryName = this.$t(`countries.${countryKey}`);
+				return translatedCountryName;
+			}
+			else {
+				const countryKey = this.userExchange.secondCountry;
+				const translatedCountryName = this.$t(`countries.${countryKey}`);
+				return translatedCountryName;
+			}
 		},
 		async updateExchange() {
 			if (auth.currentUser) {
