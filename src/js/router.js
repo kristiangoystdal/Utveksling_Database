@@ -10,18 +10,18 @@ import Login from '../components/profile/Login.vue';
 import FAQ from '../components/windows/FAQ.vue';
 import NotFound from '../components/error/NotFound.vue';
 
-import store from './store.js'; 
+import store from './store.js';
 import { translate } from './i18n';
 
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/utvekslinger', name: 'Exchanges', component: Exchanges },
-  { path: '/min_utveksling', name: 'EditExchange', component: EditExchange},
+  { path: '/min_utveksling', name: 'EditExchange', component: EditExchange },
   { path: '/kontakt', name: 'Contact', component: Contact },
   { path: '/profil', name: 'Account', component: Account, meta: { requiresAuth: true } },
   { path: '/logg_inn', name: 'Login', component: Login },
-  {path: '/faq', name: 'FAQ', component: FAQ},
+  { path: '/faq', name: 'FAQ', component: FAQ },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
@@ -30,7 +30,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {  
+router.beforeEach((to, from, next) => {
   // Navigation guard for authentication
   const isAuthenticated = store.getters.isAuthenticated;
 
