@@ -760,7 +760,6 @@ export default {
 			this.informationDialog = false;
 		},
 		getFlagUrl(country) {
-			console.log("Getting flag for:", country);
 			const flagBaseUrl = "https://flagcdn.com/128x96/";
 			const countryCode = this.getCountryCode(country).toLowerCase();
 			return `${flagBaseUrl}${countryCode}.png`;
