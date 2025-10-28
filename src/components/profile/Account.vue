@@ -38,12 +38,14 @@
 						<v-alert v-else type="error" dense>
 							{{ $t("errors.notLoggedIn") }}
 						</v-alert>
+
+						<FavoriteCourses v-if="user && userData" />
 					</v-card-text>
 					<v-card-actions>
-						<v-btn class="btn btn-primary" @click="editProfile">
+						<!-- <<v-btn class="btn btn-primary" @click="editProfile">
 							<v-icon left>mdi-pencil</v-icon>
 							{{ $t("operations.edit") }}
-						</v-btn>
+						</v-btn>> -->
 						<v-btn class="btn btn-red" @click="signOut">
 							<v-icon left>mdi-logout</v-icon>
 							{{ $t("operations.signOut") }}
@@ -90,8 +92,10 @@ import { auth, db } from "../../js/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { ref as dbRef, get, set, update } from "firebase/database";
 import studiesData from "../../data/studies.json";
+import FavoriteCourses from "./FavoriteCourses.vue";
 
 export default {
+	components: { FavoriteCourses },
 	data() {
 		return {
 			studies: {},
