@@ -27,9 +27,14 @@
 								<div class="profile-content">
 									<div v-if="user != null">
 										<div class="username">{{ userData.displayName }}</div>
-										<v-btn @click="signOut">
+										<v-btn @click="goToProfile" color="info" dark>
+											{{ $t("operations.profileBtn") }}
+										</v-btn>
+										<br><br>
+										<v-btn @click="signOut" color="error" dark>
 											{{ $t("operations.signOut") }}
 										</v-btn>
+
 									</div>
 									<div v-else>
 										<div class="username">{{ $t("operations.signIn") }}</div>
@@ -104,7 +109,7 @@ export default {
 		},
 		currentFlag() {
 			return this.$i18n.locale === "en" ? "fi-gb" : "fi-no";
-		},
+		}
 	},
 	methods: {
 		toggleProfileDropdown() {
@@ -154,6 +159,10 @@ export default {
 			} catch (error) {
 				console.error("Error during sign-in:", error);
 			}
+		},
+		goToProfile() {
+			this.showProfileDropDown = false;
+			this.$router.push({ name: "Account" });
 		},
 	},
 	mounted() {
