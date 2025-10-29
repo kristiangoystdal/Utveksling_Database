@@ -37,7 +37,8 @@
 		"courseType": "Fag type",
 		"institute": "Institutt",
 		"ETCSPoints": "ETCS poeng",
-		"comments": "Kommentar"
+		"comments": "Kommentar",
+		"favorite": "Favoritt"
 	},
 	"navbar": {
 		"homeHeader": "Hjem",
@@ -60,7 +61,9 @@
 		"pageText": "Utvekslinger per side",
 		"courseComments": "Kommentarer til ",
 		"noComments": "Studenten har ikke lagt inn noen kommentarer til dette faget.",
-		"courseInformation": "Mer informasjon"
+		"courseInformation": "Mer informasjon",
+		"loginToFavorite": "Du må være logget inn for å legge til eller endre favoritter",
+		"errorSavingFavorites": "Det oppstod en feil under lagring av favoritter"
 	},
 	"myExchange": {
 		"pageHeader": "Din utveksling:",
@@ -112,7 +115,8 @@
 		"close": " Lukk",
 		"confirmLeavePage": "Du har ulagrete endringer. Sikker på at du vil forlate siden?",
 		"deleteExchange": "Slett utveksling",
-		"confirmExchangeDelete": "Er du sikker på at du vil slette denne utvekslingen?"
+		"confirmExchangeDelete": "Er du sikker på at du vil slette denne utvekslingen?",
+		"profileBtn": "Min Profil"
 	},
 	"userHandling": {
 		"loginTitle": "Logg inn",

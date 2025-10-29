@@ -139,6 +139,14 @@
 									</v-icon>
 									<v-icon v-else small class="mr-2"> mdi-comment-off </v-icon>
 								</template>
+								<template v-slot:item.favorite="{ item }">
+									<v-icon v-if="!checkIfFavorite(item)" small class="mr-2" @click="toggleFavorite(item)">
+										mdi-heart-outline
+									</v-icon>
+									<v-icon v-else small class="mr-2" color="red" @click="toggleFavorite(item)">
+										mdi-heart
+									</v-icon>
+								</template>
 							</v-data-table-virtual>
 							<br />
 							<h3 v-if="
@@ -155,7 +163,11 @@
 										mdi-comment
 									</v-icon>
 									<v-icon v-else small class="mr-2"> mdi-comment-off </v-icon>
+									<v-icon small class="mr-2" @click="showComments(item)">
+										mdi-comment
+									</v-icon>
 								</template>
+
 							</v-data-table-virtual>
 							<br />
 						</div>
@@ -368,8 +380,8 @@
 </template>
 
 <script>
-import { db } from "../../js/firebaseConfig.js";
-import { get, child, ref as dbRef } from "firebase/database";
+import { db, auth } from "../../js/firebaseConfig.js";
+import { set, get, child, ref as dbRef } from "firebase/database";
 import { useI18n } from "vue-i18n";
 import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
@@ -377,7 +389,8 @@ import countriesInformation from "../../data/countriesInformation.json";
 export default {
 	setup() {
 		const { t, locale } = useI18n();
-		return { t, locale };
+		const user = auth.currentUser;
+		return { t, locale, user };
 	},
 	data() {
 		return {
@@ -406,10 +419,12 @@ export default {
 			screenWidth: window.innerWidth,
 			informationDialog: false,
 			currentCourse: null,
+			favoriteCourses: []
 		};
 	},
 	created() {
 		this.fetchExchangeData();
+		this.loadFavoriteCourses();
 	},
 	mounted() {
 		this.getValuesFromDatabase();
@@ -504,6 +519,11 @@ export default {
 					title: this.t("database.comments"),
 					align: "end",
 					key: "comment",
+				},
+				{
+					title: "",
+					align: "end",
+					key: "favorite",
 				},
 			];
 		},
@@ -770,6 +790,58 @@ export default {
 			} else {
 				return this.countriesInfo.countryCodes.no[country] || "unknown";
 			}
+		},
+		checkIfFavorite(course) {
+			return this.favoriteCourses.some(favCourse =>
+				Object.keys(course).every(key => course[key] === favCourse[key])
+			);
+		},
+		toggleFavorite(course) {
+			const user = auth.currentUser;
+
+			if (!user) {
+				alert(this.$t("exchanges.loginToFavorite"));
+				return;
+			}
+
+			// Add course to favorites if not already favorited, else remove it
+			if (!this.checkIfFavorite(course)) {
+				this.favoriteCourses.push(course);
+			} else {
+				this.favoriteCourses = this.favoriteCourses.filter(favCourse =>
+					!Object.keys(course).every(key => course[key] === favCourse[key])
+				);
+			}
+
+			this.saveFavoriteCourses().catch(error => {
+				alert(this.$t("exchanges.errorSavingFavorites"));
+				console.error("Error saving favorite courses:", error);
+			});
+		},
+		async loadFavoriteCourses() {
+			const user = auth.currentUser;
+			if (!user) {
+				this.favoriteCourses = [];
+				return;
+			}
+			const snapshot = await get(dbRef(db, `users/${user.uid}/favoriteCourses`));
+			const courses = snapshot.val();
+			this.favoriteCourses = courses
+				? Object.keys(courses).map((key) => ({ id: key, ...courses[key] }))
+				: [];
+		},
+		async saveFavoriteCourses() {
+			const user = auth.currentUser;
+			if (!user) return;
+
+			const userRef = dbRef(db, `users/${user.uid}/favoriteCourses`);
+			const updates = {};
+
+			this.favoriteCourses.forEach((course, index) => {
+				updates[index] = course;
+			});
+
+			await set(userRef, updates);
 		},
 	},
 };
