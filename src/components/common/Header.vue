@@ -8,6 +8,11 @@
 			<div class="nav-and-language">
 				<nav :class="{ open: showMobileMenu }">
 					<ul>
+						<li v-if="checkAdminUser()">
+							<router-link to="/admin">{{
+								$t("navbar.adminHeader")
+							}}</router-link>
+						</li>
 						<li>
 							<router-link to="/">{{ $t("navbar.homeHeader") }}</router-link>
 						</li>
@@ -19,11 +24,6 @@
 						<li>
 							<router-link to="/min_utveksling">{{
 								$t("navbar.myexchangeHeader")
-							}}</router-link>
-						</li>
-						<li v-if="checkAdminUser()">
-							<router-link to="/admin">{{
-								$t("navbar.adminHeader")
 							}}</router-link>
 						</li>
 						<li ref="profileSwitcher">
