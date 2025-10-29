@@ -18,36 +18,34 @@
   color: grey !important;
 }
 
-.text-center{
-    text-align: center;
+.text-center {
+  text-align: center;
 }
 
-.text-alert{
+.text-alert {
   color: #ff6f00
 }
 
-.text-large{
+.text-large {
   font-size: 1.5rem;
 }
 
-.text-medium{
+.text-medium {
   font-size: 1rem;
 }
 
-.text-small{
+.text-small {
   font-size: 0.8rem;
 }
 
-.text-underline{
+.text-underline {
   text-decoration: underline;
 }
 
-.text-bold{
+.text-bold {
   font-weight: bold;
 }
 
-.text-italic{
+.text-italic {
   font-style: italic;
 }
-
-

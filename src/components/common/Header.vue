@@ -32,9 +32,14 @@
 								<div class="profile-content">
 									<div v-if="user != null">
 										<div class="username">{{ userData.displayName }}</div>
-										<v-btn @click="signOutAndRedirect">
+										<v-btn @click="goToProfile" color="info" dark>
+											{{ $t("operations.profileBtn") }}
+										</v-btn>
+										<br><br>
+										<v-btn @click="signOut" color="error" dark>
 											{{ $t("operations.signOut") }}
 										</v-btn>
+
 									</div>
 									<div v-else>
 										<div class="username">{{ $t("operations.signIn") }}</div>
@@ -109,7 +114,7 @@ export default {
 		},
 		currentFlag() {
 			return this.$i18n.locale === "en" ? "fi-gb" : "fi-no";
-		},
+		}
 	},
 	methods: {
 		toggleProfileDropdown() {
@@ -140,12 +145,12 @@ export default {
 				this.showProfileDropDown = false;
 			}
 		},
-		async signOutAndRedirect() {
+		async signOut() {
 			try {
 				await signOut(auth);
 				this.user = null;
 				this.userData = null;
-				this.showProfileDropDown = false;
+				this.$router.go();
 			} catch (error) {
 				console.error("Error signing out: ", error);
 			}
@@ -155,9 +160,14 @@ export default {
 				const result = await signInWithPopup(auth, provider);
 				this.user = result.user;
 				this.showProfileDropDown = false;
+				this.$router.go();
 			} catch (error) {
 				console.error("Error during sign-in:", error);
 			}
+		},
+		goToProfile() {
+			this.showProfileDropDown = false;
+			this.$router.push({ name: "Account" });
 		},
 		checkAdminUser() {
 			return this.user && this.user.uid === import.meta.env.VITE_ADMIN_USER_ID;
@@ -291,7 +301,7 @@ nav a {
 
 .language-dropdown {
 	position: absolute;
-	top: 100%;
+	top: 60px;
 	right: 0;
 	background-color: #fff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -369,7 +379,7 @@ nav a {
 	}
 
 	.language-dropdown {
-		top: 40px;
+		top: 60px;
 		right: 0;
 		z-index: 10000;
 	}
@@ -382,7 +392,7 @@ nav a {
 
 .profile-dropdown {
 	position: absolute;
-	top: 48px;
+	top: 60px;
 	right: 50px;
 	background-color: #fff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

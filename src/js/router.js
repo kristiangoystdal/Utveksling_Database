@@ -21,7 +21,7 @@ const routes = [
   { path: '/profil', name: 'Account', component: Account, meta: { requiresAuth: true } },
   { path: '/logg_inn', name: 'Login', component: Login },
   { path: '/admin', name: 'Admin', component: Admin, meta: { requiresAuth: true } },
-  { path: '/faq', name: 'FAQ', component: FAQ },
+  {  path: '/faq', name: 'FAQ', component: FAQ  },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
