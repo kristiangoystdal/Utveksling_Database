@@ -21,7 +21,7 @@ const routes = [
   { path: '/profil', name: 'Account', component: Account, meta: { requiresAuth: true } },
   { path: '/logg_inn', name: 'Login', component: Login },
   { path: '/admin', name: 'Admin', component: Admin, meta: { requiresAuth: true } },
-  {  path: '/faq', name: 'FAQ', component: FAQ  },
+  { path: '/faq', name: 'FAQ', component: FAQ },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
@@ -33,8 +33,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // Navigation guard for authentication and admin access
   const isAuthenticated = store.getters.isAuthenticated; // Check if user is authenticated
-  const adminUserId = import.meta.env.VITE_ADMIN_USER_ID; // Admin user ID from .env
-  const currentUserId = store.getters.user?.uid; // Get the current user's ID
+  const adminUserId = String(import.meta.env.VITE_ADMIN_USER_ID); // Ensure Admin user ID is a string
+  const currentUserId = String(store.getters.user?.uid || ''); // Ensure current user ID is a string
 
   // Admin gate: Only allow access to Admin route if user is authenticated and is the admin
   if (to.name === 'Admin' && (!isAuthenticated || currentUserId !== adminUserId)) {
