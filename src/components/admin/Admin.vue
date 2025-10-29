@@ -29,7 +29,7 @@
 					<v-icon @click="deleteFaq(item)">mdi-delete</v-icon>
 				</template>
 			</v-data-table>
-			<v-btn color="primary" @click="openFaqDialog">Add FAQ</v-btn>
+			<v-btn class="btn-primary" @click="openFaqDialog">Add FAQ</v-btn>
 		</v-card>
 
 		<v-dialog v-model="faqDialog" max-width="500px">
@@ -88,14 +88,22 @@
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
+
+	<Confirmation ref="confirmationDialog" :message="'Are you sure you want to proceed?'" @yes="onConfirmYes"
+		@no="onConfirmNo" />
+
+	<v-btn @click="openConfirmationDialog">Open Confirmation</v-btn>
 </template>
 
 <script>
 import { db } from "../../js/firebaseConfig";
 import { ref as dbRef, get, set, update } from "firebase/database";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { toast } from "vue3-toastify";
+import Confirmation from "../common/Confirmation.vue";
 
 export default {
+	components: { Confirmation },
 	data() {
 		return {
 			headers: [
@@ -123,6 +131,9 @@ export default {
 		};
 	},
 	methods: {
+		openConfirmationDialog() {
+			this.$refs.confirmationDialog.dialog = true;
+		},
 		async loadUserData() {
 			const userRef = dbRef(db, "users");
 			const userSnapshot = await get(userRef);
@@ -207,7 +218,9 @@ export default {
 					const faqRef = dbRef(db, `faq/${faq.id}`);
 					await set(faqRef, null); // Delete the FAQ
 					this.loadFAQData(); // Reload FAQs after deletion
+					toast.success("FAQ deleted successfully");
 				} catch (error) {
+					toast.error("Error deleting FAQ");
 					console.error("Error deleting FAQ:", error);
 				}
 			}
