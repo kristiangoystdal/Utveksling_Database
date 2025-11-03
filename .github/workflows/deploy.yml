@@ -1,0 +1,50 @@
+name: Deploy to NTNU Server on Merge
+
+on:
+  push:
+    branches:
+      - main  # Trigger when PRs are merged into main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Check out the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 3️⃣ Install and build your web project
+      - name: Install dependencies and build
+        run: |
+          npm ci
+          npm run build
+
+      # 4️⃣ Upload the build output to your NTNU web folder
+      - name: Upload build to NTNU server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "dist/*"
+          target: "public_html/"   # <-- upload to ~/public_html/
+
+      # 5️⃣ Optional confirmation or restart command
+      - name: Confirm deployment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "✅ Deployment complete to ~/public_html"
