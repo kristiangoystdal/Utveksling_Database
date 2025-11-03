@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Check out the code
+      # 1️⃣ Check out the latest code
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -21,30 +21,30 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      # 3️⃣ Install and build your web project
-      - name: Install dependencies and build
+      # 3️⃣ Install dependencies and build
+      - name: Install and build
         run: |
           npm ci
           npm run build
 
       # 4️⃣ Upload the build output to your NTNU web folder
-      - name: Upload build to NTNU server
+      - name: Upload to NTNU public_html
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
           source: "dist/*"
-          target: "public_html/"   # <-- upload to ~/public_html/
+          target: "public_html/"
 
-      # 5️⃣ Optional confirmation or restart command
+      # 5️⃣ Optional confirmation
       - name: Confirm deployment
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
             echo "✅ Deployment complete to ~/public_html"
