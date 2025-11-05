@@ -260,7 +260,6 @@ export default {
       this.localExchange.courses[semester][index] = updated;
     },
     handleSemesterChange(newSemester) {
-      console.log("Semester changed to:", newSemester);
       this.selectedSemester = newSemester;
       this.semesters = newSemester ? [newSemester] : [];
       this.localExchange.semesters = this.semesters;
@@ -273,20 +272,16 @@ export default {
     },
   },
   mounted() {
-    console.log("EditExchange mounted with data:", this.exchangeData);
     this.localExchange = JSON.parse(JSON.stringify(this.exchangeData));
     this.studies = studiesData.studies;
     this.universities = universitiesData.universities;
     const n = this.localExchange.numSemesters;
     if (n === 1) {
-      console.log(this.localExchange.semesters);
       this.semesters = this.localExchange.semesters
         ? [...this.localExchange.semesters]
         : [];
       this.selectedSemester = this.semesters.length > 0 ? this.semesters[0] : null;
     } else if (n === 2) this.semesters = ["Høst", "Vår"];
-
-    console.log("Semesters initialized to:", this.semesters);
   },
 };
 </script>
