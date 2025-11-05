@@ -4,7 +4,9 @@
 		"goodbye": "Ha det",
 		"siteName": "Utvekslingsportalen",
 		"siteDescription": "Denne siden er en ressurs for studenter som vurderer å dra eller skal på utveksling.\n\nSe tidligere fagkombinasjoner og legg til din egen når du har valgt fagene du skal ha.",
-		"mobileWarning": "Denne siden er ikke optimalisert for mobilbruk. Vennligst bruk en datamaskin for best opplevelse."
+		"mobileWarning": "Denne siden er ikke optimalisert for mobilbruk. Vennligst bruk en datamaskin for best opplevelse.",
+		"createExchange": "Opprett utveksling",
+		"uploadExchange": "Last opp utvekslingsdata"
 	},
 	"hints": {
 		"study": "Velg studie du går på NTNU",
@@ -134,7 +136,8 @@
 		"404button": "Dra hjem",
 		"contactName": "Navnet må være minst 2 karakterer.",
 		"contactEmail": "Må være en gyldig e-post addresse",
-		"contactMessage": "Meldingen må være minst 10 karakterer"
+		"contactMessage": "Meldingen må være minst 10 karakterer",
+		"uploadFileRequired": "En fil må lastes opp for å fortsette."
 	},
 	"contactPage": {
 		"pageHeader": "Kontakt oss",
@@ -151,6 +154,16 @@
 		"info": "Her finner du svar på de mest stilte spørsmålene. \n\nHar du et spørsmål som ikke er besvart her? Send oss en melding på <kontaktsiden.",
 		"search": "Søk for et spørsmål",
 		"noResults": "Ingen resultater funnet"
+	},
+	"uploadPage": {
+		"pageHeader": "Last opp data",
+		"info": "Her kan du laste opp en fil med utvekslingsdata. \n\nFilen må være i riktig format for at opplastingen skal lykkes (PDF eller PNG). \nVennligst kontakt administrator for mer informasjon.",
+		"name": "Navn",
+		"email": "E-post",
+		"file": "Fil",
+		"comment": "Kommentar (skriv inn studie og spesialisering hvis det ikke er oppgitt i filen)",
+		"submit": "Last opp",
+		"clear": "Nullstill"
 	},
 	"notifications": {
 		"loginSuccess": "Innlogging vellykket",
