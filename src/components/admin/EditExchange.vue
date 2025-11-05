@@ -235,6 +235,8 @@ export default {
   },
   methods: {
     addCourse(semester) {
+      if (!this.localExchange.courses)
+        this.localExchange.courses = {};
       if (!this.localExchange.courses[semester])
         this.localExchange.courses[semester] = {};
       const idx = Object.keys(this.localExchange.courses[semester]).length;
