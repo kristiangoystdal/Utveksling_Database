@@ -9,6 +9,7 @@ import Account from '../components/profile/Account.vue';
 import Login from '../components/profile/Login.vue';
 import FAQ from '../components/windows/FAQ.vue';
 import NotFound from '../components/error/NotFound.vue';
+import Upload from '../components/windows/Upload.vue';
 
 import store from './store.js';
 import { translate } from './i18n';
@@ -23,6 +24,7 @@ const routes = [
   { path: '/logg_inn', name: 'Login', component: Login },
   { path: '/faq', name: 'FAQ', component: FAQ },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+  { path: '/last_opp', name: 'Upload', component: Upload }
 ];
 
 const router = createRouter({

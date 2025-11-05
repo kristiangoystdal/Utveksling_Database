@@ -6,6 +6,18 @@
 			{{ $t("common.siteDescription") }}
 		</p>
 
+		<div class="box">
+			<v-row>
+				<v-col cols="12" md="6">
+					<v-btn class="btn btn-primary" @click="goToRoute('/min_utveksling')">{{ $t("common.createExchange") }}</v-btn>
+
+				</v-col>
+				<v-col cols="12" md="6">
+					<v-btn class="btn btn-primary" @click="goToRoute('/last_opp')">{{ $t("common.uploadExchange") }}</v-btn>
+				</v-col>
+			</v-row>
+		</div>
+
 		<div class="box box-countries">
 			<WorldMap :countries="countriesToHighlight" />
 		</div>
@@ -80,6 +92,9 @@ export default {
 			} catch (error) {
 				console.error("Error fetching values from database:", error);
 			}
+		},
+		goToRoute(route) {
+			this.$router.push(route);
 		},
 	},
 };
