@@ -315,11 +315,12 @@ export default {
 			this.exchangeDialog = true;
 		},
 		async saveExchange(exchangeData) {
-			console.log("Saving exchange:", exchangeData.id);
-			console.log("Exchange Data:", exchangeData);
-
 			// Implement exchange saving logic here
 			try {
+				if (!exchangeData.id) {
+					// New exchange, generate an ID
+					exchangeData.id = Date.now().toString();
+				}
 				const exchangeRef = dbRef(db, `exchanges/${exchangeData.id}`);
 				await update(exchangeRef, exchangeData);
 				this.loadExchangeData(); // Reload exchange data after saving
@@ -336,7 +337,6 @@ export default {
 			this.openExchangeConfirmationDialog();
 		},
 		async onExchangeConfirmYes() {
-			console.log("Deleting exchange:", this.localExchangeData);
 			// Implement exchange deletion confirmation logic here
 			try {
 				const exchangeRef = dbRef(db, `exchanges/${this.localExchangeData.id}`);
@@ -352,7 +352,6 @@ export default {
 			this.localExchangeData = {};
 		},
 		openExchangeDialog() {
-			console.log("Opening exchange dialog");
 			this.localExchangeData = { country: '', university: '', study: '', numSemesters: 1 }; // Reset to empty data
 			this.exchangeDialogTitle = this.$t("adminPage.addExchangeTitle");
 			this.exchangeDialog = true;
