@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<h2 v-if="login">{{ $t("userHandling.loginTitle") }}:</h2>
-		<h2 v-else>{{ $t("userHandling.registerTitle") }}:</h2>
+		<h2 v-if="login" class="sr-only">{{ $t("userHandling.loginTitle") }}:</h2>
+		<h2 v-else class="sr-only">{{ $t("userHandling.registerTitle") }}:</h2>
 		<br />
 		<div class="login-container">
 			<v-card v-if="login" class="login-card box box-third-color">
@@ -14,7 +14,7 @@
 							hide-details></v-text-field>
 						<br />
 						<v-btn class="login-btn" color="primary" dark type="submit">
-							<v-icon left class="icon-spacing">mdi-account-plus</v-icon>
+							<v-icon left class="icon-spacing">mdi-login</v-icon>
 							{{ $t("userHandling.loginWithEmail") }}
 						</v-btn>
 						<br /><br />
@@ -41,13 +41,13 @@
 							autocomplete="new-password" />
 						<br />
 
-						<v-btn class="login-btn" color="primary" dark type="submit" :disabled="!isFormValid">
+						<v-btn class="register-btn" color="primary" dark type="submit" :disabled="!isFormValid">
 							<v-icon left class="icon-spacing">mdi-account-plus</v-icon>
 							{{ $t("userHandling.registerWithEmail") }}
 						</v-btn>
 						<br /><br />
 
-						<v-btn class="login-btn" color="secondary" dark @click="switchLoginRegister">
+						<v-btn class="switch-btn" color="secondary" dark @click="switchLoginRegister">
 							<v-icon left class="icon-spacing">mdi-login</v-icon>
 							{{ $t("userHandling.haveAccount") }}
 						</v-btn>
@@ -79,7 +79,7 @@ export default {
 		isFormValid() {
 			const isPasswordValid = this.password.length >= 6 && this.password.length <= 50;
 			const isEmailValid = this.email.includes("@") && this.email.length <= 100;
-			const isNameValid = this.name.length <= 50;
+			const isNameValid = this.name.length <= 50 && this.name.length > 0;
 			return isPasswordValid && isEmailValid && isNameValid;
 		},
 	},
@@ -174,13 +174,8 @@ export default {
 	align-items: center;
 }
 
-.login-card {
-	width: 400px;
-	padding: 20px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-}
-
+/* --- CARD STYLES --- */
+.login-card,
 .register-card {
 	width: 400px;
 	padding: 20px;
@@ -188,36 +183,55 @@ export default {
 	border-radius: 8px;
 }
 
+/* --- TITLES --- */
 .title {
 	font-size: 24px;
 	text-align: center;
 	margin-bottom: 20px;
 }
 
-.login-btn {
+/* --- BUTTONS --- */
+.login-btn,
+.register-btn,
+.switch-btn {
 	width: 100%;
 	font-size: 16px;
-}
-
-.register-btn {
-	width: 100%;
-	font-size: 16px;
+	margin-top: 10px;
+	text-transform: none;
+	/* keep text as defined */
 }
 
 .icon-spacing {
 	margin-right: 8px;
 }
 
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+
+/* --- MOBILE RESPONSIVE --- */
 @media (max-width: 768px) {
-	.login-card {
+
+	.login-card,
+	.register-card {
 		width: 90%;
 		align-items: center;
 	}
 
-	.login-card .login-btn {
-		font-size: 90%;
-		width: fit-content;
-		margin: auto;
+	.login-btn,
+	.register-btn,
+	.switch-btn {
+		font-size: auto;
+		width: 100%;
+		margin: 0px auto;
 		display: flex;
 		justify-content: center;
 		align-items: center;
