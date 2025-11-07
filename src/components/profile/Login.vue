@@ -13,14 +13,14 @@
 						<v-text-field label="Password" v-model="password" type="password" required outlined
 							hide-details></v-text-field>
 						<br />
-						<v-btn class="login-btn" color="primary" dark @click="loginWithEmail">
-							<v-icon left class="icon-spacing">mdi-login</v-icon>
+						<v-btn class="login-btn" color="primary" dark type="submit">
+							<v-icon left class="icon-spacing">mdi-account-plus</v-icon>
 							{{ $t("userHandling.loginWithEmail") }}
 						</v-btn>
 						<br /><br />
 						<v-btn class="login-btn" color="secondary" dark @click="switchLoginRegister">
 							<v-icon left class="icon-spacing">mdi-account-plus</v-icon>
-							{{ $t("userHandling.registerWithEmail") }}
+							{{ $t("userHandling.makeNewAccount") }}
 						</v-btn>
 					</v-form>
 				</v-card-text>
@@ -39,8 +39,9 @@
 
 						<v-text-field label="Password" v-model="password" type="password" required outlined hide-details
 							autocomplete="new-password" />
+						<br />
 
-						<v-btn class="login-btn" color="primary" dark @click="registerWithEmail">
+						<v-btn class="login-btn" color="primary" dark type="submit" :disabled="!isFormValid">
 							<v-icon left class="icon-spacing">mdi-account-plus</v-icon>
 							{{ $t("userHandling.registerWithEmail") }}
 						</v-btn>
@@ -48,7 +49,7 @@
 
 						<v-btn class="login-btn" color="secondary" dark @click="switchLoginRegister">
 							<v-icon left class="icon-spacing">mdi-login</v-icon>
-							{{ $t("userHandling.loginWithEmail") }}
+							{{ $t("userHandling.haveAccount") }}
 						</v-btn>
 					</v-form>
 				</v-card-text>
@@ -73,6 +74,14 @@ export default {
 			password: "",
 			login: true,
 		};
+	},
+	computed: {
+		isFormValid() {
+			const isPasswordValid = this.password.length >= 6 && this.password.length <= 50;
+			const isEmailValid = this.email.includes("@") && this.email.length <= 100;
+			const isNameValid = this.name.length <= 50;
+			return isPasswordValid && isEmailValid && isNameValid;
+		},
 	},
 	methods: {
 		switchLoginRegister() {
@@ -102,6 +111,17 @@ export default {
 		},
 		async registerWithEmail() {
 			try {
+				if (!this.name) {
+					toast.error("Name is required for registration");
+					return;
+				} else if (this.password.length < 6) {
+					toast.error("Password must be at least 6 characters long");
+					return;
+				} else if (!this.email.includes("@")) {
+					toast.error("Please enter a valid email address");
+					return;
+				}
+
 				const { email, password } = this;
 
 				// 1️⃣ Create the user and get the user object immediately
