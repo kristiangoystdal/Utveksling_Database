@@ -121,13 +121,24 @@
 		"profileBtn": "Min Profil"
 	},
 	"userHandling": {
-		"loginTitle": "Logg inn",
-		"loginWithGoogle": "Google",
 		"accountTitle": "Din profil",
+		"editProfile": "Rediger profilen din",
+		"email": "E-post",
 		"loadingUser": "Henter frem profilen din...",
 		"name": "Navn",
-		"email": "E-post",
-		"editProfile": "Rediger profilen din"
+		"loginTitle": "Logg inn",
+		"loginWithEmailTitle": "Logg inn med e-post",
+		"loginWithEmail": "Logg inn",
+		"loginWithGoogleTitle": "Logg inn med Google",
+		"loginWithGoogle": "Google",
+		"loginWithEmailButton": "E-post",
+		"registerTitle": "Registrer deg",
+		"registerWithEmailTitle": "Registrer deg med e-post",
+		"registerWithEmail": "Registrer deg",
+		"registerWithGoogleTitle": "Registrer deg med Google",
+		"registerWithGoogle": "Google",
+		"makeNewAccount": "Opprett en ny konto",
+		"haveAccount": "Har du allerede en konto?"
 	},
 	"errors": {
 		"notLoggedIn": "Profil ikke tilgjengelig. Vennligst logg inn",

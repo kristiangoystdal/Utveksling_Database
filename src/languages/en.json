@@ -121,13 +121,24 @@
 		"profileBtn": "My Profile"
 	},
 	"userHandling": {
-		"loginTitle": "Login",
-		"loginWithGoogle": "Google",
-		"accountTitle": "Your Profile",
+		"accountTitle": "Your profile",
+		"editProfile": "Edit your profile",
+		"email": "Email",
 		"loadingUser": "Loading your profile...",
 		"name": "Name",
-		"email": "Email",
-		"editProfile": "Edit your profile"
+		"loginTitle": "Log in",
+		"loginWithEmailTitle": "Log in with email",
+		"loginWithEmail": "Log in",
+		"loginWithGoogleTitle": "Log in with Google",
+		"loginWithGoogle": "Google",
+		"loginWithEmailButton": "E-mail",
+		"registerTitle": "Sign up",
+		"registerWithEmailTitle": "Sign up with email",
+		"registerWithEmail": "Sign up",
+		"registerWithGoogleTitle": "Sign up with Google",
+		"registerWithGoogle": "Google",
+		"makeNewAccount": "Create a new account",
+		"haveAccount": "Already have an account?"
 	},
 	"errors": {
 		"notLoggedIn": "Profile not available. Please log in",
