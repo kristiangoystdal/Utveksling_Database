@@ -26,7 +26,7 @@
 							<div v-if="showProfileDropDown" class="profile-dropdown">
 								<div class="profile-content">
 									<div v-if="user != null">
-										<div class="username">{{ userData.displayName }}</div>
+										<div class="username">{{ userData?.displayName || user?.displayName || '' }}</div>
 										<v-btn @click="goToProfile" color="info" dark>
 											{{ $t("operations.profileBtn") }}
 										</v-btn>
