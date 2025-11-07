@@ -26,6 +26,22 @@
 				</div>
 				<div v-else>
 					<div class="username">{{ $t("operations.signIn") }}</div>
+					<v-btn class="login-btn" @click="goToLogin" color="primary" dark
+						style="display: flex; align-items: center; justify-content: center">
+						<v-icon left class="icon-spacing" style="
+								display: inline-flex;
+								vertical-align: middle;
+								margin-right: 8px;
+							">mdi-email</v-icon>
+						<span style="
+								display: inline-flex;
+								align-items: center;
+								vertical-align: middle;
+								padding-top: 1px;
+							">{{ $t("userHandling.loginWithEmailButton") }}</span>
+					</v-btn>
+					<br>
+
 					<v-btn class="login-btn" @click="loginWithGoogle" color="primary" dark
 						style="display: flex; align-items: center; justify-content: center">
 						<v-icon left class="icon-spacing" style="
@@ -86,6 +102,10 @@ export default {
 			} catch (error) {
 				console.error("Error during sign-in:", error);
 			}
+		},
+		goToLogin() {
+			this.showProfileDropDown = false;
+			this.$router.push({ name: "Login" });
 		},
 	},
 	mounted() {
