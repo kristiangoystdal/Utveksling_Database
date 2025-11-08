@@ -111,11 +111,7 @@
 			show-expand class="main-table" id="main-table-width">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
-					<!-- <v-tooltip text="Tooltip">
-						<template v-slot:activator="{ props }"> -->
 					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 4px" />
-					<!-- </template>
-		</v-tooltip> -->
 				</div>
 			</template>
 
@@ -163,11 +159,15 @@
 										mdi-comment
 									</v-icon>
 									<v-icon v-else small class="mr-2"> mdi-comment-off </v-icon>
-									<v-icon small class="mr-2" @click="showComments(item)">
-										mdi-comment
+								</template>
+								<template v-slot:item.favorite="{ item }">
+									<v-icon v-if="!checkIfFavorite(item)" small class="mr-2" @click="toggleFavorite(item)">
+										mdi-heart-outline
+									</v-icon>
+									<v-icon v-else small class="mr-2" color="red" @click="toggleFavorite(item)">
+										mdi-heart
 									</v-icon>
 								</template>
-
 							</v-data-table-virtual>
 							<br />
 						</div>
@@ -802,6 +802,17 @@ export default {
 			if (!user) {
 				alert(this.$t("exchanges.loginToFavorite"));
 				return;
+			}
+
+			// Get country and university and add to course object
+			const exchange = this.exchangeList.find(exchange =>
+				(exchange.courses.Høst && exchange.courses.Høst.includes(course)) ||
+				(exchange.courses.Vår && exchange.courses.Vår.includes(course))
+			);
+
+			if (exchange) {
+				course.country = exchange.country;
+				course.university = exchange.university;
 			}
 
 			// Add course to favorites if not already favorited, else remove it

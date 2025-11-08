@@ -12,7 +12,10 @@
             <strong>{{ course.courseName }}</strong> ({{ course.courseCode }})<br />
             {{ course.replacedCourseName }} – {{ course.replacedCourseCode }}<br />
             {{ course.institute }}<br />
-            {{ course.ETCSPoints }} ECTS – {{ course.courseType }} – {{ course.year }}
+            {{ course.ETCSPoints }} ECTS – {{ course.courseType }} – {{ course.year }} <br />
+            {{ course.country ? course.country : '' }}
+            {{ course.university ? '– ' + course.university : '' }}<br />
+            <span v-if="course.comments"><em>{{ $t('database.comments') }}: {{ course.comments }}</em></span><br />
           </div>
           <v-icon @click="toggleFavorite(course)" :color="checkIfFavorite(course) ? 'red' : 'grey'"
             style="cursor: pointer;">
