@@ -167,7 +167,14 @@
 										mdi-comment
 									</v-icon>
 								</template>
-
+								<template v-slot:item.favorite="{ item }">
+									<v-icon v-if="!checkIfFavorite(item)" small class="mr-2" @click="toggleFavorite(item)">
+										mdi-heart-outline
+									</v-icon>
+									<v-icon v-else small class="mr-2" color="red" @click="toggleFavorite(item)">
+										mdi-heart
+									</v-icon>
+								</template>
 							</v-data-table-virtual>
 							<br />
 						</div>
