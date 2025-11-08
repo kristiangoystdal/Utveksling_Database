@@ -111,11 +111,7 @@
 			show-expand class="main-table" id="main-table-width">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
-					<!-- <v-tooltip text="Tooltip">
-						<template v-slot:activator="{ props }"> -->
 					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 4px" />
-					<!-- </template>
-		</v-tooltip> -->
 				</div>
 			</template>
 
@@ -163,9 +159,6 @@
 										mdi-comment
 									</v-icon>
 									<v-icon v-else small class="mr-2"> mdi-comment-off </v-icon>
-									<v-icon small class="mr-2" @click="showComments(item)">
-										mdi-comment
-									</v-icon>
 								</template>
 								<template v-slot:item.favorite="{ item }">
 									<v-icon v-if="!checkIfFavorite(item)" small class="mr-2" @click="toggleFavorite(item)">
