@@ -10,7 +10,6 @@
 			<v-row>
 				<v-col cols="12" md="6">
 					<v-btn class="btn btn-primary" @click="goToRoute('/min_utveksling')">{{ $t("common.createExchange") }}</v-btn>
-
 				</v-col>
 				<v-col cols="12" md="6">
 					<v-btn class="btn btn-primary" @click="goToRoute('/last_opp')">{{ $t("common.uploadExchange") }}</v-btn>
@@ -38,7 +37,6 @@ export default {
 			countriesToHighlight: [],
 		};
 	},
-
 	mounted() {
 		this.getValuesFromDatabase();
 		// this.test();
@@ -115,5 +113,11 @@ export default {
 	width: 100%;
 	height: 100%;
 	/* Ensure this has height */
+}
+
+@media screen and (max-width: 600px) {
+	.btn {
+		width: 100% !important;
+	}
 }
 </style>
