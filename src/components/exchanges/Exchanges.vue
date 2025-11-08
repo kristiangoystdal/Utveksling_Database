@@ -811,6 +811,17 @@ export default {
 				return;
 			}
 
+			// Get country and university and add to course object
+			const exchange = this.exchangeList.find(exchange =>
+				(exchange.courses.Høst && exchange.courses.Høst.includes(course)) ||
+				(exchange.courses.Vår && exchange.courses.Vår.includes(course))
+			);
+
+			if (exchange) {
+				course.country = exchange.country;
+				course.university = exchange.university;
+			}
+
 			// Add course to favorites if not already favorited, else remove it
 			if (!this.checkIfFavorite(course)) {
 				this.favoriteCourses.push(course);
