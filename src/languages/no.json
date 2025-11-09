@@ -69,7 +69,7 @@
 	},
 	"myExchange": {
 		"pageHeader": "Din utveksling:",
-		"info": "Opprett eller endre din oversikt over fagene du har tatt på utveksling. \n\nFagnavn og antall ETCS poeng er påkrevd, hvor ETCS poengene skal være konvertert fra universitetes lokale enhet.",
+		"info": "Opprett eller endre din oversikt over fagene du har tatt på utveksling. \n\nFagnavn og antall ETCS poeng er påkrevd, hvor ETCS poengene skal være konvertert fra universitetes lokale enhet. \n\nHvis ditt studieprogram eller spesialisering ikke finnes i listen, vennligst kontakt oss.",
 		"missingData": "Manglende data på",
 		"unsavedChanges": "Du har ulagret data. Husk å oppdatere.",
 		"noChanges": "All data er lagret og utveksling er oppdatert.",
