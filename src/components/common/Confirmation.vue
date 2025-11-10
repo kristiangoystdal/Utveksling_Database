@@ -5,7 +5,7 @@
         {{ title }}
       </v-card-title>
       <v-card-text>
-        <p>{{ message }}</p>
+        {{ message }}
       </v-card-text>
       <v-card-actions>
         <v-btn class="btn btn-primary" @click="emitYes">Yes</v-btn>
