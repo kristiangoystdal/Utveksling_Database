@@ -90,13 +90,11 @@
 	</v-container>
 
 	<!-- Confirmation Dialog -->
-	<Confirmation ref="userConfirmationDialog"
-		:message="$t('adminPage.deleteUserConfirmation') + '\n\n' + localEditData.displayName" @yes="onUserConfirmYes"
-		@no="onUserConfirmNo" />
+	<Confirmation ref="userConfirmationDialog" :title="$t('adminPage.deleteUserConfirmation')"
+		:message="localEditData.displayName" @yes="onUserConfirmYes" @no="onUserConfirmNo" />
 
-	<Confirmation ref="faqConfirmationDialog"
-		:message="$t('adminPage.deleteFAQConfirmation') + '\n\n' + localFaqData.question" @yes="onFaqConfirmYes"
-		@no="onFaqConfirmNo" />
+	<Confirmation ref="faqConfirmationDialog" :title="$t('adminPage.deleteFAQConfirmation')"
+		:message="localFaqData.question" @yes="onFaqConfirmYes" @no="onFaqConfirmNo" />
 
 </template>
 
@@ -136,7 +134,8 @@ export default {
 			faqSearch: '',
 			exchanges: [],
 			exchangeHeaders: [
-				{ title: this.$t("database.country"), value: 'country', width: '20%' },
+				{ title: "ID", value: 'id', width: '5%' },
+				{ title: this.$t("database.country"), value: 'country', width: '15%' },
 				{ title: this.$t("database.university"), value: 'university', width: '35%' },
 				{ title: this.$t("database.study"), value: 'study', width: '25%' },
 				{ title: this.$t("database.numSemesters"), value: 'numSemesters', width: '10%', align: 'center' },
@@ -195,7 +194,7 @@ export default {
 		},
 		async deleteUser(user) {
 			this.localEditData = { ...user };
-			this.openConfirmationDialog();
+			this.openUserConfirmationDialog();
 		},
 		async onUserConfirmYes() {
 			try {
