@@ -6,6 +6,17 @@
 			{{ $t("common.siteDescription") }}
 		</p>
 
+		<div class="box">
+			<v-row>
+				<v-col cols="12" md="6">
+					<v-btn class="btn btn-primary" @click="goToRoute('/min_utveksling')">{{ $t("common.createExchange") }}</v-btn>
+				</v-col>
+				<v-col cols="12" md="6">
+					<v-btn class="btn btn-primary" @click="goToRoute('/last_opp')">{{ $t("common.uploadExchange") }}</v-btn>
+				</v-col>
+			</v-row>
+		</div>
+
 		<div class="box box-countries">
 			<WorldMap :countries="countriesToHighlight" />
 		</div>
@@ -26,7 +37,6 @@ export default {
 			countriesToHighlight: [],
 		};
 	},
-
 	mounted() {
 		this.getValuesFromDatabase();
 		// this.test();
@@ -81,6 +91,9 @@ export default {
 				console.error("Error fetching values from database:", error);
 			}
 		},
+		goToRoute(route) {
+			this.$router.push(route);
+		},
 	},
 };
 </script>
@@ -100,5 +113,11 @@ export default {
 	width: 100%;
 	height: 100%;
 	/* Ensure this has height */
+}
+
+@media screen and (max-width: 600px) {
+	.btn {
+		width: 100% !important;
+	}
 }
 </style>

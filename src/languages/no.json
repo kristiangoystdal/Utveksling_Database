@@ -4,7 +4,9 @@
 		"goodbye": "Ha det",
 		"siteName": "Utvekslingsportalen",
 		"siteDescription": "Denne siden er en ressurs for studenter som vurderer å dra eller skal på utveksling.\n\nSe tidligere fagkombinasjoner og legg til din egen når du har valgt fagene du skal ha.",
-		"mobileWarning": "Denne siden er ikke optimalisert for mobilbruk. Vennligst bruk en datamaskin for best opplevelse."
+		"mobileWarning": "Denne siden er ikke optimalisert for mobilbruk. Vennligst bruk en datamaskin for best opplevelse.",
+		"createExchange": "Opprett utveksling",
+		"uploadExchange": "Last opp utvekslingsdata"
 	},
 	"hints": {
 		"study": "Velg studie du går på NTNU",
@@ -67,7 +69,7 @@
 	},
 	"myExchange": {
 		"pageHeader": "Din utveksling:",
-		"info": "Opprett eller endre din oversikt over fagene du har tatt på utveksling. \n\nFagnavn og antall ETCS poeng er påkrevd, hvor ETCS poengene skal være konvertert fra universitetes lokale enhet.",
+		"info": "Opprett eller endre din oversikt over fagene du har tatt på utveksling. \n\nFagnavn og antall ETCS poeng er påkrevd, hvor ETCS poengene skal være konvertert fra universitetes lokale enhet. \n\nHvis ditt studieprogram eller spesialisering ikke finnes i listen, vennligst kontakt oss.",
 		"missingData": "Manglende data på",
 		"unsavedChanges": "Du har ulagret data. Husk å oppdatere.",
 		"noChanges": "All data er lagret og utveksling er oppdatert.",
@@ -119,13 +121,24 @@
 		"profileBtn": "Min Profil"
 	},
 	"userHandling": {
-		"loginTitle": "Logg inn",
-		"loginWithGoogle": "Google",
 		"accountTitle": "Din profil",
+		"editProfile": "Rediger profilen din",
+		"email": "E-post",
 		"loadingUser": "Henter frem profilen din...",
 		"name": "Navn",
-		"email": "E-post",
-		"editProfile": "Rediger profilen din"
+		"loginTitle": "Logg inn",
+		"loginWithEmailTitle": "Logg inn med e-post",
+		"loginWithEmail": "Logg inn",
+		"loginWithGoogleTitle": "Logg inn med Google",
+		"loginWithGoogle": "Google",
+		"loginWithEmailButton": "E-post",
+		"registerTitle": "Registrer deg",
+		"registerWithEmailTitle": "Registrer deg med e-post",
+		"registerWithEmail": "Registrer deg",
+		"registerWithGoogleTitle": "Registrer deg med Google",
+		"registerWithGoogle": "Google",
+		"makeNewAccount": "Opprett en ny konto",
+		"haveAccount": "Har du allerede en konto?"
 	},
 	"errors": {
 		"notLoggedIn": "Profil ikke tilgjengelig. Vennligst logg inn",
@@ -134,7 +147,8 @@
 		"404button": "Dra hjem",
 		"contactName": "Navnet må være minst 2 karakterer.",
 		"contactEmail": "Må være en gyldig e-post addresse",
-		"contactMessage": "Meldingen må være minst 10 karakterer"
+		"contactMessage": "Meldingen må være minst 10 karakterer",
+		"uploadFileRequired": "En fil må lastes opp for å fortsette."
 	},
 	"contactPage": {
 		"pageHeader": "Kontakt oss",
@@ -151,6 +165,16 @@
 		"info": "Her finner du svar på de mest stilte spørsmålene. \n\nHar du et spørsmål som ikke er besvart her? Send oss en melding på <kontaktsiden.",
 		"search": "Søk for et spørsmål",
 		"noResults": "Ingen resultater funnet"
+	},
+	"uploadPage": {
+		"pageHeader": "Last opp data",
+		"info": "Her kan du laste opp en fil med utvekslingsdata, for eksempel Learning Agreement. \nFilen må være i riktig format for at opplastingen skal lykkes (PDF eller PNG). \n\nVennligst kontakt oss for mer informasjon.",
+		"name": "Navn",
+		"email": "E-post",
+		"file": "Fil",
+		"comment": "Kommentar \n\n(skriv inn studieprogram, spesialisering, destinasjonsland, universitet og studieår hvis det ikke er oppgitt i filen)",
+		"submit": "Last opp",
+		"clear": "Nullstill"
 	},
 	"adminPage": {
 		"pageHeader": "Admin Panel",

@@ -31,7 +31,7 @@
 							<div v-if="showProfileDropDown" class="profile-dropdown">
 								<div class="profile-content">
 									<div v-if="user != null">
-										<div class="username">{{ userData.displayName }}</div>
+										<div class="username">{{ userData?.displayName || user?.displayName || '' }}</div>
 										<v-btn @click="goToProfile" color="info" dark>
 											{{ $t("operations.profileBtn") }}
 										</v-btn>
@@ -43,6 +43,24 @@
 									</div>
 									<div v-else>
 										<div class="username">{{ $t("operations.signIn") }}</div>
+										<v-btn class="login-btn" @click="goToLogin" color="primary" dark style="
+												display: flex;
+												align-items: center;
+												justify-content: center;
+											">
+											<v-icon left class="icon-spacing" style="
+													display: inline-flex;
+													vertical-align: middle;
+													margin-right: 8px;
+												">mdi-email</v-icon>
+											<span style="
+													display: inline-flex;
+													align-items: center;
+													vertical-align: middle;
+													padding-top: 1px;
+												">{{ $t("userHandling.loginWithEmailButton") }}</span>
+										</v-btn>
+										<br>
 										<v-btn class="login-btn" @click="loginWithGoogle" color="primary" dark style="
 												display: flex;
 												align-items: center;
@@ -171,6 +189,10 @@ export default {
 		},
 		checkAdminUser() {
 			return this.user && this.user.uid === import.meta.env.VITE_ADMIN_USER_ID;
+		},
+		goToLogin() {
+			this.showProfileDropDown = false;
+			this.$router.push({ name: "Login" });
 		},
 	},
 	mounted() {
