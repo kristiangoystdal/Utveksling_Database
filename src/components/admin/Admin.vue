@@ -90,11 +90,18 @@
 	</v-container>
 
 	<!-- Confirmation Dialog -->
-	<Confirmation ref="userConfirmationDialog" :title="$t('adminPage.deleteUserConfirmation')"
-		:message="localEditData.displayName" @yes="onUserConfirmYes" @no="onUserConfirmNo" />
+	<Confirmation ref="userConfirmationDialog" :value="userConfirmation" :title="$t('adminPage.deleteUserConfirmation')"
+		:message="localEditData.displayName !== '' ? localEditData.displayName : 'Undefined'" @yes="onUserConfirmYes"
+		@no="onUserConfirmNo" />
 
-	<Confirmation ref="faqConfirmationDialog" :title="$t('adminPage.deleteFAQConfirmation')"
-		:message="localFaqData.question" @yes="onFaqConfirmYes" @no="onFaqConfirmNo" />
+	<Confirmation ref="faqConfirmationDialog" :value="faqConfirmation" :title="$t('adminPage.deleteFAQConfirmation')"
+		:message="localFaqData.question != '' ? localFaqData.question : 'Undefined'" @yes="onFaqConfirmYes"
+		@no="onFaqConfirmNo" />
+
+	<Confirmation ref="exchangeConfirmationDialog" :value="exchangeConfirmation"
+		:title="$t('adminPage.deleteExchangeConfirmation')"
+		:message="localExchangeData.id != '' ? localExchangeData.id + ': ' + localExchangeData.country + ' - ' + localExchangeData.university : 'Undefined'"
+		@yes="onExchangeConfirmYes" @no="onExchangeConfirmNo" />
 
 </template>
 
@@ -120,12 +127,19 @@ export default {
 			faqs: [],
 			search: '',
 			userData: null,
-			localEditData: {},
+			localEditData: {
+				uid: '',
+				displayName: '',
+				email: '',
+			},
 			loading: true,
 			dialog: false,
 			faqDialog: false,
 			faqDialogTitle: '',
-			localFaqData: {},
+			localFaqData: {
+				question: '',
+				answer: '',
+			},
 			faqHeaders: [
 				{ title: this.$t("adminPage.question"), value: 'question', width: '35%' },
 				{ title: this.$t("adminPage.answer"), value: 'answer', width: '55%' },
@@ -159,6 +173,10 @@ export default {
 				secondUniversity: "null",
 				secondCountry: "null",
 			},
+			localExchangeData: {},
+			userConfirmation: false,
+			faqConfirmation: false,
+			exchangeConfirmation: false,
 		};
 	},
 	methods: {
@@ -242,6 +260,9 @@ export default {
 				toast.error(this.$t("notifications.faqDeleteFailure"));
 				console.error("Error deleting FAQ:", error);
 			}
+		},
+		openFaqConfirmationDialog() {
+			this.$refs.faqConfirmationDialog.dialog = true;
 		},
 		async onFaqConfirmNo() {
 			this.localFaqData = {};
@@ -335,6 +356,9 @@ export default {
 			this.localExchangeData = { ...exchange };
 			this.openExchangeConfirmationDialog();
 		},
+		openExchangeConfirmationDialog() {
+			this.$refs.exchangeConfirmationDialog.dialog = true;
+		},
 		async onExchangeConfirmYes() {
 			// Implement exchange deletion confirmation logic here
 			try {
@@ -346,9 +370,11 @@ export default {
 				toast.error(this.$t("notifications.exchangeDeleteFailure"));
 				console.error("Error deleting exchange:", error);
 			}
+			this.$refs.exchangeConfirmationDialog.dialog = false;
 		},
 		onExchangeConfirmNo() {
 			this.localExchangeData = {};
+			this.$refs.exchangeConfirmationDialog.dialog = false;
 		},
 		openExchangeDialog() {
 			this.localExchangeData = { country: '', university: '', study: '', numSemesters: 1 }; // Reset to empty data
@@ -357,6 +383,22 @@ export default {
 		},
 		closeExchangeDialog() {
 			this.exchangeDialog = false;
+			this.localUserExchange = {
+				university: null,
+				country: null,
+				studyYear: null,
+				study: null,
+				specialization: null,
+				numSemesters: null,
+				semesters: [],
+				courses: {
+					Høst: {},
+					Vår: {},
+				},
+				sameUniversity: true,
+				secondUniversity: "null",
+				secondCountry: "null",
+			};
 		},
 	},
 	mounted() {
