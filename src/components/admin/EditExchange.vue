@@ -1,0 +1,312 @@
+<template>
+  <v-expansion-panels v-model="panel">
+    <!-- Basic Information -->
+    <v-expansion-panel class="bg-light">
+      <v-expansion-panel-title>
+        <template v-slot:default="{ expanded }">
+          <v-row no-gutters>
+            <v-col class="d-flex justify-start" cols="6">
+              {{ $t("myExchange.basisInformation.basisInformationTitle") }}
+            </v-col>
+            <v-col class="text-grey" cols="6">
+              <v-fade-transition leave-absolute>
+                <span v-if="expanded" key="0">
+                  {{ $t("myExchange.basisInformation.fillExchangeInfo") }}
+                </span>
+                <span v-else-if="missingBasicDataBool">
+                  {{ missingBasicDataString }}
+                </span>
+                <span v-else>
+                  {{ $t("myExchange.basisInformation.allDataFilled") }}
+                </span>
+              </v-fade-transition>
+            </v-col>
+          </v-row>
+          <v-icon :color="!expanded ? (!missingBasicDataBool ? 'teal' : 'red') : ''" :icon="expanded
+            ? 'mdi-pencil'
+            : !missingBasicDataBool
+              ? 'mdi-thumb-up'
+              : 'mdi-thumb-down'
+            " />
+        </template>
+      </v-expansion-panel-title>
+
+      <v-expansion-panel-text class="zero-padding">
+        <v-container class="zero-padding">
+          <!-- Study & Specialization -->
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-autocomplete :items="Object.keys(studies)" v-model="localExchange.study" :label="$t('database.study')"
+                clearable :hint="$t('hints.study')" persistent-hint />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-autocomplete :items="specializations" v-model="localExchange.specialization"
+                :label="$t('database.specialization')" clearable :hint="$t('hints.specialization')" persistent-hint />
+            </v-col>
+          </v-row>
+
+          <!-- Country & University -->
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-autocomplete v-model="localExchange.country" :items="countryNames" :label="$t('database.country')"
+                clearable :hint="$t('hints.country')" persistent-hint />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-autocomplete v-model="localExchange.university" :items="universityNames"
+                :label="$t('database.university')" clearable :hint="$t('hints.university')" persistent-hint />
+            </v-col>
+          </v-row>
+
+          <!-- Semesters & Study Year -->
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-autocomplete v-model="localExchange.numSemesters" :items="[1, 2]" :label="$t('database.numSemesters')"
+                clearable @update:modelValue="handleNumSemestersChange" :hint="$t('hints.numSemesters')"
+                persistent-hint />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-autocomplete v-model="localExchange.studyYear" :items="[1, 2, 3, 4, 5]"
+                :label="$t('database.studyYear')" clearable :hint="$t('hints.studyYear')" persistent-hint />
+            </v-col>
+          </v-row>
+
+          <!-- One-semester setup -->
+          <div v-if="localExchange.numSemesters === 1">
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-autocomplete v-model="selectedSemester" :items="['Høst', 'Vår']" :label="$t('database.semester')"
+                  clearable @update:modelValue="handleSemesterChange" />
+              </v-col>
+            </v-row>
+          </div>
+
+          <!-- Two-semester setup -->
+          <div v-if="localExchange.numSemesters === 2">
+            <v-checkbox :label="$t('myExchange.semestersLocation')" v-model="localExchange.sameUniversity" />
+            <div v-if="!localExchange.sameUniversity">
+              {{ $t("myExchange.locationQuestion") }}
+              <v-row>
+                <v-col cols="12" md="6">
+                  <v-autocomplete v-model="localExchange.secondCountry" :items="countryNames"
+                    :label="$t('database.country')" clearable />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <v-autocomplete v-model="localExchange.secondUniversity" :items="universityNames"
+                    :label="$t('database.university')" clearable />
+                </v-col>
+              </v-row>
+            </div>
+          </div>
+        </v-container>
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+
+    <!-- Course Catalog -->
+    <v-expansion-panel v-if="semesters.length > 0" v-for="(semester, index) in semesters" :key="index" class="bg-light">
+      <v-expansion-panel-title>
+        <template v-slot:default="{ expanded }">
+          <v-row no-gutters>
+            <v-col class="d-flex justify-start" cols="6">
+              {{ semester }} ({{ getCourses(semester).length }}
+              {{ $t("myExchange.courseInformation.numCoursesText") }})
+            </v-col>
+          </v-row>
+          <v-icon :icon="expanded ? 'mdi-pencil' : 'mdi-school-outline'" color="teal" />
+        </template>
+      </v-expansion-panel-title>
+
+      <v-expansion-panel-text class="zero-padding">
+        <v-btn class="btn btn-primary" @click="addCourse(semester)">
+          {{ $t("myExchange.courseInformation.addCourse") }}
+        </v-btn>
+
+        <v-expansion-panels class="zero-padding">
+          <v-expansion-panel v-for="(course, cIndex) in getCourses(semester)" :key="cIndex">
+            <v-expansion-panel-title>
+              <template v-slot:default="{ expanded }">
+                <v-row no-gutters>
+                  <v-col class="d-flex justify-start mb-1" cols="12">
+                    {{ course.courseName || 'Nytt fag' }}
+                  </v-col>
+                </v-row>
+                <v-icon icon="mdi-delete-outline" class="course-icons" @click.stop="removeCourse(semester, cIndex)" />
+                <v-icon :icon="expanded ? 'mdi-pencil' : 'mdi-book-open-variant'" class="course-icons" color="teal" />
+              </template>
+            </v-expansion-panel-title>
+
+            <v-expansion-panel-text class="zero-padding">
+              <course-form :course="course" @submit-course="updateCourse(semester, cIndex, $event)" />
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+
+    <!-- Buttons -->
+    <v-row>
+      <v-col xs="12" md="3">
+        <v-btn class="btn-primary" :disabled="!unsavedChanges" @click="saveExchange">
+          {{ $t("operations.save") }}
+        </v-btn>
+      </v-col>
+      <v-col xs="12" md="3">
+        <v-btn class="btn-red" @click="$emit('close')">
+          {{ $t("operations.cancel") }}
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-expansion-panels>
+</template>
+
+<script>
+import studiesData from "../../data/studies.json";
+import universitiesData from "../../data/universities.json";
+import CourseForm from "../exchanges/CourseForm.vue";
+
+export default {
+  name: "EditExchange",
+  components: { CourseForm },
+  props: {
+    exchangeData: { type: Object, required: true },
+  },
+  data() {
+    return {
+      panel: null,
+      semesters: [],
+      localExchange: {},
+      studies: {},
+      universities: {},
+      selectedSemester: null,
+    };
+  },
+  computed: {
+    specializations() {
+      return this.localExchange.study
+        ? this.studies[this.localExchange.study] || []
+        : [];
+    },
+    countryNames() {
+      return Object.keys(this.universities);
+    },
+    universityNames() {
+      return this.localExchange.country
+        ? this.universities[this.localExchange.country] || []
+        : [];
+    },
+    missingBasicDataBool() {
+      const e = this.localExchange;
+      return (
+        !e.country ||
+        !e.university ||
+        !e.study ||
+        !e.specialization ||
+        !e.studyYear ||
+        !e.numSemesters ||
+        (e.numSemesters === 1 && (!this.semesters || this.semesters.length === 0))
+      );
+    },
+    missingBasicDataString() {
+      const missing = [];
+      const e = this.localExchange;
+      if (!e.country) missing.push(this.$t("database.country"));
+      if (!e.university) missing.push(this.$t("database.university"));
+      if (!e.study) missing.push(this.$t("database.study"));
+      if (!e.specialization)
+        missing.push(this.$t("database.specialization"));
+      if (!e.studyYear) missing.push(this.$t("database.studyYear"));
+      if (!e.numSemesters)
+        missing.push(this.$t("database.numSemesters"));
+      return this.$t("myExchange.missingData") + " " + missing.join(", ");
+    },
+    unsavedChanges() {
+      return (
+        JSON.stringify(this.localExchange) !==
+        JSON.stringify(this.exchangeData)
+      );
+    },
+  },
+  watch: {
+    exchangeData: {
+      deep: true,
+      handler(newVal) {
+        this.localExchange = JSON.parse(JSON.stringify(newVal));
+      },
+    },
+  },
+  methods: {
+    addCourse(semester) {
+      if (!this.localExchange.courses)
+        this.localExchange.courses = {};
+      if (!this.localExchange.courses[semester])
+        this.localExchange.courses[semester] = {};
+      const idx = Object.keys(this.localExchange.courses[semester]).length;
+      this.localExchange.courses[semester][idx] = {
+        courseName: "",
+        ETCSPoints: "",
+        replacedCourseName: "",
+      };
+    },
+    removeCourse(semester, index) {
+      if (
+        this.localExchange.courses[semester] &&
+        this.localExchange.courses[semester][index]
+      ) {
+        delete this.localExchange.courses[semester][index];
+      }
+    },
+    getCourses(semester) {
+      if (!this.localExchange.courses || !this.localExchange.courses[semester]) return {};
+      else return Object.values(this.localExchange.courses[semester] || {});
+    },
+    updateCourse(semester, index, updated) {
+      this.localExchange.courses[semester][index] = updated;
+    },
+    handleSemesterChange(newSemester) {
+      this.selectedSemester = newSemester;
+      this.semesters = newSemester ? [newSemester] : [];
+      this.localExchange.semesters = this.semesters;
+    },
+    handleNumSemestersChange(newNum) {
+      this.semesters = newNum === 2 ? ["Høst", "Vår"] : [];
+    },
+    saveExchange() {
+      this.$emit("save", this.localExchange);
+    },
+  },
+  mounted() {
+    this.localExchange = JSON.parse(JSON.stringify(this.exchangeData));
+    this.studies = studiesData.studies;
+    this.universities = universitiesData.universities;
+    const n = this.localExchange.numSemesters;
+    if (n === 1) {
+      this.semesters = this.localExchange.semesters
+        ? [...this.localExchange.semesters]
+        : [];
+      this.selectedSemester = this.semesters.length > 0 ? this.semesters[0] : null;
+    } else if (n === 2) this.semesters = ["Høst", "Vår"];
+  },
+};
+</script>
+
+<style scoped>
+.course-icons {
+  margin: 0 8px;
+}
+
+.btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-red {
+  background-color: #e53935;
+  color: white;
+}
+</style>

@@ -1,4 +1,14 @@
 /* Button Styles */
+.v-btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-size: 14px !important;
+  margin: 10px;
+}
+
+
 .btn {
   padding: 10px 20px;
   border-radius: 5px;

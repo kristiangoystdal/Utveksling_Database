@@ -176,6 +176,21 @@
 		"submit": "Last opp",
 		"clear": "Nullstill"
 	},
+	"adminPage": {
+		"pageHeader": "Admin Panel",
+		"userListTitle": "Brukerliste",
+		"faqListTitle": "FAQ",
+		"exchangeListTitle": "Utvekslingsliste",
+		"deleteUserConfirmation": "Er du sikker på at du vil slette denne brukeren?",
+		"deleteFAQConfirmation": "Er du sikker på at du vil slette denne FAQen?",
+		"deleteExchangeConfirmation": "Er du sikker på at du vil slette denne utvekslingen?",
+		"editFAQTitle": "Rediger FAQ",
+		"addFAQTitle": "Legg til FAQ",
+		"question": "Spørsmål",
+		"answer": "Svar",
+		"editExchangeTitle": "Rediger utveksling",
+		"addExchangeTitle": "Legg til utveksling"
+	},
 	"notifications": {
 		"loginSuccess": "Innlogging vellykket",
 		"loginFailure": "Innlogging mislykket",
@@ -185,9 +200,17 @@
 		"exchangeSaveFailure": "Lagring av utveksling mislykket",
 		"exchangeUpdated": "Utveksling oppdatert",
 		"exchangeUpdateFailure": "Oppdatering av utveksling mislykket",
+		"exchangeLoadFailure": "Henting av utveksling mislykket",
 		"courseDeleted": "Faget ble slettet",
 		"exchangeDeleted": "Utveksling slettet",
-		"exchangeDeleteFailure": "Feil ved sletting av utveksling"
+		"exchangeDeleteFailure": "Feil ved sletting av utveksling",
+		"faqSaved": "FAQ lagret",
+		"faqSaveFailure": "Lagring av FAQ mislykket",
+		"faqDeleted": "FAQ slettet",
+		"faqDeleteFailure": "Feil ved sletting av FAQ",
+		"faqNotFound": "FAQ ikke funnet",
+		"userDeleted": "Bruker slettet",
+		"userDeleteFailure": "Feil ved sletting av bruker"
 	},
 	"countries": {
 		"Argentina": "Argentina",

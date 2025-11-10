@@ -69,6 +69,9 @@ export default {
 									countriesSet.add(exchange.secondCountry);
 								}
 							}
+							if (exchange.country) {
+								countriesSet.add(exchange.country);
+							}
 						}
 						else if (hasAutumnCourses || hasSpringCourses) {
 							if (exchange.country) {
@@ -80,6 +83,7 @@ export default {
 					const fetchedCountries = Array.from(countriesSet).map(
 						(countryName) => ({ name: countryName })
 					);
+
 					this.countriesToHighlight = [
 						...this.countriesToHighlight,
 						...fetchedCountries,

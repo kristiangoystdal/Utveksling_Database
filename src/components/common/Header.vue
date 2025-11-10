@@ -8,6 +8,11 @@
 			<div class="nav-and-language">
 				<nav :class="{ open: showMobileMenu }">
 					<ul>
+						<li v-if="checkAdminUser()">
+							<router-link to="/admin">{{
+								$t("navbar.adminHeader")
+							}}</router-link>
+						</li>
 						<li>
 							<router-link to="/">{{ $t("navbar.homeHeader") }}</router-link>
 						</li>
@@ -181,6 +186,9 @@ export default {
 		goToProfile() {
 			this.showProfileDropDown = false;
 			this.$router.push({ name: "Account" });
+		},
+		checkAdminUser() {
+			return this.user && this.user.uid === import.meta.env.VITE_ADMIN_USER_ID;
 		},
 		goToLogin() {
 			this.showProfileDropDown = false;
