@@ -1,6 +1,9 @@
 <template>
   <v-dialog v-model="dialog" max-width="500px">
     <v-card>
+      <v-card-title>
+        {{ title }}
+      </v-card-title>
       <v-card-text>
         <p>{{ message }}</p>
       </v-card-text>
@@ -20,9 +23,13 @@ export default {
       type: Boolean,
       required: true,
     },
-    message: {
+    title: {
       type: String,
       required: true,
+    },
+    message: {
+      type: String,
+      required: false,
     },
   },
   data() {
