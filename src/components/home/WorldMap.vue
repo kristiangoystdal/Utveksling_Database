@@ -60,6 +60,11 @@ export default {
 				(country) => country.name
 			);
 
+			// Change USA to United States of America for matching
+			const adjustedCountryNames = highlightedCountryNames.map(name =>
+				name === "USA" ? "United States of America" : name
+			);
+
 			const countries = topojson.feature(
 				worldData,
 				worldData.objects.countries
@@ -73,12 +78,12 @@ export default {
 				.append("path")
 				.attr("d", path)
 				.attr("class", (d) =>
-					highlightedCountryNames.includes(d.properties.name)
+					adjustedCountryNames.includes(d.properties.name)
 						? "highlighted"
 						: "country"
 				)
 				.style("fill", (d) =>
-					highlightedCountryNames.includes(d.properties.name)
+					adjustedCountryNames.includes(d.properties.name)
 						? "var(--second-color)"
 						: "lightgray"
 				)
