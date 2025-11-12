@@ -21,37 +21,22 @@
 			<WorldMap :countries="countriesToHighlight" />
 		</div>
 
-
 		<div class="top-countries-and-top-study-programs">
-			<div class="box box-secondary-color background">
-				<h3 class="preserve-whitespace text-center">{{ $t("common.topCountries") }}</h3>
-				<ol class="list-decimal pl-6 space-y-1 text-center md:text-left break-words">
-					<li v-for="(country, index) in topCountries" :key="country.name"
-						class="flex items-center gap-2 text-lg justify-center md:justify-start">
-						<div style="display: flex; align-items: center">
-							<img :src="getFlagUrl(country.name)" alt="Flag" width="20" height="15"
-								style="margin-left: 4px; border-radius: 2px; margin-right: 20px;" />
-							<span>{{ country.name }}</span>
-						</div>
-					</li>
-				</ol>
-			</div>
-
-			<div class="box box-secondary-color background">
-				<h3 class="preserve-whitespace text-center">{{ $t("common.topStudyPrograms") }}</h3>
-				<ol class="list-decimal pl-6 space-y-1 text-left md:text-left break-words">
-					<li v-for="(program, index) in topStudyPrograms.slice(0, 10)" :key="program.name" class="text-lg">
-						{{ program.name }}
-					</li>
-				</ol>
-			</div>
+			<h3>{{ $t("common.topCountries") }}</h3>
+			<WordCloud :wordsData="topCountriesTranslated" />
 		</div>
+		<div class="top-countries-and-top-study-programs">
+			<h3>{{ $t("common.topStudyPrograms") }}</h3>
+			<WordCloud :wordsData="topStudyPrograms" />
+		</div>
+
 	</div>
 </template>
 
 <script>
 import { count } from "d3";
 import WorldMap from "./WorldMap.vue";
+import WordCloud from "./WordCloud.vue";
 import { getDatabase, ref as dbRef, child, get } from "firebase/database";
 import countriesInformation from "../../data/countriesInformation.json";
 import { useI18n } from "vue-i18n";
@@ -63,6 +48,7 @@ export default {
 	name: "App",
 	components: {
 		WorldMap,
+		WordCloud,
 	},
 	setup() {
 		const { t, locale } = useI18n();
@@ -166,13 +152,12 @@ export default {
 					// Sort the top 10 countries and study programs
 					this.topCountries = Object.entries(countriesCount)
 						.sort((a, b) => b[1] - a[1])
-						.slice(0, 10)
+						.slice(0, 20)
 						.map((entry) => ({ name: entry[0], count: entry[1] }));
 					this.topStudyPrograms = Object.entries(studyProgramsCount)
 						.sort((a, b) => b[1] - a[1])
 						.slice(0, 10)
 						.map((entry) => ({ name: entry[0], count: entry[1] }));
-
 
 					// Prepare countries to highlight
 					const fetchedCountries = Array.from(countriesSet).map(
@@ -219,32 +204,29 @@ export default {
 
 .top-countries-and-top-study-programs {
 	display: flex;
-	flex-direction: wrap;
-	justify-content: center;
+	flex-direction: column;
+	/* stack title above word cloud */
 	align-items: center;
-	gap: 20px;
-	margin: 20px;
+	justify-content: center;
 	text-align: center;
 	width: 100%;
+	margin: 40px auto;
+	max-width: 1000px;
 	padding: 35px 30px;
-
 }
 
 .top-countries-and-top-study-programs h3 {
-	font-size: 1.35rem;
-	font-weight: 700;
-	color: #1a1a1a;
-	margin-bottom: 15px;
-}
-
-
-.background {
-	background-color: var(--third-color);
-	padding: 20px;
-	border-radius: 15px;
-	margin: 20px;
+	width: 100%;
 	text-align: center;
+	font-size: 1.6rem;
+	font-weight: 700;
+	color: var(--first-color);
+	margin-bottom: 25px;
 }
+
+
+
+
 
 @media screen and (max-width: 600px) {
 	.btn {
