@@ -7,9 +7,9 @@
 		<!-- User List -->
 		<v-card style="padding: 20px ;">
 			<h3>{{ $t("adminPage.userListTitle") }} ({{ users.length }})</h3>
-			<v-text-field v-model="search" label="Search" prepend-inner-icon="mdi-magnify" variant="outlined" hide-details
+			<v-text-field v-model="userSearch" label="Search" prepend-inner-icon="mdi-magnify" variant="outlined" hide-details
 				single-line density="compact" style="width: 95%; margin: 10px auto; border-radius: 5px;"></v-text-field>
-			<v-data-table :headers="headers" :items="users" :items-per-page="5" :search="search" density="compact"
+			<v-data-table :headers="headers" :items="users" :items-per-page="5" :search="userSearch" density="compact"
 				item-key="uid">
 				<template v-slot:item.actions="{ item }">
 					<v-icon @click="deleteUser(item)">mdi-delete</v-icon>
@@ -35,8 +35,12 @@
 		<!--  Exchange List -->
 		<v-card style="padding: 20px ;">
 			<h3>{{ $t("adminPage.exchangeListTitle") }} ({{ exchanges.length }})</h3>
+			<v-text-field v-model="exchangeSearch" label="Search" prepend-inner-icon="mdi-magnify" variant="outlined"
+				hide-details single-line density="compact"
+				style="width: 95%; margin: 10px auto; border-radius: 5px;"></v-text-field>
 			<!-- Exchange list content goes here -->
-			<v-data-table :headers="exchangeHeaders" :items="exchanges" :items-per-page="5" density="compact">
+			<v-data-table :headers="exchangeHeaders" :items="exchanges" :items-per-page="5" :search="exchangeSearch"
+				density="compact">
 				<template v-slot:item.actions="{ item }">
 					<v-icon @click="editExchange(item)">mdi-pencil</v-icon>
 					<v-icon @click="deleteExchange(item)">mdi-delete</v-icon>
@@ -125,7 +129,7 @@ export default {
 			],
 			users: [],
 			faqs: [],
-			search: '',
+			userSearch: '',
 			userData: null,
 			localEditData: {
 				uid: '',
@@ -149,10 +153,11 @@ export default {
 			exchanges: [],
 			exchangeHeaders: [
 				{ title: "ID", value: 'id', width: '5%' },
-				{ title: this.$t("database.country"), value: 'country', width: '15%' },
-				{ title: this.$t("database.university"), value: 'university', width: '35%' },
+				{ title: this.$t("database.country"), value: 'country', width: '12%' },
+				{ title: this.$t("database.university"), value: 'university', width: '33%' },
 				{ title: this.$t("database.study"), value: 'study', width: '25%' },
 				{ title: this.$t("database.numSemesters"), value: 'numSemesters', width: '10%', align: 'center' },
+				{ title: this.$t("database.year"), value: 'year', width: '5%', align: 'center' },
 				{ title: "", value: 'actions', sortable: false, width: '10%', align: 'end' },
 			],
 			exchangeDialog: false,
@@ -177,6 +182,7 @@ export default {
 			userConfirmation: false,
 			faqConfirmation: false,
 			exchangeConfirmation: false,
+			exchangeSearch: '',
 		};
 	},
 	methods: {
