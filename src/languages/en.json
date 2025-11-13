@@ -8,7 +8,8 @@
 		"createExchange": "Create Exchange",
 		"uploadExchange": "Upload Exchange",
 		"topCountries": "Top 10 Destination Countries",
-		"topStudyPrograms": "Top 10 Study Programs"
+		"topStudyPrograms": "Top 10 Study Programs",
+		"count": "Count"
 	},
 	"hints": {
 		"study": "Select the study program you are attending at NTNU",
