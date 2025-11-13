@@ -7,6 +7,9 @@
 			<router-link class="footer-icon" to="/utvekslinger">
 				<v-icon size="30px">mdi-airplane-search</v-icon>
 			</router-link>
+			<a class="footer-icon" @click="toggleMenu">
+				<v-icon size="30px">mdi-menu</v-icon>
+			</a>
 			<router-link class="footer-icon" to="/min_utveksling">
 				<v-icon size="30px">mdi-airplane-edit</v-icon>
 			</router-link>
@@ -20,6 +23,9 @@
 			<div class="profile-content">
 				<div v-if="user != null">
 					<div class="username">{{ userData.displayName }}</div>
+					<v-btn @click="goToProfile" color="info" class="login-btn" dark>
+						{{ $t("operations.profileBtn") }}
+					</v-btn>
 					<v-btn @click="signOut" color="primary" class="login-btn" dark>
 						{{ $t("operations.signOut") }}
 					</v-btn>
@@ -59,6 +65,21 @@
 				</div>
 			</div>
 		</div>
+
+		<div v-if="showMenuDropdown">
+			<div class="menu-dropdown">
+				<div class="profile-content">
+					<router-link class="footer-icon" to="/faq" @click="showMenuDropdown = false">
+						<v-icon size="30px">mdi-chat-question</v-icon>
+						<span>{{ $t("navbar.faqHeader") }}</span>
+					</router-link>
+					<router-link class="footer-icon" to="/kontakt" @click="showMenuDropdown = false">
+						<v-icon size="30px">mdi-card-account-mail</v-icon>
+						<span>{{ $t("navbar.contactHeader") }}</span>
+					</router-link>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -73,6 +94,7 @@ export default {
 	data() {
 		return {
 			showProfileDropDown: false,
+			showMenuDropdown: false,
 			userData: null, // Assume this is populated with user data from your Vuex store or API
 		};
 	},
@@ -81,7 +103,16 @@ export default {
 	},
 	methods: {
 		toggleProfileDropdown() {
+			if (this.showMenuDropdown) {
+				this.showMenuDropdown = false;
+			}
 			this.showProfileDropDown = !this.showProfileDropDown;
+		},
+		toggleMenu() {
+			if (this.showProfileDropDown) {
+				this.showProfileDropDown = false;
+			}
+			this.showMenuDropdown = !this.showMenuDropdown;
 		},
 		async signOut() {
 			try {
@@ -167,6 +198,7 @@ export default {
 
 .footer-icon span {
 	font-size: 20px;
+	margin-left: 10px;
 }
 
 .profile-dropdown {
@@ -178,13 +210,14 @@ export default {
 	border-radius: 8px;
 	z-index: 1001;
 	padding: 10px;
-	width: 200px;
+	width: 50vw;
 }
 
 .profile-content {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 }
 
 .username {
@@ -194,5 +227,20 @@ export default {
 
 .login-btn {
 	width: 100%;
+	margin: 10px auto;
+}
+
+.menu-dropdown {
+	position: fixed;
+	bottom: 11vh;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: white;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	z-index: 1001;
+	padding: 10px;
+	width: 60vw;
+	max-width: 90%;
 }
 </style>
