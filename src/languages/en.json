@@ -26,7 +26,8 @@
 		"replacedCourseName": "Enter the name of the NTNU course you will replace",
 		"courseType": "Select the type of course you will take (mandatory, elective, etc.)",
 		"institute": "Enter the institute the course belongs to at the university you will attend",
-		"ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's units if necessary)"
+		"ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's units if necessary)",
+		"year": "Enter the year you started your exchange"
 	},
 	"database": {
 		"study": "Study",
@@ -44,7 +45,8 @@
 		"institute": "Institute",
 		"ETCSPoints": "ETCS Points",
 		"comments": "Comments",
-		"favorite": "Favorite"
+		"favorite": "Favorite",
+		"year": "Year"
 	},
 	"navbar": {
 		"homeHeader": "Home",
@@ -69,7 +71,8 @@
 		"noComments": "The student has not added any comments for this course.",
 		"courseInformation": "More information",
 		"loginToFavorite": "You need to be logged in to add or edit favorites",
-		"errorSavingFavorites": "An error occurred while saving favorites"
+		"errorSavingFavorites": "An error occurred while saving favorites",
+		"search": "Search for country, university, study program, or specialization"
 	},
 	"myExchange": {
 		"pageHeader": "Your Exchange:",
