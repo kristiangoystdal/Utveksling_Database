@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h2 class="preserve-whitespace">{{ $t("common.welcome") }}</h2>
-
+		<br />
 		<p class="box box-third-color preserve-whitespace text-center">
 			{{ $t("common.siteDescription") }}
 		</p>
