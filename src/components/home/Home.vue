@@ -23,20 +23,21 @@
 
 		<div class="top-countries-and-top-study-programs">
 			<h3>{{ $t("common.topCountries") }}</h3>
-			<WordCloud :wordsData="topCountriesTranslated" />
+			<BarChart :items="topCountriesTranslated" :title="$t('common.topCountries')" />
 		</div>
+
 		<div class="top-countries-and-top-study-programs">
 			<h3>{{ $t("common.topStudyPrograms") }}</h3>
-			<WordCloud :wordsData="topStudyPrograms" />
+			<BarChart :items="topStudyPrograms" :title="$t('common.topStudyPrograms')" />
 		</div>
+
 
 	</div>
 </template>
 
 <script>
-import { count } from "d3";
 import WorldMap from "./WorldMap.vue";
-import WordCloud from "./WordCloud.vue";
+import BarChart from "./BarChart.vue";
 import { getDatabase, ref as dbRef, child, get } from "firebase/database";
 import countriesInformation from "../../data/countriesInformation.json";
 import { useI18n } from "vue-i18n";
@@ -48,7 +49,7 @@ export default {
 	name: "App",
 	components: {
 		WorldMap,
-		WordCloud,
+		BarChart,
 	},
 	setup() {
 		const { t, locale } = useI18n();
@@ -61,12 +62,10 @@ export default {
 			topCountries: [],
 			topStudyPrograms: [],
 			countriesInfo: countriesInformation,
-
 		};
 	},
 	mounted() {
 		this.getValuesFromDatabase();
-		// this.test();
 	},
 	computed: {
 		topCountriesTranslated() {
@@ -152,7 +151,7 @@ export default {
 					// Sort the top 10 countries and study programs
 					this.topCountries = Object.entries(countriesCount)
 						.sort((a, b) => b[1] - a[1])
-						.slice(0, 20)
+						.slice(0, 10)
 						.map((entry) => ({ name: entry[0], count: entry[1] }));
 					this.topStudyPrograms = Object.entries(studyProgramsCount)
 						.sort((a, b) => b[1] - a[1])
@@ -205,32 +204,34 @@ export default {
 .top-countries-and-top-study-programs {
 	display: flex;
 	flex-direction: column;
-	/* stack title above word cloud */
 	align-items: center;
-	justify-content: center;
 	text-align: center;
+
 	width: 100%;
-	margin: 40px auto;
 	max-width: 1000px;
-	padding: 35px 30px;
+	margin: 25px auto;
+	/* mindre luft */
+	padding: 10px 0 20px 0;
+	/* minimal padding */
+
 }
-
-.top-countries-and-top-study-programs h3 {
-	width: 100%;
-	text-align: center;
-	font-size: 1.6rem;
-	font-weight: 700;
-	color: var(--first-color);
-	margin-bottom: 25px;
-}
-
-
-
-
 
 @media screen and (max-width: 600px) {
 	.btn {
 		width: 100% !important;
+	}
+
+	.top-countries-and-top-study-programs {
+		margin: 10px auto;
+		padding: 0;
+		position: relative;
+		z-index: 10;
+		pointer-events: auto;
+	}
+
+
+	.top-countries-and-top-study-programs h3 {
+		font-size: 1.3rem;
 	}
 }
 </style>
