@@ -32,11 +32,11 @@
 								<div class="profile-content">
 									<div v-if="user != null">
 										<div class="username">{{ userData?.displayName || user?.displayName || '' }}</div>
-										<v-btn @click="goToProfile" color="info" dark>
+										<v-btn @click="goToProfile" color="info" dark class="login-btn">
 											{{ $t("operations.profileBtn") }}
 										</v-btn>
 										<br><br>
-										<v-btn @click="signOut" color="error" dark>
+										<v-btn @click="signOut" color="error" dark class="login-btn">
 											{{ $t("operations.signOut") }}
 										</v-btn>
 
@@ -457,5 +457,10 @@ nav a {
 
 .profile-content button:hover {
 	background-color: var(--second-color);
+}
+
+.login-btn {
+	width: 90%;
+	margin: auto;
 }
 </style>
