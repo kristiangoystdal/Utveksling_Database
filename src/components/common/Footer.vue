@@ -6,6 +6,10 @@
 					<router-link :to="item.link">{{ item.name }}</router-link>
 				</span>
 			</div>
+			<div class="footer-disclaimer">
+				{{ $t("common.disclaimer") }}
+			</div>
+
 			<div class="footer-text">
 				&copy; {{ currentYear }} —
 				<strong>Utvekslingsportalen</strong>
@@ -100,5 +104,13 @@ export default {
 
 .footer-text {
 	font-size: 0.8rem;
+}
+
+.footer-disclaimer {
+	font-size: 0.7rem;
+	opacity: 0.8;
+	margin-bottom: 5px;
+	max-width: 600px;
+	line-height: 1.2;
 }
 </style>
