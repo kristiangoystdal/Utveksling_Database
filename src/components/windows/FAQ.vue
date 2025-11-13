@@ -90,7 +90,6 @@ h2 {
 	color: #333;
 }
 
-/* Base spacing */
 p {
 	margin-bottom: 1rem;
 }
@@ -100,14 +99,12 @@ p {
 	padding: 16px 20px !important;
 }
 
-/* FAQ answer text */
 .v-card-text {
 	padding: 0 20px 16px 20px !important;
 	line-height: 1.5;
 	font-size: 0.95rem;
 }
 
-/* Animation for expand/collapse */
 .v-card-text {
 	transition: all 0.2s ease;
 }
@@ -137,36 +134,30 @@ p {
 		margin-top: 0;
 	}
 
-	/* Search bar: bigger and easier to tap */
 	.v-text-field {
 		font-size: 1rem !important;
 	}
 
-	/* Card spacing */
 	.v-card {
 		border-radius: 10px;
 		margin-bottom: 14px;
 	}
 
-	/* Question font */
 	.v-card-title {
 		font-size: 1rem !important;
 		padding: 14px 16px !important;
 		line-height: 1.3;
 	}
 
-	/* Answer font */
 	.v-card-text {
 		font-size: 0.85rem !important;
 		padding: 0 16px 14px 16px !important;
 	}
 
-	/* Icon size */
 	.v-icon {
 		font-size: 20px !important;
 	}
 
-	/* Make FAQ questions more tappable */
 	.v-card-title>div {
 		display: flex;
 		width: 100%;
