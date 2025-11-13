@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>{{ $t("uploadPage.pageHeader") }}</h2>
+    <br />
     <p class="box box-third-color preserve-whitespace text-center">
       {{ $t("uploadPage.info") }}
     </p>

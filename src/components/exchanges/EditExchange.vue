@@ -2,6 +2,7 @@
 	<!-- Title and infobox -->
 	<div>
 		<h2>{{ $t("myExchange.pageHeader") }}</h2>
+		<br />
 		<p class="box box-third-color preserve-whitespace text-center">
 			{{ $t("myExchange.info") }}
 		</p>
@@ -74,7 +75,20 @@
 								</v-col>
 							</v-row>
 
-							<!-- Antall semestre & Studieår -->
+							<!-- Studieår & Hvilket år -->
+							<v-row>
+								<v-col cols="12" md="6">
+									<v-autocomplete v-model="userExchange.studyYear" :items="[1, 2, 3, 4, 5]"
+										:label="$t('database.studyYear')" required clearable :hint="$t('hints.studyYear')"
+										persistent-hint></v-autocomplete>
+								</v-col>
+								<v-col cols="12" md="6">
+									<v-text-field v-model="userExchange.year" :label="$t('database.year')" type="number" clearable
+										required :hint="$t('hints.year')" persistent-hint />
+								</v-col>
+							</v-row>
+
+							<!-- Antall semestre & Velg semester -->
 							<v-row>
 								<v-col cols="12" md="6">
 									<v-autocomplete v-model="userExchange.numSemesters" :items="[1, 2]"
@@ -82,21 +96,13 @@
 										@update:modelValue="handleNumSemestersChange" :hint="$t('hints.numSemesters')"
 										persistent-hint></v-autocomplete>
 								</v-col>
-								<v-col cols="12" md="6">
-									<v-autocomplete v-model="userExchange.studyYear" :items="[1, 2, 3, 4, 5]"
-										:label="$t('database.studyYear')" required clearable :hint="$t('hints.studyYear')"
-										persistent-hint></v-autocomplete>
+								<v-col cols="12" md="6" v-if="userExchange.numSemesters == 1">
+									<v-autocomplete v-model="semesters" :items="['Høst', 'Vår']" :label="$t('database.semester')" required
+										clearable @update:modelValue="handleSemesterChange"></v-autocomplete>
 								</v-col>
 							</v-row>
-							<!-- Velg semester -->
-							<div v-if="userExchange.numSemesters == 1">
-								<v-row>
-									<v-col cols="12" md="6">
-										<v-autocomplete v-model="semesters" :items="['Høst', 'Vår']" :label="$t('database.semester')"
-											required clearable @update:modelValue="handleSemesterChange"></v-autocomplete>
-									</v-col>
-								</v-row>
-							</div>
+
+							<!-- Andre universitet & land for 2 semestre -->
 							<div v-if="userExchange.numSemesters == 2">
 								<v-checkbox :label="$t('myExchange.semestersLocation')"
 									v-model="userExchange.sameUniversity"></v-checkbox>
@@ -374,6 +380,7 @@ export default {
 				university: null,
 				country: null,
 				studyYear: null,
+				year: null,
 				study: null,
 				specialization: null,
 				numSemesters: null,
@@ -389,6 +396,7 @@ export default {
 				university: null,
 				country: null,
 				studyYear: null,
+				year: null,
 				study: null,
 				specialization: null,
 				numSemesters: null,
@@ -529,6 +537,9 @@ export default {
 			if (this.userExchange.numSemesters == 1 && this.semesters.length == 0) {
 				missingFields.push(this.$t("database.semester").toLowerCase());
 			}
+			if (this.userExchange.year == null) {
+				missingFields.push(this.$t("database.year").toLowerCase());
+			}
 
 			if (missingFields.length > 0) {
 				return string + missingFields.join(", ");
@@ -542,6 +553,7 @@ export default {
 				this.userExchange.specialization == null ||
 				this.userExchange.studyYear == null ||
 				this.userExchange.numSemesters == null ||
+				this.userExchange.year == null ||
 				(this.userExchange.numSemesters == 1 && this.semesters.length == 0)
 			);
 		},

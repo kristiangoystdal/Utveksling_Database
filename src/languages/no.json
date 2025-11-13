@@ -26,7 +26,8 @@
 		"replacedCourseName": "Skriv inn navet på faget på NTNU du skal erstatte",
 		"courseType": "Skriv inn hva slags type fag det er (O-, I-, K-emne eller blankt)",
 		"institute": "Skriv inn instituttet faget tilhører på universitetet du skal til",
-		"ETCSPoints": "Skriv inn hvor mange ETCS poeng faget gir (konverter fra universitetes enhet til ETCS)"
+		"ETCSPoints": "Skriv inn hvor mange ETCS poeng faget gir (konverter fra universitetes enhet til ETCS)",
+		"year": "Skriv inn året du begynte på utveksling"
 	},
 	"database": {
 		"study": "Studie",
@@ -44,7 +45,8 @@
 		"institute": "Institutt",
 		"ETCSPoints": "ETCS poeng",
 		"comments": "Kommentar",
-		"favorite": "Favoritt"
+		"favorite": "Favoritt",
+		"year": "År"
 	},
 	"navbar": {
 		"homeHeader": "Hjem",
@@ -69,7 +71,8 @@
 		"noComments": "Studenten har ikke lagt inn noen kommentarer til dette faget.",
 		"courseInformation": "Mer informasjon",
 		"loginToFavorite": "Du må være logget inn for å legge til eller endre favoritter",
-		"errorSavingFavorites": "Det oppstod en feil under lagring av favoritter"
+		"errorSavingFavorites": "Det oppstod en feil under lagring av favoritter",
+		"search": "Søk etter land, universitet, studieprogram eller spesialisering"
 	},
 	"myExchange": {
 		"pageHeader": "Din utveksling:",

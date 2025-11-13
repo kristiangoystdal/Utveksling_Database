@@ -57,28 +57,31 @@
             </v-col>
           </v-row>
 
-          <!-- Semesters & Study Year -->
+          <!-- Study Year & Which Year -->
           <v-row>
             <v-col cols="12" md="6">
-              <v-autocomplete v-model="localExchange.numSemesters" :items="[1, 2]" :label="$t('database.numSemesters')"
-                clearable @update:modelValue="handleNumSemestersChange" :hint="$t('hints.numSemesters')"
-                persistent-hint />
+              <v-autocomplete v-model="localExchange.studyYear" :items="[1, 2, 3, 4, 5]"
+                :label="$t('database.studyYear')" required clearable :hint="$t('hints.studyYear')"
+                persistent-hint></v-autocomplete>
             </v-col>
             <v-col cols="12" md="6">
-              <v-autocomplete v-model="localExchange.studyYear" :items="[1, 2, 3, 4, 5]"
-                :label="$t('database.studyYear')" clearable :hint="$t('hints.studyYear')" persistent-hint />
+              <v-text-field v-model="localExchange.year" :label="$t('database.year')" type="number" clearable required
+                :hint="$t('hints.year')" persistent-hint />
             </v-col>
           </v-row>
 
-          <!-- One-semester setup -->
-          <div v-if="localExchange.numSemesters === 1">
-            <v-row>
-              <v-col cols="12" md="6">
-                <v-autocomplete v-model="selectedSemester" :items="['Høst', 'Vår']" :label="$t('database.semester')"
-                  clearable @update:modelValue="handleSemesterChange" />
-              </v-col>
-            </v-row>
-          </div>
+          <!-- Number of Semesters & Semester(s) -->
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-autocomplete v-model="localExchange.numSemesters" :items="[1, 2]" :label="$t('database.numSemesters')"
+                required clearable @update:modelValue="handleNumSemestersChange" :hint="$t('hints.numSemesters')"
+                persistent-hint></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="6" v-if="localExchange.numSemesters == 1">
+              <v-autocomplete v-model="semesters" :items="['Høst', 'Vår']" :label="$t('database.semester')" required
+                clearable @update:modelValue="handleSemesterChange"></v-autocomplete>
+            </v-col>
+          </v-row>
 
           <!-- Two-semester setup -->
           <div v-if="localExchange.numSemesters === 2">
