@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<h2>{{ $t("exchanges.pageHeader") }}</h2>
+		<br />
 		<p class="box box-third-color preserve-whitespace text-center">
 			{{ $t("exchanges.info") }}
 		</p>
 	</div>
 	<br />
-	<br />
 	<!-- Filters -->
-	<div>
+	<div v-if="false">
 		<v-btn @click="toggleFilters" class="btn btn-primary">
 			{{ showFilters ? t("exchanges.hideFilter") : t("exchanges.showFilter") }}
 		</v-btn>
@@ -102,13 +102,17 @@
 		</v-slide-y-transition>
 	</div>
 	<br />
+
+	<!-- Search Field -->
+	<v-text-field v-model="exchangeSearch" :label="$t('exchanges.search')" prepend-inner-icon="mdi-magnify"
+		variant="outlined" hide-details single-line density="compact"
+		style="width: 95%; margin: 10px auto; border-radius: 5px;"></v-text-field>
 	<br />
 
 	<!-- Data Table -->
-
 	<div v-if="!isMobile">
 		<v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="exchangeList" item-value="id"
-			show-expand class="main-table" id="main-table-width">
+			show-expand class="main-table" id="main-table-width" :search="exchangeSearch">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
 					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 4px" />
@@ -419,7 +423,8 @@ export default {
 			screenWidth: window.innerWidth,
 			informationDialog: false,
 			currentCourse: null,
-			favoriteCourses: []
+			favoriteCourses: [],
+			exchangeSearch: "",
 		};
 	},
 	created() {
@@ -472,6 +477,11 @@ export default {
 					key: "studyYear",
 				},
 				{
+					title: this.t("database.year"),
+					align: "center",
+					key: "year",
+				},
+				{
 					title: this.t("database.numSemesters"),
 					align: "center",
 					key: "numSemesters",
@@ -486,7 +496,7 @@ export default {
 					key: "courseName",
 				},
 				{
-					title: this.t("database.courseCode"), // fixed typo
+					title: this.t("database.courseCode"),
 					align: "end",
 					key: "courseCode",
 				},
@@ -553,7 +563,7 @@ export default {
 					key: "courseName",
 				},
 				{
-					title: this.t("database.courseCode"), // fixed typo
+					title: this.t("database.courseCode"),
 					align: "end",
 					key: "courseCode",
 				},
