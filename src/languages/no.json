@@ -8,7 +8,8 @@
 		"createExchange": "Opprett utveksling",
 		"uploadExchange": "Last opp utvekslingsdata",
 		"topCountries": "Topp 10 destinasjonsland",
-		"topStudyPrograms": "Topp 10 studieprogrammer"
+		"topStudyPrograms": "Topp 10 studieprogrammer",
+		"disclaimer": "Utvekslingsportalen driftes ikke av NTNU. Informasjonen er basert på studentrapporter og kan inneholde feil."
 	},
 	"hints": {
 		"study": "Velg studie du går på NTNU",

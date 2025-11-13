@@ -8,7 +8,8 @@
 		"createExchange": "Create Exchange",
 		"uploadExchange": "Upload Exchange",
 		"topCountries": "Top 10 Destination Countries",
-		"topStudyPrograms": "Top 10 Study Programs"
+		"topStudyPrograms": "Top 10 Study Programs",
+		"disclaimer": "The Exchange Portal is not operated by NTNU. The information is based on student reports and may contain errors."
 	},
 	"hints": {
 		"study": "Select the study program you are attending at NTNU",
