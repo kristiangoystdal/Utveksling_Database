@@ -11,12 +11,16 @@
 				<v-card class="mb-4">
 					<v-card-title @click="toggleExpand(faq.id)">
 						<div class="d-flex justify-space-between align-center">
-							<span>{{ faq.question }}</span>
-							<v-icon>{{
-								expanded.includes(faq.id)
-									? "mdi-chevron-up"
-									: "mdi-chevron-down"
-							}}</v-icon>
+							<span class="faq-title-text">
+								{{ faq.question }}
+							</span>
+							<v-icon>
+								{{
+									expanded.includes(faq.id)
+										? "mdi-chevron-up"
+										: "mdi-chevron-down"
+								}}
+							</v-icon>
 						</div>
 					</v-card-title>
 					<v-card-text v-show="expanded.includes(faq.id)">
@@ -86,11 +90,88 @@ h2 {
 	color: #333;
 }
 
+/* Base spacing */
 p {
 	margin-bottom: 1rem;
 }
 
 .v-card-title {
 	cursor: pointer;
+	padding: 16px 20px !important;
+}
+
+/* FAQ answer text */
+.v-card-text {
+	padding: 0 20px 16px 20px !important;
+	line-height: 1.5;
+	font-size: 0.95rem;
+}
+
+/* Animation for expand/collapse */
+.v-card-text {
+	transition: all 0.2s ease;
+}
+
+.faq-title-text {
+	flex: 1 1 auto;
+	min-width: 0;
+
+	display: block;
+	white-space: normal !important;
+	word-break: keep-all;
+	overflow-wrap: normal;
+}
+
+.v-card-title>.d-flex {
+	width: 100%;
+}
+
+
+/* -----------------------------------------
+   MOBILE OPTIMIZATIONS
+------------------------------------------ */
+@media (max-width: 600px) {
+	.v-container {
+		padding: 12px !important;
+		max-width: 100% !important;
+		margin-top: 0;
+	}
+
+	/* Search bar: bigger and easier to tap */
+	.v-text-field {
+		font-size: 1rem !important;
+	}
+
+	/* Card spacing */
+	.v-card {
+		border-radius: 10px;
+		margin-bottom: 14px;
+	}
+
+	/* Question font */
+	.v-card-title {
+		font-size: 1rem !important;
+		padding: 14px 16px !important;
+		line-height: 1.3;
+	}
+
+	/* Answer font */
+	.v-card-text {
+		font-size: 0.85rem !important;
+		padding: 0 16px 14px 16px !important;
+	}
+
+	/* Icon size */
+	.v-icon {
+		font-size: 20px !important;
+	}
+
+	/* Make FAQ questions more tappable */
+	.v-card-title>div {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: space-between;
+	}
 }
 </style>
