@@ -84,7 +84,7 @@
 								</v-col>
 								<v-col cols="12" md="6">
 									<v-text-field v-model="userExchange.year" :label="$t('database.year')" type="number" clearable
-										required :hint="$t('hints.year')" persistent-hint />
+										required :hint="$t('hints.year')" @update:model-value="handleYearChange" persistent-hint />
 								</v-col>
 							</v-row>
 
@@ -127,7 +127,7 @@
 							<v-row>
 								<!-- Save Button -->
 								<v-col xs="12" md="2">
-									<v-btn @click="updateExchange" class="btn-primary" :disabled="!unsavedChanges">{{
+									<v-btn @click="updateExchange" class="btn-primary" :disabled="!canSaveExchange || !unsavedChanges">{{
 										$t("operations.save")
 									}}</v-btn>
 								</v-col>
@@ -623,8 +623,16 @@ export default {
 			const hasUnsavedChanges =
 				JSON.stringify(this.remoteExchange) !==
 				JSON.stringify(this.userExchange);
+
 			return hasUnsavedChanges;
 		},
+		canSaveExchange() {
+			return (
+				!this.missingBasicDataBool &&
+				!this.missingFallCoursesDataTotalBool &&
+				!this.missingSpringCoursesDataTotalBool
+			);
+		}
 	},
 	methods: {
 		loadData() {
@@ -764,7 +772,7 @@ export default {
 		},
 		removeCourse(semesterName, courseIndex) {
 			// Close the delete dialog
-			this.deleteDialog = false;
+			this.deleteCourseDialog = false;
 
 			// Get the courses for the specified semester
 			const semesterKey = semesterName.includes("Høst") ? "Høst" : "Vår";
@@ -801,6 +809,12 @@ export default {
 		handleCourseUpdate(updatedCourse) {
 			const { semester, courseIndex, course } = updatedCourse;
 			this.userExchange.courses[semester][courseIndex] = course;
+		},
+		handleYearChange(newYear) {
+			if (newYear == "") {
+				newYear = null;
+			}
+			this.userExchange.year = newYear;
 		},
 		getCountryIndex(selectedCountry) {
 			const translatedCountries = this.countryNamesTranslated;
