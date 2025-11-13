@@ -9,6 +9,10 @@
 				<router-view></router-view>
 			</div>
 			<div v-if="!isDesktop">
+				<div class="mobile-disclaimer">
+					{{ $t("common.disclaimer") }}
+				</div>
+				<br><br>
 				<MobileFooter></MobileFooter>
 			</div>
 		</div>
@@ -141,6 +145,16 @@ header {
 	#app {
 		margin-bottom: 10vh;
 		padding: 0;
+	}
+
+
+	.mobile-disclaimer {
+		text-align: center;
+		font-size: 0.65rem;
+		opacity: 0.75;
+		padding: 6px 10px;
+		margin-top: 4px;
+		color: var(--second-color);
 	}
 }
 </style>
