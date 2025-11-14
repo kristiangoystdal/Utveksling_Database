@@ -58,6 +58,11 @@
 		"adminHeader": "Admin",
 		"faqHeader": "Ofte stilte spørsmål"
 	},
+	"courses": {
+		"pageHeader": "Fagoversikt:",
+		"info": "Her kan du få en oversikt over hvilke fag som erstatter NTNU fag hos de ulike utvekslingsuniversitetene.",
+		"search": "Søk etter NTNU fag"
+	},
 	"exchanges": {
 		"pageHeader": "Tidligere utvekslinger:",
 		"info": "Her kan du utforske utvekslingsfagene til tidligere studenter. \n\nDu kan se hvilke universiteter de har vært på, hvilke land de har besøkt, og hvilke fag de har tatt. \nSammenlign med andre på ditt studie og sett sammen din egen plan.",

@@ -58,6 +58,11 @@
 		"adminHeader": "Admin",
 		"faqHeader": "FAQ"
 	},
+	"courses": {
+		"pageHeader": "Course Overview:",
+		"info": "Here you can explore what the courses from NTNU have been replaced with at the host universities.",
+		"search": "Search for course code or course name"
+	},
 	"exchanges": {
 		"pageHeader": "Previous Exchanges:",
 		"info": "Here you can explore the exchange courses taken by previous students. \n\nYou can see which universities they have attended, which countries they have visited, and which courses they have taken. \nCompare with others in your study and create your own plan.",
