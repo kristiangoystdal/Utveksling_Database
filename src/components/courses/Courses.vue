@@ -16,7 +16,7 @@
 
   <!-- Data Table -->
   <div v-if="!isMobile">
-    <v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="courseList" item-value="courseCode"
+    <v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="courseList" item-value="id"
       show-expand class="main-table" id="main-table-width" :search="courseSearch">
 
 
@@ -459,10 +459,10 @@ export default {
           const allCourses = [...host, ...vaar];
 
           for (const course of allCourses) {
-            if (!course.replacedCourseCode && !course.replacedCourseName) continue;
+            if (!course.replacedCourseCode) continue;
 
             const code = (course.replacedCourseCode || "").trim();
-            const name = course.replacedCourseName || "Unknown";
+            const name = course.replacedCourseName || "";
 
             if (!grouped[code.trim()]) {
               grouped[code] = {
@@ -487,6 +487,14 @@ export default {
 
         // Convert dict → array (Vuetify requires array)
         this.courseList = Object.values(grouped);
+
+        // Sort by course code
+        this.courseList.sort((a, b) => {
+          if (a.courseCode < b.courseCode) return -1;
+          if (a.courseCode > b.courseCode) return 1;
+          return 0;
+        });
+
       } catch (error) {
         console.error("Error fetching exchange data:", error);
       }
