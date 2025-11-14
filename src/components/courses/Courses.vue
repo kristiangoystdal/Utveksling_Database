@@ -289,7 +289,6 @@ export default {
     this.loadFavoriteCourses();
   },
   mounted() {
-    this.getValuesFromDatabase();
     window.addEventListener("resize", this.updateScreenWidth);
     this.updateScreenWidth();
   },
@@ -299,7 +298,6 @@ export default {
   watch: {
     locale(newLocale, oldLocale) {
       this.fetchExchangeData();
-      this.getValuesFromDatabase();
     },
   },
   computed: {
@@ -431,59 +429,6 @@ export default {
     updateScreenWidth() {
       this.screenWidth = window.innerWidth;
     },
-    toggleFilters() {
-      this.showFilters = !this.showFilters;
-    },
-    async getValuesFromDatabase() {
-      try {
-        const exchangesSnapshot = await get(child(dbRef(db), "exchanges"));
-        if (exchangesSnapshot.exists()) {
-          let exchanges = exchangesSnapshot.val();
-          const countriesSet = new Set();
-          const universitiesSet = new Set();
-          const studiesSet = new Set();
-          const specializationsSet = new Set();
-
-          for (const exchangeKey in exchanges) {
-            const exchange = exchanges[exchangeKey];
-
-            // Check if either 'Høst' or 'Vår' courses exist and have at least one course
-            const hasAutumnCourses =
-              exchange.courses &&
-              exchange.courses.Høst &&
-              exchange.courses.Høst.length > 0;
-            const hasSpringCourses =
-              exchange.courses &&
-              exchange.courses.Vår &&
-              exchange.courses.Vår.length > 0;
-
-            if (hasAutumnCourses || hasSpringCourses) {
-              if (exchange.country) {
-                countriesSet.add(this.$t(`countries.${exchange.country}`));
-              }
-              if (exchange.university) {
-                universitiesSet.add(exchange.university);
-              }
-              if (exchange.study) {
-                studiesSet.add(exchange.study);
-              }
-              if (exchange.specialization) {
-                specializationsSet.add(exchange.specialization);
-              }
-            }
-          }
-
-          this.countryList = Array.from(countriesSet);
-          this.universityList = Array.from(universitiesSet);
-          this.studyList = Array.from(studiesSet);
-          this.specializationList = Array.from(specializationsSet);
-        } else {
-          console.error("No data available");
-        }
-      } catch (error) {
-        console.error("Error fetching values from database:", error);
-      }
-    },
     remove(item) {
       this.countryValues = this.countryValues.filter((i) => i !== item);
     },
@@ -514,9 +459,9 @@ export default {
           const allCourses = [...host, ...vaar];
 
           for (const course of allCourses) {
-            if (!course.replacedCourseCode) continue;
+            if (!course.replacedCourseCode && !course.replacedCourseName) continue;
 
-            const code = course.replacedCourseCode;
+            const code = course.replacedCourseCode || "";
             const name = course.replacedCourseName || "Unknown";
 
             if (!grouped[code]) {
@@ -528,83 +473,21 @@ export default {
               };
             }
 
-            grouped[code].courses.push(course);
+            const courseWithMeta = {
+              ...course,
+              country: exchange.country,
+              university: exchange.university,
+            };
+
+            grouped[code].courses.push(courseWithMeta);
           }
         }
 
         // Convert dict → array (Vuetify requires array)
         this.courseList = Object.values(grouped);
-        console.log("Final course list:", this.courseList);
-
       } catch (error) {
         console.error("Error fetching exchange data:", error);
       }
-    },
-    applyFilters(exchanges) {
-      if (this.countryValues.length > 0) {
-        exchanges = exchanges.filter((exchange) =>
-          this.countryValues.includes(exchange.country)
-        );
-      }
-      if (this.universityValues.length > 0) {
-        exchanges = exchanges.filter((exchange) =>
-          this.universityValues.includes(exchange.university)
-        );
-      }
-      if (this.studyValues.length > 0) {
-        exchanges = exchanges.filter((exchange) =>
-          this.studyValues.includes(exchange.study)
-        );
-      }
-      if (this.specializationValues.length > 0) {
-        exchanges = exchanges.filter((exchange) =>
-          this.specializationValues.includes(exchange.specialization)
-        );
-      }
-      if (this.numSemestersValues.length > 0) {
-        exchanges = exchanges.filter((exchange) =>
-          this.numSemestersValues.includes(exchange.numSemesters)
-        );
-      }
-      return exchanges;
-    },
-    reformatExchanges(exchanges) {
-      return exchanges.reduce((result, exchange) => {
-        if (!exchange.sameUniversity && exchange.courses.Vår) {
-          const firstExchange = this.createExchange(exchange, {
-            Høst: exchange.courses.Høst,
-            Vår: [],
-          });
-
-          const newExchange = this.createExchange(
-            {
-              ...exchange,
-              id: exchange.id + "new",
-              university: exchange.secondUniversity,
-              country: exchange.secondCountry,
-            },
-            {
-              Høst: [],
-              Vår: exchange.courses.Vår,
-            }
-          );
-          result.push(firstExchange);
-          result.push(newExchange);
-        } else {
-          if (!!exchange.courses.Høst !== !!exchange.courses.Vår) {
-            exchange.numSemesters = 1;
-          }
-          result.push(exchange);
-        }
-        return result;
-      }, []);
-    },
-    createExchange(baseExchange, courses) {
-      return {
-        ...baseExchange,
-        courses: courses,
-        numSemesters: 1,
-      };
     },
     showComments(course) {
       this.currentCourseName = course.courseName;
@@ -623,18 +506,6 @@ export default {
     },
     closeInformationDialog() {
       this.informationDialog = false;
-    },
-    getFlagUrl(country) {
-      const flagBaseUrl = "https://flagcdn.com/128x96/";
-      const countryCode = this.getCountryCode(country).toLowerCase();
-      return `${flagBaseUrl}${countryCode}.png`;
-    },
-    getCountryCode(country) {
-      if (this.locale === "en") {
-        return this.countriesInfo.countryCodes.en[country] || "unknown";
-      } else {
-        return this.countriesInfo.countryCodes.no[country] || "unknown";
-      }
     },
     checkIfFavorite(course) {
       return this.favoriteCourses.some(favCourse =>
