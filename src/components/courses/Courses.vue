@@ -461,10 +461,10 @@ export default {
           for (const course of allCourses) {
             if (!course.replacedCourseCode && !course.replacedCourseName) continue;
 
-            const code = course.replacedCourseCode || "";
+            const code = (course.replacedCourseCode || "").trim();
             const name = course.replacedCourseName || "Unknown";
 
-            if (!grouped[code]) {
+            if (!grouped[code.trim()]) {
               grouped[code] = {
                 id: code,
                 courseCode: code,
@@ -473,9 +473,11 @@ export default {
               };
             }
 
+            const countryTranslated = this.$t(`countries.${exchange.country}`);
+
             const courseWithMeta = {
               ...course,
-              country: exchange.country,
+              country: countryTranslated,
               university: exchange.university,
             };
 
