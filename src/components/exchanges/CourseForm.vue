@@ -16,13 +16,13 @@
 			<v-text-field v-model="localCourse.courseCode" :label="$t('database.courseCode')" :hint="$t('hints.courseCode')"
 				persistent-hint></v-text-field>
 
-			<!-- Replaced Course Code -->
-			<v-text-field v-model="localCourse.replacedCourseCode" :label="$t('database.replacedCourseCode')"
-				:hint="$t('hints.replacedCourseCode')" persistent-hint></v-text-field>
-
 			<!-- Replaced Course Name -->
 			<v-text-field v-model="localCourse.replacedCourseName" :label="$t('database.replacedCourseName')"
 				:hint="$t('hints.replacedCourseName')" persistent-hint></v-text-field>
+
+			<!-- Replaced Course Code -->
+			<v-text-field v-model="localCourse.replacedCourseCode" :label="$t('database.replacedCourseCode')"
+				:hint="$t('hints.replacedCourseCode')" persistent-hint></v-text-field>
 
 			<!-- Course Type -->
 			<v-select v-model="localCourse.courseType" :items="courseTypes" :label="$t('database.courseType')"
