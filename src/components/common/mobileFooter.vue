@@ -1,16 +1,16 @@
 <template>
 	<div>
 		<div class="footer-icons">
-			<router-link class="footer-icon" to="/">
+			<router-link class="footer-icon" to="/" @click="removeDropdowns">
 				<v-icon size="30px">mdi-home</v-icon>
 			</router-link>
-			<router-link class="footer-icon" to="/utvekslinger">
+			<router-link class="footer-icon" to="/utvekslinger" @click="removeDropdowns">
 				<v-icon size="30px">mdi-airplane-search</v-icon>
 			</router-link>
 			<a class="footer-icon" @click="toggleMenu">
 				<v-icon size="30px">mdi-menu</v-icon>
 			</a>
-			<router-link class="footer-icon" to="/min_utveksling">
+			<router-link class="footer-icon" to="/min_utveksling" @click="removeDropdowns">
 				<v-icon size="30px">mdi-airplane-edit</v-icon>
 			</router-link>
 			<a class="footer-icon" @click="toggleProfileDropdown">
@@ -66,9 +66,14 @@
 			</div>
 		</div>
 
+		<!-- Menu Dropdown -->
 		<div v-if="showMenuDropdown">
 			<div class="menu-dropdown">
 				<div class="profile-content">
+					<router-link class="footer-icon" to="/kurs" @click="showMenuDropdown = false">
+						<v-icon size="30px">mdi-book-education-outline</v-icon>
+						<span>{{ $t("navbar.coursesHeader") }}</span>
+					</router-link>
 					<router-link class="footer-icon" to="/faq" @click="showMenuDropdown = false">
 						<v-icon size="30px">mdi-chat-question</v-icon>
 						<span>{{ $t("navbar.faqHeader") }}</span>
@@ -87,7 +92,7 @@
 import { mapGetters } from "vuex";
 import { auth, db, provider } from "../../js/firebaseConfig";
 import { onAuthStateChanged, signOut, signInWithPopup } from "firebase/auth";
-import { ref as dbRef, get, set } from "firebase/database";
+import { ref as dbRef, get, remove, set } from "firebase/database";
 
 export default {
 	name: "MobileFooter",
@@ -114,6 +119,10 @@ export default {
 			}
 			this.showMenuDropdown = !this.showMenuDropdown;
 		},
+		removeDropdowns() {
+			this.showProfileDropDown = false;
+			this.showMenuDropdown = false;
+		},
 		async signOut() {
 			try {
 				await signOut(auth);
@@ -137,6 +146,10 @@ export default {
 		goToLogin() {
 			this.showProfileDropDown = false;
 			this.$router.push({ name: "Login" });
+		},
+		goToProfile() {
+			this.showProfileDropDown = false;
+			this.$router.push({ name: "Account" });
 		},
 	},
 	mounted() {
