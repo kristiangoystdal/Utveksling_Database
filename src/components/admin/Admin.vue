@@ -453,14 +453,17 @@ export default {
 
 					if (!exchange.courses) continue;
 
-					// Convert Høst and Vår to arrays
-					const host = toArray(exchange.courses.Høst);
-					const vaar = toArray(exchange.courses.Vår);
+					// Convert Høst and Vår to arrays AND FILTER OUT INVALID ITEMS
+					const host = toArray(exchange.courses.Høst).filter(
+						c => c && typeof c === "object"
+					);
+
+					const vaar = toArray(exchange.courses.Vår).filter(
+						c => c && typeof c === "object"
+					);
 
 					// Combine them
 					const all = [...host, ...vaar];
-
-
 
 					for (const course of all) {
 						let semester = "";
@@ -468,15 +471,16 @@ export default {
 						// Check if course is inside Høst
 						if (exchange.courses.Høst) {
 							const hostList = toArray(exchange.courses.Høst);
-							if (hostList.some(c => c.courseCode === course.courseCode)) {
+							if (hostList.some(c => JSON.stringify(c) === JSON.stringify(course))) {
 								semester = "Høst";
 							}
+
 						}
 
 						// Check if course is inside Vår
 						if (!semester && exchange.courses.Vår) {
 							const vaarList = toArray(exchange.courses.Vår);
-							if (vaarList.some(c => c.courseCode === course.courseCode)) {
+							if (vaarList.some(c => JSON.stringify(c) === JSON.stringify(course))) {
 								semester = "Vår";
 							}
 						}
