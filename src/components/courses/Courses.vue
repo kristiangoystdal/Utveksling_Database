@@ -17,7 +17,7 @@
   <!-- Data Table -->
   <div v-if="!isMobile">
     <v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="courseList" item-value="id"
-      show-expand class="main-table" id="main-table-width" :search="courseSearch">
+      show-expand class="main-table dense-table" id="main-table-width" :search="courseSearch">
 
 
       <template v-slot:expanded-row="{ columns, item }">
@@ -56,7 +56,7 @@
   <div v-else>
     <v-data-table :headers="translatedMobileHeaders" v-model:expanded="expanded" :items="courseList" item-value="id"
       show-expand class="main-table fixed-table" id="main-table-width" :fixed-header="false" :style="{ width: '100%' }"
-      item-class="custom-item-class" header-class="custom-header-class">
+      item-class="custom-item-class" header-class="custom-header-class" :search="courseSearch">
       <template v-slot:item.country="{ item }">
         <div style="display: flex; align-items: center">
           <img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 8px" />
@@ -67,113 +67,58 @@
         <tr>
           <td :colspan="translatedMobileHeaders.length + 1">
             <div class="expanded-content">
-              <div>
-                <div class="text-underline text-medium">
-                  {{ $t("exchanges.courseInformation") }}
-                </div>
-                <v-container>
-                  <v-row no-gutters>
-                    <v-col cols="6" class="text-bold">
-                      {{ $t("database.country") }}:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.country }}
-                    </v-col>
-                  </v-row>
-                  <v-row no-gutters>
-                    <v-col cols="6" class="text-bold">
-                      {{ $t("database.specialization") }}:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.specialization }}
-                    </v-col>
-                  </v-row>
-                  <v-row no-gutters>
-                    <v-col cols="6" class="text-bold">
-                      {{ $t("database.numSemesters") }}:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.numSemesters }}
-                    </v-col>
-                  </v-row>
-                  <v-row no-gutters>
-                    <v-col cols="6" class="text-bold">
-                      {{ $t("database.studyYear") }}:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.studyYear }}
-                    </v-col>
-                  </v-row>
-                  <br />
-                  <div v-if="item.courses.Høst">
-                    <v-row no-gutters class="text-bold" style="font-size: 15px; text-decoration: underline">
-                      {{ $t("exchanges.coursesFallHeader") }}
-                    </v-row>
-                    <v-row no-gutters style="margin-bottom: 5px">
-                      <v-col cols="5" class="text-bold" style="padding-right: 5px">
-                        {{ $t("database.courseName") }}
-                      </v-col>
-                      <v-col cols="3" class="text-bold" style="padding-right: 5px">
-                        {{ $t("database.courseCode") }}
-                      </v-col>
-                      <v-col cols="4" class="text-bold" style="padding-right: 5px">
-                        {{ $t("database.ETCSPoints") }}
+              <div class="text-underline text-medium">
+                {{ $t("courses.information") }}
+              </div>
+
+              <div v-for="(course, index) in item.courses" :key="index" class="course-block">
+
+                <h3 class="text-bold" style="margin: 10px 0 5px 0">
+                  {{ course.courseName }} ({{ course.courseCode }})
+                </h3>
+
+                <v-row no-gutters>
+                  <v-col cols="9" style="margin-left: 5px;">
+                    <v-row no-gutters>
+                      <v-col cols="12">
+                        <strong>{{ $t("database.university") }}:</strong> {{ course.university }}
                       </v-col>
                     </v-row>
-                    <v-row v-for="(course, index) in item.courses.Høst" :key="index" class="mb-3" no-gutters>
-                      <v-col cols="5">
-                        {{ course.courseName }}
+                    <v-row no-gutters>
+                      <v-col cols="6">
+                        <strong>{{ $t("database.country") }}:</strong> {{ course.country }}
                       </v-col>
-                      <v-col cols="3">
-                        {{ course.courseCode }}
-                      </v-col>
-                      <v-col cols="3">
-                        {{ course.ETCSPoints }}
-                      </v-col>
-                      <v-col cols="1">
-                        <v-icon small class="mr-2" @click="toggleInformationDialog(course)">
-                          mdi-dots-horizontal
-                        </v-icon>
+                      <v-col cols="6">
+                        <strong>{{ $t("database.ETCSPoints") }}:</strong> {{ course.ETCSPoints }}
                       </v-col>
                     </v-row>
-                  </div>
-                  <div v-if="item.courses.Vår && item.courses.Vår.length > 0">
-                    <v-row no-gutters class="text-bold" style="font-size: 15px; text-decoration: underline">
-                      {{ $t("exchanges.coursesSpringHeader") }}
-                    </v-row>
-                    <v-row no-gutters style="margin-bottom: 5px">
-                      <v-col cols="5" class="text-bold" style="padding-right: 5px">
-                        {{ $t("database.courseName") }}
-                      </v-col>
-                      <v-col cols="3" class="text-bold" style="padding-right: 5px">
-                        {{ $t("database.courseCode") }}
-                      </v-col>
-                      <v-col cols="4" class="text-bold" style="padding-right: 5px">
-                        {{ $t("database.ETCSPoints") }}
-                      </v-col>
-                    </v-row>
-                    <v-row v-for="(course, index) in item.courses.Vår" :key="index" class="mb-3" no-gutters>
-                      <v-col cols="5">
-                        {{ course.courseName }}
-                      </v-col>
-                      <v-col cols="3">
-                        {{ course.courseCode }}
-                      </v-col>
-                      <v-col cols="3">
-                        {{ course.ETCSPoints }}
-                      </v-col>
-                      <v-col cols="1">
-                        <v-icon small class="mr-2" @click="toggleInformationDialog(course)">
-                          mdi-dots-horizontal
-                        </v-icon>
-                      </v-col>
-                    </v-row>
-                  </div>
-                </v-container>
+                  </v-col>
+
+                  <v-col cols="2" style="margin-left: 5px;">
+                    <div style=" display: flex; flex-direction: column; align-items: center; gap: 8px">
+                      <v-icon v-if="course.comments && course.comments.trim() !== ''" small
+                        @click="showComments(course)">
+                        mdi-comment
+                      </v-icon>
+                      <v-icon v-else small>mdi-comment-off</v-icon>
+
+                      <v-icon v-if="!checkIfFavorite(course)" small @click="toggleFavorite(course)">
+                        mdi-heart-outline
+                      </v-icon>
+                      <v-icon v-else small color="red" @click="toggleFavorite(course)">
+                        mdi-heart
+                      </v-icon>
+                    </div>
+                  </v-col>
+                </v-row>
+
+                <v-divider v-if="index < item.courses.length - 1" style="margin: 10px 0"></v-divider>
+
               </div>
             </div>
           </td>
         </tr>
+
       </template>
     </v-data-table>
   </div>
@@ -261,6 +206,7 @@ import { set, get, child, ref as dbRef } from "firebase/database";
 import { useI18n } from "vue-i18n";
 import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
+import { count, group } from "d3";
 
 export default {
   setup() {
@@ -306,22 +252,22 @@ export default {
     },
     translatedHeaders() {
       return [
-        {
-          align: "center",
-          key: "",
-        },
+
         {
           title: this.t("database.courseCode"),
           align: "start",
           key: "courseCode",
-          length: 1,
+          length: 2,
         },
         {
           title: this.t("database.courseName"),
-          align: "end",
+          align: "start",
           key: "courseName",
         },
-      ];
+        { title: this.t("courses.availableCourses"), key: "count", align: "center" },
+        { title: this.t("courses.availableSemesters"), key: "semesters", align: "end" },
+
+      ]; ''
     },
     translatedHeadersCourses() {
       return [
@@ -365,52 +311,43 @@ export default {
     translatedMobileHeaders() {
       return [
         {
-          align: "start",
-          key: "country",
+          align: "center",
+          key: "",
         },
         {
-          title: this.t("database.university"),
+          title: this.t("database.courseCode"),
           align: "start",
-          key: "university",
+          key: "courseCode",
+          length: 1,
         },
         {
-          title: this.t("database.study"),
+          title: this.t("database.courseName"),
           align: "end",
-          key: "study",
+          key: "courseName",
         },
       ];
     },
     translatedMobileHeadersCourses() {
       return [
         {
+          title: this.t("database.courseCode"),
+          align: "start",
+          key: "courseCode",
+        },
+        {
           title: this.t("database.courseName"),
           align: "start",
           key: "courseName",
         },
         {
-          title: this.t("database.courseCode"),
+          title: this.t("database.country"),
           align: "end",
-          key: "courseCode",
+          key: "country",
         },
         {
-          title: this.t("database.replacedCourseName"),
+          title: this.t("database.university"),
           align: "end",
-          key: "replacedCourseName",
-        },
-        {
-          title: this.t("database.replacedCourseCode"),
-          align: "end",
-          key: "replacedCourseCode",
-        },
-        {
-          title: this.t("database.courseType"),
-          align: "end",
-          key: "courseType",
-        },
-        {
-          title: this.t("database.institute"),
-          align: "end",
-          key: "institute",
+          key: "university",
         },
         {
           title: this.t("database.ETCSPoints"),
@@ -421,6 +358,11 @@ export default {
           title: this.t("database.comments"),
           align: "end",
           key: "comment",
+        },
+        {
+          title: "",
+          align: "end",
+          key: "favorite",
         },
       ];
     },
@@ -459,10 +401,19 @@ export default {
           const allCourses = [...host, ...vaar];
 
           for (const course of allCourses) {
-            if (!course.replacedCourseCode) continue;
+            if (!course) continue;
+            if (!course.replacedCourseCode && !course.replacedCourseName) continue;
 
             const code = (course.replacedCourseCode || "").trim();
             const name = course.replacedCourseName || "";
+
+            const semesters = [];
+            if (host.includes(course)) {
+              semesters.push(this.t("courses.fall"));
+            }
+            if (vaar.includes(course)) {
+              semesters.push(this.t("courses.spring"));
+            }
 
             if (!grouped[code.trim()]) {
               grouped[code] = {
@@ -482,6 +433,26 @@ export default {
             };
 
             grouped[code].courses.push(courseWithMeta);
+
+            grouped[code].count = grouped[code].courses.length;
+
+            if (grouped[code].semesters) {
+              const existingSemesters = new Set(
+                grouped[code].semesters.split(", ")
+              );
+              semesters.forEach((sem) => existingSemesters.add(sem));
+              grouped[code].semesters = Array.from(existingSemesters).join(", ");
+            } else {
+              grouped[code].semesters = semesters.join(", ");
+            }
+            // Sort semesters
+            const semesterOrder = [this.t("courses.fall"), this.t("courses.spring")];
+            grouped[code].semesters = grouped[code].semesters
+              .split(", ")
+              .sort((a, b) => semesterOrder.indexOf(a) - semesterOrder.indexOf(b))
+              .join(", ");
+
+
           }
         }
 
