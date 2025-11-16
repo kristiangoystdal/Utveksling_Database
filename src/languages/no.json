@@ -56,12 +56,18 @@
 		"profileHeader": "Profil",
 		"loginHeader": "Logg inn",
 		"adminHeader": "Admin",
-		"faqHeader": "Ofte stilte spørsmål"
+		"faqHeader": "Ofte stilte spørsmål",
+		"coursesHeader": "Fag"
 	},
 	"courses": {
 		"pageHeader": "Fagoversikt:",
 		"info": "Her kan du få en oversikt over hvilke fag som erstatter NTNU fag hos de ulike utvekslingsuniversitetene.",
-		"search": "Søk etter NTNU fag"
+		"search": "Søk etter NTNU fag",
+		"information": "Tilsvarende fag ved utvekslingsuniversiteter:",
+		"fall": "Høst",
+		"spring": "Vår",
+		"availableSemesters": "Tilgjengelige semestre",
+		"availableCourses": "Tilgjengelige fag"
 	},
 	"exchanges": {
 		"pageHeader": "Tidligere utvekslinger:",
@@ -201,7 +207,8 @@
 		"question": "Spørsmål",
 		"answer": "Svar",
 		"editExchangeTitle": "Rediger utveksling",
-		"addExchangeTitle": "Legg til utveksling"
+		"addExchangeTitle": "Legg til utveksling",
+		"courseListTitle": "Fagliste"
 	},
 	"notifications": {
 		"loginSuccess": "Innlogging vellykket",

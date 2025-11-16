@@ -56,12 +56,18 @@
 		"profileHeader": "Profile",
 		"loginHeader": "Login",
 		"adminHeader": "Admin",
-		"faqHeader": "FAQ"
+		"faqHeader": "FAQ",
+		"coursesHeader": "Courses"
 	},
 	"courses": {
 		"pageHeader": "Course Overview:",
 		"info": "Here you can explore what the courses from NTNU have been replaced with at the host universities.",
-		"search": "Search for course code or course name"
+		"search": "Search for course code or course name",
+		"information": "Equivalent courses at host universities:",
+		"fall": "Fall",
+		"spring": "Spring",
+		"availableSemesters": "Available Semesters",
+		"availableCourses": "Available Courses"
 	},
 	"exchanges": {
 		"pageHeader": "Previous Exchanges:",
@@ -201,7 +207,8 @@
 		"question": "Question",
 		"answer": "Answer",
 		"editExchangeTitle": "Edit Exchange",
-		"addExchangeTitle": "Add Exchange"
+		"addExchangeTitle": "Add Exchange",
+		"courseListTitle": "Course List"
 	},
 	"notifications": {
 		"loginSuccess": "Login successful",
