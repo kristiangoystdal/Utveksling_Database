@@ -26,6 +26,11 @@
 								$t("navbar.myexchangeHeader")
 							}}</router-link>
 						</li>
+						<li>
+							<router-link to="/kurs">{{
+								$t("navbar.coursesHeader")
+							}}</router-link>
+						</li>
 						<li ref="profileSwitcher">
 							<a @click="toggleProfileDropdown">{{ authButtonText }}</a>
 							<div v-if="showProfileDropDown" class="profile-dropdown">
