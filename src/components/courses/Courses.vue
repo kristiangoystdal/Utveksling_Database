@@ -451,8 +451,6 @@ export default {
               .split(", ")
               .sort((a, b) => semesterOrder.indexOf(a) - semesterOrder.indexOf(b))
               .join(", ");
-
-
           }
         }
 
