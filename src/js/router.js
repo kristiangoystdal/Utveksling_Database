@@ -10,6 +10,7 @@ import FAQ from '../components/windows/FAQ.vue';
 import Admin from '../components/admin/Admin.vue';
 import NotFound from '../components/error/NotFound.vue';
 import Upload from '../components/windows/Upload.vue';
+import Courses from '../components/courses/Courses.vue';
 
 import store from './store.js';
 import { translate } from './i18n';
@@ -24,7 +25,8 @@ const routes = [
   { path: '/admin', name: 'Admin', component: Admin, meta: { requiresAuth: true } },
   { path: '/faq', name: 'FAQ', component: FAQ },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
-  { path: '/last_opp', name: 'Upload', component: Upload }
+  { path: '/last_opp', name: 'Upload', component: Upload },
+  { path: '/kurs', name: 'Courses', component: Courses }
 ];
 
 const router = createRouter({

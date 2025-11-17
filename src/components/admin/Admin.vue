@@ -49,6 +49,20 @@
 			<v-btn class="btn-primary" @click="openExchangeDialog">{{ $t("adminPage.addExchangeTitle") }}</v-btn>
 		</v-card>
 
+		<br><br>
+		<!-- Course Search  -->
+		<v-card style="padding: 20px ;">
+			<h3>{{ $t("adminPage.courseListTitle") }} ({{ courseData.length }})</h3>
+			<v-text-field v-model="courseSearch" label="Search" prepend-inner-icon="mdi-magnify" variant="outlined"
+				hide-details single-line density="compact"
+				style="width: 95%; margin: 10px auto; border-radius: 5px;"></v-text-field>
+			<!-- Course list content goes here -->
+			<v-data-table :headers="courseHeaders" :items="courseData" :items-per-page="5" :search="courseSearch"
+				density="compact">
+			</v-data-table>
+		</v-card>
+
+
 		<!-- Edit FAQ Dialog -->
 		<v-dialog v-model="faqDialog" max-width="500px">
 			<v-card class="mb-4">
@@ -116,6 +130,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { toast } from "vue3-toastify";
 import Confirmation from "../common/Confirmation.vue";
 import EditExchange from "./EditExchange.vue";
+import { count } from "d3";
 
 export default {
 	components: { Confirmation, EditExchange },
@@ -183,6 +198,18 @@ export default {
 			faqConfirmation: false,
 			exchangeConfirmation: false,
 			exchangeSearch: '',
+			courseSearch: '',
+			courseHeaders: [
+				{ title: this.$t("database.courseCode"), value: 'code', width: '5%' },
+				{ title: this.$t("database.courseName"), value: 'name', width: '10%' },
+				{ title: this.$t("database.replacedCourseCode"), value: 'replacedCourseCode', width: '10%', align: 'center' },
+				{ title: this.$t("database.replacedCourseName"), value: 'replacedCourseName', width: '20%', align: 'center' },
+				{ title: this.$t("database.university"), value: 'university', width: '15%', align: 'center' },
+				{ title: this.$t("database.semester"), value: 'semester', width: '10%', align: 'center' },
+				{ title: this.$t("database.year"), value: 'year', width: '5%', align: 'center' },
+				{ title: this.$t("database.ECTSPoints"), value: 'ECTSPoints', width: '5%', align: 'center' },
+			],
+			courseData: [],
 		};
 	},
 	methods: {
@@ -194,6 +221,7 @@ export default {
 					this.loadUserData();
 					this.loadFAQData();
 					this.loadExchangeData();
+					this.fetchCourseData();
 				} else {
 					this.userData = null;
 					this.users = [];
@@ -406,6 +434,93 @@ export default {
 				secondCountry: "null",
 			};
 		},
+		async fetchCourseData() {
+			try {
+				const snapshot = await get(dbRef(db, "exchanges"));
+				if (!snapshot.exists()) {
+					console.error("No exchange data available");
+					return;
+				}
+
+				const exchanges = snapshot.val();
+				const courseList = [];
+
+				const toArray = (obj) =>
+					Array.isArray(obj) ? obj : Object.values(obj || {});
+
+				for (const exchangeID in exchanges) {
+					const exchange = exchanges[exchangeID];
+
+					if (!exchange.courses) continue;
+
+					// Convert Høst and Vår to arrays AND FILTER OUT INVALID ITEMS
+					const host = toArray(exchange.courses.Høst).filter(
+						c => c && typeof c === "object"
+					);
+
+					const vaar = toArray(exchange.courses.Vår).filter(
+						c => c && typeof c === "object"
+					);
+
+					// Combine them
+					const all = [...host, ...vaar];
+
+					for (const course of all) {
+						let semester = "";
+
+						// Check if course is inside Høst
+						if (exchange.courses.Høst) {
+							const hostList = toArray(exchange.courses.Høst);
+							if (hostList.some(c => JSON.stringify(c) === JSON.stringify(course))) {
+								semester = "Høst";
+							}
+
+						}
+
+						// Check if course is inside Vår
+						if (!semester && exchange.courses.Vår) {
+							const vaarList = toArray(exchange.courses.Vår);
+							if (vaarList.some(c => JSON.stringify(c) === JSON.stringify(course))) {
+								semester = "Vår";
+							}
+						}
+
+						courseList.push({
+							code: course.courseCode ?? "",
+							name: course.courseName ?? "",
+							replacedCourseCode: course.replacedCourseCode ?? "",
+							replacedCourseName: course.replacedCourseName ?? "",
+							university: exchange.university ?? "",
+							semester,
+							year: course.year ?? "",
+							ECTSPoints: course.ECTSPoints ?? "",
+						});
+					}
+				}
+
+				// Remove duplicate entries based on the course code + name
+				const unique = [];
+				const seen = new Set();
+
+				for (const c of courseList) {
+					const key = `${c.code}__${c.name}`;
+					if (!seen.has(key)) {
+						seen.add(key);
+						unique.push(c);
+					}
+				}
+
+				// Sort alphabetically
+				unique.sort((a, b) => a.code.localeCompare(b.code));
+
+				// Assign final data to table
+				this.courseData = unique;
+
+			} catch (error) {
+				console.error("Error fetching course data:", error);
+			}
+		}
+
 	},
 	mounted() {
 		this.onAuthStateChanged();

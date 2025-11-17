@@ -12,7 +12,7 @@
             <strong>{{ course.courseName }}</strong> ({{ course.courseCode }})<br />
             {{ course.replacedCourseName }} – {{ course.replacedCourseCode }}<br />
             {{ course.institute }}<br />
-            {{ course.ETCSPoints }} ECTS – {{ course.courseType }} – {{ course.year }} <br />
+            {{ course.ECTSPoints }} ECTS – {{ course.courseType }} – {{ course.year }} <br />
             {{ course.country ? course.country : '' }}
             {{ course.university ? '– ' + course.university : '' }}<br />
             <span v-if="course.comments"><em>{{ $t('database.comments') }}: {{ course.comments }}</em></span><br />
@@ -65,7 +65,7 @@ export default {
         "Replaced Course Name",
         "Replaced Course Code",
         "Institute",
-        "ETCS Points",
+        "ECTS Points",
         "Course Type",
         "Year",
         "Comments",
@@ -76,7 +76,7 @@ export default {
         course.replacedCourseName,
         course.replacedCourseCode,
         course.institute,
-        course.ETCSPoints,
+        course.ECTSPoints,
         course.courseType,
         course.year,
         course.comments || "",
@@ -127,7 +127,7 @@ export default {
             180
           );
           yOffset = wrapText(`Institute: ${course.institute}`, 10, yOffset, 180);
-          yOffset = wrapText(`ETCS Points: ${course.ETCSPoints}`, 10, yOffset, 180);
+          yOffset = wrapText(`ECTS Points: ${course.ECTSPoints}`, 10, yOffset, 180);
           yOffset = wrapText(`Course Type: ${course.courseType}`, 10, yOffset, 180);
           yOffset = wrapText(`Year: ${course.year}`, 10, yOffset, 180);
           yOffset = wrapText(`Comments: ${course.comments || "N/A"}`, 10, yOffset, 180);

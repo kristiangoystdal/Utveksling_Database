@@ -24,7 +24,7 @@
           "replacedCourseCode": "INF1010",
           "replacedCourseName": "Objektorientert programmering",
           "institute": "Department of Computer Science",
-          "ETCSPoints": 7.5,
+          "ECTSPoints": 7.5,
           "comments": "Veldig bra fag!"
         },
         "2": {
@@ -35,7 +35,7 @@
           "replacedCourseCode": "INF1010",
           "replacedCourseName": "Objektorientert programmering",
           "institute": "Department of Computer Science",
-          "ETCSPoints": 7.5,
+          "ECTSPoints": 7.5,
           "comments": "Veldig bra fag!"
         }
       },
@@ -48,7 +48,7 @@
           "replacedCourseCode": "384",
           "replacedCourseName": "Objektorientert programmering",
           "institute": "Department of Computer Science",
-          "ETCSPoints": 6,
+          "ECTSPoints": 6,
           "comments": "Vanskelig"
         },
         "2": {
@@ -59,7 +59,7 @@
           "replacedCourseCode": "INF1010",
           "replacedCourseName": "Objektorientert programmering",
           "institute": "Department of Computer Science",
-          "ETCSPoints": 7.5,
+          "ECTSPoints": 7.5,
           "comments": "Supert!"
         }
       }

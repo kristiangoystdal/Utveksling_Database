@@ -21,6 +21,12 @@
 								$t("navbar.programHeader")
 							}}</router-link>
 						</li>
+
+						<li>
+							<router-link to="/kurs">{{
+								$t("navbar.coursesHeader")
+							}}</router-link>
+						</li>
 						<li>
 							<router-link to="/min_utveksling">{{
 								$t("navbar.myexchangeHeader")

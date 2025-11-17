@@ -1,8 +1,8 @@
 {
 	"common": {
-		"welcome": "Welcome to the Exchange Portal!",
+		"welcome": "Welcome to Utvekslingsportalen!",
 		"goodbye": "Goodbye",
-		"siteName": "Exchange Portal",
+		"siteName": "Utvekslingsportalen",
 		"siteDescription": "This site is a tool for students at NTNU to plan and document their exchange studies. \n\n Here you can see which courses other students have taken during their exchange, and you can create your own plan for your exchange.",
 		"mobileWarning": "This site is not optimized for mobile devices. Please use a computer or tablet for the best experience.",
 		"createExchange": "Create Exchange",
@@ -26,7 +26,7 @@
 		"replacedCourseName": "Enter the name of the NTNU course you will replace",
 		"courseType": "Select the type of course you will take (mandatory, elective, etc.)",
 		"institute": "Enter the institute the course belongs to at the university you will attend",
-		"ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's units if necessary)",
+		"ECTSPoints": "Enter the number of ECTS points the course provides (convert from the university's units if necessary)",
 		"year": "Enter the year you started your exchange"
 	},
 	"database": {
@@ -43,7 +43,7 @@
 		"replacedCourseName": "Replaced Course Name",
 		"replacedCourseCode": "Replaced Course Code",
 		"institute": "Institute",
-		"ETCSPoints": "ETCS Points",
+		"ECTSPoints": "ECTS Points",
 		"comments": "Comments",
 		"favorite": "Favorite",
 		"year": "Year"
@@ -56,7 +56,18 @@
 		"profileHeader": "Profile",
 		"loginHeader": "Login",
 		"adminHeader": "Admin",
-		"faqHeader": "FAQ"
+		"faqHeader": "FAQ",
+		"coursesHeader": "Courses"
+	},
+	"courses": {
+		"pageHeader": "Course Overview:",
+		"info": "Here you can explore what the courses from NTNU have been replaced with at the host universities.",
+		"search": "Search for course code or course name",
+		"information": "Equivalent courses at host universities:",
+		"fall": "Fall",
+		"spring": "Spring",
+		"availableSemesters": "Available Semesters",
+		"availableCourses": "Available Courses"
 	},
 	"exchanges": {
 		"pageHeader": "Previous Exchanges:",
@@ -196,7 +207,8 @@
 		"question": "Question",
 		"answer": "Answer",
 		"editExchangeTitle": "Edit Exchange",
-		"addExchangeTitle": "Add Exchange"
+		"addExchangeTitle": "Add Exchange",
+		"courseListTitle": "Course List"
 	},
 	"notifications": {
 		"loginSuccess": "Login successful",
