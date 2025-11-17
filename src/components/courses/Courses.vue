@@ -252,22 +252,37 @@ export default {
     },
     translatedHeaders() {
       return [
-
+        {
+          align: "center",
+          key: "",
+          width: "8%",
+          sortable: false,
+        },
         {
           title: this.t("database.courseCode"),
           align: "start",
           key: "courseCode",
-          length: 2,
+          width: "12%",
         },
         {
           title: this.t("database.courseName"),
           align: "start",
           key: "courseName",
+          width: "45%",
         },
-        { title: this.t("courses.availableCourses"), key: "count", align: "center" },
-        { title: this.t("courses.availableSemesters"), key: "semesters", align: "end" },
-
-      ]; ''
+        {
+          title: this.t("courses.availableCourses"),
+          key: "count",
+          align: "center",
+          width: "15%",
+        },
+        {
+          title: this.t("courses.availableSemesters"),
+          key: "semesters",
+          align: "end",
+          width: "40%",
+        },
+      ];
     },
     translatedHeadersCourses() {
       return [
@@ -305,6 +320,7 @@ export default {
           title: "",
           align: "end",
           key: "favorite",
+          sortable: false,
         },
       ];
     },
@@ -313,6 +329,7 @@ export default {
         {
           align: "center",
           key: "",
+          sortable: false,
         },
         {
           title: this.t("database.courseCode"),
@@ -363,6 +380,7 @@ export default {
           title: "",
           align: "end",
           key: "favorite",
+          sortable: false,
         },
       ];
     },
