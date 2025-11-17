@@ -566,8 +566,8 @@ export default {
 				if (!course.courseName) {
 					missingFields.push(this.$t("database.courseName").toLowerCase());
 				}
-				if (!course.ETCSPoints) {
-					missingFields.push(this.$t("database.ETCSPoints"));
+				if (!course.ECTSPoints) {
+					missingFields.push(this.$t("database.ECTSPoints"));
 				}
 
 				if (missingFields.length > 0) {
@@ -578,13 +578,13 @@ export default {
 		missingFallCourseDataBool() {
 			return (semester, cIndex) => {
 				const course = this.userExchange.courses[semester][cIndex] || {};
-				return !course.courseName || !course.ETCSPoints;
+				return !course.courseName || !course.ECTSPoints;
 			};
 		},
 		missingSpringCourseDataBool() {
 			return (semester, cIndex) => {
 				const course = this.userExchange.courses[semester][cIndex] || {};
-				return !course.courseName || !course.ETCSPoints;
+				return !course.courseName || !course.ECTSPoints;
 			};
 		},
 		missingFallCoursesDataTotalBool() {
@@ -759,7 +759,7 @@ export default {
 					replacedCourseCode: "",
 					replacedCourseName: "",
 					institute: "",
-					ETCSPoints: "",
+					ECTSPoints: "",
 					comments: "",
 				},
 			};

@@ -207,7 +207,7 @@ export default {
 				{ title: this.$t("database.university"), value: 'university', width: '15%', align: 'center' },
 				{ title: this.$t("database.semester"), value: 'semester', width: '10%', align: 'center' },
 				{ title: this.$t("database.year"), value: 'year', width: '5%', align: 'center' },
-				{ title: this.$t("database.ETCSPoints"), value: 'ETCSPoints', width: '5%', align: 'center' },
+				{ title: this.$t("database.ECTSPoints"), value: 'ECTSPoints', width: '5%', align: 'center' },
 			],
 			courseData: [],
 		};
@@ -493,7 +493,7 @@ export default {
 							university: exchange.university ?? "",
 							semester,
 							year: course.year ?? "",
-							ETCSPoints: course.ETCSPoints ?? "",
+							ECTSPoints: course.ECTSPoints ?? "",
 						});
 					}
 				}

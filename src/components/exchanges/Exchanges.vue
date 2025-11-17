@@ -245,7 +245,7 @@
 												{{ $t("database.courseCode") }}
 											</v-col>
 											<v-col cols="4" class="text-bold" style="padding-right: 5px">
-												{{ $t("database.ETCSPoints") }}
+												{{ $t("database.ECTSPoints") }}
 											</v-col>
 										</v-row>
 										<v-row v-for="(course, index) in item.courses.Høst" :key="index" class="mb-3" no-gutters>
@@ -256,7 +256,7 @@
 												{{ course.courseCode }}
 											</v-col>
 											<v-col cols="3">
-												{{ course.ETCSPoints }}
+												{{ course.ECTSPoints }}
 											</v-col>
 											<v-col cols="1">
 												<v-icon small class="mr-2" @click="toggleInformationDialog(course)">
@@ -277,7 +277,7 @@
 												{{ $t("database.courseCode") }}
 											</v-col>
 											<v-col cols="4" class="text-bold" style="padding-right: 5px">
-												{{ $t("database.ETCSPoints") }}
+												{{ $t("database.ECTSPoints") }}
 											</v-col>
 										</v-row>
 										<v-row v-for="(course, index) in item.courses.Vår" :key="index" class="mb-3" no-gutters>
@@ -288,7 +288,7 @@
 												{{ course.courseCode }}
 											</v-col>
 											<v-col cols="3">
-												{{ course.ETCSPoints }}
+												{{ course.ECTSPoints }}
 											</v-col>
 											<v-col cols="1">
 												<v-icon small class="mr-2" @click="toggleInformationDialog(course)">
@@ -521,9 +521,9 @@ export default {
 					key: "institute",
 				},
 				{
-					title: this.t("database.ETCSPoints"),
+					title: this.t("database.ECTSPoints"),
 					align: "end",
-					key: "ETCSPoints",
+					key: "ECTSPoints",
 				},
 				{
 					title: this.t("database.comments"),
@@ -588,9 +588,9 @@ export default {
 					key: "institute",
 				},
 				{
-					title: this.t("database.ETCSPoints"),
+					title: this.t("database.ECTSPoints"),
 					align: "end",
-					key: "ETCSPoints",
+					key: "ECTSPoints",
 				},
 				{
 					title: this.t("database.comments"),

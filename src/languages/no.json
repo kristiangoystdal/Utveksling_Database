@@ -26,7 +26,7 @@
 		"replacedCourseName": "Skriv inn navet på faget på NTNU du skal erstatte",
 		"courseType": "Skriv inn hva slags type fag det er (O-, I-, K-emne eller blankt)",
 		"institute": "Skriv inn instituttet faget tilhører på universitetet du skal til",
-		"ETCSPoints": "Skriv inn hvor mange ETCS poeng faget gir (konverter fra universitetes enhet til ETCS)",
+		"ECTSPoints": "Skriv inn hvor mange ECTS poeng faget gir (konverter fra universitetes enhet til ECTS)",
 		"year": "Skriv inn året du begynte på utveksling"
 	},
 	"database": {
@@ -43,7 +43,7 @@
 		"replacedCourseCode": "Erstattet fagkode",
 		"courseType": "Fag type",
 		"institute": "Institutt",
-		"ETCSPoints": "ETCS poeng",
+		"ECTSPoints": "ECTS poeng",
 		"comments": "Kommentar",
 		"favorite": "Favoritt",
 		"year": "År"
@@ -87,7 +87,7 @@
 	},
 	"myExchange": {
 		"pageHeader": "Din utveksling:",
-		"info": "Opprett eller endre din oversikt over fagene du har tatt på utveksling. \n\nFagnavn og antall ETCS poeng er påkrevd, hvor ETCS poengene skal være konvertert fra universitetes lokale enhet. \n\nHvis ditt studieprogram eller spesialisering ikke finnes i listen, vennligst kontakt oss.",
+		"info": "Opprett eller endre din oversikt over fagene du har tatt på utveksling. \n\nFagnavn og antall ECTS poeng er påkrevd, hvor ECTS poengene skal være konvertert fra universitetes lokale enhet. \n\nHvis ditt studieprogram eller spesialisering ikke finnes i listen, vennligst kontakt oss.",
 		"missingData": "Manglende data på",
 		"unsavedChanges": "Du har ulagret data. Husk å oppdatere.",
 		"noChanges": "All data er lagret og utveksling er oppdatert.",

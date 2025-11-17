@@ -245,7 +245,7 @@ export default {
       const idx = Object.keys(this.localExchange.courses[semester]).length;
       this.localExchange.courses[semester][idx] = {
         courseName: "",
-        ETCSPoints: "",
+        ECTSPoints: "",
         replacedCourseName: "",
       };
     },

@@ -2,11 +2,11 @@
 	<div class="zero-padding">
 		<h3>Legg til/Endre fag</h3>
 		<v-form ref="form" v-model="valid" lazy-validation class="zero-padding">
-			<!-- ETCS Points -->
-			<v-text-field v-model="localCourse.ETCSPoints" :label="$t('database.ETCSPoints')" :rules="[
+			<!-- ECTS Points -->
+			<v-text-field v-model="localCourse.ECTSPoints" :label="$t('database.ECTSPoints')" :rules="[
 				(v) => !!v || $t('rules.required'),
 				(v) => !isNaN(v) || $t('rules.validNumber'),
-			]" :hint="$t('hints.ETCSPoints')" required persistent-hint></v-text-field>
+			]" :hint="$t('hints.ECTSPoints')" required persistent-hint></v-text-field>
 
 			<!-- Course Name -->
 			<v-text-field v-model="localCourse.courseName" :label="$t('database.courseName')" :rules="courseRules" required
@@ -68,7 +68,7 @@ export default {
 				replacedCourseName: "",
 				courseType: "",
 				institute: "",
-				ETCSPoints: "",
+				ECTSPoints: "",
 				comments: "",
 			}),
 		},

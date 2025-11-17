@@ -26,7 +26,7 @@
 		"replacedCourseName": "Enter the name of the NTNU course you will replace",
 		"courseType": "Select the type of course you will take (mandatory, elective, etc.)",
 		"institute": "Enter the institute the course belongs to at the university you will attend",
-		"ETCSPoints": "Enter the number of ETCS points the course provides (convert from the university's units if necessary)",
+		"ECTSPoints": "Enter the number of ECTS points the course provides (convert from the university's units if necessary)",
 		"year": "Enter the year you started your exchange"
 	},
 	"database": {
@@ -43,7 +43,7 @@
 		"replacedCourseName": "Replaced Course Name",
 		"replacedCourseCode": "Replaced Course Code",
 		"institute": "Institute",
-		"ETCSPoints": "ETCS Points",
+		"ECTSPoints": "ECTS Points",
 		"comments": "Comments",
 		"favorite": "Favorite",
 		"year": "Year"

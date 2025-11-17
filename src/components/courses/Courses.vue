@@ -89,7 +89,7 @@
                         <strong>{{ $t("database.country") }}:</strong> {{ course.country }}
                       </v-col>
                       <v-col cols="6">
-                        <strong>{{ $t("database.ETCSPoints") }}:</strong> {{ course.ETCSPoints }}
+                        <strong>{{ $t("database.ECTSPoints") }}:</strong> {{ course.ECTSPoints }}
                       </v-col>
                     </v-row>
                   </v-col>
@@ -307,9 +307,9 @@ export default {
           key: "university",
         },
         {
-          title: this.t("database.ETCSPoints"),
+          title: this.t("database.ECTSPoints"),
           align: "end",
-          key: "ETCSPoints",
+          key: "ECTSPoints",
         },
         {
           title: this.t("database.comments"),
@@ -367,9 +367,9 @@ export default {
           key: "university",
         },
         {
-          title: this.t("database.ETCSPoints"),
+          title: this.t("database.ECTSPoints"),
           align: "end",
-          key: "ETCSPoints",
+          key: "ECTSPoints",
         },
         {
           title: this.t("database.comments"),
