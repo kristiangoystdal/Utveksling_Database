@@ -389,6 +389,8 @@ import { set, get, child, ref as dbRef } from "firebase/database";
 import { useI18n } from "vue-i18n";
 import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
+import { toast } from "vue3-toastify";
+
 
 export default {
 	setup() {
@@ -671,7 +673,7 @@ export default {
 							id: key,
 							...exchanges[key],
 							country: this.$t(`countries.${exchanges[key].country}`),
-							secondCountry: exchanges[key].secondCountry
+							secondCountry: exchanges[key].secondCountry !== "null"
 								? this.$t(`countries.${exchanges[key].secondCountry}`)
 								: null,
 						}))
@@ -810,14 +812,14 @@ export default {
 			const user = auth.currentUser;
 
 			if (!user) {
-				alert(this.$t("exchanges.loginToFavorite"));
+				toast.warning(this.$t("exchanges.loginToFavorite"));
 				return;
 			}
 
 			// Get country and university and add to course object
 			const exchange = this.exchangeList.find(exchange =>
-				(exchange.courses.Høst && exchange.courses.Høst.includes(course)) ||
-				(exchange.courses.Vår && exchange.courses.Vår.includes(course))
+				(exchange.courses.Høst && Object.values(exchange.courses.Høst).includes(course)) ||
+				(exchange.courses.Vår && Object.values(exchange.courses.Vår).includes(course))
 			);
 
 			if (exchange) {
