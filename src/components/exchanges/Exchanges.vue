@@ -737,6 +737,11 @@ export default {
 		},
 		reformatExchanges(exchanges) {
 			return exchanges.reduce((result, exchange) => {
+
+				// Normalize the lists so they **always** become arrays
+				exchange.courses.Høst = this.normalizeCourseList(exchange.courses.Høst);
+				exchange.courses.Vår = this.normalizeCourseList(exchange.courses.Vår);
+
 				if (!exchange.sameUniversity && exchange.courses.Vår) {
 					const firstExchange = this.createExchange(exchange, {
 						Høst: exchange.courses.Høst,
@@ -803,6 +808,11 @@ export default {
 				return this.countriesInfo.countryCodes.no[country] || "unknown";
 			}
 		},
+		normalizeCourseList(list) {
+			if (Array.isArray(list)) return list;      // OK
+			if (!list) return [];                      // null/undefined
+			return Object.values(list);                // Firebase object → array
+		},
 		checkIfFavorite(course) {
 			return this.favoriteCourses.some(favCourse =>
 				Object.keys(course).every(key => course[key] === favCourse[key])
@@ -818,9 +828,20 @@ export default {
 
 			// Get country and university and add to course object
 			const exchange = this.exchangeList.find(exchange =>
-				(exchange.courses.Høst && Object.values(exchange.courses.Høst).includes(course)) ||
-				(exchange.courses.Vår && Object.values(exchange.courses.Vår).includes(course))
+				(exchange.courses.Høst &&
+					exchange.courses.Høst.some(c =>
+						c.courseCode === course.courseCode &&
+						c.courseName === course.courseName
+					)
+				) ||
+				(exchange.courses.Vår &&
+					exchange.courses.Vår.some(c =>
+						c.courseCode === course.courseCode &&
+						c.courseName === course.courseName
+					)
+				)
 			);
+
 
 			if (exchange) {
 				course.country = exchange.country;
