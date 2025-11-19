@@ -450,6 +450,21 @@ export default {
               university: exchange.university,
             };
 
+            let skip_addition = false;
+            for (const courseKey in grouped[code].courses) {
+              const oldCourse = grouped[code].courses[courseKey];
+              if (oldCourse.courseCode === courseWithMeta.courseCode &&
+                oldCourse.university === courseWithMeta.university &&
+                oldCourse.country === courseWithMeta.country) {
+                skip_addition = true;
+              }
+            }
+
+            if (skip_addition) {
+              skip_addition = false;
+              continue;
+            }
+
             grouped[code].courses.push(courseWithMeta);
 
             grouped[code].count = grouped[code].courses.length;
