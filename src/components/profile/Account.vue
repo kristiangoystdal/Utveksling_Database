@@ -31,15 +31,11 @@
 									</div>
 								</v-col>
 							</v-row>
-							<v-row justify="end">
-								<v-col cols="12" class="text-right"> </v-col>
-							</v-row>
 						</template>
 						<v-alert v-else type="error" dense>
 							{{ $t("errors.notLoggedIn") }}
 						</v-alert>
 
-						<FavoriteCourses v-if="user && userData" />
 					</v-card-text>
 					<v-card-actions>
 						<!-- <<v-btn class="btn btn-primary" @click="editProfile">
@@ -52,6 +48,9 @@
 						</v-btn>
 					</v-card-actions>
 				</v-card>
+				
+				<FavoriteCourses v-if="user && userData" />
+
 			</v-col>
 		</v-row>
 
