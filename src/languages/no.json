@@ -46,7 +46,9 @@
 		"ECTSPoints": "ECTS poeng",
 		"comments": "Kommentar",
 		"favorite": "Favoritt",
-		"year": "År"
+		"year": "År",
+		"totalCourses": "Totalt antall fag",
+		"totalECTS": "Totalt antall ECTS"
 	},
 	"navbar": {
 		"homeHeader": "Hjem",
