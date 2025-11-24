@@ -90,18 +90,28 @@
 						</li>
 					</ul>
 				</nav>
+
 				<div ref="languageSwitcher" @click="toggleLanguageDropdown" class="language-switcher">
-					<span :class="currentFlag" class="fi"></span>
+					<img :src="currentFlagUrl" width="20" height="14" alt="flag" />
 					<v-icon>mdi-earth</v-icon>
+
 					<div v-if="showLanguageDropdown" class="language-dropdown">
-						<a @click="changeLanguage('en')">
-							<span class="fi fi-gb"></span> English
+						<a @click.stop="changeLanguage('en')">
+							<!-- <img src="/flags/gb.svg" width="20" height="14" alt="English" /> -->
+							<img src="/node_modules/country-flag-icons/3x2/GB.svg" />
+
+							English
 						</a>
-						<a @click="changeLanguage('no')">
-							<span class="fi fi-no"></span> Norsk
+
+						<a @click.stop="changeLanguage('no')">
+							<!-- <img src="/flags/no.svg" width="20" height="14" alt="Norsk" /> -->
+							<img src="/node_modules/country-flag-icons/3x2/NO.svg" />
+
+							Norsk
 						</a>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</header>
@@ -110,10 +120,10 @@
 <script>
 import { mapGetters } from "vuex";
 import { VIcon } from "vuetify/components";
-import "flag-icons/css/flag-icons.min.css";
 import { auth, db, provider } from "../../js/firebaseConfig";
 import { onAuthStateChanged, signOut, signInWithPopup } from "firebase/auth";
 import { ref as dbRef, get, set, update } from "firebase/database";
+
 
 export default {
 	name: "Header",
@@ -136,8 +146,10 @@ export default {
 				? this.$t("navbar.profileHeader")
 				: this.$t("navbar.loginHeader");
 		},
-		currentFlag() {
-			return this.$i18n.locale === "en" ? "fi-gb" : "fi-no";
+		currentFlagUrl() {
+			return this.$i18n.locale === "en"
+				? "/node_modules/country-flag-icons/3x2/GB.svg"
+				: "/node_modules/country-flag-icons/3x2/NO.svg";
 		}
 	},
 	methods: {
@@ -468,5 +480,14 @@ nav a {
 .login-btn {
 	width: 90%;
 	margin: auto;
+}
+
+.language-switcher img,
+.language-dropdown img {
+	width: 25px !important;
+	height: auto !important;
+	object-fit: cover;
+	border-radius: 2px;
+	margin: 0 8px 0 0;
 }
 </style>
