@@ -97,16 +97,12 @@
 
 					<div v-if="showLanguageDropdown" class="language-dropdown">
 						<a @click.stop="changeLanguage('en')">
-							<!-- <img src="/flags/gb.svg" width="20" height="14" alt="English" /> -->
-							<img src="/node_modules/country-flag-icons/3x2/GB.svg" />
-
+							<img src="/flags/GB.svg" width="20" height="14" alt="English" />
 							English
 						</a>
 
 						<a @click.stop="changeLanguage('no')">
-							<!-- <img src="/flags/no.svg" width="20" height="14" alt="Norsk" /> -->
-							<img src="/node_modules/country-flag-icons/3x2/NO.svg" />
-
+							<img src="/flags/NO.svg" width="20" height="14" alt="Norsk" />
 							Norsk
 						</a>
 					</div>
@@ -148,8 +144,8 @@ export default {
 		},
 		currentFlagUrl() {
 			return this.$i18n.locale === "en"
-				? "/node_modules/country-flag-icons/3x2/GB.svg"
-				: "/node_modules/country-flag-icons/3x2/NO.svg";
+				? "/flags/GB.svg"
+				: "/flags/NO.svg";
 		}
 	},
 	methods: {
