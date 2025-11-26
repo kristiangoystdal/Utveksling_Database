@@ -244,7 +244,7 @@
 											<v-col cols="3" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.courseCode") }}
 											</v-col>
-											<v-col cols="4" class="text-bold" style="padding-right: 5px">
+											<v-col cols="2" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.ECTSPoints") }}
 											</v-col>
 										</v-row>
@@ -255,8 +255,16 @@
 											<v-col cols="3">
 												{{ course.courseCode }}
 											</v-col>
-											<v-col cols="3">
+											<v-col cols="2">
 												{{ course.ECTSPoints }}
+											</v-col>
+											<v-col cols="1">
+												<v-icon v-if="!checkIfFavorite(course)" small class="mr-2" @click="toggleFavorite(course)">
+													mdi-heart-outline
+												</v-icon>
+												<v-icon v-else small class="mr-2" color="red" @click="toggleFavorite(course)">
+													mdi-heart
+												</v-icon>
 											</v-col>
 											<v-col cols="1">
 												<v-icon small class="mr-2" @click="toggleInformationDialog(course)">
@@ -276,7 +284,7 @@
 											<v-col cols="3" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.courseCode") }}
 											</v-col>
-											<v-col cols="4" class="text-bold" style="padding-right: 5px">
+											<v-col cols="2" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.ECTSPoints") }}
 											</v-col>
 										</v-row>
@@ -287,8 +295,16 @@
 											<v-col cols="3">
 												{{ course.courseCode }}
 											</v-col>
-											<v-col cols="3">
+											<v-col cols="2">
 												{{ course.ECTSPoints }}
+											</v-col>
+											<v-col cols="1">
+												<v-icon v-if="!checkIfFavorite(course)" small class="mr-2" @click="toggleFavorite(course)">
+													mdi-heart-outline
+												</v-icon>
+												<v-icon v-else small class="mr-2" color="red" @click="toggleFavorite(course)">
+													mdi-heart
+												</v-icon>
 											</v-col>
 											<v-col cols="1">
 												<v-icon small class="mr-2" @click="toggleInformationDialog(course)">
