@@ -127,7 +127,12 @@
 							<h3 v-if="
 								item.courses && item.courses.Høst && item.courses.Høst.length
 							">
-								{{ $t("exchanges.coursesFallHeader") }}
+								{{ $t("exchanges.coursesFallHeader") }} ({{ $t("database.totalECTS") }}:
+								{{item.courses.Høst
+									.reduce((sum, course) => sum + parseFloat(course.ECTSPoints || 0), 0)
+									.toFixed(1)
+								}}
+								)
 							</h3>
 							<v-data-table-virtual v-if="
 								item.courses && item.courses.Høst && item.courses.Høst.length
@@ -153,6 +158,13 @@
 								item.courses && item.courses.Vår && item.courses.Vår.length
 							">
 								{{ $t("exchanges.coursesSpringHeader") }}
+								({{ $t("database.totalECTS") }}:
+								{{
+									item.courses.Vår
+										.reduce((sum, course) => sum + parseFloat(course.ECTSPoints || 0), 0)
+										.toFixed(1)
+								}}
+								)
 							</h3>
 							<v-data-table-virtual v-if="
 								item.courses && item.courses.Vår && item.courses.Vår.length
