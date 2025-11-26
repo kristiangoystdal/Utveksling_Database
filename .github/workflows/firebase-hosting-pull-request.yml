@@ -44,3 +44,6 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_UTVEKSLING_DATABASE }}
           projectId: utveksling-database
+          channelId: none
+          comment: false
+          previewOnly: true
