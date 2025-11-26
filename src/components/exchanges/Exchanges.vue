@@ -406,7 +406,8 @@ import { useI18n } from "vue-i18n";
 import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
 import { toast } from "vue3-toastify";
-
+import en from "../../languages/en.json";
+import no from "../../languages/no.json";
 
 export default {
 	setup() {
@@ -617,6 +618,7 @@ export default {
 				},
 			];
 		},
+
 	},
 	methods: {
 		updateScreenWidth() {
@@ -829,6 +831,23 @@ export default {
 			if (!list) return [];                      // null/undefined
 			return Object.values(list);                // Firebase object → array
 		},
+		countryEnglishName(countryLabel) {
+			const locale = this.locale;
+
+			// English → already English
+			if (locale === "en") return countryLabel;
+
+			// Use your actual JSON files
+			const dict = locale === "no" ? no.countries : en.countries;
+
+			for (const [key, value] of Object.entries(dict)) {
+				if (value === countryLabel) {
+					return key; // English name
+				}
+			}
+
+			return countryLabel;
+		},
 		checkIfFavorite(course) {
 			return this.favoriteCourses.some(favCourse =>
 				Object.keys(course).every(key => course[key] === favCourse[key])
@@ -860,8 +879,10 @@ export default {
 
 
 			if (exchange) {
-				course.country = exchange.country;
+				course.country = this.countryEnglishName(exchange.country);
 				course.university = exchange.university;
+
+				console.log(course.country);
 			}
 
 			// Add course to favorites if not already favorited, else remove it

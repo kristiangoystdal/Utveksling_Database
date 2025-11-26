@@ -5,26 +5,74 @@
       <v-btn color="primary" class="btn mb-4" @click="exportAsPDF"> Export as PDF </v-btn>
       <v-btn color="secondary" class="btn mb-4" @click="exportAsCSV"> Export as CSV </v-btn>
     </div>
-    <ul v-if="favoriteCourses.length">
-      <li v-for="course in favoriteCourses" :key="course.id" class="favorite-course-item">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <strong>{{ course.courseName }}</strong> ({{ course.courseCode }})<br />
-            {{ course.replacedCourseName }} – {{ course.replacedCourseCode }}<br />
-            {{ course.institute }}<br />
-            {{ course.ECTSPoints }} ECTS – {{ course.courseType }} – {{ course.year }} <br />
-            {{ course.country ? course.country : '' }}
-            {{ course.university ? '– ' + course.university : '' }}<br />
-            <span v-if="course.comments"><em>{{ $t('database.comments') }}: {{ course.comments }}</em></span><br />
-          </div>
-          <v-icon @click="toggleFavorite(course)" :color="checkIfFavorite(course) ? 'red' : 'grey'"
-            style="cursor: pointer;">
-            mdi-heart
-          </v-icon>
-        </div>
-        <hr />
-      </li>
-    </ul>
+
+    <v-sheet elevation="4" v-if="favoriteCourses.length">
+      <!-- TABS -->
+      <v-tabs v-model="tab" color="primary" center-active>
+        <v-tab v-for="(courses, university) in tabbedCourses" :key="university" :value="university">
+          {{ university }}
+        </v-tab>
+      </v-tabs>
+
+      <v-divider></v-divider>
+
+      <!-- TAB CONTENT -->
+      <v-window v-model="tab">
+        <v-window-item v-for="(courses, university) in tabbedCourses" :key="university" :value="university">
+          <v-sheet class="pa-4">
+            <v-row no-gutters>
+              <v-col cols="3">
+                <strong>{{ this.$t('database.totalCourses') }}</strong>:
+              </v-col>
+              <v-col cols="3">
+                {{ courses.length }}
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col cols="3">
+                <strong>{{ this.$t('database.totalECTS') }}</strong>:
+              </v-col>
+              <v-col cols="3">
+                {{courses.reduce((sum, course) => sum + Number(course.ECTSPoints), 0)}}
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col cols="3">
+                <strong>{{ this.$t('database.country') }}</strong>:
+              </v-col>
+              <v-col cols="3">
+                {{ courses[0].country ? this.$t('countries.' + courses[0].country) : 'N/A' }}
+              </v-col>
+            </v-row>
+
+            <v-divider class="my-4"></v-divider>
+            <div v-for="course in courses" :key="course.id" class="my-4">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <strong>{{ course.courseName }}</strong> ({{ course.courseCode }})<br />
+                  <span v-if="course.replacedCourseName">{{ course.replacedCourseName }}</span>
+                  <span v-if="course.replacedCourseCode"> ({{ course.replacedCourseCode }})<br /></span>
+                  <span v-if="course.institute">{{ course.institute }}<br /></span>
+                  <span v-if="course.ECTSPoints">{{ course.ECTSPoints }} ECTS – </span>
+                  <span v-if="course.courseType">{{ course.courseType }} – </span>
+                  <span v-if="course.year">{{ course.year }}</span> <br />
+                  <!-- <strong>{{ course.country ? course.country : '' }}</strong> <br> -->
+                  <!-- {{ course.university ? '– ' + course.university : '' }}<br /> -->
+                  <span v-if="course.comments"><em>{{ $t('database.comments') }}: {{ course.comments
+                  }}</em></span><br />
+                </div>
+                <v-icon @click="toggleFavorite(course)" :color="checkIfFavorite(course) ? 'red' : 'grey'"
+                  style="cursor: pointer;">
+                  mdi-heart
+                </v-icon>
+              </div>
+              <v-divider class="my-4"></v-divider>
+            </div>
+          </v-sheet>
+        </v-window-item>
+      </v-window>
+    </v-sheet>
+
     <p v-else>No courses favorited yet</p>
   </div>
 </template>
@@ -37,7 +85,8 @@ export default {
   name: "FavoriteCourses",
   data() {
     return {
-      favoriteCourses: []
+      favoriteCourses: [],
+      tab: null,
     };
   },
   async created() {
@@ -51,6 +100,23 @@ export default {
     } else {
       this.favoriteCourses = [];
     }
+  },
+  computed: {
+    tabbedCourses() {
+      const tabs = {};
+      this.favoriteCourses.forEach(course => {
+        if (!tabs[course.university]) tabs[course.university] = [];
+        tabs[course.university].push(course);
+      });
+
+      // If no tab selected yet → select the first university
+      if (!this.tab && Object.keys(tabs).length > 0) {
+        this.tab = Object.keys(tabs)[0];
+      }
+
+      return tabs;
+    },
+
   },
   methods: {
     exportAsCSV() {

@@ -46,7 +46,9 @@
 		"ECTSPoints": "ECTS",
 		"comments": "Comments",
 		"favorite": "Favorite",
-		"year": "Year"
+		"year": "Year",
+		"totalCourses": "Total Courses",
+		"totalECTS": "Total ECTS"
 	},
 	"navbar": {
 		"homeHeader": "Home",
