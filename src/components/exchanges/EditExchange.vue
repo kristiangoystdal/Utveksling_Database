@@ -78,7 +78,7 @@
 							<!-- Studieår & Hvilket år -->
 							<v-row>
 								<v-col cols="12" md="6">
-									<v-autocomplete v-model="userExchange.studyYear" :items="[1, 2, 3, 4, 5]"
+									<v-autocomplete v-model="userExchange.studyYear" :items="['1.', '2.', '3.', '4.', '5.']"
 										:label="$t('database.studyYear')" required clearable :hint="$t('hints.studyYear')"
 										persistent-hint></v-autocomplete>
 								</v-col>
