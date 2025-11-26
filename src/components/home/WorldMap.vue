@@ -104,7 +104,7 @@ export default {
 .map-container {
 	width: 100%;
 	height: 100%;
-	/* Set a fixed height for the container */
+	aspect-ratio: 16 / 9;
 	position: relative;
 	border: solid 2px var(--second-color);
 	border-radius: 20px;
