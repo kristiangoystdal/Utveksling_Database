@@ -233,7 +233,7 @@
 										</v-col>
 									</v-row>
 									<br />
-									<div v-if="item.courses.Høst">
+									<div v-if="item.courses.Høst && item.courses.Høst.length > 0">
 										<v-row no-gutters class="text-bold" style="font-size: 15px; text-decoration: underline">
 											{{ $t("exchanges.coursesFallHeader") }}
 										</v-row>
@@ -244,7 +244,7 @@
 											<v-col cols="3" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.courseCode") }}
 											</v-col>
-											<v-col cols="4" class="text-bold" style="padding-right: 5px">
+											<v-col cols="2" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.ECTSPoints") }}
 											</v-col>
 										</v-row>
@@ -255,8 +255,16 @@
 											<v-col cols="3">
 												{{ course.courseCode }}
 											</v-col>
-											<v-col cols="3">
+											<v-col cols="2">
 												{{ course.ECTSPoints }}
+											</v-col>
+											<v-col cols="1">
+												<v-icon v-if="!checkIfFavorite(course)" small class="mr-2" @click="toggleFavorite(course)">
+													mdi-heart-outline
+												</v-icon>
+												<v-icon v-else small class="mr-2" color="red" @click="toggleFavorite(course)">
+													mdi-heart
+												</v-icon>
 											</v-col>
 											<v-col cols="1">
 												<v-icon small class="mr-2" @click="toggleInformationDialog(course)">
@@ -276,7 +284,7 @@
 											<v-col cols="3" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.courseCode") }}
 											</v-col>
-											<v-col cols="4" class="text-bold" style="padding-right: 5px">
+											<v-col cols="2" class="text-bold" style="padding-right: 5px">
 												{{ $t("database.ECTSPoints") }}
 											</v-col>
 										</v-row>
@@ -287,8 +295,16 @@
 											<v-col cols="3">
 												{{ course.courseCode }}
 											</v-col>
-											<v-col cols="3">
+											<v-col cols="2">
 												{{ course.ECTSPoints }}
+											</v-col>
+											<v-col cols="1">
+												<v-icon v-if="!checkIfFavorite(course)" small class="mr-2" @click="toggleFavorite(course)">
+													mdi-heart-outline
+												</v-icon>
+												<v-icon v-else small class="mr-2" color="red" @click="toggleFavorite(course)">
+													mdi-heart
+												</v-icon>
 											</v-col>
 											<v-col cols="1">
 												<v-icon small class="mr-2" @click="toggleInformationDialog(course)">
@@ -329,7 +345,7 @@
 				{{ $t("exchanges.courseInformation") }}
 			</v-card-title>
 			<v-card-text>
-				<v-row no-gutters>
+				<v-row no-gutters style="margin-top: 5px" v-if="currentCourse.institute">
 					<v-col cols="12" class="text-bold">
 						{{ $t("database.institute") }}:
 					</v-col>
@@ -337,7 +353,7 @@
 						{{ currentCourse.institute }}
 					</v-col>
 				</v-row>
-				<v-row no-gutters style="margin-top: 5px">
+				<v-row no-gutters style="margin-top: 5px" v-if="currentCourse.replacedCourseName">
 					<v-col cols="12" class="text-bold">
 						{{ $t("database.replacedCourseName") }}:
 					</v-col>
@@ -345,7 +361,7 @@
 						{{ currentCourse.replacedCourseName }}
 					</v-col>
 				</v-row>
-				<v-row no-gutters style="margin-top: 5px">
+				<v-row no-gutters style="margin-top: 5px" v-if="currentCourse.replacedCourseCode">
 					<v-col cols="12" class="text-bold">
 						{{ $t("database.replacedCourseCode") }}:
 					</v-col>
@@ -353,7 +369,7 @@
 						{{ currentCourse.replacedCourseCode }}
 					</v-col>
 				</v-row>
-				<v-row no-gutters style="margin-top: 5px">
+				<v-row no-gutters style="margin-top: 5px" v-if="currentCourse.courseType">
 					<v-col cols="12" class="text-bold">
 						{{ $t("database.courseType") }}:
 					</v-col>
