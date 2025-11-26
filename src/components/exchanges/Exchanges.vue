@@ -460,6 +460,8 @@ export default {
 	created() {
 		this.fetchExchangeData();
 		this.loadFavoriteCourses();
+
+		this.checkRouterParams();
 	},
 	mounted() {
 		this.getValuesFromDatabase();
@@ -914,6 +916,35 @@ export default {
 			});
 
 			await set(userRef, updates);
+		},
+		checkRouterParams() {
+			if (!this.$route || !this.$route.query) return;
+
+			const exchangeId = this.$route.query.exchangeId;
+			if (exchangeId) {
+				this.expanded = [exchangeId];
+			}
+
+			const courseCode = this.$route.query.courseCode;
+			if (courseCode) {
+				const exchange = this.exchangeList.find(ex =>
+					(ex.courses.Høst && ex.courses.Høst.some(c => c.courseCode === courseCode)) ||
+					(ex.courses.Vår && ex.courses.Vår.some(c => c.courseCode === courseCode))
+				);
+				if (exchange) {
+					this.expanded = [exchange.id];
+				}
+			}
+
+			const country = this.$route.query.country;
+			if (country) {
+				this.exchangeSearch = country;
+			}
+
+			const studyProgram = this.$route.query.studyProgram;;
+			if (studyProgram) {
+				this.exchangeSearch = studyProgram;
+			}
 		},
 	},
 };
