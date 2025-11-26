@@ -233,7 +233,7 @@
 										</v-col>
 									</v-row>
 									<br />
-									<div v-if="item.courses.Høst">
+									<div v-if="item.courses.Høst && item.courses.Høst.length > 0">
 										<v-row no-gutters class="text-bold" style="font-size: 15px; text-decoration: underline">
 											{{ $t("exchanges.coursesFallHeader") }}
 										</v-row>
