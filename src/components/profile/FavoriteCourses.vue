@@ -20,13 +20,32 @@
       <v-window v-model="tab">
         <v-window-item v-for="(courses, university) in tabbedCourses" :key="university" :value="university">
           <v-sheet class="pa-4">
-            <h3>
-              {{ this.$t('database.totalCourses') }}: {{ courses.length }} <br> {{ this.$t('database.totalECTS') }}:
-              {{courses.reduce((sum, course) => sum +
-                Number(course.ECTSPoints), 0)}}
-            </h3>
-            <v-divider class="my-4"></v-divider>
+            <v-row no-gutters>
+              <v-col cols="3">
+                <strong>{{ this.$t('database.totalCourses') }}</strong>:
+              </v-col>
+              <v-col cols="3">
+                {{ courses.length }}
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col cols="3">
+                <strong>{{ this.$t('database.totalECTS') }}</strong>:
+              </v-col>
+              <v-col cols="3">
+                {{courses.reduce((sum, course) => sum + Number(course.ECTSPoints), 0)}}
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col cols="3">
+                <strong>{{ this.$t('database.country') }}</strong>:
+              </v-col>
+              <v-col cols="3">
+                {{ courses[0].country ? this.$t('countries.' + courses[0].country) : 'N/A' }}
+              </v-col>
+            </v-row>
 
+            <v-divider class="my-4"></v-divider>
             <div v-for="course in courses" :key="course.id" class="my-4">
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
@@ -37,10 +56,10 @@
                   <span v-if="course.ECTSPoints">{{ course.ECTSPoints }} ECTS – </span>
                   <span v-if="course.courseType">{{ course.courseType }} – </span>
                   <span v-if="course.year">{{ course.year }}</span> <br />
-                  <strong>{{ course.country ? course.country : '' }}</strong> <br>
+                  <!-- <strong>{{ course.country ? course.country : '' }}</strong> <br> -->
                   <!-- {{ course.university ? '– ' + course.university : '' }}<br /> -->
                   <span v-if="course.comments"><em>{{ $t('database.comments') }}: {{ course.comments
-                      }}</em></span><br />
+                  }}</em></span><br />
                 </div>
                 <v-icon @click="toggleFavorite(course)" :color="checkIfFavorite(course) ? 'red' : 'grey'"
                   style="cursor: pointer;">
@@ -53,7 +72,7 @@
         </v-window-item>
       </v-window>
     </v-sheet>
-    
+
     <p v-else>No courses favorited yet</p>
   </div>
 </template>
@@ -96,7 +115,8 @@ export default {
       }
 
       return tabs;
-    }
+    },
+
   },
   methods: {
     exportAsCSV() {
