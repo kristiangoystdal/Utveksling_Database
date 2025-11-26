@@ -329,7 +329,7 @@
 				{{ $t("exchanges.courseInformation") }}
 			</v-card-title>
 			<v-card-text>
-				<v-row no-gutters>
+				<v-row no-gutters style="margin-top: 5px" v-if="currentCourse.institute">
 					<v-col cols="12" class="text-bold">
 						{{ $t("database.institute") }}:
 					</v-col>
@@ -337,7 +337,7 @@
 						{{ currentCourse.institute }}
 					</v-col>
 				</v-row>
-				<v-row no-gutters style="margin-top: 5px">
+				<v-row no-gutters style="margin-top: 5px" v-if="currentCourse.replacedCourseName">
 					<v-col cols="12" class="text-bold">
 						{{ $t("database.replacedCourseName") }}:
 					</v-col>
@@ -345,7 +345,7 @@
 						{{ currentCourse.replacedCourseName }}
 					</v-col>
 				</v-row>
-				<v-row no-gutters style="margin-top: 5px">
+				<v-row no-gutters style="margin-top: 5px" v-if="currentCourse.replacedCourseCode">
 					<v-col cols="12" class="text-bold">
 						{{ $t("database.replacedCourseCode") }}:
 					</v-col>
@@ -353,7 +353,7 @@
 						{{ currentCourse.replacedCourseCode }}
 					</v-col>
 				</v-row>
-				<v-row no-gutters style="margin-top: 5px">
+				<v-row no-gutters style="margin-top: 5px" v-if="currentCourse.courseType">
 					<v-col cols="12" class="text-bold">
 						{{ $t("database.courseType") }}:
 					</v-col>
