@@ -963,8 +963,6 @@ export default {
 					const firstId = atob(exchangeIds[0]);
 					const index = this.exchangeList.findIndex(e => e.id === firstId);
 
-					console.log("Will scroll to id:", firstId, "index:", index);
-
 					if (index !== -1) {
 						this.scrollWhenReady(index);
 					}
@@ -1018,10 +1016,7 @@ export default {
 					"#main-table-width .v-table__wrapper > table > tbody > tr.v-data-table__tr"
 				);
 
-				console.log("Found rows:", rows.length);
-
 				const row = rows[index];
-				console.log("Trying scroll. Row:", row);
 
 				if (!row) return false;
 
