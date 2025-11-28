@@ -114,19 +114,7 @@ export default {
     },
 
     routeToCountry(name) {
-      if (this.title == this.$t('common.topStudyPrograms')) {
-        this.$router.push({
-          name: "Exchanges",
-          query: { studyProgram: name },
-          params: { studyProgram: name },
-        });
-      } else {
-        this.$router.push({
-          name: "Exchanges",
-          query: { country: name },
-          params: { country: name },
-        });
-      }
+      this.$router.push({ name: "Exchanges", query: { search: name } });
     },
   },
 };
