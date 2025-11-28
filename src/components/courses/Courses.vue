@@ -18,7 +18,7 @@
   <div v-if="!isMobile">
     <v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="courseList" item-value="id"
       show-expand class="main-table dense-table" id="main-table-width" :search="courseSearch"
-      :custom-filter="rowSearchFilter">
+      :custom-filter="rowSearchFilter" :items-per-page-text="this.$t('courses.pageText')">
 
       <template v-slot:expanded-row="{ columns, item }">
         <tr>
@@ -61,7 +61,8 @@
   <div v-else>
     <v-data-table :headers="translatedMobileHeaders" v-model:expanded="expanded" :items="courseList" item-value="id"
       show-expand class="main-table fixed-table" id="main-table-width" :fixed-header="false" :style="{ width: '100%' }"
-      item-class="custom-item-class" header-class="custom-header-class" :search="courseSearch">
+      item-class="custom-item-class" header-class="custom-header-class" :search="courseSearch"
+      :items-per-page-text="this.$t('courses.pageText')">
       <template v-slot:item.country="{ item }">
         <div style="display: flex; align-items: center">
           <img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 8px" />
