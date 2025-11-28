@@ -32,7 +32,11 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior() {
+  scrollBehavior(to, from, savedPosition) {
+    if (to.path === from.path) {
+      return false;
+    }
+
     return { top: 0 };
   }
 });
