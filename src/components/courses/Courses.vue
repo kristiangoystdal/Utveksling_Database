@@ -634,22 +634,11 @@ export default {
       return words.every((word) => rowText.includes(word));
     },
     routeToExchange(item) {
-      // Remove country and university from item to match course object
-      const { country, university, ...courseWithoutCountryUniversity } = item;
-      console.log(this.exchanges);
       const exchange = this.exchanges && Object.values(this.exchanges).find((exch) => {
         if (!exch.courses) return false;
-
-        const allCourses = [
-          ...(exch.courses.Høst ? Object.values(exch.courses.Høst) : []),
-          ...(exch.courses.Vår ? Object.values(exch.courses.Vår) : []),
-        ];
-
-        return allCourses.some((course) => {
-          return Object.keys(courseWithoutCountryUniversity).every((key) => {
-            return course[key] === courseWithoutCountryUniversity[key];
-          });
-        });
+        if (exch.id && item.exchangeID && exch.id === item.exchangeID) {
+          return true;
+        }
       });
 
       const translatedCountry = this.$t(`countries.${exchange.country}`);
