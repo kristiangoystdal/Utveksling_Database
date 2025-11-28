@@ -69,7 +69,8 @@
 		"fall": "Fall",
 		"spring": "Spring",
 		"availableSemesters": "Available Semesters",
-		"availableCourses": "Available Courses"
+		"availableCourses": "Available Courses",
+		"pageText": "Courses per page"
 	},
 	"exchanges": {
 		"pageHeader": "Previous Exchanges:",
