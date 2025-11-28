@@ -83,7 +83,7 @@
                 </h3>
 
                 <v-row no-gutters>
-                  <v-col cols="9" style="margin-left: 5px;">
+                  <v-col cols="8" style="margin-left: 5px; margin-right: 5vw;">
                     <v-row no-gutters>
                       <v-col cols="12">
                         <strong>{{ $t("database.university") }}:</strong> {{ course.university }}
@@ -99,21 +99,26 @@
                     </v-row>
                   </v-col>
 
-                  <v-col cols="2" style="margin-left: 5px;">
-                    <div style=" display: flex; flex-direction: column; align-items: center; gap: 8px">
-                      <v-icon v-if="course.comments && course.comments.trim() !== ''" small
-                        @click="showComments(course)">
-                        mdi-comment
-                      </v-icon>
-                      <v-icon v-else small>mdi-comment-off</v-icon>
-
-                      <v-icon v-if="!checkIfFavorite(course)" small @click="toggleFavorite(course)">
-                        mdi-heart-outline
-                      </v-icon>
-                      <v-icon v-else small color="red" @click="toggleFavorite(course)">
-                        mdi-heart
-                      </v-icon>
-                    </div>
+                  <v-col cols="1" style="margin: auto;">
+                    <!-- <div style=" display: flex; flex-direction: column; align-items: center; gap: 8px"> -->
+                    <v-icon v-if="course.comments && course.comments.trim() !== ''" small @click="showComments(course)">
+                      mdi-comment
+                    </v-icon>
+                    <v-icon v-else small>mdi-comment-off</v-icon>
+                    <!-- </div> -->
+                  </v-col>
+                  <v-col cols="1" style="margin: auto;">
+                    <v-icon v-if="!checkIfFavorite(course)" small @click="toggleFavorite(course)">
+                      mdi-heart-outline
+                    </v-icon>
+                    <v-icon v-else small color="red" @click="toggleFavorite(course)">
+                      mdi-heart
+                    </v-icon>
+                  </v-col>
+                  <v-col cols="1" style="margin: auto;">
+                    <v-icon small class="mr-2" @click="routeToExchange(course)">
+                      mdi-airplane-search
+                    </v-icon>
                   </v-col>
                 </v-row>
 
@@ -636,6 +641,7 @@ export default {
       return words.every((word) => rowText.includes(word));
     },
     routeToExchange(item) {
+      console.log("Routing to exchange for item:", item);
       const exchange = this.exchanges && Object.values(this.exchanges).find((exch) => {
         if (!exch.courses) return false;
         if (exch.id && item.exchangeID && exch.id === item.exchangeID) {
