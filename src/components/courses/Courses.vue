@@ -10,15 +10,15 @@
 
   <!-- Search Field -->
   <v-text-field v-model="courseSearch" :label="$t('courses.search')" prepend-inner-icon="mdi-magnify" variant="outlined"
-    hide-details single-line density="compact"
+    hide-details single-line density="compact" @blur="updateSearchQuery"
     style="width: 95%; margin: 10px auto; border-radius: 5px;"></v-text-field>
   <br />
 
   <!-- Data Table -->
   <div v-if="!isMobile">
     <v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="courseList" item-value="id"
-      show-expand class="main-table dense-table" id="main-table-width" :search="courseSearch">
-
+      show-expand class="main-table dense-table" id="main-table-width" :search="courseSearch"
+      :custom-filter="rowSearchFilter">
 
       <template v-slot:expanded-row="{ columns, item }">
         <tr>
@@ -42,6 +42,11 @@
                   </v-icon>
                   <v-icon v-else small class="mr-2" color="red" @click="toggleFavorite(item)">
                     mdi-heart
+                  </v-icon>
+                </template>
+                <template v-slot:item.link="{ item }">
+                  <v-icon small class="mr-2" @click="routeToExchange(item)">
+                    mdi-airplane-search
                   </v-icon>
                 </template>
               </v-data-table-virtual>
@@ -206,7 +211,6 @@ import { set, get, child, ref as dbRef } from "firebase/database";
 import { useI18n } from "vue-i18n";
 import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
-import { count, group } from "d3";
 
 export default {
   setup() {
@@ -219,6 +223,7 @@ export default {
       countriesInfo: countriesInformation,
       showFilters: false,
       expanded: [],
+      exchanges: {},
       courseList: [],
       commentDialog: false,
       currentComments: "",
@@ -237,6 +242,7 @@ export default {
   mounted() {
     window.addEventListener("resize", this.updateScreenWidth);
     this.updateScreenWidth();
+    this.checkRouterParams();
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.updateScreenWidth);
@@ -322,6 +328,12 @@ export default {
           key: "favorite",
           sortable: false,
         },
+        {
+          title: "",
+          align: "end",
+          key: "link",
+          sortable: false,
+        }
       ];
     },
     translatedMobileHeaders() {
@@ -401,6 +413,7 @@ export default {
         }
 
         const exchanges = snapshot.val();
+        this.exchanges = exchanges;
 
         // Temporary dictionary for grouping
         const grouped = {};
@@ -582,6 +595,76 @@ export default {
 
       await set(userRef, updates);
     },
+    checkRouterParams() {
+      if (!this.$route || !this.$route.query) return;
+
+      const search = this.$route.query.search;
+      if (search) {
+        this.courseSearch = search;
+      }
+    },
+    updateSearchQuery() {
+      this.$router.replace({ query: { search: this.courseSearch || undefined } });
+    },
+    rowSearchFilter(value, search, item) {
+      if (!search) return true;
+
+      const raw = item?.raw ?? item; // fallback in case it's already raw
+
+      // Split the search input into separate words
+      const words = search
+        .toLowerCase()
+        .trim()
+        .split(/\s+/);
+
+      // Pick only the fields you actually want to search in
+      const fieldsToSearch = [
+        "courseCode",
+        "courseName",
+        "count",
+        "semesters",
+      ];
+
+      const rowText = fieldsToSearch
+        .map((key) => (raw[key] != null ? String(raw[key]) : ""))
+        .join(" ")
+        .toLowerCase();
+
+      // Every word in the search must appear somewhere in the row text
+      return words.every((word) => rowText.includes(word));
+    },
+    routeToExchange(item) {
+      // Remove country and university from item to match course object
+      const { country, university, ...courseWithoutCountryUniversity } = item;
+      console.log(this.exchanges);
+      const exchange = this.exchanges && Object.values(this.exchanges).find((exch) => {
+        if (!exch.courses) return false;
+
+        const allCourses = [
+          ...(exch.courses.Høst ? Object.values(exch.courses.Høst) : []),
+          ...(exch.courses.Vår ? Object.values(exch.courses.Vår) : []),
+        ];
+
+        return allCourses.some((course) => {
+          return Object.keys(courseWithoutCountryUniversity).every((key) => {
+            return course[key] === courseWithoutCountryUniversity[key];
+          });
+        });
+      });
+
+      const translatedCountry = this.$t(`countries.${exchange.country}`);
+
+      const searchString = translatedCountry + " " + exchange.university + " " + exchange.study + " " + exchange.specialization + " " + exchange.studyYear + " " + exchange.year;
+
+      if (!exchange.id) {
+        exchange.id = this.exchanges && Object.keys(this.exchanges).find(key => this.exchanges[key] === exchange);
+      }
+      const hiddenId = btoa(exchange.id);
+
+      if (exchange) {
+        this.$router.push({ name: "Exchanges", query: { search: searchString, r: hiddenId } });
+      }
+    }
   },
 
 };
