@@ -898,7 +898,7 @@ export default {
 			}
 
 			this.saveFavoriteCourses().catch(error => {
-				alert(this.$t("exchanges.errorSavingFavorites"));
+				toast.error(this.$t("exchanges.errorSavingFavorites"));
 				console.error("Error saving favorite courses:", error);
 			});
 		},

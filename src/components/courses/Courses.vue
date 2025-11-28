@@ -211,6 +211,8 @@ import { set, get, child, ref as dbRef } from "firebase/database";
 import { useI18n } from "vue-i18n";
 import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   setup() {
@@ -541,7 +543,7 @@ export default {
       const user = auth.currentUser;
 
       if (!user) {
-        alert(this.$t("exchanges.loginToFavorite"));
+        toast.info(this.$t("exchanges.loginToFavorite"));
         return;
       }
 
@@ -566,7 +568,7 @@ export default {
       }
 
       this.saveFavoriteCourses().catch(error => {
-        alert(this.$t("exchanges.errorSavingFavorites"));
+        toast.error(this.$t("exchanges.errorSavingFavorites"));
         console.error("Error saving favorite courses:", error);
       });
     },

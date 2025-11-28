@@ -37,6 +37,8 @@
 <script>
 import { db, auth } from "../../js/firebaseConfig";
 import { ref as dbRef, get, set, child } from "firebase/database";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "FavoriteCourses",
@@ -76,7 +78,7 @@ export default {
     },
     exportAsCSV() {
       if (this.favoriteCourses.length === 0) {
-        alert("No favorite courses to export.");
+        toast.warning("No favorite courses to export.");
         return;
       }
 
@@ -117,7 +119,7 @@ export default {
     },
     exportAsPDF() {
       if (this.favoriteCourses.length === 0) {
-        alert("No favorite courses to export.");
+        toast.warning("No favorite courses to export.");
         return;
       }
 
@@ -172,7 +174,7 @@ export default {
       const user = auth.currentUser;
 
       if (!user) {
-        alert(this.$t("exchanges.loginToFavorite"));
+        toast.info(this.$t("exchanges.loginToFavorite"));
         return;
       }
 
@@ -186,7 +188,7 @@ export default {
       }
 
       this.saveFavoriteCourses().catch(error => {
-        alert(this.$t("exchanges.errorSavingFavorites"));
+        toast.error(this.$t("exchanges.errorSavingFavorites"));
         console.error("Error saving favorite courses:", error);
       });
     },
