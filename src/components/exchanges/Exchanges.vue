@@ -105,14 +105,14 @@
 
 	<!-- Search Field -->
 	<v-text-field v-model="exchangeSearch" :label="$t('exchanges.search')" prepend-inner-icon="mdi-magnify"
-		variant="outlined" hide-details single-line density="compact"
+		variant="outlined" hide-details single-line density="compact" @blur="updateSearchQuery"
 		style="width: 95%; margin: 10px auto; border-radius: 5px;"></v-text-field>
 	<br />
 
 	<!-- Data Table -->
 	<div v-if="!isMobile">
 		<v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="exchangeList" item-value="id"
-			show-expand class="main-table" id="main-table-width" :search="exchangeSearch">
+			show-expand class="main-table" id="main-table-width" :search="exchangeSearch" :custom-filter="rowSearchFilter">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
 					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 4px" />
@@ -413,7 +413,7 @@
 
 <script>
 import { db, auth } from "../../js/firebaseConfig.js";
-import { set, get, child, ref as dbRef } from "firebase/database";
+import { set, get, child, ref as dbRef, update } from "firebase/database";
 import { useI18n } from "vue-i18n";
 import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
@@ -945,7 +945,47 @@ export default {
 			if (studyProgram) {
 				this.exchangeSearch = studyProgram;
 			}
+
+			const search = this.$route.query.search;
+			if (search) {
+				this.exchangeSearch = search;
+			}
 		},
+		updateSearchQuery() {
+			this.$router.replace({ query: { search: this.exchangeSearch || undefined } });
+		},
+		rowSearchFilter(value, search, item) {
+			if (!search) return true;
+
+			const raw = item?.raw ?? item; // fallback in case it's already raw
+
+			// Split the search input into separate words
+			const words = search
+				.toLowerCase()
+				.trim()
+				.split(/\s+/);
+
+			// Pick only the fields you actually want to search in
+			const fieldsToSearch = [
+				"country",
+				"secondCountry",
+				"university",
+				"study",
+				"specialization",
+				"studyYear",
+				"year",
+				"numSemesters",
+				"id",
+			];
+
+			const rowText = fieldsToSearch
+				.map((key) => (raw[key] != null ? String(raw[key]) : ""))
+				.join(" ")
+				.toLowerCase();
+
+			// Every word in the search must appear somewhere in the row text
+			return words.every((word) => rowText.includes(word));
+		}
 	},
 };
 </script>
