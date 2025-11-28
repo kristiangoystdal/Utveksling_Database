@@ -119,6 +119,19 @@
 				</div>
 			</template>
 
+			<!-- <template v-slot:item="{ item, columns, index }">
+				<tr :data-id="item.id">
+					<td v-for="col in columns" :key="col.key">
+						<span v-if="$slots[`item.${col.key}`]">
+							<slot :name="`item.${col.key}`" :item="item"></slot>
+						</span>
+						<span v-else>
+							{{ item[col.key] }}
+						</span>
+					</td>
+				</tr>
+			</template> -->
+
 			<template v-slot:expanded-row="{ columns, item }">
 				<tr>
 					<td :colspan="columns.length" id="coursesStyle">
@@ -460,8 +473,6 @@ export default {
 	created() {
 		this.fetchExchangeData();
 		this.loadFavoriteCourses();
-
-		this.checkRouterParams();
 	},
 	mounted() {
 		this.getValuesFromDatabase();
@@ -476,10 +487,13 @@ export default {
 			this.fetchExchangeData();
 			this.getValuesFromDatabase();
 		},
-		expanded(newVal) {
-			if (newVal.length > 0) {
-				const exchangeId = newVal[0];
-				this.$router.replace({ query: { ...this.$route.query, r: btoa(exchangeId) } });
+		expanded(newVal, oldVal) {
+			if (newVal != null && newVal.length != oldVal.length && newVal.length > 0) {
+				let exchangesString = "";
+				for (const exchangeId of newVal) {
+					exchangesString += btoa(exchangeId) + ",";
+				}
+				this.$router.replace({ query: { ...this.$route.query, r: exchangesString } });
 			} else {
 				const query = { ...this.$route.query };
 				delete query.r;
@@ -740,6 +754,10 @@ export default {
 						}
 						return 0;
 					});
+
+					this.$nextTick(() => {
+						this.checkRouterParams();
+					});
 				} else {
 					console.error("No data available");
 				}
@@ -932,8 +950,25 @@ export default {
 
 			const exchangeId = this.$route.query.r;
 			if (exchangeId) {
-				const decodedId = atob(exchangeId);
-				this.expanded = [decodedId];
+				const exchangeIds = exchangeId.split(",");
+				for (const encodedId of exchangeIds) {
+					if (!encodedId) continue;
+					const decodedId = atob(encodedId);
+					if (this.expanded.includes(decodedId)) continue;
+					this.expanded.push(decodedId);
+				}
+
+				// Scroll to the first expanded row
+				this.$nextTick(() => {
+					const firstId = atob(exchangeIds[0]);
+					const index = this.exchangeList.findIndex(e => e.id === firstId);
+
+					console.log("Will scroll to id:", firstId, "index:", index);
+
+					if (index !== -1) {
+						this.scrollWhenReady(index);
+					}
+				});
 			}
 
 			const search = this.$route.query.search;
@@ -975,12 +1010,52 @@ export default {
 
 			// Every word in the search must appear somewhere in the row text
 			return words.every((word) => rowText.includes(word));
+		},
+		scrollWhenReady(index) {
+			const attemptScroll = () => {
+				// SELECT THE REAL ROWS
+				const rows = document.querySelectorAll(
+					"#main-table-width .v-table__wrapper > table > tbody > tr.v-data-table__tr"
+				);
+
+				console.log("Found rows:", rows.length);
+
+				const row = rows[index];
+				console.log("Trying scroll. Row:", row);
+
+				if (!row) return false;
+
+				row.scrollIntoView({ behavior: "smooth", block: "start" });
+				return true;
+			};
+
+			// Try immediately
+			if (attemptScroll()) return;
+
+			// Watch DOM until rows appear
+			const container = document.querySelector("#main-table-width");
+
+			const observer = new MutationObserver(() => {
+				if (attemptScroll()) {
+					observer.disconnect();
+				}
+			});
+
+			observer.observe(container, {
+				childList: true,
+				subtree: true,
+			});
 		}
 	},
 };
 </script>
 
 <style>
+html,
+body {
+	scroll-behavior: auto !important;
+}
+
 .v-data-table table tr th,
 .v-data-table table tr td {
 	padding: 0 8px !important;
