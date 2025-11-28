@@ -112,25 +112,13 @@
 	<!-- Data Table -->
 	<div v-if="!isMobile">
 		<v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="exchangeList" item-value="id"
-			show-expand class="main-table" id="main-table-width" :search="exchangeSearch" :custom-filter="rowSearchFilter">
+			show-expand class="main-table" id="main-table-width" :search="exchangeSearch" :custom-filter="rowSearchFilter"
+			:items-per-page="exchangesPerPage" v-model:page="currentPage">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
 					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 4px" />
 				</div>
 			</template>
-
-			<!-- <template v-slot:item="{ item, columns, index }">
-				<tr :data-id="item.id">
-					<td v-for="col in columns" :key="col.key">
-						<span v-if="$slots[`item.${col.key}`]">
-							<slot :name="`item.${col.key}`" :item="item"></slot>
-						</span>
-						<span v-else>
-							{{ item[col.key] }}
-						</span>
-					</td>
-				</tr>
-			</template> -->
 
 			<template v-slot:expanded-row="{ columns, item }">
 				<tr>
@@ -209,7 +197,8 @@
 	<div v-else>
 		<v-data-table :headers="translatedMobileHeaders" v-model:expanded="expanded" :items="exchangeList" item-value="id"
 			show-expand class="main-table fixed-table" id="main-table-width" :fixed-header="false" :style="{ width: '100%' }"
-			item-class="custom-item-class" header-class="custom-header-class">
+			item-class="custom-item-class" header-class="custom-header-class" :items-per-page="exchangesPerPage"
+			v-model:page="currentPage">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
 					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 8px" />
@@ -428,7 +417,6 @@
 import { db, auth } from "../../js/firebaseConfig.js";
 import { set, get, child, ref as dbRef, update } from "firebase/database";
 import { useI18n } from "vue-i18n";
-import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
 import { toast } from "vue3-toastify";
 
@@ -468,6 +456,8 @@ export default {
 			currentCourse: null,
 			favoriteCourses: [],
 			exchangeSearch: "",
+			exchangesPerPage: 10,
+			currentPage: 1,
 		};
 	},
 	created() {
@@ -1015,6 +1005,17 @@ export default {
 				const rows = document.querySelectorAll(
 					"#main-table-width .v-table__wrapper > table > tbody > tr.v-data-table__tr"
 				);
+
+				console.log("Attempting to scroll to index:", index, "Total rows:", rows.length);
+
+				if (rows.length < index + 1) {
+					const targetPage = Math.floor(index / this.exchangesPerPage) + 1;
+					if (this.currentPage !== targetPage) {
+						this.currentPage = targetPage;
+						index = index % this.exchangesPerPage;
+						console.log("Changed to page:", targetPage);
+					}
+				}
 
 				const row = rows[index];
 
