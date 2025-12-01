@@ -642,7 +642,6 @@ export default {
       return words.every((word) => rowText.includes(word));
     },
     routeToExchange(item) {
-      console.log("Routing to exchange for item:", item);
       const exchange = this.exchanges && Object.values(this.exchanges).find((exch) => {
         if (!exch.courses) return false;
         if (exch.id && item.exchangeID && exch.id === item.exchangeID) {
