@@ -421,6 +421,8 @@ import { set, get, child, ref as dbRef, update } from "firebase/database";
 import { useI18n } from "vue-i18n";
 import countriesInformation from "../../data/countriesInformation.json";
 import { toast } from "vue3-toastify";
+import countriesNameEn from "../../languages/en.json";
+import countriesNameNo from "../../languages/no.json";
 
 
 export default {
@@ -937,6 +939,27 @@ export default {
 
 			await set(userRef, updates);
 		},
+		getCountryKeyFromUserInput(word) {
+			const lowerWord = word.toLowerCase();
+
+			const countryKeysEn = Object.keys(countriesNameEn.countries);
+
+			for (const key of countryKeysEn) {
+				if (this.locale === "en") {
+					const countryNameEn = countriesNameNo.countries[key].toLowerCase();
+					if (countryNameEn === lowerWord) {
+						return key;
+					}
+				} else {
+					const countryNameEn = countriesNameEn.countries[key].toLowerCase();
+					if (countryNameEn === lowerWord) {
+						return key;
+					}
+				}
+			}
+
+			return null;
+		},
 		checkRouterParams() {
 			if (!this.$route || !this.$route.query) return;
 
@@ -961,9 +984,22 @@ export default {
 				});
 			}
 
+
 			const search = this.$route.query.search;
+
 			if (search) {
-				this.exchangeSearch = search;
+				const [firstWord, ...restArr] = search.trim().split(/\s+/);
+				const rest = restArr.join(" ");
+
+				const canonicalKey = this.getCountryKeyFromUserInput(firstWord);
+
+				if (canonicalKey) {
+					const translated = this.$t(`countries.${canonicalKey}`);
+					this.exchangeSearch = rest ? `${translated} ${rest}` : translated;
+				} else {
+					this.exchangeSearch = search; // fallback
+				}
+				this.updateSearchQuery();
 			}
 		},
 		updateSearchQuery() {
@@ -990,7 +1026,6 @@ export default {
 				"studyYear",
 				"year",
 				"numSemesters",
-				"id",
 			];
 
 			const rowText = fieldsToSearch
