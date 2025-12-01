@@ -988,18 +988,20 @@ export default {
 			const search = this.$route.query.search;
 
 			if (search) {
-				const [firstWord, ...restArr] = search.trim().split(/\s+/);
-				const rest = restArr.join(" ");
+				const words = search.trim().split(/\s+/);
+				for (const [index, word] of words.entries()) {
+					const canonicalKey = this.getCountryKeyFromUserInput(words[index]);
 
-				const canonicalKey = this.getCountryKeyFromUserInput(firstWord);
-
-				if (canonicalKey) {
-					const translated = this.$t(`countries.${canonicalKey}`);
-					this.exchangeSearch = rest ? `${translated} ${rest}` : translated;
-				} else {
-					this.exchangeSearch = search; // fallback
+					if (canonicalKey) {
+						const translated = this.$t(`countries.${canonicalKey}`);
+						words[index] = translated;
+						this.exchangeSearch = words.join(" ");
+					} else {
+						this.exchangeSearch = search; // fallback
+					}
 				}
 				this.updateSearchQuery();
+
 			}
 		},
 		updateSearchQuery() {
