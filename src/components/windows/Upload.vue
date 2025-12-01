@@ -68,7 +68,6 @@ export default {
         formData.append("file", file);
 
         // === Upload to tmpfiles.org ===
-        console.log("Uploading to tmpfiles.org...");
         const uploadResponse = await fetch("https://tmpfiles.org/api/v1/upload", {
           method: "POST",
           body: formData,
@@ -83,7 +82,6 @@ export default {
 
         // Extract clean link
         const fileLink = result.data.url.replace("/api/v1", "").trim();
-        console.log("✅ File uploaded:", fileLink);
 
         // === Send notification via EmailJS ===
         const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID;

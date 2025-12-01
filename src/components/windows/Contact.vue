@@ -30,6 +30,8 @@
 
 <script>
 import emailjs from "emailjs-com";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
 	data() {
@@ -99,7 +101,7 @@ export default {
 					await emailjs.send(serviceID, templateID, templateParams, userID);
 					this.handleReset();
 				} catch (error) {
-					alert("Failed to send email");
+					toast.error("Failed to send email.");
 					console.error("Error:", error);
 				}
 			}

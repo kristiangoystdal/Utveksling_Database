@@ -69,7 +69,8 @@
 		"fall": "Høst",
 		"spring": "Vår",
 		"availableSemesters": "Tilgjengelige semestre",
-		"availableCourses": "Tilgjengelige fag"
+		"availableCourses": "Tilgjengelige fag",
+		"pageText": "Fag per side"
 	},
 	"exchanges": {
 		"pageHeader": "Tidligere utvekslinger:",

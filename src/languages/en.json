@@ -69,7 +69,8 @@
 		"fall": "Fall",
 		"spring": "Spring",
 		"availableSemesters": "Available Semesters",
-		"availableCourses": "Available Courses"
+		"availableCourses": "Available Courses",
+		"pageText": "Courses per page"
 	},
 	"exchanges": {
 		"pageHeader": "Previous Exchanges:",
@@ -302,7 +303,7 @@
 		"Czech Republic": "Czech Republic",
 		"Turkey": "Turkey",
 		"Germany": "Germany",
-		"USA": "United States of America",
+		"USA": "USA",
 		"Uganda": "Uganda",
 		"Hungary": "Hungary",
 		"Vietnam": "Vietnam",

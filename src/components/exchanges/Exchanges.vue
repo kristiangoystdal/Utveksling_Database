@@ -105,14 +105,16 @@
 
 	<!-- Search Field -->
 	<v-text-field v-model="exchangeSearch" :label="$t('exchanges.search')" prepend-inner-icon="mdi-magnify"
-		variant="outlined" hide-details single-line density="compact"
+		variant="outlined" hide-details single-line density="compact" @blur="updateSearchQuery"
 		style="width: 95%; margin: 10px auto; border-radius: 5px;"></v-text-field>
 	<br />
 
 	<!-- Data Table -->
 	<div v-if="!isMobile">
 		<v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="exchangeList" item-value="id"
-			show-expand class="main-table" id="main-table-width" :search="exchangeSearch">
+			show-expand class="main-table" id="main-table-width" :search="exchangeSearch" :custom-filter="rowSearchFilter"
+			:items-per-page="exchangesPerPage" v-model:page="currentPage"
+			:items-per-page-text="this.$t('exchanges.pageText')">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
 					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 4px" />
@@ -196,7 +198,9 @@
 	<div v-else>
 		<v-data-table :headers="translatedMobileHeaders" v-model:expanded="expanded" :items="exchangeList" item-value="id"
 			show-expand class="main-table fixed-table" id="main-table-width" :fixed-header="false" :style="{ width: '100%' }"
-			item-class="custom-item-class" header-class="custom-header-class">
+			item-class="custom-item-class" header-class="custom-header-class" :search="exchangeSearch"
+			:custom-filter="rowSearchFilter" :items-per-page="exchangesPerPage" v-model:page="currentPage"
+			:items-per-page-text="this.$t('exchanges.pageText')">
 			<template v-slot:item.country="{ item }">
 				<div style="display: flex; align-items: center">
 					<img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 8px" />
@@ -413,11 +417,12 @@
 
 <script>
 import { db, auth } from "../../js/firebaseConfig.js";
-import { set, get, child, ref as dbRef } from "firebase/database";
+import { set, get, child, ref as dbRef, update } from "firebase/database";
 import { useI18n } from "vue-i18n";
-import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
 import { toast } from "vue3-toastify";
+import countriesNameEn from "../../languages/en.json";
+import countriesNameNo from "../../languages/no.json";
 
 
 export default {
@@ -455,6 +460,8 @@ export default {
 			currentCourse: null,
 			favoriteCourses: [],
 			exchangeSearch: "",
+			exchangesPerPage: 10,
+			currentPage: 1,
 		};
 	},
 	created() {
@@ -473,6 +480,19 @@ export default {
 		locale(newLocale, oldLocale) {
 			this.fetchExchangeData();
 			this.getValuesFromDatabase();
+		},
+		expanded(newVal, oldVal) {
+			if (newVal != null && newVal.length != oldVal.length && newVal.length > 0) {
+				let exchangesString = "";
+				for (const exchangeId of newVal) {
+					exchangesString += btoa(exchangeId) + ",";
+				}
+				this.$router.replace({ query: { ...this.$route.query, r: exchangesString } });
+			} else {
+				const query = { ...this.$route.query };
+				delete query.r;
+				this.$router.replace({ query });
+			}
 		},
 	},
 	computed: {
@@ -728,6 +748,10 @@ export default {
 						}
 						return 0;
 					});
+
+					this.$nextTick(() => {
+						this.checkRouterParams();
+					});
 				} else {
 					console.error("No data available");
 				}
@@ -886,7 +910,7 @@ export default {
 			}
 
 			this.saveFavoriteCourses().catch(error => {
-				alert(this.$t("exchanges.errorSavingFavorites"));
+				toast.error(this.$t("exchanges.errorSavingFavorites"));
 				console.error("Error saving favorite courses:", error);
 			});
 		},
@@ -915,11 +939,155 @@ export default {
 
 			await set(userRef, updates);
 		},
+		getCountryKeyFromUserInput(word) {
+			const lowerWord = word.toLowerCase();
+
+			const countryKeysEn = Object.keys(countriesNameEn.countries);
+
+			for (const key of countryKeysEn) {
+				if (this.locale === "en") {
+					const countryNameEn = countriesNameNo.countries[key].toLowerCase();
+					if (countryNameEn === lowerWord) {
+						return key;
+					}
+				} else {
+					const countryNameEn = countriesNameEn.countries[key].toLowerCase();
+					if (countryNameEn === lowerWord) {
+						return key;
+					}
+				}
+			}
+
+			return null;
+		},
+		checkRouterParams() {
+			if (!this.$route || !this.$route.query) return;
+
+			const exchangeId = this.$route.query.r;
+			if (exchangeId) {
+				const exchangeIds = exchangeId.split(",");
+				for (const encodedId of exchangeIds) {
+					if (!encodedId) continue;
+					const decodedId = atob(encodedId);
+					if (this.expanded.includes(decodedId)) continue;
+					this.expanded.push(decodedId);
+				}
+
+				// Scroll to the first expanded row
+				this.$nextTick(() => {
+					const firstId = atob(exchangeIds[0]);
+					const index = this.exchangeList.findIndex(e => e.id === firstId);
+
+					if (index !== -1) {
+						this.scrollWhenReady(index);
+					}
+				});
+			}
+
+
+			const search = this.$route.query.search;
+
+			if (search) {
+				const words = search.trim().split(/\s+/);
+				for (const [index, word] of words.entries()) {
+					const canonicalKey = this.getCountryKeyFromUserInput(words[index]);
+
+					if (canonicalKey) {
+						const translated = this.$t(`countries.${canonicalKey}`);
+						words[index] = translated;
+						this.exchangeSearch = words.join(" ");
+					} else {
+						this.exchangeSearch = search; // fallback
+					}
+				}
+				this.updateSearchQuery();
+
+			}
+		},
+		updateSearchQuery() {
+			this.$router.replace({ query: { search: this.exchangeSearch || undefined } });
+		},
+		rowSearchFilter(value, search, item) {
+			if (!search) return true;
+
+			const raw = item?.raw ?? item; // fallback in case it's already raw
+
+			// Split the search input into separate words
+			const words = search
+				.toLowerCase()
+				.trim()
+				.split(/\s+/);
+
+			// Pick only the fields you actually want to search in
+			const fieldsToSearch = [
+				"country",
+				"secondCountry",
+				"university",
+				"study",
+				"specialization",
+				"studyYear",
+				"year",
+				"numSemesters",
+			];
+
+			const rowText = fieldsToSearch
+				.map((key) => (raw[key] != null ? String(raw[key]) : ""))
+				.join(" ")
+				.toLowerCase();
+
+			// Every word in the search must appear somewhere in the row text
+			return words.every((word) => rowText.includes(word));
+		},
+		scrollWhenReady(index) {
+			const attemptScroll = () => {
+				// SELECT THE REAL ROWS
+				const rows = document.querySelectorAll(
+					"#main-table-width .v-table__wrapper > table > tbody > tr.v-data-table__tr"
+				);
+
+				if (rows.length < index + 1) {
+					const targetPage = Math.floor(index / this.exchangesPerPage) + 1;
+					if (this.currentPage !== targetPage) {
+						this.currentPage = targetPage;
+						index = index % this.exchangesPerPage;
+					}
+				}
+
+				const row = rows[index];
+
+				if (!row) return false;
+
+				row.scrollIntoView({ behavior: "smooth", block: "start" });
+				return true;
+			};
+
+			// Try immediately
+			if (attemptScroll()) return;
+
+			// Watch DOM until rows appear
+			const container = document.querySelector("#main-table-width");
+
+			const observer = new MutationObserver(() => {
+				if (attemptScroll()) {
+					observer.disconnect();
+				}
+			});
+
+			observer.observe(container, {
+				childList: true,
+				subtree: true,
+			});
+		}
 	},
 };
 </script>
 
 <style>
+html,
+body {
+	scroll-behavior: auto !important;
+}
+
 .v-data-table table tr th,
 .v-data-table table tr td {
 	padding: 0 8px !important;

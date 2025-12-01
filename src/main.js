@@ -36,6 +36,7 @@ const messages = {
 // Create an i18n instance with the locale configuration
 const i18n = createI18n({
 	legacy: false,
+	globalInjection: true,
 	locale: localStorage.getItem("language") || "no", // default locale
 	fallbackLocale: "no", // fallback locale
 	messages,

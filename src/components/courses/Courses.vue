@@ -10,15 +10,15 @@
 
   <!-- Search Field -->
   <v-text-field v-model="courseSearch" :label="$t('courses.search')" prepend-inner-icon="mdi-magnify" variant="outlined"
-    hide-details single-line density="compact"
+    hide-details single-line density="compact" @blur="updateSearchQuery"
     style="width: 95%; margin: 10px auto; border-radius: 5px;"></v-text-field>
   <br />
 
   <!-- Data Table -->
   <div v-if="!isMobile">
     <v-data-table v-model:expanded="expanded" :headers="translatedHeaders" :items="courseList" item-value="id"
-      show-expand class="main-table dense-table" id="main-table-width" :search="courseSearch">
-
+      show-expand class="main-table dense-table" id="main-table-width" :search="courseSearch"
+      :custom-filter="rowSearchFilter" :items-per-page-text="this.$t('courses.pageText')">
 
       <template v-slot:expanded-row="{ columns, item }">
         <tr>
@@ -44,6 +44,11 @@
                     mdi-heart
                   </v-icon>
                 </template>
+                <template v-slot:item.link="{ item }">
+                  <v-icon small class="mr-2" @click="routeToExchange(item)">
+                    mdi-airplane-search
+                  </v-icon>
+                </template>
               </v-data-table-virtual>
               <br />
             </div>
@@ -56,7 +61,8 @@
   <div v-else>
     <v-data-table :headers="translatedMobileHeaders" v-model:expanded="expanded" :items="courseList" item-value="id"
       show-expand class="main-table fixed-table" id="main-table-width" :fixed-header="false" :style="{ width: '100%' }"
-      item-class="custom-item-class" header-class="custom-header-class" :search="courseSearch">
+      item-class="custom-item-class" header-class="custom-header-class" :search="courseSearch"
+      :items-per-page-text="this.$t('courses.pageText')">
       <template v-slot:item.country="{ item }">
         <div style="display: flex; align-items: center">
           <img :src="getFlagUrl(item.country)" alt="Flag" width="20" height="15" style="margin-left: 8px" />
@@ -78,7 +84,7 @@
                 </h3>
 
                 <v-row no-gutters>
-                  <v-col cols="9" style="margin-left: 5px;">
+                  <v-col cols="8" style="margin-left: 5px; margin-right: 5vw;">
                     <v-row no-gutters>
                       <v-col cols="12">
                         <strong>{{ $t("database.university") }}:</strong> {{ course.university }}
@@ -94,21 +100,26 @@
                     </v-row>
                   </v-col>
 
-                  <v-col cols="2" style="margin-left: 5px;">
-                    <div style=" display: flex; flex-direction: column; align-items: center; gap: 8px">
-                      <v-icon v-if="course.comments && course.comments.trim() !== ''" small
-                        @click="showComments(course)">
-                        mdi-comment
-                      </v-icon>
-                      <v-icon v-else small>mdi-comment-off</v-icon>
-
-                      <v-icon v-if="!checkIfFavorite(course)" small @click="toggleFavorite(course)">
-                        mdi-heart-outline
-                      </v-icon>
-                      <v-icon v-else small color="red" @click="toggleFavorite(course)">
-                        mdi-heart
-                      </v-icon>
-                    </div>
+                  <v-col cols="1" style="margin: auto;">
+                    <!-- <div style=" display: flex; flex-direction: column; align-items: center; gap: 8px"> -->
+                    <v-icon v-if="course.comments && course.comments.trim() !== ''" small @click="showComments(course)">
+                      mdi-comment
+                    </v-icon>
+                    <v-icon v-else small>mdi-comment-off</v-icon>
+                    <!-- </div> -->
+                  </v-col>
+                  <v-col cols="1" style="margin: auto;">
+                    <v-icon v-if="!checkIfFavorite(course)" small @click="toggleFavorite(course)">
+                      mdi-heart-outline
+                    </v-icon>
+                    <v-icon v-else small color="red" @click="toggleFavorite(course)">
+                      mdi-heart
+                    </v-icon>
+                  </v-col>
+                  <v-col cols="1" style="margin: auto;">
+                    <v-icon small class="mr-2" @click="routeToExchange(course)">
+                      mdi-airplane-search
+                    </v-icon>
                   </v-col>
                 </v-row>
 
@@ -206,7 +217,8 @@ import { set, get, child, ref as dbRef } from "firebase/database";
 import { useI18n } from "vue-i18n";
 import { getCode } from "country-list";
 import countriesInformation from "../../data/countriesInformation.json";
-import { count, group } from "d3";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   setup() {
@@ -219,6 +231,7 @@ export default {
       countriesInfo: countriesInformation,
       showFilters: false,
       expanded: [],
+      exchanges: {},
       courseList: [],
       commentDialog: false,
       currentComments: "",
@@ -237,6 +250,7 @@ export default {
   mounted() {
     window.addEventListener("resize", this.updateScreenWidth);
     this.updateScreenWidth();
+    this.checkRouterParams();
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.updateScreenWidth);
@@ -322,6 +336,12 @@ export default {
           key: "favorite",
           sortable: false,
         },
+        {
+          title: "",
+          align: "end",
+          key: "link",
+          sortable: false,
+        }
       ];
     },
     translatedMobileHeaders() {
@@ -401,6 +421,7 @@ export default {
         }
 
         const exchanges = snapshot.val();
+        this.exchanges = exchanges;
 
         // Temporary dictionary for grouping
         const grouped = {};
@@ -528,7 +549,7 @@ export default {
       const user = auth.currentUser;
 
       if (!user) {
-        alert(this.$t("exchanges.loginToFavorite"));
+        toast.info(this.$t("exchanges.loginToFavorite"));
         return;
       }
 
@@ -553,7 +574,7 @@ export default {
       }
 
       this.saveFavoriteCourses().catch(error => {
-        alert(this.$t("exchanges.errorSavingFavorites"));
+        toast.error(this.$t("exchanges.errorSavingFavorites"));
         console.error("Error saving favorite courses:", error);
       });
     },
@@ -582,6 +603,65 @@ export default {
 
       await set(userRef, updates);
     },
+    checkRouterParams() {
+      if (!this.$route || !this.$route.query) return;
+
+      const search = this.$route.query.search;
+      if (search) {
+        this.courseSearch = search;
+      }
+    },
+    updateSearchQuery() {
+      this.$router.replace({ query: { search: this.courseSearch || undefined } });
+    },
+    rowSearchFilter(value, search, item) {
+      if (!search) return true;
+
+      const raw = item?.raw ?? item; // fallback in case it's already raw
+
+      // Split the search input into separate words
+      const words = search
+        .toLowerCase()
+        .trim()
+        .split(/\s+/);
+
+      // Pick only the fields you actually want to search in
+      const fieldsToSearch = [
+        "courseCode",
+        "courseName",
+        "count",
+        "semesters",
+      ];
+
+      const rowText = fieldsToSearch
+        .map((key) => (raw[key] != null ? String(raw[key]) : ""))
+        .join(" ")
+        .toLowerCase();
+
+      // Every word in the search must appear somewhere in the row text
+      return words.every((word) => rowText.includes(word));
+    },
+    routeToExchange(item) {
+      const exchange = this.exchanges && Object.values(this.exchanges).find((exch) => {
+        if (!exch.courses) return false;
+        if (exch.id && item.exchangeID && exch.id === item.exchangeID) {
+          return true;
+        }
+      });
+
+      const translatedCountry = this.$t(`countries.${exchange.country}`);
+
+      const searchString = translatedCountry + " " + exchange.university + " " + exchange.study + " " + exchange.specialization + " " + exchange.studyYear + " " + exchange.year;
+
+      if (!exchange.id) {
+        exchange.id = this.exchanges && Object.keys(this.exchanges).find(key => this.exchanges[key] === exchange);
+      }
+      const hiddenId = btoa(exchange.id);
+
+      if (exchange) {
+        this.$router.push({ name: "Exchanges", query: { search: searchString, r: hiddenId } });
+      }
+    }
   },
 
 };

@@ -17,10 +17,15 @@
             {{ course.university ? '– ' + course.university : '' }}<br />
             <span v-if="course.comments"><em>{{ $t('database.comments') }}: {{ course.comments }}</em></span><br />
           </div>
-          <v-icon @click="toggleFavorite(course)" :color="checkIfFavorite(course) ? 'red' : 'grey'"
-            style="cursor: pointer;">
-            mdi-heart
-          </v-icon>
+          <div>
+            <v-icon @click="toggleFavorite(course)" :color="checkIfFavorite(course) ? 'red' : 'grey'"
+              style="cursor: pointer;">
+              mdi-heart
+            </v-icon>
+            <v-icon @click="routeToExchange(course)" style="cursor: pointer; margin-left: 10px;">
+              mdi-airplane-search
+            </v-icon>
+          </div>
         </div>
         <hr />
       </li>
@@ -31,13 +36,16 @@
 
 <script>
 import { db, auth } from "../../js/firebaseConfig";
-import { ref as dbRef, get, set } from "firebase/database";
+import { ref as dbRef, get, set, child } from "firebase/database";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "FavoriteCourses",
   data() {
     return {
-      favoriteCourses: []
+      favoriteCourses: [],
+      exchanges: {},
     };
   },
   async created() {
@@ -51,11 +59,26 @@ export default {
     } else {
       this.favoriteCourses = [];
     }
+    this.fetchExchangeData();
   },
   methods: {
+    async fetchExchangeData() {
+      try {
+        const snapshot = await get(child(dbRef(db), "exchanges"));
+        if (!snapshot.exists()) {
+          console.error("No data available");
+          return;
+        }
+
+        const exchanges = snapshot.val();
+        this.exchanges = exchanges;
+      } catch (error) {
+        console.error("Error fetching exchange data:", error);
+      }
+    },
     exportAsCSV() {
       if (this.favoriteCourses.length === 0) {
-        alert("No favorite courses to export.");
+        toast.warning("No favorite courses to export.");
         return;
       }
 
@@ -96,7 +119,7 @@ export default {
     },
     exportAsPDF() {
       if (this.favoriteCourses.length === 0) {
-        alert("No favorite courses to export.");
+        toast.warning("No favorite courses to export.");
         return;
       }
 
@@ -151,7 +174,7 @@ export default {
       const user = auth.currentUser;
 
       if (!user) {
-        alert(this.$t("exchanges.loginToFavorite"));
+        toast.info(this.$t("exchanges.loginToFavorite"));
         return;
       }
 
@@ -165,7 +188,7 @@ export default {
       }
 
       this.saveFavoriteCourses().catch(error => {
-        alert(this.$t("exchanges.errorSavingFavorites"));
+        toast.error(this.$t("exchanges.errorSavingFavorites"));
         console.error("Error saving favorite courses:", error);
       });
     },
@@ -194,6 +217,28 @@ export default {
 
       await set(userRef, updates);
     },
+    routeToExchange(item) {
+      const exchange = this.exchanges && Object.values(this.exchanges).find((exch) => {
+        if (!exch.courses) return false;
+        if (exch.id && item.exchangeID && exch.id === item.exchangeID) {
+
+          return true;
+        }
+      });
+
+      const translatedCountry = this.$t(`countries.${exchange.country}`);
+
+      const searchString = translatedCountry + " " + exchange.university + " " + exchange.study + " " + exchange.specialization + " " + exchange.studyYear + " " + exchange.year;
+
+      if (!exchange.id) {
+        exchange.id = this.exchanges && Object.keys(this.exchanges).find(key => this.exchanges[key] === exchange);
+      }
+      const hiddenId = btoa(exchange.id);
+
+      if (exchange) {
+        this.$router.push({ name: "Exchanges", query: { search: searchString, r: hiddenId } });
+      }
+    }
   },
 };
 </script>
