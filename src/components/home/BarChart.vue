@@ -91,6 +91,29 @@ export default {
         yAxis: {
           type: "category",
           data: labels,
+          axisLabel: {
+            fontSize: 12,
+            formatter: (value) => {
+              const maxCharsPerLine = 20;     // adjust as needed
+              const words = value.split(" ");
+              let lines = [""];
+              let currentLine = 0;
+              for (let word of words) {
+                if ((lines[currentLine] + " " + word).trim().length <= maxCharsPerLine) {
+                  lines[currentLine] += (lines[currentLine] ? " " : "") + word;
+                } else {
+                  currentLine++;
+                  if (currentLine > 1) break; // stop after 3 lines
+                  lines[currentLine] = word;
+                }
+              }
+              // If text was too long for 3 lines → add ellipsis to last line
+              if (currentLine > 1) {
+                lines[1] += " ...";
+              }
+              return lines.join("\n");
+            }
+          },
           inverse: true,
         },
         series: [
