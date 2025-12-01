@@ -1,78 +1,93 @@
-# Utveksling_Database
+# Utvekslingsportalen
 
-A Vue 3 project designed to facilitate database management for exchange programs, built with Vite. This repository provides a streamlined setup for developing modern web applications.
+**Utvekslingsportalen** is a Vue 3 web application that helps NTNU students explore previous exchange experiences.  
+It aggregates real data — universities, courses, countries, years, and specializations — and provides powerful filtering and search tools to help students plan their own exchange semester.
 
-## Features
+🔗 **Live website:** https://utvekslingsportalen.no
 
-- **Vue 3**: Leverages the power of Vue 3 for building a dynamic user interface.
-- **Vite**: Fast build tool ensuring efficient development and production workflows.
-- **Responsive Design**: Includes CSS styles for various UI components.
-- **Firebase Integration**: Configuration for Firebase is included for backend support.
-- **Localization**: Multi-language support with English and Norwegian JSON files.
-- **Reusable Components**: Modular and reusable Vue components for various parts of the application.
-- **Dynamic Data**: Includes sample JSON data for countries, universities, and exchanges.
+---
 
-## Recommended Development Setup
+## ✨ Core Features
 
-For the best experience, use:
+- **Browse historical exchanges** with full course lists and ECTS totals  
+- **Advanced filtering** (country, university, study program, specialization, semester count, year)  
+- **Locale-aware search** (searching “Italia”, “Italy”, or “Italien” all just work)  
+- **Expandable rows** with detailed course tables and comments  
+- **Favorites system** (Firebase Auth backed)  
+- **Fully responsive design**  
+- **Languages:** Norwegian 🇳🇴 and English 🇬🇧  
 
-- [Visual Studio Code (VSCode)](https://code.visualstudio.com/)
-- [Volar Extension](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (Disable Vetur for improved support).
+---
 
-## File Structure
+## 🧩 Tech Stack
 
-- **src**: Main source code
-  - **assets/css**: Contains various CSS files for styling components like buttons, forms, and cards.
-  - **assets/images**: Image resources used in the application.
-  - **components**: Vue components organized into subfolders for common, exchanges, profile, and more.
-  - **data**: JSON data files for countries, universities, and related information.
-  - **js**: JavaScript utilities and configurations (e.g., Firebase, router, store).
-  - **languages**: Localization files (English and Norwegian).
-  - **mixins**: Vue mixins for common functionality.
-  - **plugins**: Vuetify setup for UI components.
-- **public**: Public static assets (e.g., `favicon.ico`).
-- **index.html**: Main entry point for the application.
-- **vite.config.js**: Configuration file for Vite.
-- **package.json**: Dependencies and project scripts.
+- **Vue 3**
+- **Vuetify 3**
+- **Vite**
+- **Vue Router**
+- **Vue-i18n**
+- **Firebase Realtime Database**
+- **Firebase Authentication**
+- **Firebase Hosting**
 
-## Getting Started
+---
 
-1. Clone the repository:
+## 🔐 Local Development
 
-   ```sh
-   git clone https://github.com/kristiangoystdal/Utveksling_Database.git
-   ```
+This project **cannot** run locally without your own Firebase project and environment files.
 
-2. Navigate to the project directory:
+Environment variables and API keys are intentionally **not included**.
 
-   ```sh
-   cd Utveksling_Database
-   ```
+The repository is public for:
 
-3. Install dependencies:
+- documentation  
+- issue tracking  
+- transparency  
+- portfolio and open-source contributions  
 
-   ```sh
-   npm install
-   ```
+---
 
-## Development Workflow
+## 📁 Project Structure
 
-### Start Development Server
-
-Run the development server with hot-reload:
-
-```sh
-npm run dev
+```
+UTVEKSLING_DATABASE
+├─ dist/                      # Production build output
+├─ public/                    # Static assets
+├─ src/
+│  ├─ assets/
+│  │  ├─ css/                 # Styling (buttons, tables, layout, navbar, etc.)
+│  │  └─ images/
+│  ├─ components/
+│  │  ├─ admin/
+│  │  ├─ common/
+│  │  ├─ courses/
+│  │  ├─ error/
+│  │  ├─ exchanges/           # Main exchange pages & tables
+│  │  ├─ home/
+│  │  ├─ profile/
+│  │  └─ windows/
+│  ├─ data/                   # Country metadata, mapping JSON, etc.
+│  ├─ js/                     # Firebase, router, store
+│  ├─ languages/              # i18n (no/en)
+│  ├─ mixins/                 # Shared logic utilities
+│  ├─ plugins/                # Vuetify setup
+│  └─ App.vue                 # Root component
 ```
 
-### Build for Production
+---
 
-Compile and optimize the project for production:
+## 🤝 Contributing
 
-```sh
-npm run build
-```
+Contributions are welcome!
 
-## Customize Configuration
+- Found a bug? → **Open an issue**
+- Want to improve translations/UI/UX? → **Submit a PR**
+- Missing country translations? → **Add them**
 
-For advanced configuration options, refer to the [Vite Documentation](https://vitejs.dev/config/).
+The project is actively maintained and community contributions are appreciated.
+
+---
+
+## 📜 License
+
+MIT License — open for educational and portfolio use.
