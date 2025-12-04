@@ -95,11 +95,11 @@ export default {
         };
 
         await emailjs.send(serviceID, templateID, templateParams, userID);
-        toast.success("✅ File uploaded and email sent successfully!");
+        toast.success(this.$t("notifications.fileSendSuccess"));
         this.handleReset();
       } catch (error) {
         console.error("Upload or email error:", error);
-        toast.error("❌ Failed to upload or send email.");
+        toast.error(this.$t("notifications.fileSendFailure"));
       } finally {
         this.isSubmitting = false;
       }

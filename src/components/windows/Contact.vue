@@ -100,8 +100,9 @@ export default {
 
 					await emailjs.send(serviceID, templateID, templateParams, userID);
 					this.handleReset();
+					toast.success(this.$t("notifications.emailSendSuccess"));
 				} catch (error) {
-					toast.error("Failed to send email.");
+					toast.error(this.$t("notifications.emailSendFailure"));
 					console.error("Error:", error);
 				}
 			}
