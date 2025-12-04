@@ -95,6 +95,7 @@ export default {
 				this.$router.push("/profil");
 			} catch (error) {
 				console.error("Error during sign-in:", error);
+				toast.error(this.$t("notifications.loginFailure"));
 			}
 		},
 		async loginWithEmail() {
@@ -106,19 +107,19 @@ export default {
 				this.$router.push("/profil");
 			} catch (error) {
 				console.error("Error during email sign-in:", error);
-				toast.error("Login failed");
+				toast.error(this.$t("notifications.loginFailure"));
 			}
 		},
 		async registerWithEmail() {
 			try {
 				if (!this.name) {
-					toast.error("Name is required for registration");
+					toast.error(this.$t("notifications.registerNameRequired"));
 					return;
 				} else if (this.password.length < 6) {
-					toast.error("Password must be at least 6 characters long");
+					toast.error(this.$t("notifications.registerPasswordLength"));
 					return;
 				} else if (!this.email.includes("@")) {
-					toast.error("Please enter a valid email address");
+					toast.error(this.$t("notifications.registerEmailInvalid"));
 					return;
 				}
 
