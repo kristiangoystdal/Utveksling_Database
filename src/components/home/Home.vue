@@ -17,9 +17,14 @@
 			</v-row>
 		</div>
 
+
 		<div class="box box-countries">
 			<WorldMap :countries="countriesToHighlight" />
 		</div>
+
+		<br />
+		<v-divider />
+		<br />
 
 		<div class="top-countries-and-top-study-programs">
 			<h3>{{ $t("common.topCountries") }}</h3>
@@ -215,6 +220,7 @@ export default {
 	/* minimal padding */
 
 }
+
 
 @media screen and (max-width: 600px) {
 	.btn {
