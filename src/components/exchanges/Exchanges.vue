@@ -963,28 +963,6 @@ export default {
 		checkRouterParams() {
 			if (!this.$route || !this.$route.query) return;
 
-			const exchangeId = this.$route.query.r;
-			if (exchangeId) {
-				const exchangeIds = exchangeId.split(",");
-				for (const encodedId of exchangeIds) {
-					if (!encodedId) continue;
-					const decodedId = atob(encodedId);
-					if (this.expanded.includes(decodedId)) continue;
-					this.expanded.push(decodedId);
-				}
-
-				// Scroll to the first expanded row
-				this.$nextTick(() => {
-					const firstId = atob(exchangeIds[0]);
-					const index = this.exchangeList.findIndex(e => e.id === firstId);
-
-					if (index !== -1) {
-						this.scrollWhenReady(index);
-					}
-				});
-			}
-
-
 			const search = this.$route.query.search;
 			if (search) {
 				const words = search.trim().split(/\s+/);
@@ -1001,7 +979,32 @@ export default {
 					}
 				}
 				this.updateSearchQuery();
+			}
 
+			const exchangeId = this.$route.query.r;
+			if (exchangeId) {
+				const exchangeIds = exchangeId.split(",");
+				for (const encodedId of exchangeIds) {
+					if (!encodedId) continue;
+					const decodedId = atob(encodedId);
+					if (this.expanded.includes(decodedId)) continue;
+					this.expanded.push(decodedId);
+				}
+
+				// Scroll to the first expanded row
+				this.$nextTick(() => {
+					const firstId = atob(exchangeIds[0]);
+
+					const searchList = this.exchangeList.filter(exchange =>
+						this.rowSearchFilter(null, this.exchangeSearch, exchange)
+					);
+
+					const index = searchList.findIndex(exchange => exchange.id === firstId);
+
+					if (index !== -1) {
+						this.scrollWhenReady(index);
+					}
+				});
 			}
 		},
 		updateSearchQuery() {
