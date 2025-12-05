@@ -1063,7 +1063,11 @@ export default {
 
 				if (!row) return false;
 
-				row.scrollIntoView({ behavior: "smooth", block: "center" });
+				if (!this.isMobile) {
+					row.scrollIntoView({ behavior: "smooth", block: "center" });
+				} else {
+					row.scrollIntoView({ behavior: "smooth", block: "start" });
+				}
 				return true;
 			};
 
