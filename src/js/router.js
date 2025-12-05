@@ -67,4 +67,14 @@ router.beforeEach((to, from, next) => {
   next(); // Proceed to the route if all checks pass
 });
 
+router.afterEach((to) => {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'page_view', {
+      page_path: to.fullPath,
+      page_title: document.title,
+    });
+  }
+});
+
+
 export default router;
