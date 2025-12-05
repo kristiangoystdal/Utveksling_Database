@@ -986,7 +986,6 @@ export default {
 
 
 			const search = this.$route.query.search;
-
 			if (search) {
 				const words = search.trim().split(/\s+/);
 				for (const [index, word] of words.entries()) {
@@ -996,6 +995,7 @@ export default {
 						const translated = this.$t(`countries.${canonicalKey}`);
 						words[index] = translated;
 						this.exchangeSearch = words.join(" ");
+						break;
 					} else {
 						this.exchangeSearch = search; // fallback
 					}
@@ -1005,7 +1005,13 @@ export default {
 			}
 		},
 		updateSearchQuery() {
-			this.$router.replace({ query: { search: this.exchangeSearch || undefined } });
+			if (!this.$route || !this.$route.query) return;
+			const r = this.$route.query.r;
+			if (r && r.length > 0) {
+				this.$router.replace({ query: { ...this.$route.query, search: this.exchangeSearch, r: r } });
+			} else {
+				this.$router.replace({ query: { ...this.$route.query, search: this.exchangeSearch } });
+			}
 		},
 		rowSearchFilter(value, search, item) {
 			if (!search) return true;
@@ -1057,7 +1063,7 @@ export default {
 
 				if (!row) return false;
 
-				row.scrollIntoView({ behavior: "smooth", block: "start" });
+				row.scrollIntoView({ behavior: "smooth", block: "center" });
 				return true;
 			};
 
