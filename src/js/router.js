@@ -16,18 +16,119 @@ import store from './store.js';
 import { translate } from './i18n';
 
 const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/utvekslinger', name: 'Exchanges', component: Exchanges },
-  { path: '/min_utveksling', name: 'EditExchange', component: EditExchange },
-  { path: '/kontakt', name: 'Contact', component: Contact },
-  { path: '/profil', name: 'Account', component: Account, meta: { requiresAuth: true } },
-  { path: '/logg_inn', name: 'Login', component: Login },
-  { path: '/admin', name: 'Admin', component: Admin, meta: { requiresAuth: true } },
-  { path: '/faq', name: 'FAQ', component: FAQ },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
-  { path: '/last_opp', name: 'Upload', component: Upload },
-  { path: '/kurs', name: 'Courses', component: Courses }
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+    meta: {
+      title: "Utvekslingsportalen - Utforsk utvekslingsrapporter fra NTNU-studenter",
+      description: "Finn ekte erfaringer fra NTNU-studenter som har vært på utveksling. Søk etter land, universitet, fag og studieprogram."
+    }
+  },
+
+  {
+    path: '/utvekslinger',
+    name: 'Exchanges',
+    component: Exchanges,
+    meta: {
+      title: "Utvekslinger - Sammenlign erfaringer fra tidligere NTNU-studenter",
+      description: "Les detaljerte utvekslingsrapporter, fagvalg, vurderinger og anbefalinger fra studenter som har reist ut gjennom NTNU."
+    }
+  },
+
+  {
+    path: '/min_utveksling',
+    name: 'EditExchange',
+    component: EditExchange,
+    meta: {
+      title: "Min utveksling - Rediger og oppdater din rapport",
+      description: "Rediger din utvekslingsrapport og del verdifulle erfaringer for å hjelpe kommende studenter."
+    }
+  },
+
+  {
+    path: '/kontakt',
+    name: 'Contact',
+    component: Contact,
+    meta: {
+      title: "Kontakt oss - Utvekslingsportalen",
+      description: "Ta kontakt for spørsmål, tilbakemeldinger eller hjelp relatert til utvekslingsrapporter og portalen."
+    }
+  },
+
+  {
+    path: '/profil',
+    name: 'Account',
+    component: Account,
+    meta: {
+      requiresAuth: true,
+      title: "Min profil - Administrer kontoen din",
+      description: "Se og administrer kontoinformasjon, innstillinger og dine utvekslingsdata."
+    }
+  },
+
+  {
+    path: '/logg_inn',
+    name: 'Login',
+    component: Login,
+    meta: {
+      title: "Logg inn - Utvekslingsportalen",
+      description: "Logg inn for å administrere din profil, legge inn erfaringer eller redigere utvekslingsrapporter."
+    }
+  },
+
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: {
+      requiresAuth: true,
+      title: "Adminpanel - Utvekslingsportalen",
+      description: "Administrer utvekslingsdata, brukere og innhold. Kun tilgjengelig for administratorer."
+    }
+  },
+
+  {
+    path: '/faq',
+    name: 'FAQ',
+    component: FAQ,
+    meta: {
+      title: "FAQ - Ofte stilte spørsmål",
+      description: "Finn svar på vanlige spørsmål om utveksling, fagvalg, innsendte rapporter og bruk av portalen."
+    }
+  },
+
+  {
+    path: '/last_opp',
+    name: 'Upload',
+    component: Upload,
+    meta: {
+      title: "Last opp rapport - Bidra med dine erfaringer",
+      description: "Last opp din utvekslingsrapport og hjelp andre NTNU-studenter med å finne riktig universitet."
+    }
+  },
+
+  {
+    path: '/kurs',
+    name: 'Courses',
+    component: Courses,
+    meta: {
+      title: "Kurs - Fag tatt av NTNU-studenter på utveksling",
+      description: "Utforsk fag NTNU-studenter har tatt på utveksling, og se hvilke emner som kan godkjennes."
+    }
+  },
+
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound,
+    meta: {
+      title: "404 - Siden finnes ikke",
+      description: "Siden du prøver å åpne eksisterer ikke. Gå tilbake til forsiden."
+    }
+  }
 ];
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -68,13 +169,31 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to) => {
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', 'page_view', {
+  // ---- Google Analytics ----
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "page_view", {
       page_path: to.fullPath,
-      page_title: document.title,
+      page_title: to.meta?.title || document.title,
     });
   }
+
+  // ---- Title ----
+  if (to.meta?.title) {
+    document.title = to.meta.title;
+  }
+
+  // ---- Description ----
+  if (to.meta?.description) {
+    let desc = document.querySelector("meta[name='description']");
+    if (!desc) {
+      desc = document.createElement("meta");
+      desc.setAttribute("name", "description");
+      document.head.appendChild(desc);
+    }
+    desc.setAttribute("content", to.meta.description);
+  }
 });
+
 
 
 export default router;
