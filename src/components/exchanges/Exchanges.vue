@@ -963,6 +963,24 @@ export default {
 		checkRouterParams() {
 			if (!this.$route || !this.$route.query) return;
 
+			const search = this.$route.query.search;
+			if (search) {
+				const words = search.trim().split(/\s+/);
+				for (const [index, word] of words.entries()) {
+					const canonicalKey = this.getCountryKeyFromUserInput(words[index]);
+
+					if (canonicalKey) {
+						const translated = this.$t(`countries.${canonicalKey}`);
+						words[index] = translated;
+						this.exchangeSearch = words.join(" ");
+						break;
+					} else {
+						this.exchangeSearch = search; // fallback
+					}
+				}
+				this.updateSearchQuery();
+			}
+
 			const exchangeId = this.$route.query.r;
 			if (exchangeId) {
 				const exchangeIds = exchangeId.split(",");
@@ -976,36 +994,27 @@ export default {
 				// Scroll to the first expanded row
 				this.$nextTick(() => {
 					const firstId = atob(exchangeIds[0]);
-					const index = this.exchangeList.findIndex(e => e.id === firstId);
+
+					const searchList = this.exchangeList.filter(exchange =>
+						this.rowSearchFilter(null, this.exchangeSearch, exchange)
+					);
+
+					const index = searchList.findIndex(exchange => exchange.id === firstId);
 
 					if (index !== -1) {
 						this.scrollWhenReady(index);
 					}
 				});
 			}
-
-
-			const search = this.$route.query.search;
-
-			if (search) {
-				const words = search.trim().split(/\s+/);
-				for (const [index, word] of words.entries()) {
-					const canonicalKey = this.getCountryKeyFromUserInput(words[index]);
-
-					if (canonicalKey) {
-						const translated = this.$t(`countries.${canonicalKey}`);
-						words[index] = translated;
-						this.exchangeSearch = words.join(" ");
-					} else {
-						this.exchangeSearch = search; // fallback
-					}
-				}
-				this.updateSearchQuery();
-
-			}
 		},
 		updateSearchQuery() {
-			this.$router.replace({ query: { search: this.exchangeSearch || undefined } });
+			if (!this.$route || !this.$route.query) return;
+			const r = this.$route.query.r;
+			if (r && r.length > 0) {
+				this.$router.replace({ query: { ...this.$route.query, search: this.exchangeSearch, r: r } });
+			} else {
+				this.$router.replace({ query: { ...this.$route.query, search: this.exchangeSearch } });
+			}
 		},
 		rowSearchFilter(value, search, item) {
 			if (!search) return true;
@@ -1057,7 +1066,11 @@ export default {
 
 				if (!row) return false;
 
-				row.scrollIntoView({ behavior: "smooth", block: "start" });
+				if (!this.isMobile) {
+					row.scrollIntoView({ behavior: "smooth", block: "center" });
+				} else {
+					row.scrollIntoView({ behavior: "smooth", block: "start" });
+				}
 				return true;
 			};
 
