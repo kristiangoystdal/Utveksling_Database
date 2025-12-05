@@ -59,6 +59,7 @@ onAuthStateChanged(auth, () => {
 				hideProgressBar: false,
 			})
 			.mount("#app");
+
 	}
 	store.dispatch("fetchUser");
 });
